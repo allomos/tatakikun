@@ -1,10 +1,8 @@
 {
   "area": "A02",
-  "blocked_by": [
-    "A01-02"
-  ],
+  "holder": "claude-goal-1",
   "id": "A02-04",
   "iteration": "I02",
-  "state": "blocked",
+  "state": "in_progress",
   "title": "不完全匹配的候选:拼音/假名前缀匹配、英文补全和拼写建议"
 }
