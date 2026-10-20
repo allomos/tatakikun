@@ -24,7 +24,8 @@ public enum Language {
 /// Turns typed letters into English, Chinese and Japanese candidates in one ranked list.
 ///
 /// Layout rule for the first row:
-/// - the best candidate of every kind that matched (EN, 中, 日, あ, ア) is always in it;
+/// - the best candidate of every kind that matched (EN, 中, 日, あ, ア) is always in it; for consonants
+///   alone (nh, wtx), the best of each language;
 /// - the rest of the row is filled by cost, and the row is ordered by cost;
 /// - the letters as typed are always in it: ranked like any English word when they are one,
 ///   otherwise in the row's last place.
@@ -98,8 +99,16 @@ public final class Engine {
         }
 
         var row: [Candidate] = []
-        for kind in CandidateKind.allCases {
-            if let best = ranked.first(where: { $0.kind == kind }) { row.append(best) }
+        if Abbreviation.applies(to: input) {
+            // Consonants alone (nh, wtx): one place per language, so a few Japanese guesses do not
+            // crowd the Chinese words out of the bar.
+            for language in [Language.english, .chinese, .japanese] {
+                if let best = ranked.first(where: { $0.kind != .raw && Language($0.kind) == language }) { row.append(best) }
+            }
+        } else {
+            for kind in CandidateKind.allCases {
+                if let best = ranked.first(where: { $0.kind == kind }) { row.append(best) }
+            }
         }
         let rawInRow = { row.contains { $0.text == input } }
         let room = rowSize - (rawInRow() || ranked.contains { $0.text == input } ? 0 : 1)
