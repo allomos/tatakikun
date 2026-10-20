@@ -1,7 +1,8 @@
 {
   "area": "A04",
+  "holder": "claude-goal-1",
   "id": "A04-01",
   "iteration": "I01",
-  "state": "ready",
+  "state": "in_progress",
   "title": "在任何应用里用 Tatakikun 输入:横向候选条、数字选择、空格/回车上屏"
 }
