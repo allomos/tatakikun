@@ -23,7 +23,7 @@ scripts/build.sh            # アプリと言語パックを作る(初回はオ�
 scripts/install.sh          # 3 つの言語パックすべて。一部だけなら例えば scripts/install.sh zh,en
 ```
 
-そのあと一度だけ追加します:システム設定 → キーボード → テキスト入力 → 入力ソース → 編集… → + → 英語 → Tatakikun。一覧にないときはログアウトしてログインし直してください。
+そのあと一度だけ追加します:システム設定 → キーボード → テキスト入力 → 入力ソース → 編集… → + → 中国語(簡体字)→ Tatakikun。一覧にないときはログアウトしてログインし直してください。
 
 インストールせずに試す:`TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`。
 
