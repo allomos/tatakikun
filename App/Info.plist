@@ -31,7 +31,7 @@
 	<key>TISInputSourceID</key>
 	<string>com.tatakikun.inputmethod.Tatakikun</string>
 	<key>TISIntendedLanguage</key>
-	<string>zh-Hans</string>
+	<string>en</string>
 	<key>tsInputMethodCharacterRepertoireKey</key>
 	<array>
 		<string>Latn</string>
