@@ -1,10 +1,7 @@
 {
   "area": "A03",
-  "blocked_by": [
-    "A02-06"
-  ],
   "id": "A03-03",
   "iteration": "I04",
-  "state": "blocked",
+  "state": "ready",
   "title": "词库改成内存映射的二进制格式:大词库也能瞬间启动、少占内存"
 }
