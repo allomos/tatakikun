@@ -1,11 +1,9 @@
 {
   "area": "A04",
   "holder": "claude-release",
-  "human_check_steps": "1. 退出「系统设置」再打开:键盘 → 输入源 → 编辑…\n2. 左侧列表里 Tatakikun 的图标应为灰色实心圆角方块,中间镂空「た」,和 ABC、あ、拼 同样风格。\n3. 点选 Tatakikun:图标变成白色方块、蓝色「た」。\n4. 用 Ctrl+Space 或菜单栏输入法菜单切换,Tatakikun 一行也能看到图标。若看不到,注销再登录一次(系统会缓存输入法图标)。\n",
   "id": "A04-07",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "输入法切换列表和系统设置里看得清 Tatakikun 图标:改成实心圆角方块镂空「た」,和系统自带输入法一致",
-  "without_human_check": "已在系统设置的输入源列表里亲自看到:未选中为灰色徽章,选中为白底蓝字;切换弹窗需要你确认"
+  "title": "输入法切换列表和系统设置里看得清 Tatakikun 图标:改成实心圆角方块镂空「た」,和系统自带输入法一致"
 }
