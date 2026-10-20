@@ -1,7 +1,8 @@
 {
   "area": "A03",
+  "holder": "claude-goal-1",
   "id": "A03-01",
   "iteration": "I01",
-  "state": "ready",
+  "state": "in_progress",
   "title": "从本机数据生成中文拼音词库和日文读音词库"
 }
