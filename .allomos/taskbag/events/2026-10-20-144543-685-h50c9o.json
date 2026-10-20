@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:45:43Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "数据下载固定到具体版本(GitHub 提交号、SCOWL 2020.12.07)并校验 SHA-256;下载的数据和生成的语言包都不提交进仓库,只提交脚本"
+    }
+  ]
+}

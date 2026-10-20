@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:45:43Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "中文包:词频仍用 ICU;词在 phrase-pinyin-data 里就用它的读音,否则用 pinyin-data 每个字的读音组合(第一读音 +0,其他 +5,单字 +8);只有 phrase-pinyin-data 有的词代价 170 起"
+    }
+  ]
+}

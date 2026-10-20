@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:45:43Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "日文包:ICU 已有的词保留 ICU 代价;Mozc 给出的常见其他读音按该词代价 +5;只有 Mozc 有的词 70+原代价/40;忽略代价 0 的语法条目和含拉丁字母的词;全平假名词 +10。Mozc 词典不含动词活用形(ikimasu 得到 行ます),留作以后的改进"
+    }
+  ]
+}

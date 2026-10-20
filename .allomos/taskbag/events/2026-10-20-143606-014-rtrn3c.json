@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-20T14:36:06Z",
+  "by": "will.w.hui",
+  "via": "app",
+  "command": "reviewed",
+  "kind": "task",
+  "id": "A01-01",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "from": "项目文件夹没有纳入版本控制,建立了版本控制(git init)"
+    },
+    {
+      "field": "ai_decision",
+      "from": "目标运行:这个人在 2026-10-20 提交目标,即事先批准了计划;领域、迭代和就绪的任务由智能体建立(批准人)"
+    },
+    {
+      "field": "ai_decision",
+      "from": "平台:macOS 系统输入法(InputMethodKit + Swift),因为这个人在 Mac 上工作,描述里没说平台"
+    },
+    {
+      "field": "ai_decision",
+      "from": "词库来源:构建时从本机 ICU 数据(cjdict,约 31.6 万词,带频率)和系统转换(CFStringTransform/CFStringTokenizer)生成,英文用系统拼写检查;不下载任何东西"
+    },
+    {
+      "field": "ai_decision",
+      "from": "候选位置:第一行按得分排序,但每种可能的语言(英/中/日汉字/平假名/片假名)的最佳候选都保证在第一行;原始字母串始终在第一行(英文单词时按得分排,否则排在第一行末尾),回车键直接上屏原始串;空格上屏第 1 个候选"
+    }
+  ]
+}
