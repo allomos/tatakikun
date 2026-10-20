@@ -32,6 +32,8 @@ scripts/install.sh          # all three packs; or e.g. scripts/install.sh zh,en
 Then add it once: System Settings → Keyboard → Text Input → Input Sources → Edit… → + →
 Chinese, Simplified (简体中文) → Tatakikun. If it is not listed yet, log out and back in.
 
+Both ways also add a login item that starts Tatakikun when you log in: macOS only starts an input method when a text field asks for it, and right after login that request is lost, so typing did nothing until you changed windows. It shows under System Settings → General → Login Items & Extensions → Allow in the Background, where you can turn it off.
+
 Try it without installing: `TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`.
 
 ## Keys

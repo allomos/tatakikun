@@ -1,7 +1,32 @@
 #!/bin/sh
-# Runs after the input method is installed: stops a running Tatakikun so the new one (and the
-# new language packs) are loaded the next time it is used.
+# Runs after the input method is installed: stops a running Tatakikun, installs the login item and
+# starts the new one.
 pkill -x Tatakikun 2>/dev/null
-# Tell LaunchServices about the new copy: macOS starts input methods through it.
-/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$HOME/Library/Input Methods/Tatakikun.app" 2>/dev/null
+HOME_DIR=${HOME:-$(eval echo "~$USER")}
+# Start Tatakikun at login: macOS only starts an input method when a text field asks for it, and
+# right after login that request is lost, so typing did nothing until the user changed windows.
+# It shows under System Settings > General > Login Items as a background item, where it can be turned off.
+AGENTS="$HOME_DIR/Library/LaunchAgents"
+AGENT="$AGENTS/com.tatakikun.inputmethod.Tatakikun.plist"
+mkdir -p "$AGENTS"
+cat > "$AGENT" <<EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.tatakikun.inputmethod.Tatakikun</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>$HOME_DIR/Library/Input Methods/Tatakikun.app/Contents/MacOS/Tatakikun</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>AssociatedBundleIdentifiers</key>
+	<string>com.tatakikun.inputmethod.Tatakikun</string>
+</dict>
+</plist>
+EOT
+launchctl bootout "gui/$(id -u)" "$AGENT" 2>/dev/null
+launchctl bootstrap "gui/$(id -u)" "$AGENT" 2>/dev/null || true
 exit 0

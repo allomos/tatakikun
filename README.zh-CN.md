@@ -24,6 +24,8 @@ scripts/install.sh          # 安装全部三个语言包;也可以只装一部�
 
 然后添加一次:系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun。不在列表里就注销再登录。
 
+两种方式都会添加一个登录项,登录时启动 Tatakikun:macOS 只在文本框请求输入法时才启动它,而登录后的那次请求会丢失,导致切换一次窗口之前无法输入。可在 系统设置 → 通用 → 登录项与扩展 → 允许在后台 里关掉。
+
 不安装也能先试:`TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`。
 
 ## 按键
