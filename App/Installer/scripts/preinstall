@@ -1,0 +1,9 @@
+#!/bin/sh
+# Runs before the input method is installed: removes the language packs installed before, so
+# afterwards exactly the packs checked in this install are there.
+HOME_DIR=${HOME:-$(eval echo "~$USER")}
+PACKS="$HOME_DIR/Library/Application Support/Tatakikun/Packs"
+for lang in zh ja en; do
+    rm -rf "$PACKS/$lang"
+done
+exit 0

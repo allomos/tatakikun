@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs after the input method is installed: stops a running Tatakikun so the new one (and the
+# new language packs) are loaded the next time it is used.
+pkill -x Tatakikun 2>/dev/null
+exit 0

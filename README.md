@@ -13,15 +13,26 @@ are always one of the candidates.
 
 ## Build and install
 
+**Installer.** `scripts/make-installer.sh` builds `build/Tatakikun-<version>.pkg` (for Apple silicon
+and Intel Macs). Open it: on the **Customize** page, check the language packs you want — Chinese,
+Japanese, English (all checked by default). It installs for your user only, no administrator
+password. To change the languages later, run the installer again; packs you uncheck are removed.
+
+The package is not signed with an Apple Developer ID. A copy built on your own Mac opens normally;
+a downloaded one is blocked the first time: open System Settings → Privacy & Security and click
+**Open Anyway**.
+
+**From the source folder**, without the installer:
+
 ```sh
-scripts/build.sh     # builds build/Tatakikun.app (first run also builds the dictionaries, ~1 min)
-scripts/install.sh   # copies it to ~/Library/Input Methods
+scripts/build.sh            # the app and the language packs (first run downloads the open data, ~80 MB)
+scripts/install.sh          # all three packs; or e.g. scripts/install.sh zh,en
 ```
 
 Then add it once: System Settings → Keyboard → Text Input → Input Sources → Edit… → + →
 Chinese, Simplified (简体中文) → Tatakikun. If it is not listed yet, log out and back in.
 
-Try it without installing: `TATAKIKUN_DICT=build/dict .build/release/Tatakikun --demo`.
+Try it without installing: `TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`.
 
 ## Keys
 
@@ -63,20 +74,29 @@ delete that file to forget it.
 
 ## Dictionaries
 
-Built on this Mac from data macOS already has: the CJK word list in ICU's data file
-(`/usr/share/icu`, with word frequencies), the system's pinyin and Japanese reading transforms,
-and the system English spell checker. Nothing is downloaded. Because the system transform gives
-one reading per character, common polyphonic characters (行 xing/hang, 长 chang/zhang, …) are
-listed in `Sources/tatakikun-dictgen/Polyphones.swift` and words are indexed under every reading. `tatakikun-dictgen` writes
-`build/dict/zh.tsv` and `build/dict/ja.tsv` (`reading<TAB>word<TAB>cost`).
+Each language is a **language pack**, installed in
+`~/Library/Application Support/Tatakikun/Packs/<zh|ja|en>`; a language without its pack offers no
+candidates (the letters as typed are always offered).
+
+| Pack | Built from | License |
+| --- | --- | --- |
+| Chinese | [pinyin-data](https://github.com/mozillazg/pinyin-data) (every reading of every character), [phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data) (readings of ~400,000 words), word frequencies from ICU | MIT; Unicode License V3 |
+| Japanese | [Mozc OSS dictionary](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) (~1 million words with readings), ICU's word list and frequencies | IPAdic license and others (see its README); Unicode License V3 |
+| English | [SCOWL](http://wordlist.aspell.net/), its size levels as word frequencies | SCOWL's permissive license |
+
+`scripts/fetch-sources.sh` downloads the data, pinned to exact versions and checked against SHA-256
+sums; `scripts/build-packs.sh` builds the packs into `build/packs`, each with a LICENSE.txt for its
+data. The ICU part comes from this Mac (`/usr/share/icu`): `tatakikun-dictgen` reads its CJK word
+list into `build/dict`. Dictionaries are `.ttkd` files that are memory-mapped, so Tatakikun starts
+instantly however large they are. None of the data or the packs is in this repository.
 
 ## Development
 
-- `swift test` — engine and key-handling tests (needs `build/dict`).
-- `swift run -c release tatakikun-cli nihao ai toukyou` — print candidates.
+- `swift test` — engine, key-handling and pack tests (needs `build/dict` and `build/packs`: run `scripts/build.sh` first).
+- `swift run -c release tatakikun-cli --packs build/packs nihao ai toukyou` — print candidates.
 - `.build/release/Tatakikun --snapshot <letters> out.png [dark]` — draw the candidate bar to an image.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The dictionaries are not part of this repository: they are
-generated on your Mac from data macOS ships (ICU, under the Unicode license).
+MIT — see [LICENSE](LICENSE). The language packs are not part of this repository; each carries the
+license of the data it is built from (see Dictionaries above).
