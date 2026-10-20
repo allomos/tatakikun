@@ -5,6 +5,10 @@ English word, as Chinese pinyin and as Japanese romaji — and offers English, C
 katakana and Japanese kanji candidates side by side in one horizontal bar. The letters as typed
 are always one of the candidates.
 
+![The candidate bar for "ai"](docs/images/bar.png)
+
+![Expanded, with more rows that scroll](docs/images/expanded.png)
+
 ## Build and install
 
 ```sh
