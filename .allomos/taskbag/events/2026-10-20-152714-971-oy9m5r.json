@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-20T15:27:14Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Caps Lock 切换、密码框切回和中日字形只能在系统设置和真实应用里亲手确认"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# A04-06 检查步骤：在「英语」分类下添加 Tatakikun\n\n本机已安装新版（master，`TISIntendedLanguage` = `en`），并已用 `TISRegisterInputSource` 刷新注册：系统现在报告 Tatakikun 的语言为 `en`，仍处于已启用、已选中状态。\n\n1. **英语分类**：系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → +。在「英语」下应能看到 Tatakikun；「简体中文」下不应再有它。（若仍在简体中文下，注销再登录后再看。）\n2. **旧方式添加过的用户**：本机的 Tatakikun 原来是在简体中文下添加的；更新后它仍在已启用的输入法列表里，不用删掉重加。确认输入法列表里只有一个 Tatakikun，且能正常打字。\n3. **Caps Lock 切换**（「使用大写锁定键切换 ABC 输入法」已打开）：在文本编辑里选中 Tatakikun，按一下 Caps Lock 应切到 ABC，再按一下应切回 Tatakikun。**若失效，请重新打开本任务并注明**——按批准人的要求，届时先回报再决定是否保留此改动（回退只需把 `App/Info.plist` 的 `TISIntendedLanguage` 改回 `zh-Hans`）。\n4. **密码框**：在 Safari 等应用里点进一个密码框（会临时切到 ABC），再点回普通文本框，应自动回到 Tatakikun。\n5. **字形**：键入 `guo` 选「国」，键入 `kuni` 选「国」（日文汉字），再试 `zhi`→「直」、`nao`→「直」等中日字形不同的字：上屏后的字形与改动前一致（中文按简体字形、日文按日文字形，取决于目标应用的字体设置）。\n6. **安装器说明**：`scripts/make-installer.sh` 生成 pkg，打开后欢迎页（中/英/日）写的是「英语 / English / 英語 → Tatakikun」。\n\n## 发布说明（草稿，尚未发布）\n\nv0.4.0 已于 2026-10-20 发布，本改动不在其中；下一次发布时写入发布说明：\n\n> 添加输入法时，Tatakikun 现在在「英语」分类下（以前在「简体中文」下）。已经添加过的用户不用重新添加；如果系统设置里仍显示在简体中文下，注销再登录即可。\n"
+    }
+  ]
+}

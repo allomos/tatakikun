@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-20T15:27:14Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "英文 README 和 install.sh 里分类名写作 English，中文写作「英语」，日文写作「英語」，与各语言系统设置里的名称一致。"
+    }
+  ]
+}
