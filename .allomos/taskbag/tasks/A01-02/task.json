@@ -1,14 +1,8 @@
 {
   "area": "A01",
-  "blocked_by": [
-    "A03-01",
-    "A02-01",
-    "A02-02",
-    "A02-03",
-    "A04-01"
-  ],
+  "holder": "claude-goal-1",
   "id": "A01-02",
   "iteration": "I01",
-  "state": "blocked",
+  "state": "in_progress",
   "title": "v0.1 验收检查:从头到尾试用最小输入法"
 }
