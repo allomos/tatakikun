@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-20T16:23:15Z",
+  "by": "will.w.hui",
+  "via": "app",
+  "command": "checked",
+  "kind": "task",
+  "id": "A01-07",
+  "changes": [
+    {
+      "field": "label",
+      "from": "deployed and verified",
+      "to": "human verified"
+    },
+    {
+      "field": "without_human_check",
+      "from": "Translations; owner to read them"
+    },
+    {
+      "field": "human_check_steps",
+      "from": "1. 打开 https://github.com/allomos/tatakikun ,在 README 顶部点“简体中文”和“日本語”,看译文是否满意(截图和链接都能显示)。\n"
+    }
+  ]
+}

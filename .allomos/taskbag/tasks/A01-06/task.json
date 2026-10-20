@@ -1,10 +1,8 @@
 {
   "area": "A01",
   "holder": "claude-release",
-  "human_check_steps": "1. 打开 https://github.com/allomos/tatakikun/releases/tag/v0.3.0 ,看发布说明是否满意。\n2. 想重装新版本:在项目文件夹运行 `scripts/build.sh && scripts/install.sh`,输入法的版本号是 0.3.0。\n",
   "id": "A01-06",
-  "label": "deployed and verified",
+  "label": "human verified",
   "state": "done",
-  "title": "在 GitHub 发布 Tatakikun v0.3.0",
-  "without_human_check": "Released; owner to look over the notes"
+  "title": "在 GitHub 发布 Tatakikun v0.3.0"
 }

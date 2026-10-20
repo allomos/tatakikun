@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-20T16:23:16Z",
+  "by": "will.w.hui",
+  "via": "app",
+  "command": "reviewed",
+  "kind": "task",
+  "id": "A01-07",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "from": "做法:另建 README.zh-CN.md 和 README.ja.md(英文 README.md 仍是 GitHub 首页),三个文件顶部互相链接;日文版的系统设置路径用日文界面的名称"
+    }
+  ]
+}
