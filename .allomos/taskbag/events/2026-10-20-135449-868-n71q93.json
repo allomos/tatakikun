@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T13:54:49Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "在 GitHub 发布 Tatakikun v0.3.0"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** GitHub 上有 v0.3.0 release(标签 v0.3.0),附发布说明。**Done means.** gh release view v0.3.0 能看到;app 版本号是 0.3.0。**Notes.** 这个人在对话里要求发布 release。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
