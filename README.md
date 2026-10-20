@@ -92,6 +92,21 @@ data. The ICU part comes from this Mac (`/usr/share/icu`): `tatakikun-dictgen` r
 list into `build/dict`. Dictionaries are `.ttkd` files that are memory-mapped, so Tatakikun starts
 instantly however large they are. None of the data or the packs is in this repository.
 
+## iPhone and iPad (preview)
+
+`iOS/` holds an iOS app with a Tatakikun keyboard (iOS 16 or later): the same engine and language
+packs, a candidate bar over a QWERTY layout. Tap a candidate, or Space for the first one; return
+inserts the letters as typed; ⌄ shows more candidates; `，` and `。` follow the language like on the Mac.
+
+```sh
+scripts/build-ios.sh        # build for the simulator (needs build/packs; XcodeGen to regenerate the project)
+scripts/build-ios.sh test   # and run the UI tests
+```
+
+Open `iOS/Tatakikun.xcodeproj` in Xcode to run it on your own iPhone (sign with your Apple ID), then
+turn it on: Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun. The app also
+has a screen to try the keyboard without turning it on. It is not on the App Store.
+
 ## Development
 
 - `swift test` — engine, key-handling and pack tests (needs `build/dict` and `build/packs`: run `scripts/build.sh` first).

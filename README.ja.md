@@ -75,6 +75,21 @@ Tatakikun は学習します。選んだ候補は、次に同じ英字を入力�
 
 `scripts/fetch-sources.sh` がデータをバージョン固定でダウンロードし SHA-256 を検証します。`scripts/build-packs.sh` が `build/packs` に言語パックを作り、それぞれにデータの LICENSE.txt を付けます。ICU の部分はこの Mac(`/usr/share/icu`)から:`tatakikun-dictgen` がその中日語彙を `build/dict` に読み込みます。辞書はメモリマップされる `.ttkd` ファイルなので、大きくてもすぐに起動します。データも言語パックもこのリポジトリには含まれません。
 
+## iPhone と iPad(プレビュー)
+
+`iOS/` には Tatakikun キーボード付きの iOS アプリがあります(iOS 16 以降)。同じエンジンと言語パックで、
+QWERTY キーボードの上に候補バーがあります。候補をタップ、またはスペースで先頭の候補を確定。return は
+入力した文字のまま確定、⌄ で候補を広げます。`，` `。` は Mac と同じく言語に合わせて変わります。
+
+```sh
+scripts/build-ios.sh        # シミュレータ用にビルド(build/packs が必要。プロジェクトの再生成には XcodeGen)
+scripts/build-ios.sh test   # UI テストも実行
+```
+
+Xcode で `iOS/Tatakikun.xcodeproj` を開くと自分の iPhone で動かせます(Apple ID で署名)。そのあと
+設定 → 一般 → キーボード → キーボード → 新しいキーボードを追加… → Tatakikun で有効にします。アプリには
+有効にしなくてもキーボードを試せる画面もあります。App Store にはまだありません。
+
 ## 開発
 
 - `swift test` — エンジン・キー操作・言語パックのテスト(`build/dict` と `build/packs` が必要:先に `scripts/build.sh` を実行)。

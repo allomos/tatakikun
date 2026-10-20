@@ -1,4 +1,10 @@
+#if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#else
+import Foundation
+#endif
 
 /// Knows which letter strings are English words.
 public protocol EnglishLexicon {
@@ -27,8 +33,9 @@ extension EnglishLexicon {
 
 /// English through the system spell checker (the same one TextEdit uses).
 public final class SystemEnglish: EnglishLexicon {
-    private let checker = NSSpellChecker.shared
     private let language = "en"
+#if canImport(AppKit)
+    private let checker = NSSpellChecker.shared
 
     public init() {}
 
@@ -49,6 +56,36 @@ public final class SystemEnglish: EnglishLexicon {
         checker.guesses(forWordRange: NSRange(location: 0, length: (word as NSString).length),
                         in: word, language: language, inSpellDocumentWithTag: 0) ?? []
     }
+#elseif canImport(UIKit)
+    // iOS: UITextChecker, which keyboard extensions may use.
+    private let checker = UITextChecker()
+
+    public init() {}
+
+    public func isWord(_ word: String) -> Bool {
+        guard !word.isEmpty else { return false }
+        if word.count == 1 { return ["a", "i"].contains(word.lowercased()) }
+        let range = checker.rangeOfMisspelledWord(in: word, range: NSRange(location: 0, length: (word as NSString).length),
+                                                  startingAt: 0, wrap: false, language: language)
+        return range.location == NSNotFound
+    }
+
+    public func completions(for prefix: String) -> [String] {
+        checker.completions(forPartialWordRange: NSRange(location: 0, length: (prefix as NSString).length),
+                            in: prefix, language: language) ?? []
+    }
+
+    public func corrections(for word: String) -> [String] {
+        checker.guesses(forWordRange: NSRange(location: 0, length: (word as NSString).length),
+                        in: word, language: language) ?? []
+    }
+#else
+    // No system spell checker: English comes from the English pack alone.
+    public init() {}
+    public func isWord(_ word: String) -> Bool { false }
+    public func completions(for prefix: String) -> [String] { [] }
+    public func corrections(for word: String) -> [String] { [] }
+#endif
 }
 
 public struct EnglishConverter {
