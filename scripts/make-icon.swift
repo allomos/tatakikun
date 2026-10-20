@@ -1,4 +1,6 @@
-// Draws the menu bar icon: a "た" in a rounded square. Usage: swift make-icon.swift <out.tiff>
+// Draws the menu bar icon: a "た" in a rounded square, in black on transparent. Info.plist marks it
+// as a template (TISIconIsTemplate), so macOS recolors it: white on the blue selection in the input
+// source switcher, light in dark menu bars. Usage: swift make-icon.swift <out.tiff>
 import AppKit
 let size = NSSize(width: 16, height: 16)
 let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 32, pixelsHigh: 32, bitsPerSample: 8, samplesPerPixel: 4,
