@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-20T16:00:27Z",
+  "via": "alm",
+  "command": "recheck",
+  "kind": "task",
+  "id": "A04-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "without_human_check",
+      "from": "Caps Lock 切换、密码框切回和中日字形只能在系统设置和真实应用里亲手确认",
+      "to": "英语分类让 Tatakikun 不出现在切换列表里，由 A04-08 撤销"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+A04-06 把 TISIntendedLanguage 改成 en 后，Tatakikun 不出现在 ⌘Space / Ctrl+Space 的切换列表里(批准人 2026-10-21 实测:改回 zh-Hans 并注销再登录后又出现)。改回 zh-Hans，并把 README ×3、安装器欢迎页 ×3、install.sh 里的「英语」改回「简体中文」。发布 v0.5.1。
