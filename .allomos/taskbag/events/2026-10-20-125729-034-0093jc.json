@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T12:57:29Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "整句转换:按词代价+每词 30 的 Viterbi 求最佳切分;日文中词库没有的假名按原样保留,每个代价 150"
+    }
+  ]
+}

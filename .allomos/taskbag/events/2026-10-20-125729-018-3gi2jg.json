@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T12:57:29Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "罗马字不支持 l 开头的小假名(la/lu...),只用 x 开头,避免 hello 之类英文词被转成假名"
+    }
+  ]
+}
