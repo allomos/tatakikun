@@ -26,9 +26,20 @@ public struct Candidate: Equatable {
     /// How many typed letters this candidate stands for, when it covers only the start of the input;
     /// choosing it leaves the rest of the letters to go on typing. Nil means all of them.
     public var consumed: Int?
+    /// True for kana spelled out from the letters with no dictionary word behind them (にはお for nihao).
+    public var isGuess = false
 
     public init(text: String, kind: CandidateKind, cost: Int, isExact: Bool = true, consumed: Int? = nil) {
         self.text = text; self.kind = kind; self.cost = cost; self.isExact = isExact; self.consumed = consumed
+    }
+}
+
+extension Candidate {
+    /// The same candidate at another cost.
+    func costing(_ cost: Int) -> Candidate {
+        var c = Candidate(text: text, kind: kind, cost: cost, isExact: isExact, consumed: consumed)
+        c.isGuess = isGuess
+        return c
     }
 }
 
@@ -138,12 +149,18 @@ public struct JapaneseConverter {
         var out = lexicon.exact(kana).prefix(limit).map { Candidate(text: $0.word, kind: Self.kind(of: $0.word), cost: $0.cost) }
         if let path = segment(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana), path.words.count > 1 {
             let text = path.words.joined()
-            out.append(Candidate(text: text, kind: Self.kind(of: text), cost: path.cost))
+            var sentence = Candidate(text: text, kind: Self.kind(of: text), cost: path.cost)
+            // Only kana, split into short words: no better than spelling the kana out.
+            sentence.isGuess = sentence.kind != .kanji
+            out.append(sentence)
         }
         // The kana themselves are always offered.
         let plain = Cost.unknownKana + 15 * kana.count
-        out.append(Candidate(text: kana, kind: .hiragana, cost: plain))
-        out.append(Candidate(text: Kana.toKatakana(kana), kind: .katakana, cost: plain + 25))
+        var hiragana = Candidate(text: kana, kind: .hiragana, cost: plain)
+        var katakana = Candidate(text: Kana.toKatakana(kana), kind: .katakana, cost: plain + 25)
+        hiragana.isGuess = true
+        katakana.isGuess = true
+        out += [hiragana, katakana]
         return out
     }
 

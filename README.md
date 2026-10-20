@@ -53,6 +53,10 @@ words that cover only the start of the letters (`nihaoma` → 你好); choosing 
 and keeps the remaining letters (`ma`) to go on typing. When nothing matches all the letters yet,
 the bar itself shows the best partial matches.
 
+Tatakikun follows what you are typing: right after you insert a word in one language, the best
+candidate in that language comes first for the next word (so in "is a hen", hen comes before 很),
+for 60 seconds or until you switch to another app.
+
 Tatakikun learns: a candidate you choose ranks higher the next time you type the same letters.
 What it learned stays on this Mac in `~/Library/Application Support/Tatakikun/history.tsv`;
 delete that file to forget it.

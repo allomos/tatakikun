@@ -9,7 +9,8 @@ final class EngineTests: XCTestCase {
     static var shared: Engine?
 
     func engine() throws -> Engine {
-        if let e = Self.shared { return e }
+        // Each test starts without the last inserted word's language from another test.
+        if let e = Self.shared { e.forgetRecent(); return e }
         guard FileManager.default.fileExists(atPath: Self.dictFolder.appendingPathComponent("zh.tsv").path) else {
             throw XCTSkip("no dictionaries in build/dict: run scripts/build.sh first")
         }

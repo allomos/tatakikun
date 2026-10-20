@@ -8,6 +8,19 @@ public struct CandidateList {
     public var all: [Candidate] { firstRow + more }
 }
 
+/// The language of a candidate, for ranking by what was typed just before.
+public enum Language {
+    case english, chinese, japanese
+
+    public init(_ kind: CandidateKind) {
+        switch kind {
+        case .english, .raw: self = .english
+        case .chinese: self = .chinese
+        case .kanji, .hiragana, .katakana: self = .japanese
+        }
+    }
+}
+
 /// Turns typed letters into English, Chinese and Japanese candidates in one ranked list.
 ///
 /// Layout rule for the first row:
@@ -15,6 +28,8 @@ public struct CandidateList {
 /// - the rest of the row is filled by cost, and the row is ordered by cost;
 /// - the letters as typed are always in it: ranked like any English word when they are one,
 ///   otherwise in the row's last place.
+/// Right after a word in one language was inserted, the best candidate in that language comes first
+/// and its other candidates rank a little higher (typing "is a hen" puts hen before 很).
 public final class Engine {
     public let chinese: ChineseConverter
     public let japanese: JapaneseConverter
@@ -24,6 +39,12 @@ public final class Engine {
     public var maxMore = 200
     /// Candidates chosen before rank higher; nil to rank by the dictionaries alone.
     public var history: UserHistory?
+    /// The language of the last inserted word and when it was inserted (see `noteInserted`).
+    public private(set) var recent: (language: Language, at: Date)?
+    /// How long the last word's language keeps leading.
+    public var momentumDuration: TimeInterval = 60
+    /// How much cheaper the other candidates in that language become.
+    static let momentumBoost = 40
 
     public init(chinese: Lexicon, japanese: Lexicon, english: EnglishLexicon, rowSize: Int = 9) {
         self.chinese = ChineseConverter(lexicon: chinese)
@@ -41,7 +62,14 @@ public final class Engine {
         self.init(chinese: zh, japanese: ja, english: english, rowSize: rowSize)
     }
 
-    public func candidates(for input: String) -> CandidateList {
+    /// Records the language of a word just inserted, so the next input leans toward it.
+    public func noteInserted(_ kind: CandidateKind, at date: Date = Date()) { recent = (Language(kind), date) }
+
+    /// Forgets the last word's language (switched to another app, or the input was cancelled for good).
+    public func forgetRecent() { recent = nil }
+
+    public func candidates(for input: String, at date: Date = Date()) -> CandidateList {
+        let lead = recent.flatMap { date.timeIntervalSince($0.at) <= momentumDuration ? $0.language : nil }
         guard !input.isEmpty else { return CandidateList(input: input, firstRow: [], more: []) }
         let raw = Candidate(text: input, kind: .raw, cost: Int.max)
         var found = english.candidates(for: input)
@@ -50,8 +78,11 @@ public final class Engine {
             found += chinese.candidates(for: input)
             found += japanese.candidates(for: input)
         }
-        found = found.map { learned($0, input) }
-        let ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
+        found = found.map { leaning(learned($0, input), lead) }
+        var ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
+        if let lead, let i = ranked.firstIndex(where: { Language($0.kind) == lead && !$0.isGuess }) {
+            ranked.insert(ranked.remove(at: i), at: 0)
+        }
 
         var row: [Candidate] = []
         for kind in CandidateKind.allCases {
@@ -61,6 +92,7 @@ public final class Engine {
         let room = rowSize - (rawInRow() || ranked.contains { $0.text == input } ? 0 : 1)
         for c in ranked where row.count < room && !row.contains(c) { row.append(c) }
         row.sort { $0.cost < $1.cost }
+        if let first = ranked.first, let i = row.firstIndex(of: first) { row.insert(row.remove(at: i), at: 0) }
         if !rawInRow() {
             if row.count >= rowSize { row.removeLast() }
             row.append(ranked.first { $0.text == input } ?? raw)
@@ -70,7 +102,7 @@ public final class Engine {
             partial += chinese.partialCandidates(for: input)
             partial += japanese.partialCandidates(for: input)
         }
-        let sortedPartial = Self.dedupe(partial.map { learned($0, input) }.sorted { $0.cost < $1.cost })
+        let sortedPartial = Self.dedupe(partial.map { leaning(learned($0, input), lead) }.sorted { $0.cost < $1.cost })
         if ranked.isEmpty {
             // Nothing matches all the letters yet (zhongg, arigat): show the best completions in the bar.
             row = Array(sortedPartial.filter { $0.text != input }.prefix(rowSize - 1)) + [raw]
@@ -82,7 +114,12 @@ public final class Engine {
 
     private func learned(_ c: Candidate, _ input: String) -> Candidate {
         guard let boost = history?.boost(input: input, text: c.text), boost > 0 else { return c }
-        return Candidate(text: c.text, kind: c.kind, cost: c.cost - boost, isExact: c.isExact, consumed: c.consumed)
+        return c.costing(c.cost - boost)
+    }
+
+    private func leaning(_ c: Candidate, _ lead: Language?) -> Candidate {
+        guard let lead, Language(c.kind) == lead, c.kind != .raw, !c.isGuess else { return c }
+        return c.costing(c.cost - Self.momentumBoost)
     }
 
     /// Keeps the cheapest candidate of each text (input already sorted by cost).
