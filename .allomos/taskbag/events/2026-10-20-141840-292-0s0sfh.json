@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-20T14:18:40Z",
+  "via": "alm",
+  "command": "reopen",
+  "kind": "task",
+  "id": "A01-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "done",
+      "to": "ready"
+    },
+    {
+      "field": "label",
+      "from": "locally verified"
+    },
+    {
+      "field": "holder",
+      "from": "claude-goal-1"
+    },
+    {
+      "field": "without_human_check",
+      "from": "Goal run: try the app"
+    },
+    {
+      "field": "human_check_steps",
+      "from": "**安装(一次)**\n1. 在终端进入项目文件夹:`cd ~/tatakikun`,运行 `scripts/build.sh`(第一次约 1–2 分钟),再运行 `scripts/install.sh`。\n2. 系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun → 添加。不在列表里就注销再登录一次。\n3. 在菜单栏输入法菜单里选 Tatakikun(“た”图标)。\n\n**试用整个应用(在“文本编辑”里)**\n4. 英文:键入 `hello`,按空格 → hello。\n5. 中文:`nihao` 空格 → 你好;`woaini` 空格 → 我爱你;`yinhang` → 银行排第一。\n6. 日文:`arigatou` → 有 ありがとう、有難う、アリガトウ;`toukyou` → 東京、とうきょう、トウキョウ;`watashihagakuseidesu` → 私は学生です。\n7. 混合:`ai` → 爱、愛、あい、アイ、ai 同在一条横向候选条里。\n8. 原始字母:随便键入(如 `qwzx`)→ 候选里总有原始串;任何时候按回车都上屏原始字母。\n9. 展开:按 ↓ 或 Tab 展开更多行,继续 ↓ 或用触控板滚动;灰色的是不完全匹配(`zhongg` → 中国,`compu` → computer);↑ 或 Esc 收起。\n10. 选择:数字键 1–9、空格(高亮的那个)、←→ 移动、鼠标点击;Esc 取消;退格删字母。\n11. 学习:选一个不在第一位的候选,下次键入同样的字母它就排第一。\n\n不想安装也能先试:`TATAKIKUN_DICT=build/dict .build/release/Tatakikun --demo` 打开一个演示窗口。\n"
+    },
+    {
+      "field": "reopen_note",
+      "to": "这个人(2026-10-20)要求:三种语言都换成开源词库(避开 GPL),并做一个安装时可选语言包的安装器"
+    }
+  ]
+}

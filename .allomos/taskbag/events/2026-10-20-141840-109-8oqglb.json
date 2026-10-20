@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-20T14:18:40Z",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}

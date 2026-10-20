@@ -1,0 +1,1 @@
+**Outcome.** 每个字的全部读音、约 40 万个词的正确读音;词频仍用 ICU。**Done means.** 测试:yinhang→银行、chongqing→重庆、zhangda→长大、xingli→行李 排第一;以前能打的词不丢。

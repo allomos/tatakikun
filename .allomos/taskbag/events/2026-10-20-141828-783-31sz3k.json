@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T14:18:28Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "引擎按已安装的语言包工作:没装的语言不出候选"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 引擎从语言包文件夹加载中/日/英;缺哪个就不出那种候选,原始字母串始终在。**Done means.** 测试:只装中文/只装日文/只装英文/都不装 时候选正确。**Notes.** 改 Engine.swift,等 A02-06 合并后再做。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

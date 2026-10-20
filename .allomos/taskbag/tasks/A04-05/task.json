@@ -1,0 +1,10 @@
+{
+  "area": "A04",
+  "blocked_by": [
+    "A02-07"
+  ],
+  "id": "A04-05",
+  "iteration": "I04",
+  "state": "blocked",
+  "title": "安装器:安装时勾选要装的语言包(中文、日文、英文)"
+}
