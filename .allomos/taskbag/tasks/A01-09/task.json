@@ -1,6 +1,8 @@
 {
   "area": "A01",
   "id": "A01-09",
-  "state": "ready",
-  "title": "Windows 版:在 Windows 上用 Tatakikun 输入英中日混合候选"
+  "state": "waiting",
+  "title": "Windows 版:在 Windows 上用 Tatakikun 输入英中日混合候选",
+  "waiting_on": "How should the Windows version share the engine? The core is Swift (Foundation only, apart from the spell checker). Options: (a) keep Swift and build it with the Swift toolchain for Windows, called from a small C++ TSF text service; (b) rewrite the core in a portable language (Rust or C++) and use it everywhere. Recommended: (a). Also: which release channel (signed installer needs a code-signing certificate, a cost; Microsoft Store has a fee)? I can't run or test Windows on this Mac, so a Windows machine or VM is needed to check it.",
+  "who": "the person"
 }

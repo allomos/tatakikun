@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-20T16:51:00Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A01-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-loop"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A01-11"
+    }
+  ]
+}

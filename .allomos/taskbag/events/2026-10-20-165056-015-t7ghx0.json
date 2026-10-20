@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-20T16:50:56Z",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "How should the Windows version share the engine? The core is Swift (Foundation only, apart from the spell checker). Options: (a) keep Swift and build it with the Swift toolchain for Windows, called from a small C++ TSF text service; (b) rewrite the core in a portable language (Rust or C++) and use it everywhere. Recommended: (a). Also: which release channel (signed installer needs a code-signing certificate, a cost; Microsoft Store has a fee)? I can't run or test Windows on this Mac, so a Windows machine or VM is needed to check it."
+    },
+    {
+      "field": "who",
+      "to": "the person"
+    }
+  ]
+}

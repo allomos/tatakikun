@@ -1,6 +1,7 @@
 {
   "area": "A01",
+  "holder": "claude-loop",
   "id": "A01-11",
-  "state": "ready",
+  "state": "in_progress",
   "title": "iOS 版:在 iPhone/iPad 上用 Tatakikun 键盘输入英中日混合候选"
 }

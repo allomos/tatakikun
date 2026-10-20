@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-20T16:50:56Z",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "How should the Android version share the engine? The core is Swift. Options: (a) build it with the Swift SDK for Android and call it from a Kotlin InputMethodService through JNI; (b) port the core to Kotlin (two copies to keep in step); (c) rewrite the core in Rust/C++ for every platform. Recommended: (a). Also: release channel (Google Play has a one-time developer fee) and whether to install the Android SDK/emulator on this Mac (several GB) for testing."
+    },
+    {
+      "field": "who",
+      "to": "the person"
+    }
+  ]
+}
