@@ -1,0 +1,82 @@
+name: Tatakikun
+options:
+  bundleIdPrefix: com.tatakikun
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  TatakikunPackage:
+    path: ..
+settings:
+  base:
+    MARKETING_VERSION: "0.5.1"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  # The app holds the keyboard and tells how to turn it on. (Not named Tatakikun: the package
+  # has a macOS executable of that name.)
+  TatakikunIOS:
+    type: application
+    platform: iOS
+    sources:
+      - App
+      - Keyboard/KeyboardView.swift
+    dependencies:
+      - target: TatakikunKeyboard
+      - package: TatakikunPackage
+        product: TatakikunCore
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Tatakikun
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tatakikun.ios.Tatakikun
+        PRODUCT_NAME: Tatakikun
+  TatakikunUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: TatakikunIOS
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tatakikun.ios.UITests
+        GENERATE_INFOPLIST_FILE: YES
+  # The keyboard: the same engine and language packs as the macOS input method.
+  TatakikunKeyboard:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Keyboard
+      - path: ../build/packs
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - package: TatakikunPackage
+        product: TatakikunCore
+    info:
+      path: Keyboard/Info.plist
+      properties:
+        CFBundleDisplayName: Tatakikun
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.keyboard-service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).KeyboardViewController
+          NSExtensionAttributes:
+            IsASCIICapable: false
+            PrefersRightToLeft: false
+            PrimaryLanguage: zh-Hans
+            RequestsOpenAccess: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tatakikun.ios.Tatakikun.Keyboard
+schemes:
+  Tatakikun:
+    build:
+      targets:
+        TatakikunIOS: all
+    test:
+      targets: [TatakikunUITests]

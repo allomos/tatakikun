@@ -1,0 +1,40 @@
+import UIKit
+
+extension UIInputViewController: KeyboardTarget {
+    var documentContextBeforeInput: String? { textDocumentProxy.documentContextBeforeInput }
+    func insertText(_ text: String) { textDocumentProxy.insertText(text) }
+    func deleteBackward() { textDocumentProxy.deleteBackward() }
+    func mark(_ text: String, selectedRange: NSRange) { textDocumentProxy.setMarkedText(text, selectedRange: selectedRange) }
+    func endMarking() { textDocumentProxy.unmarkText() }
+}
+
+/// The keyboard extension's entry point: shows the KeyboardView and types through the text proxy.
+final class KeyboardViewController: UIInputViewController {
+    private let keyboard = KeyboardView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        guard let root = inputView else { return }
+        root.allowsSelfSizing = true
+        keyboard.translatesAutoresizingMaskIntoConstraints = false
+        root.addSubview(keyboard)
+        NSLayoutConstraint.activate([
+            keyboard.topAnchor.constraint(equalTo: root.topAnchor),
+            keyboard.leadingAnchor.constraint(equalTo: root.leadingAnchor),
+            keyboard.trailingAnchor.constraint(equalTo: root.trailingAnchor),
+            keyboard.bottomAnchor.constraint(equalTo: root.bottomAnchor),
+        ])
+        keyboard.target = self
+        keyboard.onNextKeyboard = { [weak self] view, event in self?.handleInputModeList(from: view, with: event) }
+    }
+
+    override func viewWillLayoutSubviews() {
+        keyboard.showsNextKeyboard = needsInputModeSwitchKey
+        super.viewWillLayoutSubviews()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        keyboard.finish()
+        super.viewWillDisappear(animated)
+    }
+}

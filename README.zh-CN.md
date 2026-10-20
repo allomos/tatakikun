@@ -70,6 +70,19 @@ Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更�
 
 `scripts/fetch-sources.sh` 下载这些数据,固定到具体版本并校验 SHA-256;`scripts/build-packs.sh` 在 `build/packs` 生成语言包,每个都附带其数据的 LICENSE.txt。ICU 部分来自本机(`/usr/share/icu`):`tatakikun-dictgen` 把它的中日词表读进 `build/dict`。词库是内存映射的 `.ttkd` 文件,再大也能瞬间启动。数据和语言包都不在这个仓库里。
 
+## iPhone 和 iPad(预览)
+
+`iOS/` 里是带 Tatakikun 键盘的 iOS 应用(iOS 16 以上):同样的引擎和语言包,QWERTY 键盘上方是候选条。
+点候选上屏,或按空格上屏第一个;return 上屏原始字母;⌄ 显示更多候选;`，` `。` 和 Mac 上一样随语言变化。
+
+```sh
+scripts/build-ios.sh        # 为模拟器构建(需要 build/packs;重新生成工程需要 XcodeGen)
+scripts/build-ios.sh test   # 并运行界面测试
+```
+
+在 Xcode 中打开 `iOS/Tatakikun.xcodeproj` 可以装到自己的 iPhone 上(用你的 Apple ID 签名),然后启用:
+设置 → 通用 → 键盘 → 键盘 → 添加新键盘… → Tatakikun。应用里也有一个不用启用就能试用键盘的页面。目前没有上架 App Store。
+
 ## 开发
 
 - `swift test` — 引擎、按键和语言包的测试(需要 `build/dict` 和 `build/packs`:先运行 `scripts/build.sh`)。

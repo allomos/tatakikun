@@ -3,8 +3,9 @@ import PackageDescription
 
 let package = Package(
     name: "Tatakikun",
-    platforms: [.macOS(.v13)],
+    platforms: [.macOS(.v13), .iOS(.v16)],
     products: [
+        .library(name: "TatakikunCore", targets: ["TatakikunCore"]),
         .executable(name: "Tatakikun", targets: ["Tatakikun"]),
         .executable(name: "tatakikun-cli", targets: ["tatakikun-cli"]),
         .executable(name: "tatakikun-dictgen", targets: ["tatakikun-dictgen"]),

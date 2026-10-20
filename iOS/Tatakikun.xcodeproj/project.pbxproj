@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		19E96D76CA45E5BDBB511AC8 /* KeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */; };
+		38D434F8D91C74C3E8DD036D /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */; };
+		96A5CADDE54718DCBE13A789 /* TatakikunCore in Frameworks */ = {isa = PBXBuildFile; productRef = 03ADABA727F838B02C3E30FE /* TatakikunCore */; };
+		A4D5A517FA03DEE6AD4B14E6 /* packs in Resources */ = {isa = PBXBuildFile; fileRef = 4C8C1AD9D45070CAAA5D7290 /* packs */; };
+		AAD32476DFE99D09359B2CA6 /* TatakikunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B155C70011DC5F40B14D3C /* TatakikunApp.swift */; };
+		C7C9CF4066D172AB07181A91 /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B4B524C8F3CD2739117E26 /* DemoView.swift */; };
+		C9ECEB8F7B0F4F51B3FA2A3D /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */; };
+		DF53CC91033C802ED2486774 /* TatakikunCore in Frameworks */ = {isa = PBXBuildFile; productRef = EF5725118B5420414C59C189 /* TatakikunCore */; };
+		E6FCEB0EC50247B483AE0328 /* TatakikunKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E7F8322C6D279EFA2F7B68EF /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		29CB7C83CE5A055934AB5575 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97985BA00F1F127965952822 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A2AB1EC8514820C3F075ADA4;
+			remoteInfo = TatakikunKeyboard;
+		};
+		4E44739A0D12F9B4AFCA8701 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97985BA00F1F127965952822 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5248A685D66E14CB1B82EFA0;
+			remoteInfo = TatakikunIOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E120DD62045C6D45FB4B1666 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E6FCEB0EC50247B483AE0328 /* TatakikunKeyboard.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
+		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
+		5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TatakikunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		623D340E71A8448F8868CEB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7AE0EE2F4739DD4AF085D934 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		91B4B524C8F3CD2739117E26 /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
+		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TatakikunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardUITests.swift; sourceTree = "<group>"; };
+		CF9B65C0DC229C783D0292A6 /* A01-11 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A01-11"; path = ..; sourceTree = SOURCE_ROOT; };
+		FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		400E76CCE8536D9D3610FDA8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96A5CADDE54718DCBE13A789 /* TatakikunCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48CED6C4C48E3A54F134EB5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF53CC91033C802ED2486774 /* TatakikunCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		74E1F0360E083326645D908B /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		8BD16FDDEC185437FD0D3F91 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				CF9B65C0DC229C783D0292A6 /* A01-11 */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		90C29C612640E20499B2D040 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				91B4B524C8F3CD2739117E26 /* DemoView.swift */,
+				7AE0EE2F4739DD4AF085D934 /* Info.plist */,
+				50B155C70011DC5F40B14D3C /* TatakikunApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C67C5E9E780B180602D2C46F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */,
+				9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */,
+				5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB686573DF8872ED79EF1F94 = {
+			isa = PBXGroup;
+			children = (
+				4C8C1AD9D45070CAAA5D7290 /* packs */,
+				90C29C612640E20499B2D040 /* App */,
+				F09CA993523231CA7BBA7F70 /* Keyboard */,
+				8BD16FDDEC185437FD0D3F91 /* Packages */,
+				74E1F0360E083326645D908B /* UITests */,
+				C67C5E9E780B180602D2C46F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F09CA993523231CA7BBA7F70 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				623D340E71A8448F8868CEB7 /* Info.plist */,
+				FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */,
+				5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		515982E7C923465BA9AE3434 /* TatakikunUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C796A65B2117A68CC8977E33 /* Build configuration list for PBXNativeTarget "TatakikunUITests" */;
+			buildPhases = (
+				8D31C3F7389CD9B492DBF841 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				40C4263F6929E21BCE88E24F /* PBXTargetDependency */,
+			);
+			name = TatakikunUITests;
+			packageProductDependencies = (
+			);
+			productName = TatakikunUITests;
+			productReference = 5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		5248A685D66E14CB1B82EFA0 /* TatakikunIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91369D4103DF505FB06523DE /* Build configuration list for PBXNativeTarget "TatakikunIOS" */;
+			buildPhases = (
+				3E54BD4A063E6FB3E4318247 /* Sources */,
+				48CED6C4C48E3A54F134EB5E /* Frameworks */,
+				E120DD62045C6D45FB4B1666 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4820141520F5A6A2C4E4A080 /* PBXTargetDependency */,
+			);
+			name = TatakikunIOS;
+			packageProductDependencies = (
+				EF5725118B5420414C59C189 /* TatakikunCore */,
+			);
+			productName = TatakikunIOS;
+			productReference = A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A2AB1EC8514820C3F075ADA4 /* TatakikunKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0186C3A5E427B46523BD502 /* Build configuration list for PBXNativeTarget "TatakikunKeyboard" */;
+			buildPhases = (
+				7DC547EA585FD5E6EDBF32D3 /* Sources */,
+				69122BE2A32A7C3945E89232 /* Resources */,
+				400E76CCE8536D9D3610FDA8 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TatakikunKeyboard;
+			packageProductDependencies = (
+				03ADABA727F838B02C3E30FE /* TatakikunCore */,
+			);
+			productName = TatakikunKeyboard;
+			productReference = 9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		97985BA00F1F127965952822 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					515982E7C923465BA9AE3434 = {
+						ProvisioningStyle = Automatic;
+						TestTargetID = 5248A685D66E14CB1B82EFA0;
+					};
+					5248A685D66E14CB1B82EFA0 = {
+						ProvisioningStyle = Automatic;
+					};
+					A2AB1EC8514820C3F075ADA4 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = D85BE4B52C2CF5C0BBFC6233 /* Build configuration list for PBXProject "Tatakikun" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = DB686573DF8872ED79EF1F94;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ADF38225B5D1514B536AFA91 /* XCLocalSwiftPackageReference ".." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C67C5E9E780B180602D2C46F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5248A685D66E14CB1B82EFA0 /* TatakikunIOS */,
+				515982E7C923465BA9AE3434 /* TatakikunUITests */,
+				A2AB1EC8514820C3F075ADA4 /* TatakikunKeyboard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		69122BE2A32A7C3945E89232 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4D5A517FA03DEE6AD4B14E6 /* packs in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3E54BD4A063E6FB3E4318247 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C7C9CF4066D172AB07181A91 /* DemoView.swift in Sources */,
+				E7F8322C6D279EFA2F7B68EF /* KeyboardView.swift in Sources */,
+				AAD32476DFE99D09359B2CA6 /* TatakikunApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DC547EA585FD5E6EDBF32D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9ECEB8F7B0F4F51B3FA2A3D /* KeyboardView.swift in Sources */,
+				38D434F8D91C74C3E8DD036D /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D31C3F7389CD9B492DBF841 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19E96D76CA45E5BDBB511AC8 /* KeyboardUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		40C4263F6929E21BCE88E24F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5248A685D66E14CB1B82EFA0 /* TatakikunIOS */;
+			targetProxy = 4E44739A0D12F9B4AFCA8701 /* PBXContainerItemProxy */;
+		};
+		4820141520F5A6A2C4E4A080 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A2AB1EC8514820C3F075ADA4 /* TatakikunKeyboard */;
+			targetProxy = 29CB7C83CE5A055934AB5575 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1B1351E3DF1C02AB4FCEB980 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.Tatakikun.Keyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4DFD9C7979CB0285BF7D6C6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.UITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TatakikunIOS;
+			};
+			name = Release;
+		};
+		738874E626FA270A1E89088E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.Tatakikun;
+				PRODUCT_NAME = Tatakikun;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7DB739CE1AAD19D8D39BF9E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 0.5.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7FF75A262683F726C960193B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 0.5.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8BF1CCCC5200C498CB8216EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.Tatakikun;
+				PRODUCT_NAME = Tatakikun;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		91B17354916C2F599E06F08F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.Tatakikun.Keyboard;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		998E3F487395BD3B4881394C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tatakikun.ios.UITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TatakikunIOS;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		91369D4103DF505FB06523DE /* Build configuration list for PBXNativeTarget "TatakikunIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8BF1CCCC5200C498CB8216EF /* Debug */,
+				738874E626FA270A1E89088E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C796A65B2117A68CC8977E33 /* Build configuration list for PBXNativeTarget "TatakikunUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				998E3F487395BD3B4881394C /* Debug */,
+				4DFD9C7979CB0285BF7D6C6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D85BE4B52C2CF5C0BBFC6233 /* Build configuration list for PBXProject "Tatakikun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DB739CE1AAD19D8D39BF9E4 /* Debug */,
+				7FF75A262683F726C960193B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F0186C3A5E427B46523BD502 /* Build configuration list for PBXNativeTarget "TatakikunKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B1351E3DF1C02AB4FCEB980 /* Debug */,
+				91B17354916C2F599E06F08F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		ADF38225B5D1514B536AFA91 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		03ADABA727F838B02C3E30FE /* TatakikunCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TatakikunCore;
+		};
+		EF5725118B5420414C59C189 /* TatakikunCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TatakikunCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 97985BA00F1F127965952822 /* Project object */;
+}
