@@ -1,7 +1,10 @@
 {
   "area": "A01",
   "holder": "claude-release",
+  "human_check_steps": "1. 打开 https://github.com/allomos/tatakikun ,在 README 顶部点“简体中文”和“日本語”,看译文是否满意(截图和链接都能显示)。\n",
   "id": "A01-07",
-  "state": "in_progress",
-  "title": "README 有中文和日文版本"
+  "label": "deployed and verified",
+  "state": "done",
+  "title": "README 有中文和日文版本",
+  "without_human_check": "Translations; owner to read them"
 }

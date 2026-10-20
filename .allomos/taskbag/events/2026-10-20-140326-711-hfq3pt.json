@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-20T14:03:26Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Translations; owner to read them"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. 打开 https://github.com/allomos/tatakikun ,在 README 顶部点“简体中文”和“日本語”,看译文是否满意(截图和链接都能显示)。\n"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:03:26Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "做法:另建 README.zh-CN.md 和 README.ja.md(英文 README.md 仍是 GitHub 首页),三个文件顶部互相链接;日文版的系统设置路径用日文界面的名称"
+    }
+  ]
+}
