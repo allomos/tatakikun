@@ -49,10 +49,38 @@
 				<key>tsInputModeScriptKey</key>
 				<string>smUnicode</string>
 			</dict>
+			<key>com.tatakikun.inputmethod.Tatakikun.Japanese</key>
+			<dict>
+				<key>TISIconIsTemplate</key>
+				<true/>
+				<key>TISInputSourceID</key>
+				<string>com.tatakikun.inputmethod.Tatakikun.Japanese</string>
+				<key>TISIntendedLanguage</key>
+				<string>ja</string>
+				<key>tsInputModeCharacterRepertoireKey</key>
+				<array>
+					<string>Hira</string>
+					<string>Kana</string>
+					<string>Hans</string>
+				</array>
+				<key>tsInputModeDefaultStateKey</key>
+				<true/>
+				<key>tsInputModeIsVisibleKey</key>
+				<true/>
+				<key>tsInputModeMenuIconFileKey</key>
+				<string>Tatakikun.tiff</string>
+				<key>tsInputModePaletteIconFileKey</key>
+				<string>Tatakikun.tiff</string>
+				<key>tsInputModePrimaryInScriptKey</key>
+				<true/>
+				<key>tsInputModeScriptKey</key>
+				<string>smUnicode</string>
+			</dict>
 		</dict>
 		<key>tsVisibleInputModeOrderedArrayKey</key>
 		<array>
 			<string>com.tatakikun.inputmethod.Tatakikun.Hans</string>
+			<string>com.tatakikun.inputmethod.Tatakikun.Japanese</string>
 		</array>
 	</dict>
 	<key>InputMethodConnectionName</key>
