@@ -1,8 +1,11 @@
 {
   "area": "A02",
   "holder": "claude-goal-1",
+  "human_check_steps": "1. 在项目文件夹删除旧词库再构建安装:`rm -rf build/dict && scripts/build.sh && scripts/install.sh`(多音字需要重新生成词库,约 1 分钟)。\n2. 在“文本编辑”里用 Tatakikun 键入 `yinhang` → 第一个是“银行”;`changcheng` → “长城”;`yinyue` → “音乐”。\n3. 键入 `ai`,按 3 选第 3 个候选;再键入 `ai`:刚才选的那个排到了第一。\n4. 想忘掉学到的内容:删除 ~/Library/Application Support/Tatakikun/history.tsv。\n",
   "id": "A02-05",
   "iteration": "I03",
-  "state": "in_progress",
-  "title": "记住用户选过的候选,下次排得更前"
+  "label": "locally verified",
+  "state": "done",
+  "title": "记住用户选过的候选,下次排得更前",
+  "without_human_check": "Goal run"
 }

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T13:10:59Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "学习:按“输入字母+候选”计数,选过一次代价 -40,每多一次再 -20(最多 -100);只存在本机 ~/Library/Application Support/Tatakikun/history.tsv;回车上屏原始串也记录"
+    }
+  ]
+}
