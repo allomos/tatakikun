@@ -4,9 +4,17 @@ import TatakikunCore
 // Builds Tatakikun's dictionaries from data that ships with macOS:
 //   zh.tsv  pinyin syllables joined by ' <TAB> simplified Chinese word <TAB> cost
 //   ja.tsv  hiragana reading <TAB> Japanese word <TAB> cost
-// Usage: tatakikun-dictgen <output folder> [icu data file]
+// and compiles them into zh.ttkd and ja.ttkd, the files the input method reads.
+// Usage: tatakikun-dictgen <output folder> [icu data file]   or   tatakikun-dictgen --compile <folder>
 
 let args = CommandLine.arguments
+if args.count == 3, args[1] == "--compile" {
+    // tatakikun-dictgen --compile <folder>: turn existing zh.tsv / ja.tsv into .ttkd files.
+    let dir = URL(fileURLWithPath: args[2])
+    try DictionaryFiles.compileChinese(text: dir.appendingPathComponent("zh.tsv"), to: dir.appendingPathComponent(DictionaryFiles.chinese))
+    try DictionaryFiles.compileJapanese(text: dir.appendingPathComponent("ja.tsv"), to: dir.appendingPathComponent(DictionaryFiles.japanese))
+    exit(0)
+}
 guard args.count >= 2 else {
     FileHandle.standardError.write("usage: tatakikun-dictgen <output folder> [icu data file]\n".data(using: .utf8)!)
     exit(2)
@@ -91,3 +99,6 @@ func write(_ table: [String: Int], _ name: String) throws {
 }
 try write(zh, "zh.tsv")
 try write(ja, "ja.tsv")
+try DictionaryFiles.compileChinese(text: outDir.appendingPathComponent("zh.tsv"), to: outDir.appendingPathComponent(DictionaryFiles.chinese))
+try DictionaryFiles.compileJapanese(text: outDir.appendingPathComponent("ja.tsv"), to: outDir.appendingPathComponent(DictionaryFiles.japanese))
+FileHandle.standardError.write("compiled \(DictionaryFiles.chinese) and \(DictionaryFiles.japanese)\n".data(using: .utf8)!)
