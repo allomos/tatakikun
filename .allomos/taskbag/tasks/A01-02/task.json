@@ -1,8 +1,11 @@
 {
   "area": "A01",
   "holder": "claude-goal-1",
+  "human_check_steps": "1. 在项目文件夹(~/tatakikun)运行 `scripts/build.sh`,再运行 `scripts/install.sh`。\n2. 系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun → 添加(没看到就注销再登录一次)。\n3. 打开“文本编辑”,在菜单栏输入法菜单里选 Tatakikun(“た”图标)。\n4. 依次键入并检查:`hello` 空格 → hello;`nihao` 空格 → 你好;`woaini` 空格 → 我爱你;`toukyou` → 候选里有 東京、とうきょう、トウキョウ;`ai` → 爱、愛、あい、アイ 同时出现;`qwzx` 回车 → qwzx。\n5. 候选是横向一条;按数字键选择;Esc 取消;退格删字母。\n",
   "id": "A01-02",
   "iteration": "I01",
-  "state": "in_progress",
-  "title": "v0.1 验收检查:从头到尾试用最小输入法"
+  "label": "locally verified",
+  "state": "done",
+  "title": "v0.1 验收检查:从头到尾试用最小输入法",
+  "without_human_check": "Goal run"
 }
