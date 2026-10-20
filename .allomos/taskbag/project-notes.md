@@ -8,7 +8,9 @@ Nothing.
 
 ## Pitfalls
 
-None yet.
+- Dictionaries are generated, not committed: `scripts/build.sh` makes `build/dict` from this Mac's ICU data (~1 min). Tests skip without it.
+- A new input method shows up in System Settings only after it is in ~/Library/Input Methods, sometimes only after logging out and in. After reinstalling, `scripts/install.sh` kills the running Tatakikun so the new one loads.
+- Task worktrees live in ../tatakikun-wt/<task>; copy build/dict into a new worktree rather than regenerating.
 
 ## Repositories
 
