@@ -30,7 +30,7 @@ scripts/install.sh          # all three packs; or e.g. scripts/install.sh zh,en
 ```
 
 Then add it once: System Settings → Keyboard → Text Input → Input Sources → Edit… → + →
-English → Tatakikun. If it is not listed yet, log out and back in.
+Chinese, Simplified (简体中文) → Tatakikun. If it is not listed yet, log out and back in.
 
 Try it without installing: `TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`.
 
