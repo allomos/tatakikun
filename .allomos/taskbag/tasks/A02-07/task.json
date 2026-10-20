@@ -1,13 +1,8 @@
 {
   "area": "A02",
-  "blocked_by": [
-    "A03-03",
-    "A03-04",
-    "A03-05",
-    "A03-06"
-  ],
+  "holder": "claude-packs",
   "id": "A02-07",
   "iteration": "I04",
-  "state": "blocked",
+  "state": "in_progress",
   "title": "引擎按已安装的语言包工作:没装的语言不出候选"
 }
