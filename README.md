@@ -1,5 +1,7 @@
 # Tatakikun
 
+**English** | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
+
 A macOS input method that reads what you type in English letters three ways at once — as an
 English word, as Chinese pinyin and as Japanese romaji — and offers English, Chinese, hiragana,
 katakana and Japanese kanji candidates side by side in one horizontal bar. The letters as typed
