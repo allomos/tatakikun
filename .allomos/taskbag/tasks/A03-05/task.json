@@ -1,7 +1,8 @@
 {
   "area": "A03",
+  "holder": "claude-packs",
   "id": "A03-05",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "日文语言包:用 Mozc 开源词典,常见读法都能打出(如 watashi→私、nihon→日本)"
 }
