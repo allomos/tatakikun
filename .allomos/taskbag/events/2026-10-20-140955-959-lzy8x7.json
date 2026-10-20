@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-20T14:09:55Z",
+  "by": "claude-icon",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "用 Info.plist 的 TISIconIsTemplate=true 把图标标为模板图像,让系统在选中时自动反色;图标本身不变"
+    }
+  ]
+}
