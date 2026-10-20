@@ -9,6 +9,8 @@ swift build -c release --product tatakikun-dictgen
 if [ ! -f build/dict/zh.tsv ] || [ ! -f build/dict/ja.tsv ]; then
     echo "Generating the base dictionaries from this Mac's ICU data (about a minute)..."
     .build/release/tatakikun-dictgen build/dict
+elif [ ! -f build/dict/zh.ttkd ] || [ ! -f build/dict/ja.ttkd ] || [ build/dict/zh.tsv -nt build/dict/zh.ttkd ]; then
+    .build/release/tatakikun-dictgen --compile build/dict
 fi
 scripts/fetch-sources.sh "$LANGS"
 for lang in $(echo "$LANGS" | tr ',' ' '); do

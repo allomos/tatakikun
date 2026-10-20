@@ -31,9 +31,10 @@ public enum Language {
 /// Right after a word in one language was inserted, the best candidate in that language comes first
 /// and its other candidates rank a little higher (typing "is a hen" puts hen before 很).
 public final class Engine {
-    public let chinese: ChineseConverter
-    public let japanese: JapaneseConverter
-    public let english: EnglishConverter
+    /// Nil for a language whose pack is not installed: it offers no candidates.
+    public let chinese: ChineseConverter?
+    public let japanese: JapaneseConverter?
+    public let english: EnglishConverter?
     public var rowSize: Int
     /// At most this many candidates after the first row.
     public var maxMore = 200
@@ -46,14 +47,28 @@ public final class Engine {
     /// How much cheaper the other candidates in that language become.
     static let momentumBoost = 40
 
-    public init(chinese: Lexicon, japanese: Lexicon, english: EnglishLexicon, rowSize: Int = 9) {
-        self.chinese = ChineseConverter(lexicon: chinese)
-        self.japanese = JapaneseConverter(lexicon: japanese)
-        self.english = EnglishConverter(lexicon: english)
+    public init(chinese: Lexicon?, japanese: Lexicon?, english: EnglishLexicon?, rowSize: Int = 9) {
+        self.chinese = chinese.map(ChineseConverter.init)
+        self.japanese = japanese.map(JapaneseConverter.init)
+        self.english = english.map(EnglishConverter.init)
         self.rowSize = rowSize
     }
 
-    /// Loads `zh.ttkd` and `ja.ttkd` from a folder made by tatakikun-dictgen.
+    /// Loads the installed language packs; a language without one offers no candidates.
+    public convenience init(packFolders: [URL] = LanguagePacks.defaultFolders, rowSize: Int = 9) throws {
+        func open(_ l: LanguagePacks.Language) throws -> Lexicon? {
+            try LanguagePacks.find(l, in: packFolders).map { try Lexicon(contentsOf: $0) }
+        }
+        self.init(chinese: try open(.zh), japanese: try open(.ja), english: try open(.en).map(PackEnglish.init), rowSize: rowSize)
+    }
+
+    /// The languages this engine offers.
+    public var languages: [LanguagePacks.Language] {
+        [chinese.map { _ in .zh }, japanese.map { _ in .ja }, english.map { _ in .en }].compactMap { $0 }
+    }
+
+    /// Loads the base `zh.ttkd` and `ja.ttkd` from a folder made by tatakikun-dictgen, with English
+    /// from the system spell checker (development and tests, without the language packs).
     public convenience init(dictionaryFolder: URL, english: EnglishLexicon = SystemEnglish(), rowSize: Int = 9) throws {
         let zh = try DictionaryFiles.open(DictionaryFiles.chinese, in: dictionaryFolder, compile: DictionaryFiles.compileChinese)
         let ja = try DictionaryFiles.open(DictionaryFiles.japanese, in: dictionaryFolder, compile: DictionaryFiles.compileJapanese)
@@ -70,11 +85,11 @@ public final class Engine {
         let lead = recent.flatMap { date.timeIntervalSince($0.at) <= momentumDuration ? $0.language : nil }
         guard !input.isEmpty else { return CandidateList(input: input, firstRow: [], more: []) }
         let raw = Candidate(text: input, kind: .raw, cost: Int.max)
-        var found = english.candidates(for: input)
+        var found = english?.candidates(for: input) ?? []
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
         if letters {
-            found += chinese.candidates(for: input)
-            found += japanese.candidates(for: input)
+            found += chinese?.candidates(for: input) ?? []
+            found += japanese?.candidates(for: input) ?? []
         }
         found = found.map { leaning(learned($0, input), lead) }
         var ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
@@ -95,10 +110,10 @@ public final class Engine {
             if row.count >= rowSize { row.removeLast() }
             row.append(ranked.first { $0.text == input } ?? raw)
         }
-        var partial = english.partialCandidates(for: input)
+        var partial = english?.partialCandidates(for: input) ?? []
         if letters {
-            partial += chinese.partialCandidates(for: input)
-            partial += japanese.partialCandidates(for: input)
+            partial += chinese?.partialCandidates(for: input) ?? []
+            partial += japanese?.partialCandidates(for: input) ?? []
         }
         let sortedPartial = Self.dedupe(partial.map { leaning(learned($0, input), lead) }.sorted { $0.cost < $1.cost })
         if ranked.isEmpty {

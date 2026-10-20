@@ -2,20 +2,25 @@ import Foundation
 import TatakikunCore
 
 // Prints Tatakikun's candidates for each word given (or each line on standard input).
-// Usage: tatakikun-cli [--dict <folder>] [--more <n>] <letters>...
+// Usage: tatakikun-cli [--dict <folder> | --packs <folder>] [--more <n>] <letters>...
+//   --dict   base dictionaries (zh.ttkd, ja.ttkd) with the system spell checker for English (default build/dict)
+//   --packs  language packs (<folder>/<lang>/<lang>.ttkd), only the languages found
 var args = Array(CommandLine.arguments.dropFirst())
 var dict = ProcessInfo.processInfo.environment["TATAKIKUN_DICT"] ?? "build/dict"
+var packs: String?
 var moreCount = 10
 while let flag = args.first, flag.hasPrefix("--") {
     args.removeFirst()
     guard !args.isEmpty else { break }
     switch flag {
     case "--dict": dict = args.removeFirst()
+    case "--packs": packs = args.removeFirst()
     case "--more": moreCount = Int(args.removeFirst()) ?? moreCount
     default: break
     }
 }
-let engine = try Engine(dictionaryFolder: URL(fileURLWithPath: dict))
+let engine = try packs.map { try Engine(packFolders: [URL(fileURLWithPath: $0)]) }
+    ?? Engine(dictionaryFolder: URL(fileURLWithPath: dict))
 func show(_ input: String) {
     let list = engine.candidates(for: input)
     func fmt(_ c: Candidate) -> String { "\(c.text)[\(c.kind.tag)\(c.consumed.map { "…\($0)" } ?? (c.isExact ? "" : "…"))]" }
