@@ -6,7 +6,7 @@ public enum DictionaryFiles {
     public static let japanese = "ja.ttkd"
 
     /// Pinyin keys are written with `'` between syllables; they are typed without it.
-    static func pinyinKey(_ key: Substring) -> String { key.replacingOccurrences(of: "'", with: "") }
+    public static func pinyinKey(_ key: Substring) -> String { key.replacingOccurrences(of: "'", with: "") }
 
     /// zh.tsv (pinyin with ' between syllables) → zh.ttkd, with each word's initials abbreviation.
     public static func compileChinese(text: URL, to url: URL) throws {
