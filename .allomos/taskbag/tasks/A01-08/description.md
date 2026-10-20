@@ -1,1 +1,10 @@
-对照规格试用 v0.4,写下试用步骤。
+对照规格 10、11 试用 v0.4,写下试用步骤。
+
+**Evidence**(2026-10-21,全新工作树,没有任何预先生成的文件):
+- `scripts/make-installer.sh` 从零开始:下载并校验全部固定版本的开源数据(pinyin-data、phrase-pinyin-data、Mozc 词典、SCOWL、ICU LICENSE),生成基础词库、三个语言包(zh 632374 条 / 19 MB,ja 1087015 条 / 44 MB,en 128335 条 / 3.3 MB)、通用二进制 app(arm64 + x86_64)和 21 MB 的安装器,用时 3 分 15 秒。
+- 安装器:`installer -dominfo` 只有 CurrentUserHomeDirectory;选项为 app(必装)+ 中文/日文/英文(默认全选);用一个无害的测试包验证过:不需要管理员密码,安装脚本以当前用户运行;preinstall 只删除旧语言包、保留学习记录。
+- `swift test`:48 个测试,0 失败;LanguagePackEngineTests 覆盖只装中文/只装日文/只装英文/都不装/全装。
+- 规格 11:yinhang→银行、xingli→行李、watashi→私、nihon→日本 都排第一;man、women 英文排第一,hen 仍是“很”第一。
+- 验收时发现并修好:装了语言包后 `nh` 的“你好”被挤出候选条(日文猜测占了位置)。现在只打辅音时每种语言保证一个位置,`nh` 第 6 位是“你好”。
+- 已知限制:Mozc 开源词典没有动词活用形(ikimasu → 行ます)。
+- **未验证**:在 Finder 里双击安装器、在“自定”页勾选、装好后在系统里使用,需要这个人亲手试。
