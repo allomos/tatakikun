@@ -66,6 +66,7 @@ public final class Composer {
         case .space:
             return choose(selected)
         case .enter:
+            engine.history?.record(input: input, text: input)
             return commit(input)
         case .digit(let n):
             let row = rows.indices.contains(selectedRow) ? rows[selectedRow] : []
@@ -135,6 +136,7 @@ public final class Composer {
 
     private func choose(_ candidate: Candidate?) -> ComposerUpdate {
         guard let candidate else { return commit(input) }
+        engine.history?.record(input: input, text: candidate.text)
         if let n = candidate.consumed, n < input.count {
             // Covers only the start: insert it and keep composing the rest.
             setInput(String(input.dropFirst(n)))
