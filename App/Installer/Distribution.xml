@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Tatakikun installer: the input method, and a check box for each language pack.
+     scripts/make-installer.sh fills in VERSION and builds the packages named here. -->
+<installer-gui-script minSpecVersion="2">
+    <title>TITLE</title>
+    <welcome file="welcome.html" mime-type="text/html"/>
+    <license file="LICENSE.txt" mime-type="text/plain"/>
+    <options customize="always" require-scripts="false" hostArchitectures="HOST_ARCHITECTURES"/>
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
+    <os-version min="13.0"/>
+    <choices-outline>
+        <line choice="app"/>
+        <line choice="zh"/>
+        <line choice="ja"/>
+        <line choice="en"/>
+    </choices-outline>
+    <choice id="app" title="APP_TITLE" description="APP_DESCRIPTION" enabled="false" selected="true">
+        <pkg-ref id="com.tatakikun.inputmethod.Tatakikun"/>
+    </choice>
+    <choice id="zh" title="ZH_TITLE" description="ZH_DESCRIPTION" start_selected="true">
+        <pkg-ref id="com.tatakikun.pack.zh"/>
+    </choice>
+    <choice id="ja" title="JA_TITLE" description="JA_DESCRIPTION" start_selected="true">
+        <pkg-ref id="com.tatakikun.pack.ja"/>
+    </choice>
+    <choice id="en" title="EN_TITLE" description="EN_DESCRIPTION" start_selected="true">
+        <pkg-ref id="com.tatakikun.pack.en"/>
+    </choice>
+    <pkg-ref id="com.tatakikun.inputmethod.Tatakikun" version="VERSION" onConclusion="none">app.pkg</pkg-ref>
+    <pkg-ref id="com.tatakikun.pack.zh" version="VERSION" onConclusion="none">zh.pkg</pkg-ref>
+    <pkg-ref id="com.tatakikun.pack.ja" version="VERSION" onConclusion="none">ja.pkg</pkg-ref>
+    <pkg-ref id="com.tatakikun.pack.en" version="VERSION" onConclusion="none">en.pkg</pkg-ref>
+</installer-gui-script>

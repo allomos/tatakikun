@@ -1,0 +1,9 @@
+"TITLE" = "Tatakikun";
+"APP_TITLE" = "Tatakikun 入力メソッド";
+"APP_DESCRIPTION" = "入力メソッド本体です。下で使う言語を選んでください。あとで変えるときは、このインストーラをもう一度実行します。";
+"ZH_TITLE" = "中国語(ピンイン)";
+"ZH_DESCRIPTION" = "ピンインで簡体字中国語を入力します。多音字のすべての読みに対応。データ:pinyin-data、phrase-pinyin-data(MIT)、頻度は ICU。約 19 MB。";
+"JA_TITLE" = "日本語(ローマ字)";
+"JA_DESCRIPTION" = "ローマ字でひらがな・カタカナ・漢字を入力します。約 100 万語。データ:Mozc オープンソース辞書(IPAdic ライセンス)、ICU。約 45 MB。";
+"EN_TITLE" = "英語";
+"EN_DESCRIPTION" = "よく使われる順に並んだ英単語。データ:SCOWL。約 3 MB。";

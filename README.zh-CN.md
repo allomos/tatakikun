@@ -11,15 +11,20 @@
 
 ## 构建和安装
 
+**安装器。** `scripts/make-installer.sh` 生成 `build/Tatakikun-<版本>.pkg`(Apple 芯片和 Intel 的 Mac 都能用)。打开它,在 **自定** 页勾选要装的语言包:中文、日文、英文(默认全选)。只装给当前用户,不需要管理员密码。以后想改语言,再运行一次安装器;没勾选的语言包会被删除。
+
+这个安装包没有 Apple 开发者签名。在自己的 Mac 上生成的可以直接打开;从网上下载的第一次会被拦下:打开 系统设置 → 隐私与安全性,点 **仍要打开**。
+
+**从源码文件夹安装**(不用安装器):
+
 ```sh
-scripts/build.sh     # 构建 build/Tatakikun.app(第一次还会生成词库,约 1 分钟)
-scripts/install.sh   # 复制到 ~/Library/Input Methods
+scripts/build.sh            # 构建 app 和语言包(第一次会下载开源数据,约 80 MB)
+scripts/install.sh          # 安装全部三个语言包;也可以只装一部分,如 scripts/install.sh zh,en
 ```
 
-然后添加一次:系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun。
-如果列表里还没有,注销后重新登录。
+然后添加一次:系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun。不在列表里就注销再登录。
 
-不安装也能试用:`TATAKIKUN_DICT=build/dict .build/release/Tatakikun --demo`。
+不安装也能先试:`TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`。
 
 ## 按键
 
@@ -55,19 +60,22 @@ Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更�
 
 ## 词库
 
-在这台 Mac 上用 macOS 自带的数据生成:ICU 数据文件(`/usr/share/icu`)中带词频的中日韩词表、
-系统的拼音和日文读音转换,以及系统的英文拼写检查。不下载任何东西。系统转换每个字只给一个读音,
-所以常见多音字(行 xing/hang、长 chang/zhang……)列在 `Sources/tatakikun-dictgen/Polyphones.swift`
-里,每个词按所有读音建立索引。`tatakikun-dictgen` 生成 `build/dict/zh.tsv` 和 `build/dict/ja.tsv`
-(`读音<TAB>词<TAB>代价`)。
+每种语言是一个 **语言包**,装在 `~/Library/Application Support/Tatakikun/Packs/<zh|ja|en>`;没装的语言不出候选(键入的原始字母串始终会出现)。
+
+| 语言包 | 数据来源 | 许可证 |
+| --- | --- | --- |
+| 中文 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(每个字的全部读音)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(约 40 万词的读音)、ICU 的词频 | MIT;Unicode License V3 |
+| 日文 | [Mozc 开源词典](https://github.com/google/mozc/tree/master/src/data/dictionary_oss)(约 100 万词及读音)、ICU 的词表和词频 | IPAdic 等(见其 README);Unicode License V3 |
+| 英文 | [SCOWL](http://wordlist.aspell.net/),用它的分级作为词频 | SCOWL 的宽松许可 |
+
+`scripts/fetch-sources.sh` 下载这些数据,固定到具体版本并校验 SHA-256;`scripts/build-packs.sh` 在 `build/packs` 生成语言包,每个都附带其数据的 LICENSE.txt。ICU 部分来自本机(`/usr/share/icu`):`tatakikun-dictgen` 把它的中日词表读进 `build/dict`。词库是内存映射的 `.ttkd` 文件,再大也能瞬间启动。数据和语言包都不在这个仓库里。
 
 ## 开发
 
-- `swift test` — 引擎和按键处理的测试(需要 `build/dict`)。
-- `swift run -c release tatakikun-cli nihao ai toukyou` — 打印候选。
+- `swift test` — 引擎、按键和语言包的测试(需要 `build/dict` 和 `build/packs`:先运行 `scripts/build.sh`)。
+- `swift run -c release tatakikun-cli --packs build/packs nihao ai toukyou` — 打印候选。
 - `.build/release/Tatakikun --snapshot <字母> out.png [dark]` — 把候选条画成图片。
 
 ## 许可证
 
-MIT — 见 [LICENSE](LICENSE)。词库不包含在这个仓库里:它们在你的 Mac 上由 macOS 自带的数据
-(ICU,采用 Unicode 许可证)生成。
+MIT,见 [LICENSE](LICENSE)。语言包不在这个仓库里;每个语言包都附带其数据的许可证(见上面的“词库”)。
