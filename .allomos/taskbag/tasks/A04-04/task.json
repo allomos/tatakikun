@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-icon",
+  "id": "A04-04",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "切换输入法时选择条上的 Tatakikun 图标在选中状态显示为蓝白反色,而不是一整片蓝色"
+}
