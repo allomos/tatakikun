@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-20T12:53:46Z",
+  "by": "claude-goal-1",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Goal run"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. 在项目文件夹运行 `swift run -c release tatakikun-dictgen build/dict`(约 1 分钟)。\n2. 看到 `zh.tsv` 约 15.7 万条、`ja.tsv` 约 12 万条。\n3. `grep \"^ni'hao\" build/dict/zh.tsv` 应有“你好”;`grep \"^とうきょう\" build/dict/ja.tsv` 应有“東京”。\n"
+    }
+  ]
+}
