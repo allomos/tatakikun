@@ -22,6 +22,8 @@ public final class Engine {
     public var rowSize: Int
     /// At most this many candidates after the first row.
     public var maxMore = 200
+    /// Candidates chosen before rank higher; nil to rank by the dictionaries alone.
+    public var history: UserHistory?
 
     public init(chinese: Lexicon, japanese: Lexicon, english: EnglishLexicon, rowSize: Int = 9) {
         self.chinese = ChineseConverter(lexicon: chinese)
@@ -47,6 +49,7 @@ public final class Engine {
             found += chinese.candidates(for: input)
             found += japanese.candidates(for: input)
         }
+        found = found.map { learned($0, input) }
         let ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
 
         var row: [Candidate] = []
@@ -66,7 +69,7 @@ public final class Engine {
             partial += chinese.partialCandidates(for: input)
             partial += japanese.partialCandidates(for: input)
         }
-        let sortedPartial = Self.dedupe(partial.sorted { $0.cost < $1.cost })
+        let sortedPartial = Self.dedupe(partial.map { learned($0, input) }.sorted { $0.cost < $1.cost })
         if ranked.isEmpty {
             // Nothing matches all the letters yet (zhongg, arigat): show the best completions in the bar.
             row = Array(sortedPartial.filter { $0.text != input }.prefix(rowSize - 1)) + [raw]
@@ -74,6 +77,11 @@ public final class Engine {
         let rest = Self.dedupe((ranked + sortedPartial).sorted { $0.cost < $1.cost })
             .filter { c in !row.contains { $0.text == c.text } }
         return CandidateList(input: input, firstRow: row, more: Array(rest.prefix(maxMore)))
+    }
+
+    private func learned(_ c: Candidate, _ input: String) -> Candidate {
+        guard let boost = history?.boost(input: input, text: c.text), boost > 0 else { return c }
+        return Candidate(text: c.text, kind: c.kind, cost: c.cost - boost, isExact: c.isExact, consumed: c.consumed)
     }
 
     /// Keeps the cheapest candidate of each text (input already sorted by cost).

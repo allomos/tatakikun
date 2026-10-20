@@ -49,11 +49,17 @@ words that cover only the start of the letters (`nihaoma` → 你好); choosing 
 and keeps the remaining letters (`ma`) to go on typing. When nothing matches all the letters yet,
 the bar itself shows the best partial matches.
 
+Tatakikun learns: a candidate you choose ranks higher the next time you type the same letters.
+What it learned stays on this Mac in `~/Library/Application Support/Tatakikun/history.tsv`;
+delete that file to forget it.
+
 ## Dictionaries
 
 Built on this Mac from data macOS already has: the CJK word list in ICU's data file
 (`/usr/share/icu`, with word frequencies), the system's pinyin and Japanese reading transforms,
-and the system English spell checker. Nothing is downloaded. `tatakikun-dictgen` writes
+and the system English spell checker. Nothing is downloaded. Because the system transform gives
+one reading per character, common polyphonic characters (行 xing/hang, 长 chang/zhang, …) are
+listed in `Sources/tatakikun-dictgen/Polyphones.swift` and words are indexed under every reading. `tatakikun-dictgen` writes
 `build/dict/zh.tsv` and `build/dict/ja.tsv` (`reading<TAB>word<TAB>cost`).
 
 ## Development

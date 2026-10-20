@@ -33,6 +33,8 @@ if let i = arguments.firstIndex(of: "--snapshot"), i + 2 < arguments.count {
                                   appearance: arguments.contains("dark") ? .darkAqua : .aqua)
     exit(0)
 }
+// Learning from choices (not for snapshots, which should look the same every time).
+TatakikunApp.engine.history = UserHistory(url: UserHistory.defaultURL)
 if CommandLine.arguments.contains("--demo") {
     // A window that types through the same composer and panel, for trying Tatakikun without installing it.
     let demo = DemoWindow()

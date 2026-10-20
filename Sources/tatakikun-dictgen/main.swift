@@ -67,7 +67,10 @@ func keep(_ table: inout [String: Int], _ key: String, _ cost: Int) {
 
 for (word, cost) in words where word.count <= maxWordLength {
     if isAll(word, Kana.isHan), simplified(word) == word, let sylls = pinyinSyllables(word) {
-        keep(&zh, sylls.joined(separator: "'") + "\t" + word, cost)
+        // Other readings of polyphonic characters cost a little more than the transform's own.
+        for (i, reading) in pinyinReadings(word, default: sylls).enumerated() {
+            keep(&zh, reading.joined(separator: "'") + "\t" + word, cost + (i == 0 ? 0 : 5))
+        }
     }
     if let reading = japaneseReading(word) {
         keep(&ja, reading + "\t" + word, cost)
