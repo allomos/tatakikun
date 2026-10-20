@@ -7,6 +7,22 @@ public protocol EnglishLexicon {
     func completions(for prefix: String) -> [String]
     /// Likely intended words for a misspelling.
     func corrections(for word: String) -> [String]
+    /// The words typed as `input` and their costs (lower is more common).
+    func entries(for input: String) -> [(word: String, cost: Int)]
+    /// Completions with their costs.
+    func completionEntries(for prefix: String) -> [(word: String, cost: Int)]
+}
+
+extension EnglishLexicon {
+    /// Without word frequencies, longer words (less likely to be accidental) cost less.
+    public func entries(for input: String) -> [(word: String, cost: Int)] {
+        isWord(input) ? [(input, EnglishConverter.cost(forLength: input.count))] : []
+    }
+
+    /// Without word frequencies, completions cost by their place in the list.
+    public func completionEntries(for prefix: String) -> [(word: String, cost: Int)] {
+        completions(for: prefix).enumerated().map { ($0.element, 100 + 3 * $0.offset) }
+    }
 }
 
 /// English through the system spell checker (the same one TextEdit uses).
@@ -39,7 +55,7 @@ public struct EnglishConverter {
     public let lexicon: EnglishLexicon
     public init(lexicon: EnglishLexicon) { self.lexicon = lexicon }
 
-    /// No word frequencies are available, so longer words (less likely to be accidental) cost less.
+    /// For English without frequencies (the system spell checker): longer words cost less.
     static func cost(forLength n: Int) -> Int {
         switch n {
         case 5...: return 55
@@ -51,13 +67,13 @@ public struct EnglishConverter {
     }
 
     public func candidates(for input: String) -> [Candidate] {
-        lexicon.isWord(input) ? [Candidate(text: input, kind: .english, cost: Self.cost(forLength: input.count))] : []
+        lexicon.entries(for: input).map { Candidate(text: $0.word, kind: .english, cost: $0.cost) }
     }
 
     /// Completions of the input (compu → computer) and, for a misspelling, corrections.
     public func partialCandidates(for input: String, limit: Int = 20) -> [Candidate] {
-        var out = lexicon.completions(for: input).filter { $0 != input }.prefix(limit).enumerated().map {
-            Candidate(text: $0.element, kind: .english, cost: 100 + 3 * $0.offset, isExact: false)
+        var out = lexicon.completionEntries(for: input).filter { $0.word != input }.prefix(limit).map {
+            Candidate(text: $0.word, kind: .english, cost: $0.cost, isExact: false)
         }
         if input.count >= 3, !lexicon.isWord(input) {
             out += lexicon.corrections(for: input).prefix(5).enumerated().map {

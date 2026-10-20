@@ -3,15 +3,21 @@ import InputMethodKit
 import TatakikunCore
 
 enum TatakikunApp {
-    /// The dictionaries are in the app bundle's Resources/dict (or TATAKIKUN_DICT, for development).
+    /// The installed language packs (see LanguagePacks); TATAKIKUN_DICT, for development, uses the
+    /// base dictionaries in that folder with the system spell checker for English.
     static let engine: Engine = {
-        let folder = ProcessInfo.processInfo.environment["TATAKIKUN_DICT"].map { URL(fileURLWithPath: $0) }
-            ?? Bundle.main.resourceURL!.appendingPathComponent("dict")
         do {
-            return try Engine(dictionaryFolder: folder)
+            if let folder = ProcessInfo.processInfo.environment["TATAKIKUN_DICT"] {
+                return try Engine(dictionaryFolder: URL(fileURLWithPath: folder))
+            }
+            let engine = try Engine()
+            if engine.languages.isEmpty {
+                NSLog("Tatakikun: no language packs in \(LanguagePacks.defaultFolders.map(\.path)); only the letters as typed are offered")
+            }
+            return engine
         } catch {
-            NSLog("Tatakikun: cannot load dictionaries from \(folder.path): \(error)")
-            return Engine(chinese: Lexicon(entries: []), japanese: Lexicon(entries: []), english: SystemEnglish())
+            NSLog("Tatakikun: cannot load the language packs: \(error)")
+            return Engine(chinese: nil, japanese: nil, english: nil)
         }
     }()
     static let panel = CandidatePanel()

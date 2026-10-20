@@ -80,7 +80,8 @@ public final class Lexicon {
             if compareKey(r, p) != 0 { found.append(entry(r)) }
             i += 1
         }
-        found.sort { $0.cost < $1.cost }
+        // Most common first; of equally common words, the shorter (closer to what was typed).
+        found.sort { $0.cost != $1.cost ? $0.cost < $1.cost : ($0.key.count, $0.word) < ($1.key.count, $1.word) }
         return Array(found.prefix(limit))
     }
 
