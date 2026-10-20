@@ -1,0 +1,9 @@
+{
+  "area": "A01",
+  "blocked_by": [
+    "A01-04"
+  ],
+  "id": "A01-01",
+  "state": "blocked",
+  "title": "Goal: Tatakikun——英中日混合候选的 macOS 输入法"
+}

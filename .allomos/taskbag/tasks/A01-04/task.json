@@ -1,0 +1,11 @@
+{
+  "area": "A01",
+  "blocked_by": [
+    "A03-02",
+    "A02-05"
+  ],
+  "id": "A01-04",
+  "iteration": "I03",
+  "state": "blocked",
+  "title": "v0.3 验收检查:多音字和学习"
+}

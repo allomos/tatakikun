@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-20T12:48:16Z",
+  "via": "alm",
+  "command": "add iteration",
+  "kind": "iteration",
+  "id": "I01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "name",
+      "to": "v0.1"
+    },
+    {
+      "field": "order",
+      "to": 1
+    },
+    {
+      "field": "release",
+      "to": "v0.1"
+    }
+  ]
+}

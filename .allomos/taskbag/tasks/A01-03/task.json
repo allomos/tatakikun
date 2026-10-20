@@ -1,0 +1,11 @@
+{
+  "area": "A01",
+  "blocked_by": [
+    "A02-04",
+    "A04-02"
+  ],
+  "id": "A01-03",
+  "iteration": "I02",
+  "state": "blocked",
+  "title": "v0.2 验收检查:展开和不完全匹配"
+}

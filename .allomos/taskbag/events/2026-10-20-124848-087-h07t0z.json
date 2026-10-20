@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T12:48:48Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "v0.1 验收检查:从头到尾试用最小输入法"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "对照规格 1–7、9 试用 v0.1,写下让这个人试用的步骤。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

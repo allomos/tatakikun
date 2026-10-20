@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T12:48:48Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "候选条向下展开显示更多候选,并能滚动"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** ↓/Tab 展开成多行网格,可滚动,方向键移动选中。**Done means.** 演示窗口截图和按键测试。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

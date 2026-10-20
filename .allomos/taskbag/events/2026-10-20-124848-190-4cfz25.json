@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T12:48:48Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "v0.2 验收检查:展开和不完全匹配"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "对照规格 8 试用 v0.2,写下试用步骤。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

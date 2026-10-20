@@ -1,0 +1,10 @@
+{
+  "area": "A03",
+  "blocked_by": [
+    "A01-03"
+  ],
+  "id": "A03-02",
+  "iteration": "I03",
+  "state": "blocked",
+  "title": "常见多音字词能用正确读音打出来(如 yinhang→银行)"
+}

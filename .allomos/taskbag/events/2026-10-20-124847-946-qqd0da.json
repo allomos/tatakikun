@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T12:48:47Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "从本机数据生成中文拼音词库和日文读音词库"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 构建工具从 ICU cjdict 和系统转换生成 zh/ja 词库文件。**Done means.** 生成的词库里能查到 nihao→你好、toukyou→東京。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

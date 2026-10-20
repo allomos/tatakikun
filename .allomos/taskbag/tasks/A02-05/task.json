@@ -1,0 +1,10 @@
+{
+  "area": "A02",
+  "blocked_by": [
+    "A01-03"
+  ],
+  "id": "A02-05",
+  "iteration": "I03",
+  "state": "blocked",
+  "title": "记住用户选过的候选,下次排得更前"
+}

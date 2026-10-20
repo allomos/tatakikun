@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T12:48:47Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "键入拼音得到中文候选,包括整句(如 woaini→我爱你)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 拼音切分和按词频的整句转换。**Done means.** 单元测试:nihao、zhongguo、woaini 的首选正确。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

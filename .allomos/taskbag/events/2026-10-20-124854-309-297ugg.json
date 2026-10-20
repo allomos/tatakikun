@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-20T12:48:54Z",
+  "via": "alm",
+  "command": "block",
+  "kind": "task",
+  "id": "A01-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "blocked"
+    },
+    {
+      "field": "blocked_by",
+      "to": [
+        "A03-02",
+        "A02-05"
+      ]
+    }
+  ]
+}
