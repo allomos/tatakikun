@@ -1,10 +1,8 @@
 {
   "area": "A04",
-  "blocked_by": [
-    "A02-07"
-  ],
+  "holder": "claude-packs",
   "id": "A04-05",
   "iteration": "I04",
-  "state": "blocked",
+  "state": "in_progress",
   "title": "安装器:安装时勾选要装的语言包(中文、日文、英文)"
 }
