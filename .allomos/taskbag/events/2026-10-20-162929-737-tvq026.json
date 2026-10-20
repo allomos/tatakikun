@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T16:29:29Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "去掉字符集里的 Latn:否则 macOS 把 Tatakikun 当作 ASCII 输入源,英数键会切到 Tatakikun 而不是 ABC"
+    }
+  ]
+}
