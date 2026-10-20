@@ -1,1 +1,9 @@
 对照规格试用 v0.3,写下试用步骤。
+
+**Evidence**(2026-10-20,全新工作树,没有预先生成的词库):
+- `scripts/build.sh` 从零构建:生成词库(zh 180601 条,ja 120867 条)并打包 Tatakikun.app,用时 78 秒,app 7.2 MB。
+- `swift test`:21 个测试,0 失败(引擎 7、按键 6、展开 5、学习和多音字 2、假名 1)。
+- 规格 2–8 的命令行结果:hello→hello;nihao→你好;zhongguo→中国;woaini→我爱你;arigatou→ありがとう/アリガトウ;toukyou→東京/とうきょう/トウキョウ;ai→爱/愛/あい/アイ 同行;qwzx→qwzx;zhongg→中国;compu→computer。
+- v0.3:yinhang→银行、changcheng→长城 排第一;选过的候选下次排第一,学习记录写到磁盘并能读回(LearningTests)。
+- 输入法服务启动 4 秒未退出。
+- **未验证**:规格 1 和在系统里亲手使用,需要这个人试。
