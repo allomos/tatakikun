@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T15:10:54Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-08",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "只打辅音(nh、wtx)时,候选条按语言(英/中/日)各保证一个位置,而不是按 日/あ/ア 各一个:否则装了大词库后“你好”会被几个日文猜测挤出候选条"
+    }
+  ]
+}
