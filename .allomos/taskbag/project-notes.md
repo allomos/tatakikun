@@ -17,6 +17,8 @@ Nothing.
 - Keep `TISIntendedLanguage` = `zh-Hans`: with `en` (A04-06), macOS leaves Tatakikun out of the ⌘Space / Ctrl+Space list (reverted in A04-08, v0.5.1). `ja` does not make the かな key reach Tatakikun either (it only goes to Apple's Japanese input method).
 - macOS does not start Tatakikun after login (typing did nothing until a window change); input modes (`ComponentInputModeDict`), `LSUIElement` and `lsregister` did not help, and modes stop it starting even mid-session. install.sh and the installer add a login item (~/Library/LaunchAgents/com.tatakikun.inputmethod.Tatakikun.plist) instead (A04-09, v0.5.2).
 - Tests use the system spell checker for English (`SystemEnglish`); inside `xctest` its completions can come back empty (seen 2026-10-21), failing `testExpandedRowsIncludePartialMatches` while the app, which uses the en pack, is fine. Check with `tatakikun-cli --packs build/packs compu` before suspecting the code.
+- iOS (A01-11): `scripts/build-ios.sh [test]` builds `iOS/` for the simulator (and runs the UI tests); edit `iOS/project.yml` and regenerate with XcodeGen (`brew install xcodegen`), the generated project is committed. A simulator without a window never shows a third-party keyboard in other apps: the UI tests use the app's demo screen; the extension itself needs a person (or the Simulator app with its hardware keyboard off).
+- `ExpandTests.testExpandedRowsIncludePartialMatches` fails on master (seen 2026-10-21): with the base dictionaries, `compu` → computer comes from the Mac's spell checker, which no longer returns it. Not caused by A01-11.
 
 ## Repositories
 
