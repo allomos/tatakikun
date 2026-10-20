@@ -13,35 +13,48 @@ public final class Lexicon {
     private var byKey: [String: [LexiconEntry]] = [:]
     /// Distinct keys in sorted order, for prefix search.
     private var sortedKeys: [String] = []
+    /// Words by their abbreviation (see `Abbreviation`).
+    private var byAbbreviation: [String: [LexiconEntry]] = [:]
     public private(set) var maxKeyLength = 0
 
-    public init(entries: [LexiconEntry]) {
+    /// - Parameter abbreviated: each word's abbreviation, for `abbreviated(_:)`.
+    public init(entries: [LexiconEntry], abbreviated: [(abbreviation: String, entry: LexiconEntry)] = []) {
         for e in entries { byKey[e.key, default: []].append(e) }
         for k in byKey.keys {
             byKey[k]!.sort { $0.cost < $1.cost }
             maxKeyLength = max(maxKeyLength, k.count)
         }
         sortedKeys = byKey.keys.sorted()
+        for a in abbreviated { byAbbreviation[a.abbreviation, default: []].append(a.entry) }
+        for k in byAbbreviation.keys { byAbbreviation[k]!.sort { $0.cost < $1.cost } }
     }
 
     /// - Parameter normalizeKey: turns the key as written in the file into the typed key
     ///   (for pinyin, drops the `'` between syllables).
-    public convenience init(contentsOf url: URL, normalizeKey: (Substring) -> String = { String($0) }) throws {
+    /// - Parameter abbreviate: the abbreviation of the key as written in the file, if it has one.
+    public convenience init(contentsOf url: URL, normalizeKey: (Substring) -> String = { String($0) },
+                            abbreviate: (Substring) -> String? = { _ in nil }) throws {
         let text = try String(contentsOf: url, encoding: .utf8)
         var entries: [LexiconEntry] = []
+        var abbreviated: [(abbreviation: String, entry: LexiconEntry)] = []
         entries.reserveCapacity(160_000)
         for line in text.split(separator: "\n", omittingEmptySubsequences: true) {
             let parts = line.split(separator: "\t", omittingEmptySubsequences: false)
             guard parts.count == 3, let cost = Int(parts[2]) else { continue }
-            entries.append(LexiconEntry(key: normalizeKey(parts[0]), word: String(parts[1]), cost: cost))
+            let entry = LexiconEntry(key: normalizeKey(parts[0]), word: String(parts[1]), cost: cost)
+            entries.append(entry)
+            if let a = abbreviate(parts[0]) { abbreviated.append((a, entry)) }
         }
-        self.init(entries: entries)
+        self.init(entries: entries, abbreviated: abbreviated)
     }
 
     public var count: Int { byKey.values.reduce(0) { $0 + $1.count } }
 
     /// Words typed exactly as `key`, most common first.
     public func exact(_ key: String) -> [LexiconEntry] { byKey[key] ?? [] }
+
+    /// Words whose abbreviation is `abbreviation`, most common first.
+    public func abbreviated(_ abbreviation: String) -> [LexiconEntry] { byAbbreviation[abbreviation] ?? [] }
 
     /// Words whose key starts with `prefix` (excluding exact matches), most common first.
     public func prefixed(_ prefix: String, limit: Int) -> [LexiconEntry] {

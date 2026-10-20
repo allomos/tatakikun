@@ -41,6 +41,10 @@ enum Cost {
     static let completion = 40
     /// Added to a word that covers only the start of what was typed (nihaoma → 你好, then ma).
     static let leadingWord = 70
+    /// Added to a word typed by its consonants alone (nh → 你好).
+    static let abbreviation = 50
+    /// Added on top for Japanese: dropping every vowel of a reading leaves more words alike.
+    static let kanaAbbreviation = 20
     /// How many leading words of each length to offer.
     static let leadingPerLength = 3
 }
@@ -71,6 +75,15 @@ func segment(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil) ->
     return (words.reversed(), best[n] - Cost.perWord)
 }
 
+/// The most common words with any of these abbreviations.
+func abbreviated(_ keys: [String], in lexicon: Lexicon, limit: Int, extraCost: Int = 0,
+                 kind: (String) -> CandidateKind) -> [Candidate] {
+    keys.flatMap { lexicon.abbreviated($0).prefix(limit) }
+        .sorted { $0.cost < $1.cost }
+        .prefix(limit)
+        .map { Candidate(text: $0.word, kind: kind($0.word), cost: $0.cost + Cost.abbreviation + extraCost) }
+}
+
 /// Pinyin letters → simplified Chinese words and phrases.
 public struct ChineseConverter {
     public let lexicon: Lexicon
@@ -81,6 +94,9 @@ public struct ChineseConverter {
         var out = lexicon.exact(key).prefix(limit).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
         if let path = segment(Array(key), lexicon: lexicon), path.words.count > 1 {
             out.append(Candidate(text: path.words.joined(), kind: .chinese, cost: path.cost))
+        }
+        if Abbreviation.applies(to: key) {
+            out += abbreviated(Abbreviation.pinyinKeys(key), in: lexicon, limit: limit) { _ in .chinese }
         }
         return out
     }
@@ -114,6 +130,10 @@ public struct JapaneseConverter {
     }
 
     public func candidates(for input: String, limit: Int = 40) -> [Candidate] {
+        if Abbreviation.applies(to: input) {
+            return abbreviated(Abbreviation.kanaKeys(input), in: lexicon, limit: limit,
+                               extraCost: Cost.kanaAbbreviation, kind: Self.kind)
+        }
         guard let kana = Romaji.toHiragana(input), !kana.isEmpty else { return [] }
         var out = lexicon.exact(kana).prefix(limit).map { Candidate(text: $0.word, kind: Self.kind(of: $0.word), cost: $0.cost) }
         if let path = segment(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana), path.words.count > 1 {

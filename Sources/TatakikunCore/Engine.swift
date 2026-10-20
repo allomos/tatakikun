@@ -35,8 +35,9 @@ public final class Engine {
     /// Loads `zh.tsv` and `ja.tsv` from a folder made by tatakikun-dictgen.
     public convenience init(dictionaryFolder: URL, english: EnglishLexicon = SystemEnglish(), rowSize: Int = 9) throws {
         let zh = try Lexicon(contentsOf: dictionaryFolder.appendingPathComponent("zh.tsv"),
-                             normalizeKey: { $0.replacingOccurrences(of: "'", with: "") })
-        let ja = try Lexicon(contentsOf: dictionaryFolder.appendingPathComponent("ja.tsv"))
+                             normalizeKey: { $0.replacingOccurrences(of: "'", with: "") },
+                             abbreviate: Abbreviation.pinyin)
+        let ja = try Lexicon(contentsOf: dictionaryFolder.appendingPathComponent("ja.tsv"), abbreviate: Abbreviation.kana)
         self.init(chinese: zh, japanese: ja, english: english, rowSize: rowSize)
     }
 
