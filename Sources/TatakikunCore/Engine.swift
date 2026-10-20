@@ -32,12 +32,10 @@ public final class Engine {
         self.rowSize = rowSize
     }
 
-    /// Loads `zh.tsv` and `ja.tsv` from a folder made by tatakikun-dictgen.
+    /// Loads `zh.ttkd` and `ja.ttkd` from a folder made by tatakikun-dictgen.
     public convenience init(dictionaryFolder: URL, english: EnglishLexicon = SystemEnglish(), rowSize: Int = 9) throws {
-        let zh = try Lexicon(contentsOf: dictionaryFolder.appendingPathComponent("zh.tsv"),
-                             normalizeKey: { $0.replacingOccurrences(of: "'", with: "") },
-                             abbreviate: Abbreviation.pinyin)
-        let ja = try Lexicon(contentsOf: dictionaryFolder.appendingPathComponent("ja.tsv"), abbreviate: Abbreviation.kana)
+        let zh = try DictionaryFiles.open(DictionaryFiles.chinese, in: dictionaryFolder, compile: DictionaryFiles.compileChinese)
+        let ja = try DictionaryFiles.open(DictionaryFiles.japanese, in: dictionaryFolder, compile: DictionaryFiles.compileJapanese)
         self.init(chinese: zh, japanese: ja, english: english, rowSize: rowSize)
     }
 
