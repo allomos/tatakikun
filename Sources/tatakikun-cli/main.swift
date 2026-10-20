@@ -1,0 +1,1 @@
+print("tatakikun-cli")
