@@ -1,0 +1,8 @@
+{
+  "area": "A02",
+  "holder": "claude-momentum",
+  "id": "A02-08",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "连续输入同一种语言时,下一个词优先排这种语言(如连续打英文时 hen 排在“很”前面)"
+}

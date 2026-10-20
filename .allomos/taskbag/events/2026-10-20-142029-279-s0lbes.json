@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T14:20:29Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-08",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "连续输入同一种语言时,下一个词优先排这种语言(如连续打英文时 hen 排在“很”前面)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 记住刚上屏的候选是哪种语言(英、中、日),下一次输入时同语言候选的代价降低,连续打英文句子时短英文词排到前面,中文、日文也一样。\n\n**Done means.** 测试:上屏英文词后键入 hen,hen 排在“很”前面;上屏中文后键入 hen,“很”仍在前;回车上屏原始串算英文;Esc 取消或长时间不输入不影响。\n\n**Notes.** 来自“英文短词排在中文后面”的讨论,第 2 层;第 1 层(英文词频)由 A03-06 负责。这个人 2026-10-20 同意做。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
