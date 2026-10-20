@@ -68,4 +68,13 @@ final class LanguagePackEngineTests: XCTestCase {
         let women = e.candidates(for: "women").firstRow.map(\.text)
         XCTAssertLessThan(women.firstIndex(of: "women")!, 2, "\(women)")
     }
+
+    func testAbbreviationsWithFullPacks() throws {
+        let e = try engine([.zh, .ja, .en])
+        XCTAssert(e.candidates(for: "nh").firstRow.contains { $0.text == "你好" }, "\(e.candidates(for: "nh").firstRow.map(\.text))")
+        XCTAssert(e.candidates(for: "zg").firstRow.contains { $0.text == "中国" })
+        let wtx = e.candidates(for: "wtx").firstRow.map(\.text)
+        XCTAssert(wtx.contains("私") && wtx.contains("わたし"), "\(wtx)")
+        XCTAssert(e.candidates(for: "nh").firstRow.contains { $0.text == "nh" })
+    }
 }
