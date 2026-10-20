@@ -2,4 +2,6 @@
 # Runs after the input method is installed: stops a running Tatakikun so the new one (and the
 # new language packs) are loaded the next time it is used.
 pkill -x Tatakikun 2>/dev/null
+# Tell LaunchServices about the new copy: macOS starts input methods through it.
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$HOME/Library/Input Methods/Tatakikun.app" 2>/dev/null
 exit 0

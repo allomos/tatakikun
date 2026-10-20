@@ -18,79 +18,14 @@
 	<string>0.5.2</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>ComponentInputModeDict</key>
-	<dict>
-		<key>tsInputModeListKey</key>
-		<dict>
-			<key>com.tatakikun.inputmethod.Tatakikun.Hans</key>
-			<dict>
-				<key>TISIconIsTemplate</key>
-				<true/>
-				<key>TISInputSourceID</key>
-				<string>com.tatakikun.inputmethod.Tatakikun.Hans</string>
-				<key>TISIntendedLanguage</key>
-				<string>zh-Hans</string>
-				<key>tsInputModeCharacterRepertoireKey</key>
-				<array>
-					<string>Hans</string>
-					<string>Hira</string>
-					<string>Kana</string>
-				</array>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>Tatakikun.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>Tatakikun.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicode</string>
-			</dict>
-			<key>com.tatakikun.inputmethod.Tatakikun.Japanese</key>
-			<dict>
-				<key>TISIconIsTemplate</key>
-				<true/>
-				<key>TISInputSourceID</key>
-				<string>com.tatakikun.inputmethod.Tatakikun.Japanese</string>
-				<key>TISIntendedLanguage</key>
-				<string>ja</string>
-				<key>tsInputModeCharacterRepertoireKey</key>
-				<array>
-					<string>Hira</string>
-					<string>Kana</string>
-					<string>Hans</string>
-				</array>
-				<key>tsInputModeDefaultStateKey</key>
-				<true/>
-				<key>tsInputModeIsVisibleKey</key>
-				<true/>
-				<key>tsInputModeMenuIconFileKey</key>
-				<string>Tatakikun.tiff</string>
-				<key>tsInputModePaletteIconFileKey</key>
-				<string>Tatakikun.tiff</string>
-				<key>tsInputModePrimaryInScriptKey</key>
-				<true/>
-				<key>tsInputModeScriptKey</key>
-				<string>smUnicode</string>
-			</dict>
-		</dict>
-		<key>tsVisibleInputModeOrderedArrayKey</key>
-		<array>
-			<string>com.tatakikun.inputmethod.Tatakikun.Hans</string>
-			<string>com.tatakikun.inputmethod.Tatakikun.Japanese</string>
-		</array>
-	</dict>
 	<key>InputMethodConnectionName</key>
 	<string>com.tatakikun.inputmethod.Tatakikun_Connection</string>
 	<key>InputMethodServerControllerClass</key>
 	<string>TatakikunInputController</string>
-	<key>LSBackgroundOnly</key>
-	<true/>
 	<key>LSMinimumSystemVersion</key>
 	<string>13.0</string>
+	<key>LSUIElement</key>
+	<true/>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>TISIconIsTemplate</key>
@@ -98,7 +33,7 @@
 	<key>TISInputSourceID</key>
 	<string>com.tatakikun.inputmethod.Tatakikun</string>
 	<key>TISIntendedLanguage</key>
-	<string>zh-Hans</string>
+	<string>ja</string>
 	<key>tsInputMethodCharacterRepertoireKey</key>
 	<array>
 		<string>Hans</string>

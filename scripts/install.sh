@@ -16,6 +16,8 @@ mkdir -p "$DEST" "$PACKS"
 pkill -x Tatakikun 2>/dev/null || true
 rm -rf "$DEST/Tatakikun.app"
 cp -R build/Tatakikun.app "$DEST/"
+# Tell LaunchServices about the new copy: macOS starts input methods through it.
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$DEST/Tatakikun.app"
 for lang in zh ja en; do
     rm -rf "$PACKS/$lang"
     case ",$LANGS," in *,$lang,*) cp -R build/packs/$lang "$PACKS/$lang" ;; esac
