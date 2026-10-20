@@ -85,6 +85,7 @@ public final class Composer {
             return choose(selected)
         case .enter:
             engine.history?.record(input: input, text: input)
+            engine.noteInserted(.raw)
             return commit(input, script: .latin)
         case .digit(let n):
             let row = rows.indices.contains(selectedRow) ? rows[selectedRow] : []
@@ -111,6 +112,7 @@ public final class Composer {
             // Insert the selected candidate, then the punctuation in its script.
             let candidate = selected?.consumed == nil ? selected : nil
             let script = TextScript(candidate?.kind ?? .raw)
+            engine.noteInserted(candidate?.kind ?? .raw)
             let text = (candidate?.text ?? input) + punctuation.convert(c, for: script)
             return commit(text, script: script)
         }
@@ -128,6 +130,7 @@ public final class Composer {
         guard isComposing else { return nil }
         let candidate = selected?.consumed == nil ? selected : nil
         lastScript = TextScript(candidate?.kind ?? .raw)
+        engine.noteInserted(candidate?.kind ?? .raw)
         reset()
         return candidate?.text ?? input
     }
@@ -155,8 +158,12 @@ public final class Composer {
     }
 
     private func choose(_ candidate: Candidate?) -> ComposerUpdate {
-        guard let candidate else { return commit(input, script: .latin) }
+        guard let candidate else {
+            engine.noteInserted(.raw)
+            return commit(input, script: .latin)
+        }
         engine.history?.record(input: input, text: candidate.text)
+        engine.noteInserted(candidate.kind)
         if let n = candidate.consumed, n < input.count {
             // Covers only the start: insert it and keep composing the rest.
             lastScript = TextScript(candidate.kind)

@@ -68,6 +68,8 @@ final class InputController: IMKInputController {
     override func deactivateServer(_ sender: Any!) {
         commitComposition(sender)
         TatakikunApp.panel.hide()
+        // Another text field or app: what was typed here says nothing about the next word there.
+        TatakikunApp.engine.forgetRecent()
         super.deactivateServer(sender)
     }
 
