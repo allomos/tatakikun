@@ -21,11 +21,16 @@ enum TatakikunApp {
 let app = NSApplication.shared
 let arguments = CommandLine.arguments
 if let i = arguments.firstIndex(of: "--snapshot"), i + 2 < arguments.count {
-    // Tatakikun --snapshot <letters> <out.png> [dark]: draw the candidate bar for those letters and exit.
+    // Tatakikun --snapshot <letters> <out.png> [dark] [keys=down,right,...]: draw the panel after
+    // typing those letters (and pressing those keys), then exit.
     let composer = Composer(engine: TatakikunApp.engine)
     arguments[i + 1].forEach { _ = composer.handle(.letter($0)) }
-    try CandidateView.snapshot(composer, to: URL(fileURLWithPath: arguments[i + 2]),
-                               appearance: arguments.contains("dark") ? .darkAqua : .aqua)
+    let names: [String: Key] = ["down": .down, "up": .up, "left": .left, "right": .right, "tab": .tab, "esc": .escape]
+    for arg in arguments where arg.hasPrefix("keys=") {
+        for name in arg.dropFirst(5).split(separator: ",") { if let key = names[String(name)] { _ = composer.handle(key) } }
+    }
+    try PanelContentView.snapshot(composer, to: URL(fileURLWithPath: arguments[i + 2]),
+                                  appearance: arguments.contains("dark") ? .darkAqua : .aqua)
     exit(0)
 }
 if CommandLine.arguments.contains("--demo") {

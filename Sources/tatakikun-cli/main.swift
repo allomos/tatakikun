@@ -18,7 +18,7 @@ while let flag = args.first, flag.hasPrefix("--") {
 let engine = try Engine(dictionaryFolder: URL(fileURLWithPath: dict))
 func show(_ input: String) {
     let list = engine.candidates(for: input)
-    func fmt(_ c: Candidate) -> String { "\(c.text)[\(c.kind.tag)\(c.isExact ? "" : "…")]" }
+    func fmt(_ c: Candidate) -> String { "\(c.text)[\(c.kind.tag)\(c.consumed.map { "…\($0)" } ?? (c.isExact ? "" : "…"))]" }
     print("\(input): " + list.firstRow.enumerated().map { "\($0.offset + 1).\(fmt($0.element))" }.joined(separator: "  "))
     if moreCount > 0, !list.more.isEmpty {
         print("  more: " + list.more.prefix(moreCount).map(fmt).joined(separator: "  "))

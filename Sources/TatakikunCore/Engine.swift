@@ -20,6 +20,8 @@ public final class Engine {
     public let japanese: JapaneseConverter
     public let english: EnglishConverter
     public var rowSize: Int
+    /// At most this many candidates after the first row.
+    public var maxMore = 200
 
     public init(chinese: Lexicon, japanese: Lexicon, english: EnglishLexicon, rowSize: Int = 9) {
         self.chinese = ChineseConverter(lexicon: chinese)
@@ -59,8 +61,19 @@ public final class Engine {
             if row.count >= rowSize { row.removeLast() }
             row.append(ranked.first { $0.text == input } ?? raw)
         }
-        let more = ranked.filter { c in !row.contains { $0.text == c.text } }
-        return CandidateList(input: input, firstRow: row, more: more)
+        var partial = english.partialCandidates(for: input)
+        if letters {
+            partial += chinese.partialCandidates(for: input)
+            partial += japanese.partialCandidates(for: input)
+        }
+        let sortedPartial = Self.dedupe(partial.sorted { $0.cost < $1.cost })
+        if ranked.isEmpty {
+            // Nothing matches all the letters yet (zhongg, arigat): show the best completions in the bar.
+            row = Array(sortedPartial.filter { $0.text != input }.prefix(rowSize - 1)) + [raw]
+        }
+        let rest = Self.dedupe((ranked + sortedPartial).sorted { $0.cost < $1.cost })
+            .filter { c in !row.contains { $0.text == c.text } }
+        return CandidateList(input: input, firstRow: row, more: Array(rest.prefix(maxMore)))
     }
 
     /// Keeps the cheapest candidate of each text (input already sorted by cost).

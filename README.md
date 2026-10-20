@@ -24,10 +24,13 @@ Try it without installing: `TATAKIKUN_DICT=build/dict .build/release/Tatakikun -
 | letters | add to the input |
 | Space | insert the highlighted candidate (the first one unless moved) |
 | Return | insert the letters exactly as typed |
-| 1–9 | insert that candidate of the bar |
+| 1–9 | insert that candidate of the highlighted row |
 | ← → | move the highlight |
+| ↓ or Tab | expand the bar downward into more rows (then move down a row); the rows scroll |
+| ↑ | move up a row; from the first row, collapse |
 | Backspace | remove the last letter |
-| Esc | cancel |
+| Esc | collapse when expanded, otherwise cancel |
+| click | insert the clicked candidate |
 | punctuation | insert the highlighted candidate, then the punctuation |
 
 ## Candidate order
@@ -35,6 +38,12 @@ Try it without installing: `TATAKIKUN_DICT=build/dict .build/release/Tatakikun -
 The bar is ordered by cost (how common each word is), with two guarantees: the best candidate of
 every language that matched (EN, 中, 日 kanji, あ hiragana, ア katakana) is in the bar, and so are
 the letters as typed — ranked like any English word when they are one, otherwise in the last place.
+
+Expanded rows also hold partial matches (shown in gray): words that complete what you typed
+(`zhongg` → 中国, `compu` → computer, `arigat` → ありがとう), English spelling suggestions, and
+words that cover only the start of the letters (`nihaoma` → 你好); choosing one of those inserts it
+and keeps the remaining letters (`ma`) to go on typing. When nothing matches all the letters yet,
+the bar itself shows the best partial matches.
 
 ## Dictionaries
 

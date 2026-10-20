@@ -21,11 +21,14 @@ public struct Candidate: Equatable {
     public let kind: CandidateKind
     /// Lower is better; comparable across languages.
     public let cost: Int
-    /// False for candidates that only match the start of what was typed (shown when expanded).
+    /// False for candidates that do not match all of what was typed (shown when expanded).
     public var isExact: Bool = true
+    /// How many typed letters this candidate stands for, when it covers only the start of the input;
+    /// choosing it leaves the rest of the letters to go on typing. Nil means all of them.
+    public var consumed: Int?
 
-    public init(text: String, kind: CandidateKind, cost: Int, isExact: Bool = true) {
-        self.text = text; self.kind = kind; self.cost = cost; self.isExact = isExact
+    public init(text: String, kind: CandidateKind, cost: Int, isExact: Bool = true, consumed: Int? = nil) {
+        self.text = text; self.kind = kind; self.cost = cost; self.isExact = isExact; self.consumed = consumed
     }
 }
 
@@ -34,6 +37,12 @@ enum Cost {
     static let perWord = 30
     /// A kana with no dictionary word, passed through as itself.
     static let unknownKana = 150
+    /// Added to a word that only completes what was typed (zhongg → 中国).
+    static let completion = 40
+    /// Added to a word that covers only the start of what was typed (nihaoma → 你好, then ma).
+    static let leadingWord = 70
+    /// How many leading words of each length to offer.
+    static let leadingPerLength = 3
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).
@@ -75,6 +84,22 @@ public struct ChineseConverter {
         }
         return out
     }
+
+    /// Words that complete the input (its letters are the start of their pinyin), and words
+    /// that cover only the start of the input.
+    public func partialCandidates(for input: String, limit: Int = 40) -> [Candidate] {
+        let key = input.lowercased()
+        var out = lexicon.prefixed(key, limit: limit).map {
+            Candidate(text: $0.word, kind: .chinese, cost: $0.cost + Cost.completion, isExact: false)
+        }
+        let letters = Array(key)
+        for j in stride(from: letters.count - 1, through: 1, by: -1) {
+            for e in lexicon.exact(String(letters[0..<j])).prefix(Cost.leadingPerLength) {
+                out.append(Candidate(text: e.word, kind: .chinese, cost: e.cost + Cost.leadingWord, isExact: false, consumed: j))
+            }
+        }
+        return out
+    }
 }
 
 /// Romaji → hiragana, katakana, and Japanese words (kanji) by reading.
@@ -99,6 +124,30 @@ public struct JapaneseConverter {
         let plain = Cost.unknownKana + 15 * kana.count
         out.append(Candidate(text: kana, kind: .hiragana, cost: plain))
         out.append(Candidate(text: Kana.toKatakana(kana), kind: .katakana, cost: plain + 25))
+        return out
+    }
+
+    /// Words whose reading starts with what was typed (including a half-typed last syllable,
+    /// arigat → ありがとう), and words that cover only the start of the input.
+    public func partialCandidates(for input: String, limit: Int = 40) -> [Candidate] {
+        let lower = input.lowercased()
+        let (kana, rest) = Romaji.convert(lower)
+        var out: [Candidate] = []
+        if kana.count >= 2, Romaji.isPartialSyllable(rest) {
+            out += lexicon.prefixed(kana, limit: limit).map {
+                Candidate(text: $0.word, kind: Self.kind(of: $0.word), cost: $0.cost + Cost.completion, isExact: false)
+            }
+        }
+        let letters = Array(lower)
+        for j in stride(from: letters.count - 1, through: 1, by: -1) {
+            // Only cut where the letters before spell whole kana (not inside "kya" or a doubled consonant).
+            guard let head = Romaji.toHiragana(String(letters[0..<j])), head.count >= 2, !head.hasSuffix("っ"),
+                  !(letters[j - 1] == "n" && "aiueoy".contains(letters[j])) else { continue }
+            for e in lexicon.exact(head).prefix(Cost.leadingPerLength) {
+                out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost + Cost.leadingWord,
+                                     isExact: false, consumed: j))
+            }
+        }
         return out
     }
 }
