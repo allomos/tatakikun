@@ -1,7 +1,8 @@
 {
   "area": "A02",
+  "holder": "claude-goal-1",
   "id": "A02-01",
   "iteration": "I01",
-  "state": "ready",
+  "state": "in_progress",
   "title": "键入拼音得到中文候选,包括整句(如 woaini→我爱你)"
 }

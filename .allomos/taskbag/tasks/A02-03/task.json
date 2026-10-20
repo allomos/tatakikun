@@ -1,7 +1,8 @@
 {
   "area": "A02",
+  "holder": "claude-goal-1",
   "id": "A02-03",
   "iteration": "I01",
-  "state": "ready",
+  "state": "in_progress",
   "title": "英文单词识别,各语言候选合并排序,原始字母串始终在候选里"
 }

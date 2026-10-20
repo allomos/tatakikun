@@ -1,7 +1,8 @@
 {
   "area": "A02",
+  "holder": "claude-goal-1",
   "id": "A02-02",
   "iteration": "I01",
-  "state": "ready",
+  "state": "in_progress",
   "title": "键入罗马字得到平假名、片假名和日文汉字候选"
 }
