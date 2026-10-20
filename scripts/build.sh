@@ -11,6 +11,7 @@ rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp .build/release/Tatakikun "$APP/Contents/MacOS/"
 cp App/Info.plist "$APP/Contents/"
+cp -R App/Resources/ "$APP/Contents/Resources/"   # localized names of the input source
 swift scripts/make-icon.swift "$APP/Contents/Resources/Tatakikun.tiff"
 codesign --force --sign - "$APP"
 echo "Built $APP"
