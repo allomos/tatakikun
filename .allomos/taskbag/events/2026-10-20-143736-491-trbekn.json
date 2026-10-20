@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-20T14:37:36Z",
+  "by": "claude-packs",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Goal run"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. 在项目文件夹运行 `scripts/build.sh && scripts/install.sh`(会把已有的 build/dict 编译成 zh.ttkd / ja.ttkd)。\n2. 切到别的输入法再切回 Tatakikun:第一次按键几乎没有停顿。\n3. 照常输入 nihao、watashi、nh、wtx,结果和以前一样。\n"
+    }
+  ]
+}
