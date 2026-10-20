@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T13:06:40Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "不完全匹配:补全加代价 40,只覆盖开头的词加代价 70 并保留剩下的字母继续输入;一个都不完全匹配时,第一行用最好的补全填满"
+    }
+  ]
+}

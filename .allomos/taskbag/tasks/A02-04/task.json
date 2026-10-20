@@ -1,8 +1,11 @@
 {
   "area": "A02",
   "holder": "claude-goal-1",
+  "human_check_steps": "1. 在项目文件夹运行 `scripts/build.sh` 和 `scripts/install.sh`(已安装过也要重跑,脚本会重启输入法)。\n2. 在“文本编辑”里用 Tatakikun 键入 `ai`,按 ↓:候选条向下展开成多行,右上角显示“↑ 收起 Esc”;继续按 ↓ 到第 7 行以后,面板会滚动;也可以用触控板滚动。\n3. 在展开状态按数字键:选的是高亮那一行的候选(那一行有编号)。按 ↑ 回到第一行再按 ↑ 收起;Esc 也收起。\n4. 键入 `zhongg`:候选条里有灰色的“中国”;键入 `compu` 有 computer;键入 `nihaoma` 按 ↓ 找到灰色的“你好”,选中后上屏“你好”,剩下 `ma` 继续输入。\n5. 用鼠标点一个候选,它会上屏。\n",
   "id": "A02-04",
   "iteration": "I02",
-  "state": "in_progress",
-  "title": "不完全匹配的候选:拼音/假名前缀匹配、英文补全和拼写建议"
+  "label": "locally verified",
+  "state": "done",
+  "title": "不完全匹配的候选:拼音/假名前缀匹配、英文补全和拼写建议",
+  "without_human_check": "Goal run"
 }
