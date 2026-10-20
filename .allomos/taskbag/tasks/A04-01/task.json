@@ -1,8 +1,11 @@
 {
   "area": "A04",
   "holder": "claude-goal-1",
+  "human_check_steps": "1. 在项目文件夹运行 `scripts/build.sh`,然后 `scripts/install.sh`。\n2. 系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun(不在列表里就注销再登录)。\n3. 打开“文本编辑”,切换到 Tatakikun(菜单栏“た”图标)。\n4. 键入 `nihao`:字母带下划线,下面出现横向候选条,按空格上屏“你好”;键入 `toukyou` 按 3 上屏第 3 个候选;键入 `qwzx` 按回车上屏 `qwzx`;Esc 取消,退格删字母。\n",
   "id": "A04-01",
   "iteration": "I01",
-  "state": "in_progress",
-  "title": "在任何应用里用 Tatakikun 输入:横向候选条、数字选择、空格/回车上屏"
+  "label": "locally verified",
+  "state": "done",
+  "title": "在任何应用里用 Tatakikun 输入:横向候选条、数字选择、空格/回车上屏",
+  "without_human_check": "Goal run"
 }

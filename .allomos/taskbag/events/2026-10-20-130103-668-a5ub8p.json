@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T13:01:03Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "候选条自绘(NSPanel),不用 IMKCandidates:IMKCandidates 难以做横向条加向下展开和滚动"
+    }
+  ]
+}
