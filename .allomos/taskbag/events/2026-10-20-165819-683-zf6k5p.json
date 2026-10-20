@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-20T16:58:19Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "登录时启动改用登录项(LaunchAgent):试过输入模式、日本語分类、LSUIElement、lsregister 注册,登录后都仍不启动;输入模式还让它在会话中选中时也不启动,已去掉。かな 键只会切到 Apple 的日本語输入法,改分类也无效,不处理。"
+    }
+  ]
+}

@@ -14,7 +14,9 @@ Nothing.
 - A new input method shows up in System Settings only after it is in ~/Library/Input Methods, sometimes only after logging out and in. After reinstalling, `scripts/install.sh` kills the running Tatakikun so the new one loads. Changes to Info.plist input-source keys (such as `TISIntendedLanguage`) are cached by the system: call `TISRegisterInputSource` on ~/Library/Input Methods/Tatakikun.app (or log out and in) before checking them.
 - Task worktrees live in ../tatakikun-wt/<task>; copy build/dict, build/sources and build/packs into a new worktree rather than regenerating (../tatakikun-wt/cache has copies).
 - After many reinstalls in one session, the ⌘Space / Ctrl+Space input source list can stop appearing altogether (the source still switches), even with Tatakikun removed; logging out does not fix it, restarting the Mac does.
-- Keep `TISIntendedLanguage` = `zh-Hans`: with `en` (A04-06), macOS leaves Tatakikun out of the ⌘Space / Ctrl+Space list (reverted in A04-08, v0.5.1).
+- Keep `TISIntendedLanguage` = `zh-Hans`: with `en` (A04-06), macOS leaves Tatakikun out of the ⌘Space / Ctrl+Space list (reverted in A04-08, v0.5.1). `ja` does not make the かな key reach Tatakikun either (it only goes to Apple's Japanese input method).
+- macOS does not start Tatakikun after login (typing did nothing until a window change); input modes (`ComponentInputModeDict`), `LSUIElement` and `lsregister` did not help, and modes stop it starting even mid-session. install.sh and the installer add a login item (~/Library/LaunchAgents/com.tatakikun.inputmethod.Tatakikun.plist) instead (A04-09, v0.5.2).
+- Tests use the system spell checker for English (`SystemEnglish`); inside `xctest` its completions can come back empty (seen 2026-10-21), failing `testExpandedRowsIncludePartialMatches` while the app, which uses the en pack, is fine. Check with `tatakikun-cli --packs build/packs compu` before suspecting the code.
 
 ## Repositories
 
