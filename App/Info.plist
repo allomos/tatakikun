@@ -41,5 +41,7 @@
 	</array>
 	<key>tsInputMethodIconFileKey</key>
 	<string>Tatakikun.tiff</string>
+	<key>TISIconIsTemplate</key>
+	<true/>
 </dict>
 </plist>
