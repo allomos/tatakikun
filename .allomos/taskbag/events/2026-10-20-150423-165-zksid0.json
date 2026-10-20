@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T15:04:23Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "安装器:productbuild 的 .pkg,打开时直接显示“自定”页;只装到当前用户(~/Library),不需要管理员密码;app 必装,三个语言包默认全选;重新安装时先删掉旧语言包,所以装好的语言总是和勾选一致;学习记录保留"
+    }
+  ]
+}

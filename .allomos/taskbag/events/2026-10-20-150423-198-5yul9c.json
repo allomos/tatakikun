@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T15:04:23Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "安装器同时支持 Apple 芯片和 Intel(通用二进制);没有 Developer ID 签名和公证(需要 Apple 账号,是对外操作,未做);欢迎页和选项名有英文、简体中文、日文"
+    }
+  ]
+}

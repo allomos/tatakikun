@@ -1,8 +1,11 @@
 {
   "area": "A04",
   "holder": "claude-packs",
+  "human_check_steps": "1. 在项目文件夹运行 `scripts/make-installer.sh`,生成 build/Tatakikun-0.4.0.pkg(约 20 MB)。\n2. 双击打开它:欢迎页之后会直接到“自定”页,有“Tatakikun 输入法”(必装,灰色)和中文、日文、英文三个勾选框(默认全选)。\n3. 只勾中文和英文,继续安装:不需要管理员密码。装好后切到 Tatakikun,键入 `ai`:只有中文和英文候选,没有日文。\n4. 再运行一次安装器、三个都勾上:`ai` 又出现 あい、アイ、愛。\n5. 看一下 ~/Library/Application Support/Tatakikun/Packs:只有勾选的语言文件夹,各带 LICENSE.txt。\n",
   "id": "A04-05",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "安装器:安装时勾选要装的语言包(中文、日文、英文)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "安装器:安装时勾选要装的语言包(中文、日文、英文)",
+  "without_human_check": "Goal run"
 }
