@@ -43,10 +43,20 @@ final class InputController: IMKInputController {
             }
             return false
         }
+        composer.textBeforeCursor = { [weak client] in client.flatMap(Self.textBeforeCursor) }
         let update = composer.handle(key)
         if let text = update.commit { client.insertText(text, replacementRange: Self.noRange) }
         refresh(client)
         return update.handled
+    }
+
+    /// The last few characters before the cursor; nil when the application does not tell.
+    static func textBeforeCursor(_ client: IMKTextInput & NSObjectProtocol) -> String? {
+        let selection = client.selectedRange()
+        guard selection.location != NSNotFound else { return nil }
+        guard selection.location > 0 else { return "" }
+        let length = min(selection.location, 4)
+        return client.attributedSubstring(from: NSRange(location: selection.location - length, length: length))?.string
     }
 
     override func commitComposition(_ sender: Any!) {

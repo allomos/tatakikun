@@ -23,9 +23,14 @@ public struct ComposerUpdate: Equatable {
 /// (the first one unless moved); Return inserts the letters as typed; 1–9 insert that candidate
 /// of the selected row; ←/→ move the selection; ↓ or Tab expands the bar into more rows (and then
 /// moves down a row), ↑ moves up a row and collapses from the first; Backspace removes a letter;
-/// Esc collapses, or cancels when not expanded. Another typed character inserts the selected
-/// candidate and is then typed as usual. Choosing a candidate that covers only the start of the
-/// letters inserts it and leaves the rest to go on typing.
+/// Esc collapses, or cancels when not expanded. Punctuation inserts the selected candidate and
+/// then the punctuation, full-width after Chinese or Japanese candidates and as typed after
+/// English ones. Choosing a candidate that covers only the start of the letters inserts it and
+/// leaves the rest to go on typing.
+///
+/// Not composing, punctuation and Space follow the text before the cursor (`textBeforeCursor`,
+/// or what was inserted last when the application does not tell): full-width after Chinese or
+/// Japanese, otherwise left to the application.
 public final class Composer {
     public let engine: Engine
     public private(set) var input = ""
@@ -38,6 +43,11 @@ public final class Composer {
     public private(set) var selectedColumn = 0
     /// Candidates per row when expanded.
     public var columns = 9
+    /// The text before the cursor in the document, when the application tells it.
+    public var textBeforeCursor: (() -> String?)?
+    /// The script of what was inserted last.
+    public private(set) var lastScript = TextScript.latin
+    private var punctuation = Punctuation()
 
     public init(engine: Engine) { self.engine = engine }
 
@@ -52,9 +62,17 @@ public final class Composer {
 
     public func handle(_ key: Key) -> ComposerUpdate {
         if !isComposing {
-            guard case .letter(let c) = key else { return ComposerUpdate(handled: false) }
-            setInput(String(c))
-            return ComposerUpdate(handled: true)
+            switch key {
+            case .letter(let c):
+                setInput(String(c))
+                return ComposerUpdate(handled: true)
+            case .space:
+                return typeAsScript(" ")
+            case .other(let c):
+                return typeAsScript(c)
+            default:
+                return ComposerUpdate(handled: false)
+            }
         }
         switch key {
         case .letter(let c):
@@ -67,7 +85,7 @@ public final class Composer {
             return choose(selected)
         case .enter:
             engine.history?.record(input: input, text: input)
-            return commit(input)
+            return commit(input, script: .latin)
         case .digit(let n):
             let row = rows.indices.contains(selectedRow) ? rows[selectedRow] : []
             guard n >= 1, n <= row.count else { return ComposerUpdate(handled: true) }
@@ -89,11 +107,12 @@ public final class Composer {
                 selectedRow -= 1
                 selectedColumn = min(selectedColumn, rows[selectedRow].count - 1)
             } else if isExpanded { collapse() }
-        case .other:
-            // Insert the selected candidate, then let the application type the character.
-            var update = commit(selected?.consumed == nil ? (selected?.text ?? input) : input)
-            update.handled = false
-            return update
+        case .other(let c):
+            // Insert the selected candidate, then the punctuation in its script.
+            let candidate = selected?.consumed == nil ? selected : nil
+            let script = TextScript(candidate?.kind ?? .raw)
+            let text = (candidate?.text ?? input) + punctuation.convert(c, for: script)
+            return commit(text, script: script)
         }
         return ComposerUpdate(handled: true)
     }
@@ -107,9 +126,10 @@ public final class Composer {
     /// Ends composition, inserting the selected candidate (used when the input method is switched away).
     public func finish() -> String? {
         guard isComposing else { return nil }
-        let text = selected?.consumed == nil ? (selected?.text ?? input) : input
+        let candidate = selected?.consumed == nil ? selected : nil
+        lastScript = TextScript(candidate?.kind ?? .raw)
         reset()
-        return text
+        return candidate?.text ?? input
     }
 
     public func reset() { setInput("") }
@@ -135,18 +155,28 @@ public final class Composer {
     }
 
     private func choose(_ candidate: Candidate?) -> ComposerUpdate {
-        guard let candidate else { return commit(input) }
+        guard let candidate else { return commit(input, script: .latin) }
         engine.history?.record(input: input, text: candidate.text)
         if let n = candidate.consumed, n < input.count {
             // Covers only the start: insert it and keep composing the rest.
+            lastScript = TextScript(candidate.kind)
             setInput(String(input.dropFirst(n)))
             return ComposerUpdate(handled: true, commit: candidate.text)
         }
-        return commit(candidate.text)
+        return commit(candidate.text, script: TextScript(candidate.kind))
     }
 
-    private func commit(_ text: String) -> ComposerUpdate {
+    private func commit(_ text: String, script: TextScript) -> ComposerUpdate {
+        lastScript = script
         reset()
         return ComposerUpdate(handled: true, commit: text)
+    }
+
+    /// Not composing: types `c` full-width after Chinese or Japanese text, or lets the application type it.
+    private func typeAsScript(_ c: Character) -> ComposerUpdate {
+        let script = Punctuation.script(before: textBeforeCursor?(), fallback: lastScript)
+        lastScript = script
+        let text = punctuation.convert(c, for: script)
+        return text == String(c) ? ComposerUpdate(handled: false) : ComposerUpdate(handled: true, commit: text)
     }
 }

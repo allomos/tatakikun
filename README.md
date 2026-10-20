@@ -37,7 +37,9 @@ Try it without installing: `TATAKIKUN_DICT=build/dict .build/release/Tatakikun -
 | Backspace | remove the last letter |
 | Esc | collapse when expanded, otherwise cancel |
 | click | insert the clicked candidate |
-| punctuation | insert the highlighted candidate, then the punctuation |
+| punctuation | insert the highlighted candidate, then the punctuation: full-width after a Chinese or Japanese candidate (`，` `。` / `、` `。` `「」`), as typed after an English one |
+
+Not typing, punctuation and Space follow the text before the cursor: full-width (`，` `、` and a full-width space) after Chinese or Japanese, as typed after English.
 
 ## Candidate order
 

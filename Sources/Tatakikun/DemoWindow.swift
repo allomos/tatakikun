@@ -21,7 +21,14 @@ final class DemoWindow: NSWindow {
 }
 
 final class DemoTextView: NSTextView {
-    private let composer = Composer(engine: TatakikunApp.engine)
+    private lazy var composer: Composer = {
+        let composer = Composer(engine: TatakikunApp.engine)
+        composer.textBeforeCursor = { [weak self] in
+            guard let self, let text = self.textStorage?.string as NSString? else { return nil }
+            return text.substring(to: min(self.selectedRange().location, text.length))
+        }
+        return composer
+    }()
 
     override func keyDown(with event: NSEvent) {
         guard let key = composerKey(for: event) else {

@@ -43,10 +43,59 @@ final class ComposerTests: XCTestCase {
         XCTAssertEqual(c.handle(.backspace).handled, false, "backspace passes through when not composing")
     }
 
-    func testPunctuationCommitsThenPassesThrough() throws {
+    func testPunctuationAfterEnglishIsHalfWidth() throws {
         let c = try composer()
         type("hello", into: c)
-        XCTAssertEqual(c.handle(.other(",")), ComposerUpdate(handled: false, commit: "hello"))
+        XCTAssertEqual(c.handle(.other(",")), ComposerUpdate(handled: true, commit: "hello,"))
+        XCTAssertEqual(c.handle(.other(".")).handled, false, "idle after English: the application types it")
+        XCTAssertEqual(c.handle(.space).handled, false)
+    }
+
+    func testPunctuationAfterChineseIsFullWidth() throws {
+        let c = try composer()
+        type("nihao", into: c)
+        XCTAssertEqual(c.handle(.other(",")).commit, "你好，")
+        XCTAssertEqual(c.handle(.other("?")).commit, "？", "idle: follows what was inserted last")
+        XCTAssertEqual(c.handle(.space).commit, "\u{3000}")
+        XCTAssertEqual(c.handle(.other("\"")).commit, "“")
+        XCTAssertEqual(c.handle(.other("\"")).commit, "”")
+    }
+
+    func testPunctuationAfterJapaneseIsFullWidth() throws {
+        let c = try composer()
+        type("konnichiha", into: c)
+        let column = try XCTUnwrap(c.rows[0].firstIndex { $0.kind == .hiragana })
+        (0..<column).forEach { _ in _ = c.handle(.right) }
+        let hiragana = c.rows[0][column].text
+        XCTAssertEqual(c.handle(.other(".")).commit, hiragana + "。")
+        XCTAssertEqual(c.handle(.other(",")).commit, "、")
+        XCTAssertEqual(c.handle(.other("[")).commit, "「")
+    }
+
+    func testPunctuationFollowsTextBeforeCursor() throws {
+        let c = try composer()
+        var before: String? = "这是"
+        c.textBeforeCursor = { before }
+        XCTAssertEqual(c.handle(.other(",")).commit, "，")
+        before = "ですね"
+        XCTAssertEqual(c.handle(.other(",")).commit, "、")
+        XCTAssertEqual(c.handle(.space).commit, "\u{3000}")
+        before = "Hi"
+        XCTAssertFalse(c.handle(.other(",")).handled)
+        XCTAssertFalse(c.handle(.space).handled)
+        before = nil
+        XCTAssertFalse(c.handle(.other(",")).handled, "unknown: follows what was judged last")
+    }
+
+    func testScriptBeforeText() {
+        XCTAssertEqual(Punctuation.script(before: "東京", fallback: .japanese), .japanese)
+        XCTAssertEqual(Punctuation.script(before: "東京", fallback: .latin), .chinese)
+        XCTAssertEqual(Punctuation.script(before: "トウキョウ", fallback: .chinese), .japanese)
+        XCTAssertEqual(Punctuation.script(before: "「", fallback: .chinese), .japanese)
+        XCTAssertEqual(Punctuation.script(before: "，", fallback: .japanese), .chinese)
+        XCTAssertEqual(Punctuation.script(before: "abc 1", fallback: .chinese), .latin)
+        XCTAssertEqual(Punctuation.script(before: "line\n", fallback: .chinese), .chinese)
+        XCTAssertEqual(Punctuation.script(before: "", fallback: .latin), .latin)
     }
 
     func testNonLettersPassThroughWhenIdle() throws {
