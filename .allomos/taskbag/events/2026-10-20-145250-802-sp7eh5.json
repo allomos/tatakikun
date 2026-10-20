@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:52:50Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "英文用语言包的词频;3 个字母及以下的英文词代价 +10(hen 排在“很”后面,man 仍排第一);补全同频时短词优先;拼写纠正仍用系统拼写检查,但只保留语言包里有的词"
+    }
+  ]
+}
