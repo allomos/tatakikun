@@ -1,11 +1,9 @@
 {
   "area": "A04",
   "holder": "claude-icon",
-  "human_check_steps": "# 检查 A04-04:切换条上的 Tatakikun 图标\n\n1. 在 master 上运行 `scripts/build.sh && scripts/install.sh`(已在本机装好可跳过)。\n2. 注销并重新登录(系统会缓存输入法图标;不注销可能还看到旧样子)。\n3. 按住切换输入法的组合键(如 Control+空格 或 Fn/🌐),让选择条出现,移到 Tatakikun 上。\n4. 预期:选中时是蓝底白色的「た」方框图标,不是一整片蓝色;未选中时是深色图标。\n5. 再看菜单栏:浅色和深色模式下图标都清楚可见。\n",
   "id": "A04-04",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "切换输入法时选择条上的 Tatakikun 图标在选中状态显示为蓝白反色,而不是一整片蓝色",
-  "without_human_check": "切换条只在按住快捷键时出现,且系统缓存图标需注销后才生效,需要人亲眼看"
+  "title": "切换输入法时选择条上的 Tatakikun 图标在选中状态显示为蓝白反色,而不是一整片蓝色"
 }

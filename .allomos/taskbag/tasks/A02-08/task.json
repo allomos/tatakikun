@@ -1,11 +1,9 @@
 {
   "area": "A02",
   "holder": "claude-momentum",
-  "human_check_steps": "1. 在项目文件夹运行 `scripts/build.sh && scripts/install.sh`。\n2. 在“文本编辑”里用 Tatakikun:键入 `is` 按空格,再键入 `hen`:第一个候选是 hen(不是“很”)。\n3. 键入 `nihao` 按空格(上屏“你好”),再键入 `hen`:第一个是“很”。\n4. 等一分钟以上或切换到别的应用再回来,键入 `hen`:又是“很”在前。\n",
   "id": "A02-08",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "连续输入同一种语言时,下一个词优先排这种语言(如连续打英文时 hen 排在“很”前面)",
-  "without_human_check": "需要在真实应用里用输入法试一下"
+  "title": "连续输入同一种语言时,下一个词优先排这种语言(如连续打英文时 hen 排在“很”前面)"
 }
