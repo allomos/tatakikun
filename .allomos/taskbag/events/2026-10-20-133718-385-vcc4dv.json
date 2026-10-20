@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T13:37:18Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Tatakikun 以 MIT 协议在 GitHub allomos/tatakikun 公开"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 代码以 MIT 协议公开在 https://github.com/allomos/tatakikun 。**Done means.** 仓库公开可见,master 已推送,LICENSE 版权人 willwhui。**Notes.** 这个人在 2026-10-20 的对话里要求公开并选择:只把本机路径换成 ~/(改写了未推送的本地历史),保留提交作者邮箱。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

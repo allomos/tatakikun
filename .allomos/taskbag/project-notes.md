@@ -16,7 +16,8 @@ Nothing.
 
 Where the code and this taskbag are kept online, one list item each, so an agent working from a
 copy elsewhere (in the cloud, say) can find both: `- Code: https://github.com/<owner>/<repo>`.
-The address only: never a token or a personal detail. None yet.
+The address only: never a token or a personal detail.
+- Code and taskbag: https://github.com/allomos/tatakikun (public, MIT)
 
 ## Where credentials live
 

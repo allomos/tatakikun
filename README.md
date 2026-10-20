@@ -67,3 +67,8 @@ listed in `Sources/tatakikun-dictgen/Polyphones.swift` and words are indexed und
 - `swift test` — engine and key-handling tests (needs `build/dict`).
 - `swift run -c release tatakikun-cli nihao ai toukyou` — print candidates.
 - `.build/release/Tatakikun --snapshot <letters> out.png [dark]` — draw the candidate bar to an image.
+
+## License
+
+MIT — see [LICENSE](LICENSE). The dictionaries are not part of this repository: they are
+generated on your Mac from data macOS ships (ICU, under the Unicode license).
