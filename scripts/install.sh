@@ -21,5 +21,5 @@ for lang in zh ja en; do
     case ",$LANGS," in *,$lang,*) cp -R build/packs/$lang "$PACKS/$lang" ;; esac
 done
 echo "Installed $DEST/Tatakikun.app with language packs: $LANGS"
-echo "First time: System Settings > Keyboard > Text Input > Input Sources > Edit… > + > 简体中文 (Chinese, Simplified) > Tatakikun."
+echo "First time: System Settings > Keyboard > Text Input > Input Sources > Edit… > + > English > Tatakikun."
 echo "You may need to log out and back in before it appears in the list."

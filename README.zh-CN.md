@@ -22,7 +22,7 @@ scripts/build.sh            # 构建 app 和语言包(第一次会下载开源�
 scripts/install.sh          # 安装全部三个语言包;也可以只装一部分,如 scripts/install.sh zh,en
 ```
 
-然后添加一次:系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 简体中文 → Tatakikun。不在列表里就注销再登录。
+然后添加一次:系统设置 → 键盘 → 文字输入 → 输入法 → 编辑… → + → 英语 → Tatakikun。不在列表里就注销再登录。
 
 不安装也能先试:`TATAKIKUN_PACKS=build/packs .build/release/Tatakikun --demo`。
 
