@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T17:30:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "iOS reuses the Swift core as is (no new architecture): TatakikunCore builds for iOS, with UITextChecker in place of NSSpellChecker."
+    }
+  ]
+}

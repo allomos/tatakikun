@@ -1,7 +1,10 @@
 {
   "area": "A01",
   "holder": "claude-loop",
+  "human_check_steps": "# Check A01-11: the Tatakikun keyboard on iPhone/iPad\n\n1. `scripts/build-ios.sh` (or open `iOS/Tatakikun.xcodeproj` in Xcode), run the Tatakikun app on a simulator or on your own iPhone (Xcode: choose your device, sign with your Apple ID under Signing & Capabilities for both targets).\n2. Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun.\n3. In Notes (or any app), switch to Tatakikun with 🌐 and type:\n   - `woaini` → 我爱你 in the bar; tap it.\n   - `ai` → ai, 爱, あい side by side; ⌄ shows more rows (partial matches in gray).\n   - `arigatou` → ありがとう; `nh` → 你好; `compu` → computer (⌄ if not in the bar).\n   - Space inserts the first candidate; return inserts the letters as typed.\n   - After a Chinese word, `，` and `。` stay full-width; after an English word they become `,` `.`.\n   - Choose a lower candidate, type the same letters again: it comes first.\n4. Without step 2, the app's \"Try it here, without turning it on\" screen has the same keyboard.\n",
   "id": "A01-11",
-  "state": "in_progress",
-  "title": "iOS 版:在 iPhone/iPad 上用 Tatakikun 键盘输入英中日混合候选"
+  "label": "locally verified",
+  "state": "done",
+  "title": "iOS 版:在 iPhone/iPad 上用 Tatakikun 键盘输入英中日混合候选",
+  "without_human_check": "Keyboard extension inside other apps and on a real device needs a person; App Store release not approved (cost)"
 }

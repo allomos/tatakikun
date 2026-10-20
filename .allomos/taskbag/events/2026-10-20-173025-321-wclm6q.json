@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T17:30:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Xcode project generated with XcodeGen from iOS/project.yml (installed XcodeGen with Homebrew); the generated project is committed so Xcode alone can open it."
+    }
+  ]
+}

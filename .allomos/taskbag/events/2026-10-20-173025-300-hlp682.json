@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T17:30:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Keyboard layout: QWERTY + 123 layer, ，/。 keys that follow the language, ⌄ to expand; candidate rows of 5 when expanded. Bundle IDs com.tatakikun.ios.Tatakikun(.Keyboard), keyboard listed under zh-Hans like the Mac one."
+    }
+  ]
+}
