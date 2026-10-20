@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:18:46Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "缩写只匹配整词(两个音节或假名以上),不把缩写拼成句子"
+    }
+  ]
+}

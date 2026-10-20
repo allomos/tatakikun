@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T14:18:46Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "只有不含元音(a e i o u)的输入才按辅音缩写查,完整拼写的排序不变;因此以元音开头的拼音音节(如 爱 ai)不能缩写"
+    }
+  ]
+}
