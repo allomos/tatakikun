@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T14:02:38Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "README 有中文和日文版本"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** 仓库里有 README.zh-CN.md 和 README.ja.md,三个 README 顶部互相链接。**Done means.** GitHub 上三个版本都能打开,内容与英文版一致。**Notes.** 这个人在对话里要求。\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
