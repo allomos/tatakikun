@@ -1,7 +1,8 @@
 {
   "area": "A03",
+  "holder": "claude-packs",
   "id": "A03-03",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "词库改成内存映射的二进制格式:大词库也能瞬间启动、少占内存"
 }
