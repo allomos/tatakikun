@@ -13,7 +13,8 @@ Nothing.
 - Pack licenses: only permissive data (MIT, IPAdic, SCOWL, Unicode) — the person asked to avoid GPL data (2026-10-20).
 - A new input method shows up in System Settings only after it is in ~/Library/Input Methods, sometimes only after logging out and in. After reinstalling, `scripts/install.sh` kills the running Tatakikun so the new one loads. Changes to Info.plist input-source keys (such as `TISIntendedLanguage`) are cached by the system: call `TISRegisterInputSource` on ~/Library/Input Methods/Tatakikun.app (or log out and in) before checking them.
 - Task worktrees live in ../tatakikun-wt/<task>; copy build/dict, build/sources and build/packs into a new worktree rather than regenerating (../tatakikun-wt/cache has copies).
-- After many reinstalls in one session, the ⌘Space / Ctrl+Space input source list can stop appearing (the source still switches), even with Tatakikun removed; logging out does not fix it, restarting the Mac does. It is not Tatakikun's fault: do not revert changes over it.
+- After many reinstalls in one session, the ⌘Space / Ctrl+Space input source list can stop appearing altogether (the source still switches), even with Tatakikun removed; logging out does not fix it, restarting the Mac does.
+- Keep `TISIntendedLanguage` = `zh-Hans`: with `en` (A04-06), macOS leaves Tatakikun out of the ⌘Space / Ctrl+Space list (reverted in A04-08, v0.5.1).
 
 ## Repositories
 
