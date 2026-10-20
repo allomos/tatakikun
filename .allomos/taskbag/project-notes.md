@@ -8,9 +8,11 @@ Nothing.
 
 ## Pitfalls
 
-- Dictionaries are generated, not committed: `scripts/build.sh` makes `build/dict` from this Mac's ICU data (~1 min). Tests skip without it.
+- Dictionaries are generated, not committed: `scripts/build.sh` makes `build/dict` from this Mac's ICU data (~1 min), downloads the pinned open data into `build/sources` (~80 MB, `scripts/fetch-sources.sh`) and builds the language packs in `build/packs`. Tests skip without them.
+- The app has no dictionaries of its own: it reads language packs from ~/Library/Application Support/Tatakikun/Packs/<zh|ja|en> (installed by `scripts/install.sh` or the .pkg from `scripts/make-installer.sh`). For development set TATAKIKUN_PACKS=build/packs (or TATAKIKUN_DICT=build/dict for the base dictionaries).
+- Pack licenses: only permissive data (MIT, IPAdic, SCOWL, Unicode) — the person asked to avoid GPL data (2026-10-20).
 - A new input method shows up in System Settings only after it is in ~/Library/Input Methods, sometimes only after logging out and in. After reinstalling, `scripts/install.sh` kills the running Tatakikun so the new one loads.
-- Task worktrees live in ../tatakikun-wt/<task>; copy build/dict into a new worktree rather than regenerating.
+- Task worktrees live in ../tatakikun-wt/<task>; copy build/dict, build/sources and build/packs into a new worktree rather than regenerating (../tatakikun-wt/cache has copies).
 
 ## Repositories
 
