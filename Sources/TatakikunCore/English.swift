@@ -53,4 +53,17 @@ public struct EnglishConverter {
     public func candidates(for input: String) -> [Candidate] {
         lexicon.isWord(input) ? [Candidate(text: input, kind: .english, cost: Self.cost(forLength: input.count))] : []
     }
+
+    /// Completions of the input (compu → computer) and, for a misspelling, corrections.
+    public func partialCandidates(for input: String, limit: Int = 20) -> [Candidate] {
+        var out = lexicon.completions(for: input).filter { $0 != input }.prefix(limit).enumerated().map {
+            Candidate(text: $0.element, kind: .english, cost: 100 + 3 * $0.offset, isExact: false)
+        }
+        if input.count >= 3, !lexicon.isWord(input) {
+            out += lexicon.corrections(for: input).prefix(5).enumerated().map {
+                Candidate(text: $0.element, kind: .english, cost: 120 + 3 * $0.offset, isExact: false)
+            }
+        }
+        return out
+    }
 }

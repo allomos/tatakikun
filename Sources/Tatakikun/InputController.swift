@@ -35,8 +35,8 @@ final class InputController: IMKInputController {
     }
 
     override func handle(_ event: NSEvent!, client sender: Any!) -> Bool {
-        guard let event, let client = sender as? IMKTextInput, let key = composerKey(for: event) else {
-            if composer.isComposing, let client = sender as? IMKTextInput, event?.type == .keyDown {
+        guard let event, let client = sender as? (IMKTextInput & NSObjectProtocol), let key = composerKey(for: event) else {
+            if composer.isComposing, let client = sender as? (IMKTextInput & NSObjectProtocol), event?.type == .keyDown {
                 // A shortcut (⌘, ⌃, ⌥) while composing: insert what is typed first.
                 if let text = composer.finish() { client.insertText(text, replacementRange: Self.noRange) }
                 refresh(client)
@@ -50,7 +50,7 @@ final class InputController: IMKInputController {
     }
 
     override func commitComposition(_ sender: Any!) {
-        guard let client = sender as? IMKTextInput else { return }
+        guard let client = sender as? (IMKTextInput & NSObjectProtocol) else { return }
         if let text = composer.finish() { client.insertText(text, replacementRange: Self.noRange) }
         refresh(client)
     }
@@ -64,7 +64,7 @@ final class InputController: IMKInputController {
     static let noRange = NSRange(location: NSNotFound, length: NSNotFound)
 
     /// Shows the typed letters underlined in the document and the candidates under them.
-    private func refresh(_ client: IMKTextInput) {
+    private func refresh(_ client: IMKTextInput & NSObjectProtocol) {
         guard composer.isComposing else {
             client.setMarkedText("", selectionRange: NSRange(location: 0, length: 0), replacementRange: Self.noRange)
             TatakikunApp.panel.hide()
@@ -77,6 +77,11 @@ final class InputController: IMKInputController {
                              replacementRange: Self.noRange)
         var cursor = NSRect.zero
         client.attributes(forCharacterIndex: 0, lineHeightRectangle: &cursor)
-        TatakikunApp.panel.show(composer, below: cursor)
+        TatakikunApp.panel.show(composer, below: cursor) { [weak self, weak client] row, column in
+            guard let self, let client else { return }
+            let update = self.composer.choose(row: row, column: column)
+            if let text = update.commit { client.insertText(text, replacementRange: Self.noRange) }
+            self.refresh(client)
+        }
     }
 }

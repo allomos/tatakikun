@@ -45,7 +45,12 @@ final class DemoTextView: NSTextView {
                           replacementRange: markedRangeOrSelection())
             let start = markedRange().location
             let cursor = firstRect(forCharacterRange: NSRange(location: start, length: 0), actualRange: nil)
-            TatakikunApp.panel.show(composer, below: cursor)
+            TatakikunApp.panel.show(composer, below: cursor) { [weak self] row, column in
+                guard let self else { return }
+                let update = self.composer.choose(row: row, column: column)
+                if let text = update.commit { self.insertText(text, replacementRange: self.markedRangeOrSelection()) }
+                self.refresh()
+            }
         } else {
             unmarkText()
             TatakikunApp.panel.hide()

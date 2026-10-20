@@ -43,6 +43,14 @@ public enum Romaji {
 
     static let vowels: Set<Character> = ["a", "i", "u", "e", "o"]
 
+    /// Whether `letters` could be the start of a syllable still being typed (k, ky, sh, ts...).
+    public static func isPartialSyllable(_ letters: String) -> Bool {
+        let l = letters.lowercased()
+        return l.isEmpty || prefixes.contains(l)
+    }
+
+    static let prefixes: Set<String> = Set(table.keys.flatMap { key in (1..<key.count).map { String(key.prefix($0)) } })
+
     /// Hiragana for the whole input, or nil when some letters do not spell kana
     /// (for example `hello`, or a trailing consonant still being typed).
     public static func toHiragana(_ input: String) -> String? {

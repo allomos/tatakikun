@@ -56,3 +56,62 @@ final class ComposerTests: XCTestCase {
         XCTAssertFalse(c.handle(.enter).handled)
     }
 }
+
+final class ExpandTests: XCTestCase {
+    func composer(_ letters: String) throws -> Composer {
+        let c = Composer(engine: try EngineTests().engine())
+        letters.forEach { _ = c.handle(.letter($0)) }
+        return c
+    }
+
+    func testDownExpandsAndMovesThroughRows() throws {
+        let c = try composer("ai")
+        XCTAssertFalse(c.isExpanded)
+        XCTAssertEqual(c.visibleRows.count, 1)
+        _ = c.handle(.down)
+        XCTAssertTrue(c.isExpanded)
+        XCTAssertGreaterThan(c.visibleRows.count, 6, "enough rows to need scrolling")
+        _ = c.handle(.down)
+        XCTAssertEqual(c.selectedRow, 1)
+        let second = c.rows[1][2].text
+        XCTAssertEqual(c.handle(.digit(3)).commit, second, "digits pick from the selected row")
+    }
+
+    func testUpAndEscapeCollapse() throws {
+        let c = try composer("ai")
+        _ = c.handle(.tab)
+        _ = c.handle(.up)
+        XCTAssertFalse(c.isExpanded)
+        _ = c.handle(.down)
+        _ = c.handle(.escape)
+        XCTAssertFalse(c.isExpanded)
+        XCTAssertTrue(c.isComposing, "Esc on an expanded bar only collapses")
+        _ = c.handle(.escape)
+        XCTAssertFalse(c.isComposing)
+    }
+
+    func testExpandedRowsIncludePartialMatches() throws {
+        let zhongg = try composer("zhongg")
+        XCTAssert(zhongg.rows.joined().contains { $0.text == "中国" && !$0.isExact })
+        let compu = try composer("compu")
+        XCTAssert(compu.rows.joined().contains { $0.text == "computer" })
+        let nihaoma = try composer("nihaoma")
+        XCTAssert(nihaoma.rows.joined().contains { $0.text == "你好" && $0.consumed == 5 })
+    }
+
+    func testChoosingALeadingWordKeepsTheRest() throws {
+        let c = try composer("nihaoma")
+        let (r, col) = c.rows.enumerated().lazy.compactMap { r, row in
+            row.firstIndex { $0.text == "你好" && $0.consumed == 5 }.map { (r, $0) }
+        }.first!
+        XCTAssertEqual(c.choose(row: r, column: col).commit, "你好")
+        XCTAssertEqual(c.input, "ma")
+    }
+
+    func testRawStillInFirstRowWithPartials() throws {
+        for input in ["zhongg", "compu", "arigat", "helo"] {
+            let c = try composer(input)
+            XCTAssert(c.rows[0].contains { $0.text == input }, input)
+        }
+    }
+}
