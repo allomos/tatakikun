@@ -1,11 +1,9 @@
 {
   "area": "A03",
   "holder": "claude-packs",
-  "human_check_steps": "1. 在项目文件夹运行 `scripts/build-packs.sh`(第一次会下载约 80 MB 开源数据,并校验每个文件;每个语言包约 10 秒)。\n2. 看到 build/packs/zh、ja、en 三个文件夹,各有 .ttkd 词库和 LICENSE.txt。\n3. 运行 `swift test --filter PackTests`:3 个测试通过(yinhang→银行、watashi→私、man 比 hen 常用等)。\n4. 语言包要等 A02-07(引擎读语言包)和 A04-05(安装器)完成后才会在输入法里生效。\n",
   "id": "A03-05",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "日文语言包:用 Mozc 开源词典,常见读法都能打出(如 watashi→私、nihon→日本)",
-  "without_human_check": "Goal run"
+  "title": "日文语言包:用 Mozc 开源词典,常见读法都能打出(如 watashi→私、nihon→日本)"
 }

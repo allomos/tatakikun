@@ -1,11 +1,9 @@
 {
   "area": "A02",
   "holder": "claude-goal-1",
-  "human_check_steps": "1. 在项目文件夹运行 `scripts/build.sh`(第一次会生成词库,约 1 分钟)或 `swift test`。\n2. 运行 `swift run -c release tatakikun-cli nihao zhongguo woaini arigatou toukyou ai hello qwzx`。\n3. 应看到:你好、中国、我爱你排第一;ありがとう/アリガトウ;東京排第一,还有 とうきょう/トウキョウ;`ai` 同时有 爱、愛、あい、アイ;`hello` 只有 hello;`qwzx` 只有原始串。\n",
   "id": "A02-01",
   "iteration": "I01",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "键入拼音得到中文候选,包括整句(如 woaini→我爱你)",
-  "without_human_check": "Goal run"
+  "title": "键入拼音得到中文候选,包括整句(如 woaini→我爱你)"
 }

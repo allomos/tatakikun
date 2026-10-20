@@ -1,11 +1,9 @@
 {
   "area": "A03",
   "holder": "claude-packs",
-  "human_check_steps": "1. 在项目文件夹运行 `scripts/build.sh && scripts/install.sh`(会把已有的 build/dict 编译成 zh.ttkd / ja.ttkd)。\n2. 切到别的输入法再切回 Tatakikun:第一次按键几乎没有停顿。\n3. 照常输入 nihao、watashi、nh、wtx,结果和以前一样。\n",
   "id": "A03-03",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "词库改成内存映射的二进制格式:大词库也能瞬间启动、少占内存",
-  "without_human_check": "Goal run"
+  "title": "词库改成内存映射的二进制格式:大词库也能瞬间启动、少占内存"
 }

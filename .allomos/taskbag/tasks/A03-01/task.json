@@ -1,11 +1,9 @@
 {
   "area": "A03",
   "holder": "claude-goal-1",
-  "human_check_steps": "1. 在项目文件夹运行 `swift run -c release tatakikun-dictgen build/dict`(约 1 分钟)。\n2. 看到 `zh.tsv` 约 15.7 万条、`ja.tsv` 约 12 万条。\n3. `grep \"^ni'hao\" build/dict/zh.tsv` 应有“你好”;`grep \"^とうきょう\" build/dict/ja.tsv` 应有“東京”。\n",
   "id": "A03-01",
   "iteration": "I01",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "从本机数据生成中文拼音词库和日文读音词库",
-  "without_human_check": "Goal run"
+  "title": "从本机数据生成中文拼音词库和日文读音词库"
 }
