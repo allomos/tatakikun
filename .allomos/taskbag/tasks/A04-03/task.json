@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-punct",
+  "id": "A04-03",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "标点和空格按前文自动用全角或半角(中文、日文用全角,英文用半角)"
+}

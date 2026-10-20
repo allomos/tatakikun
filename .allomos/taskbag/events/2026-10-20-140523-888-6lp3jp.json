@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-20T14:05:23Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "标点和空格按前文自动用全角或半角(中文、日文用全角,英文用半角)"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
