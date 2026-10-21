@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-21T15:43:51Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Iterations: I05 'Other platforms: Android, Windows, Linux' added for A01-09/10/12 and the engine checks A02-mantle732/island506/pit507 (moved from I04). Done tasks placed by when they were finished: A01-05, A01-06 in I03 (before the v0.3.0 tag); A01-01 (goal, finished with v0.4), A01-07 (READMEs, in v0.4.0), A01-11 (iOS, 2026-10-21) in I04."
+    }
+  ]
+}

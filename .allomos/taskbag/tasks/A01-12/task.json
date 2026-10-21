@@ -1,6 +1,7 @@
 {
   "area": "A01",
   "id": "A01-12",
+  "iteration": "I05",
   "state": "waiting",
   "title": "Linux 版:在 Linux 桌面上用 Tatakikun 输入英中日混合候选",
   "waiting_on": "A Linux environment is needed to build and test the Linux version. Docker Desktop is installed but did not start (it may be waiting for you to sign in or accept its terms); please start it, or say which Linux machine/VM to use. Plan once it runs: build the Swift core on Linux (no new architecture, like iOS), an IBus engine first (default on Ubuntu/Fedora/GNOME), Fcitx5 later if you want it; tests drive the engine through ibus in a container. OK, or Fcitx5 first?",

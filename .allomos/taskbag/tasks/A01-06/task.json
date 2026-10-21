@@ -2,6 +2,7 @@
   "area": "A01",
   "holder": "claude-release",
   "id": "A01-06",
+  "iteration": "I03",
   "label": "human verified",
   "state": "done",
   "title": "在 GitHub 发布 Tatakikun v0.3.0"

@@ -5,7 +5,7 @@
   ],
   "handoff_note": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first.",
   "id": "A02-pit507",
-  "iteration": "I04",
+  "iteration": "I05",
   "state": "blocked",
   "title": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)"
 }

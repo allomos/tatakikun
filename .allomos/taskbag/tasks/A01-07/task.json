@@ -2,6 +2,7 @@
   "area": "A01",
   "holder": "claude-release",
   "id": "A01-07",
+  "iteration": "I04",
   "label": "human verified",
   "state": "done",
   "title": "README 有中文和日文版本"
