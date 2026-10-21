@@ -38,7 +38,13 @@ final class DemoTextView: NSTextView {
             return
         }
         let update = composer.handle(key)
-        if let text = update.commit { insertText(text, replacementRange: markedRangeOrSelection()) }
+        if let text = update.commit {
+            var range = markedRangeOrSelection()
+            if update.deleteBefore > 0, range.location >= update.deleteBefore {
+                range = NSRange(location: range.location - update.deleteBefore, length: range.length + update.deleteBefore)
+            }
+            insertText(text, replacementRange: range)
+        }
         refresh()
         if !update.handled { super.keyDown(with: event) }
     }

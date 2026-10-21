@@ -45,7 +45,7 @@ final class InputController: IMKInputController {
         }
         composer.textBeforeCursor = { [weak client] in client.flatMap(Self.textBeforeCursor) }
         let update = composer.handle(key)
-        if let text = update.commit { client.insertText(text, replacementRange: Self.noRange) }
+        if let text = update.commit { client.insertText(text, replacementRange: Self.replacing(update.deleteBefore, in: client)) }
         refresh(client)
         return update.handled
     }
@@ -74,6 +74,13 @@ final class InputController: IMKInputController {
     }
 
     static let noRange = NSRange(location: NSNotFound, length: NSNotFound)
+
+    /// The range of the `count` characters before the cursor, to replace with the inserted text.
+    static func replacing(_ count: Int, in client: IMKTextInput & NSObjectProtocol) -> NSRange {
+        let selection = client.selectedRange()
+        guard count > 0, selection.location != NSNotFound, selection.location >= count else { return noRange }
+        return NSRange(location: selection.location - count, length: count + selection.length)
+    }
 
     /// Shows the typed letters underlined in the document and the candidates under them.
     private func refresh(_ client: IMKTextInput & NSObjectProtocol) {

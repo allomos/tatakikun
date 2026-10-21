@@ -89,6 +89,7 @@ final class KeyboardView: UIView {
     private func send(_ key: Key) {
         guard let target else { return }
         let update = composer.handle(key)
+        (0..<update.deleteBefore).forEach { _ in target.deleteBackward() }
         if let text = update.commit { insert(text) }
         if !update.handled {
             // Keys the composer leaves to the application.

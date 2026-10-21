@@ -15,6 +15,15 @@ public struct ComposerUpdate: Equatable {
     public var handled: Bool
     /// Text to insert into the document.
     public var commit: String?
+    /// Characters before the cursor to remove before inserting `commit` (the space that followed
+    /// an English word, when punctuation comes next).
+    public var deleteBefore = 0
+
+    public init(handled: Bool, commit: String? = nil, deleteBefore: Int = 0) {
+        self.handled = handled
+        self.commit = commit
+        self.deleteBefore = deleteBefore
+    }
 }
 
 /// The typing state machine behind the input method, independent of InputMethodKit.
@@ -31,7 +40,8 @@ public struct ComposerUpdate: Equatable {
 ///
 /// Not composing, punctuation and Space follow the text before the cursor (`textBeforeCursor`,
 /// or what was inserted last when the application does not tell): full-width after Chinese or
-/// Japanese, otherwise left to the application.
+/// Japanese, otherwise left to the application. Punctuation that closes a word (`,.!?;:)]}`) typed
+/// right after the space Space added to an English word takes that space's place (`hello,`).
 public final class Composer {
     public let engine: Engine
     public private(set) var input = ""
@@ -52,6 +62,9 @@ public final class Composer {
     /// The result being built from several picks (nihaoma: 你好, then 吗): the letters it started
     /// from, the text inserted so far, how many picks, and whether one was not the first candidate.
     private var built: (input: String, text: String, picks: Int, byHand: Bool)?
+    /// Whether the last key inserted an English word followed by a space of its own.
+    private var spaceAdded = false
+    static let closingPunctuation: Set<Character> = [",", ".", "!", "?", ";", ":", ")", "]", "}"]
 
     public init(engine: Engine) { self.engine = engine }
 
@@ -65,6 +78,8 @@ public final class Composer {
     public var canExpand: Bool { rows.count > 1 }
 
     public func handle(_ key: Key) -> ComposerUpdate {
+        let afterAddedSpace = spaceAdded
+        spaceAdded = false
         if !isComposing {
             switch key {
             case .letter(let c):
@@ -73,6 +88,9 @@ public final class Composer {
             case .space:
                 return typeAsScript(" ")
             case .other(let c):
+                if afterAddedSpace, Self.closingPunctuation.contains(c), textBeforeCursor?()?.hasSuffix(" ") ?? true {
+                    return ComposerUpdate(handled: true, commit: String(c), deleteBefore: 1)
+                }
                 return typeAsScript(c)
             default:
                 return ComposerUpdate(handled: false)
@@ -170,6 +188,7 @@ public final class Composer {
         let space = spaceAfter ? " " : ""
         guard let candidate else {
             engine.noteInserted(.raw)
+            spaceAdded = spaceAfter
             return commit(input + space, script: .latin)
         }
         engine.history?.record(input: input, text: candidate.text)
@@ -186,6 +205,7 @@ public final class Composer {
         }
         if soFar.byHand || soFar.picks > 1 { remember(soFar.input, soFar.text, last: candidate.kind) }
         let script = TextScript(candidate.kind)
+        spaceAdded = spaceAfter && script == .latin
         return commit(candidate.text + (script == .latin ? space : ""), script: script)
     }
 

@@ -42,6 +42,39 @@ final class ComposerTests: XCTestCase {
         XCTAssertEqual(c.handle(.space).commit, "你好", "no space after Chinese")
     }
 
+    func testPunctuationReplacesTheAddedSpace() throws {
+        let c = try composer()
+        type("hello", into: c)
+        XCTAssertEqual(c.handle(.space).commit, "hello ")
+        XCTAssertEqual(c.handle(.other(",")), ComposerUpdate(handled: true, commit: ",", deleteBefore: 1))
+        XCTAssertEqual(c.handle(.other(".")), ComposerUpdate(handled: false), "only right after the added space")
+        type("world", into: c)
+        _ = c.handle(.space)
+        XCTAssertEqual(c.handle(.other("?")).deleteBefore, 1)
+    }
+
+    func testAddedSpaceStaysBeforeOpeningPunctuationOrOtherKeys() throws {
+        let c = try composer()
+        type("hello", into: c)
+        _ = c.handle(.space)
+        XCTAssertEqual(c.handle(.other("(")).deleteBefore, 0, "opening punctuation keeps the space")
+        type("hello", into: c)
+        _ = c.handle(.space)
+        _ = c.handle(.space)
+        XCTAssertEqual(c.handle(.other(",")).deleteBefore, 0, "a space typed by hand stays")
+        type("hello", into: c)
+        _ = c.handle(.digit(1))
+        XCTAssertEqual(c.handle(.other(",")).deleteBefore, 0, "no space was added")
+    }
+
+    func testAddedSpaceStaysWhenTheCursorMoved() throws {
+        let c = try composer()
+        type("hello", into: c)
+        _ = c.handle(.space)
+        c.textBeforeCursor = { "hello" }
+        XCTAssertEqual(c.handle(.other(",")).deleteBefore, 0)
+    }
+
     func testOnlySpaceAddsTheSpace() throws {
         let c = try composer()
         type("hello", into: c)

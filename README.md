@@ -41,7 +41,7 @@ Try it without installing: `TATAKIKUN_PACKS=build/packs .build/release/Tatakikun
 | Key | While typing |
 | --- | --- |
 | letters | add to the input |
-| Space | insert the highlighted candidate (the first one unless moved); after an English word, a space too |
+| Space | insert the highlighted candidate (the first one unless moved); after an English word, a space too (punctuation like `,` `.` typed next takes its place) |
 | Return | insert the letters exactly as typed |
 | 1–9 | insert that candidate of the highlighted row |
 | ← → | move the highlight |
