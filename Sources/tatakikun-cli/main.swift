@@ -34,7 +34,7 @@ func show(_ input: String) {
     }
 }
 if args.isEmpty {
-    while let line = readLine() { show(line.trimmingCharacters(in: .whitespaces)) }
+    while let line = readLine() { show(String(line.drop { $0.isWhitespace }.reversed().drop { $0.isWhitespace }.reversed())) }
 } else {
     args.forEach(show)
 }
