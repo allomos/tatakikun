@@ -21,7 +21,7 @@ public struct LexiconEntry: Equatable {
 ///
 /// File layout (all integers UInt32, little-endian):
 ///   "TTKD", version 1, maxKeyLength, keyCount, keyTable, abbrCount, abbrTable
-///   keyTable:  keyCount offsets of `key<TAB>word<TAB>cost\n` records, sorted by key bytes, then cost
+///   keyTable:  keyCount offsets of `key<TAB>word<TAB>cost\n` records, sorted by key bytes, then cost, then word bytes
 ///   abbrTable: abbrCount offsets of `abbreviation<TAB>word<TAB>cost\n` records, sorted the same way
 public final class Lexicon {
     /// The file, memory-mapped (or the bytes built in memory). Kept, never changed: its bytes stay
@@ -163,7 +163,12 @@ public final class Lexicon {
         func records(_ list: [(key: String, word: String, cost: Int)]) -> [[UInt8]] {
             var rows: [Row] = list.map { Row(key: clean($0.key), word: clean($0.word), cost: max(0, $0.cost)) }
             rows.removeAll { $0.key.isEmpty }
-            rows.sort { a, b in a.key != b.key ? a.key.lexicographicallyPrecedes(b.key) : a.cost < b.cost }
+            // Words of equal cost by their bytes, so the same entries always make the same file
+            // (the dictionary generator's tables come in a different order every run).
+            rows.sort { a, b in
+                a.key != b.key ? a.key.lexicographicallyPrecedes(b.key)
+                    : a.cost != b.cost ? a.cost < b.cost : a.word.lexicographicallyPrecedes(b.word)
+            }
             return rows.map { row -> [UInt8] in
                 var r = row.key
                 r.append(9); r += row.word
