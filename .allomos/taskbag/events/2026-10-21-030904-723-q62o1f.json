@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-21T03:09:04Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Typing chongqizhiqian offers 重启之前 in the candidate list (investigate why it does not)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Find out why typing `chongqizhiqian` does not let the user pick 重启之前 from the candidate list, and fix it so it does.\n\n**Done means.**\n- The cause is found and written under an **Evidence** heading (e.g. how the pinyin is split, how 重 is read: zhong/chong, whether 重启 and 之前 are in the dictionary, how whole-sentence candidates are built and ranked, whether the candidate list is cut off before it).\n- After the fix, typing `chongqizhiqian` shows 重启之前 among the candidates and it can be selected.\n- A unit test covers `chongqizhiqian` → 重启之前.\n\n**Notes.**\n- Related: A02-01 (whole-sentence pinyin), A03-02 / A03-04 (polyphonic readings), A04-02 (expanded candidate list).\n- If the fix changes how candidates are ranked for other input, say so in the handoff.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
