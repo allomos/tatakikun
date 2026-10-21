@@ -2,7 +2,7 @@
 
 Shared rules for every AI agent working on this project.
 
-## Tasks: Allomos (v21)
+## Tasks: Allomos (v22)
 
 This project's tasks, progress and handoff notes live in Allomos's taskbag
 (`.allomos/taskbag/`). Work them with the `alm` command; never edit those files by hand, except
@@ -37,6 +37,9 @@ the project notes (below) and your own handoff file.
   advance, recorded once on the goal task (its title starts with `Goal:`): you add the areas and
   iterations and make your own tasks ready. Anything with an outside effect still waits for the
   approver. No spend cap: the quota gate of `alm handoff-rules` is the limit.
+- A line in the conversation that starts with `alm ` followed by one of its commands (for example
+  `alm guide github release`) is a command: run it as written, and when it prints a guide, follow
+  that guide. The word alm inside a sentence is not one.
 - Finished: at the top label (a person has checked it: the human check): `alm done <id>`.
   When the work is finished and only a person's hands-on check is left, in quiet and normal
   mode alike, finish it below the top label with `alm done <id> --without-human-check "<why>"
@@ -119,4 +122,9 @@ you need more, ask `alm` rather than guessing: `alm guide terms` (what they mean
 `alm guide workflow`, `alm guide run-modes` (quiet or normal mode, for the person),
 `alm guide agent-files` (one set of shared rules for every agent, done once per agent),
 `alm guide goal` (the goal prompt: build an app from a description, release by release),
+`alm guide github-release` (publish a GitHub release and install it, when the approver asks),
 `alm guide move-cards` (card files: moving them in beside their tasks).
+
+Where this project is kept online (the project notes' `## Repositories`). Working from a copy
+without the taskbag beside it, in the cloud for example, clone what is missing from here:
+- Code and taskbag: https://github.com/allomos/tatakikun (public, MIT)
