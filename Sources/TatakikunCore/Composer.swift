@@ -20,7 +20,8 @@ public struct ComposerUpdate: Equatable {
 /// The typing state machine behind the input method, independent of InputMethodKit.
 ///
 /// Keys while composing: letters add to the input; Space inserts the selected candidate
-/// (the first one unless moved); Return inserts the letters as typed; 1–9 insert that candidate
+/// (the first one unless moved), followed by a half-width space when it is English or the letters
+/// as typed; Return inserts the letters as typed; 1–9 insert that candidate
 /// of the selected row; ←/→ move the selection; ↓ or Tab expands the bar into more rows (and then
 /// moves down a row), ↑ moves up a row and collapses from the first; Backspace removes a letter;
 /// Esc collapses, or cancels when not expanded. Punctuation inserts the selected candidate and
@@ -85,7 +86,7 @@ public final class Composer {
         case .escape:
             if isExpanded { collapse() } else { reset() }
         case .space:
-            return choose(selected)
+            return choose(selected, spaceAfter: true)
         case .enter:
             engine.history?.record(input: input, text: input)
             engine.noteInserted(.raw)
@@ -163,10 +164,13 @@ public final class Composer {
         selectedColumn = 0
     }
 
-    private func choose(_ candidate: Candidate?) -> ComposerUpdate {
+    /// With `spaceAfter` (chosen with Space), an English candidate or the letters as typed is
+    /// followed by a half-width space, so the next word can be typed straight away.
+    private func choose(_ candidate: Candidate?, spaceAfter: Bool = false) -> ComposerUpdate {
+        let space = spaceAfter ? " " : ""
         guard let candidate else {
             engine.noteInserted(.raw)
-            return commit(input, script: .latin)
+            return commit(input + space, script: .latin)
         }
         engine.history?.record(input: input, text: candidate.text)
         engine.noteInserted(candidate.kind)
@@ -181,7 +185,8 @@ public final class Composer {
             return ComposerUpdate(handled: true, commit: candidate.text)
         }
         if soFar.byHand || soFar.picks > 1 { remember(soFar.input, soFar.text, last: candidate.kind) }
-        return commit(candidate.text, script: TextScript(candidate.kind))
+        let script = TextScript(candidate.kind)
+        return commit(candidate.text + (script == .latin ? space : ""), script: script)
     }
 
     /// A result built by hand becomes a custom word under all the letters typed for it, when it is

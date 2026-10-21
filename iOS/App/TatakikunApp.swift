@@ -29,7 +29,7 @@ struct SetupView: View {
                     .accessibilityIdentifier("demo")
                 }
                 Section("Keys") {
-                    Text("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate, return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
+                    Text("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate (with a space after an English word), return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
                 }
             }
             .navigationTitle("Tatakikun")

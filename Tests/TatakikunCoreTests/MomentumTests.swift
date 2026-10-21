@@ -60,7 +60,7 @@ final class MomentumTests: XCTestCase {
     func testComposerRecordsInsertedLanguage() {
         let composer = Composer(engine: engine)
         "is".forEach { _ = composer.handle(.letter($0)) }
-        XCTAssertEqual(composer.handle(.space).commit, "is")
+        XCTAssertEqual(composer.handle(.space).commit, "is ")
         "hen".forEach { _ = composer.handle(.letter($0)) }
         XCTAssertEqual(composer.list.firstRow.first?.text, "hen", "after an English word")
         _ = composer.handle(.escape)
