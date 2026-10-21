@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// What kind of candidate this is; the candidate bar shows it as a small tag.
 public enum CandidateKind: String, CaseIterable {

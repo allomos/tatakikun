@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// The kind of text being written, which decides full-width or half-width punctuation and spaces.
 public enum TextScript: Equatable {

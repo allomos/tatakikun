@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// The dictionary files Tatakikun reads, and how they are made from dictgen's text output.
 public enum DictionaryFiles {
@@ -6,7 +10,7 @@ public enum DictionaryFiles {
     public static let japanese = "ja.ttkd"
 
     /// Pinyin keys are written with `'` between syllables; they are typed without it.
-    public static func pinyinKey(_ key: Substring) -> String { key.replacingOccurrences(of: "'", with: "") }
+    public static func pinyinKey(_ key: Substring) -> String { String(key.replacing("'", with: "")) }
 
     /// zh.tsv (pinyin with ' between syllables) → zh.ttkd, with each word's initials abbreviation.
     public static func compileChinese(text: URL, to url: URL) throws {

@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Converts typed romaji (Hepburn and Kunrei spellings) into hiragana.
 public enum Romaji {

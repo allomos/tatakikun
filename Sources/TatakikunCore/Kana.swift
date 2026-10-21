@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Character-class helpers and kana conversions shared by the engine and the dictionary generator.
 public enum Kana {
