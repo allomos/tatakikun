@@ -1,8 +1,9 @@
 {
   "area": "A02",
   "handoff_note": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first.",
+  "holder": "claude-loop",
   "id": "A02-mantle732",
   "iteration": "I05",
-  "state": "ready",
+  "state": "in_progress",
   "title": "The engine runs without the large ICU language data (FoundationEssentials only)"
 }
