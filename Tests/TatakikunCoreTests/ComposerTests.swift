@@ -13,6 +13,43 @@ final class ComposerTests: XCTestCase {
         XCTAssertFalse(c.isComposing)
     }
 
+    func testSpaceAfterEnglishAddsHalfWidthSpace() throws {
+        let c = try composer()
+        type("hello", into: c)
+        XCTAssertEqual(c.selected?.kind, .english)
+        XCTAssertEqual(c.handle(.space), ComposerUpdate(handled: true, commit: "hello "))
+        type("world", into: c)
+        XCTAssertEqual(c.handle(.space).commit, "world ")
+    }
+
+    func testSpaceAfterRawLettersAddsSpace() throws {
+        let c = try composer()
+        type("qxzv", into: c)
+        if let raw = c.rows.first?.firstIndex(where: { $0.kind == .raw }) {
+            (0..<raw).forEach { _ in _ = c.handle(.right) }
+        }
+        XCTAssertEqual(c.handle(.space).commit, "qxzv ")
+    }
+
+    func testSpaceAfterJapaneseAddsNoSpace() throws {
+        let c = try composer()
+        type("konnichiha", into: c)
+        let column = try XCTUnwrap(c.rows[0].firstIndex { $0.kind == .hiragana })
+        (0..<column).forEach { _ in _ = c.handle(.right) }
+        let hiragana = c.rows[0][column].text
+        XCTAssertEqual(c.handle(.space).commit, hiragana, "no space after Japanese")
+        type("nihao", into: c)
+        XCTAssertEqual(c.handle(.space).commit, "你好", "no space after Chinese")
+    }
+
+    func testOnlySpaceAddsTheSpace() throws {
+        let c = try composer()
+        type("hello", into: c)
+        XCTAssertEqual(c.handle(.digit(1)).commit, "hello")
+        type("hello", into: c)
+        XCTAssertEqual(c.handle(.enter).commit, "hello")
+    }
+
     func testEnterCommitsRawLetters() throws {
         let c = try composer()
         type("nihao", into: c)
