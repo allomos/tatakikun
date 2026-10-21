@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T15:11:54Z",
+  "by": "claude-a04-punct",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-bean380",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Unit tests pass and macOS/iOS targets build; typing in real apps and the iOS keyboard needs a person."
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A04-bean380: punctuation after an English word's space\n\n1. Rebuild and install (`scripts/build.sh`, then `scripts/install.sh`), choose Tatakikun in TextEdit.\n2. Type `hello`, Space, then `,`. Expect `hello,` (no space before the comma).\n3. Type `world`, Space, `.`. Expect `world.`; `?` `!` `;` `:` `)` behave the same.\n4. Type `hello`, Space, `(`. Expect `hello (` (opening punctuation keeps the space).\n5. Type `hello`, Space, Space, `,`. Expect `hello  ,` (a space typed by hand stays).\n6. On the iOS keyboard: `hello`, space, `,` gives `hello,`.\n"
+    }
+  ]
+}

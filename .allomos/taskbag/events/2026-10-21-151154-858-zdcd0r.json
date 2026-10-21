@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T15:11:54Z",
+  "by": "claude-a04-punct",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-bean380",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Only closing punctuation , . ! ? ; : ) ] } replaces the added space; opening ones like ( and quotes keep it, since a space usually belongs before them."
+    }
+  ]
+}
