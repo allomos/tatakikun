@@ -58,32 +58,57 @@ enum Cost {
     static let kanaAbbreviation = 20
     /// How many leading words of each length to offer.
     static let leadingPerLength = 3
+    /// How many whole-sentence candidates to offer.
+    static let sentences = 3
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).
 /// With `unknownCost`, a unit no word covers may stand for itself at that cost.
 func segment(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil) -> (words: [String], cost: Int)? {
+    segmentations(units, lexicon: lexicon, unknownCost: unknownCost, count: 1).first
+}
+
+/// The `count` lowest-cost ways to cover `units` with dictionary words, cheapest first, each a
+/// different text (chongqizhiqian → 充气之前, 重启之前…): Viterbi keeping the best `count` paths
+/// to every position, trying each span's `count` cheapest words.
+func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil, count k: Int) -> [(words: [String], cost: Int)] {
     let n = units.count
-    guard n > 0 else { return nil }
-    var best = [Int](repeating: Int.max, count: n + 1)
-    var back = [(from: Int, word: String)?](repeating: nil, count: n + 1)
-    best[0] = 0
-    for i in 0..<n where best[i] != Int.max {
+    guard n > 0, k > 0 else { return [] }
+    // paths[j]: the cheapest ways found to cover units[0..<j]: cost, where the last word starts,
+    // which path there it continues, and the word.
+    typealias Step = (cost: Int, from: Int, path: Int, word: String)
+    var paths = [[Step]](repeating: [], count: n + 1)
+    paths[0] = [(0, 0, 0, "")]
+    func offer(_ step: Step, at j: Int) {
+        guard paths[j].count < k || step.cost < paths[j][k - 1].cost else { return }
+        let at = paths[j].firstIndex { $0.cost > step.cost } ?? paths[j].count
+        paths[j].insert(step, at: at)
+        if paths[j].count > k { paths[j].removeLast() }
+    }
+    for i in 0..<n where !paths[i].isEmpty {
         for j in (i + 1)...min(n, i + lexicon.maxKeyLength) {
-            if let e = lexicon.exact(String(units[i..<j])).first {
-                let c = best[i] + e.cost + Cost.perWord
-                if c < best[j] { best[j] = c; back[j] = (i, e.word) }
+            let words = lexicon.exact(String(units[i..<j])).prefix(k)
+            guard !words.isEmpty else { continue }
+            for (p, before) in paths[i].enumerated() {
+                for e in words { offer((before.cost + e.cost + Cost.perWord, i, p, e.word), at: j) }
             }
         }
-        if let u = unknownCost, best[i] + u < best[i + 1] {
-            best[i + 1] = best[i] + u; back[i + 1] = (i, String(units[i]))
+        if let u = unknownCost {
+            for (p, before) in paths[i].enumerated() { offer((before.cost + u, i, p, String(units[i])), at: i + 1) }
         }
     }
-    guard best[n] != Int.max else { return nil }
-    var words: [String] = []
-    var j = n
-    while j > 0, let b = back[j] { words.append(b.word); j = b.from }
-    return (words.reversed(), best[n] - Cost.perWord)
+    var out: [(words: [String], cost: Int)] = []
+    for end in paths[n] {
+        var words: [String] = []
+        var (j, step) = (n, end)
+        while j > 0 {
+            words.append(step.word)
+            (j, step) = (step.from, paths[step.from][step.path])
+        }
+        words.reverse()
+        if !out.contains(where: { $0.words.joined() == words.joined() }) { out.append((words, end.cost - Cost.perWord)) }
+    }
+    return out
 }
 
 /// The most common words with any of these abbreviations.
@@ -103,8 +128,11 @@ public struct ChineseConverter {
     public func candidates(for input: String, limit: Int = 40) -> [Candidate] {
         let key = input.lowercased()
         var out = lexicon.exact(key).prefix(limit).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
-        if let path = segment(Array(key), lexicon: lexicon), path.words.count > 1 {
-            out.append(Candidate(text: path.words.joined(), kind: .chinese, cost: path.cost))
+        // Whole sentences: the cheapest few, so a less common reading of the start still shows
+        // (chongqizhiqian: 充气之前, then 重启之前).
+        for path in segmentations(Array(key), lexicon: lexicon, count: Cost.sentences) where path.words.count > 1 {
+            let text = path.words.joined()
+            if !out.contains(where: { $0.text == text }) { out.append(Candidate(text: text, kind: .chinese, cost: path.cost)) }
         }
         if Abbreviation.applies(to: key) {
             out += abbreviated(Abbreviation.pinyinKeys(key), in: lexicon, limit: limit) { _ in .chinese }

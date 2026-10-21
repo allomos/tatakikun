@@ -2,7 +2,7 @@
 "APP_TITLE" = "Tatakikun 输入法";
 "APP_DESCRIPTION" = "输入法本体。在下面选择要装的语言;以后想改,再运行一次这个安装器即可。";
 "ZH_TITLE" = "中文(拼音)";
-"ZH_DESCRIPTION" = "用拼音输入简体中文,多音字的各个读音都能打出。数据:pinyin-data、phrase-pinyin-data(MIT),词频来自 ICU。约 19 MB。";
+"ZH_DESCRIPTION" = "用拼音输入简体中文,多音字的各个读音都能打出。数据:pinyin-data、phrase-pinyin-data(MIT),词频来自 ICU 和 jieba(MIT)。约 21 MB。";
 "JA_TITLE" = "日文(罗马字)";
 "JA_DESCRIPTION" = "用罗马字输入平假名、片假名和汉字,约 100 万词。数据:Mozc 开源词典(IPAdic 许可)、ICU。约 45 MB。";
 "EN_TITLE" = "英文";

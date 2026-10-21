@@ -82,7 +82,7 @@ candidates (the letters as typed are always offered).
 
 | Pack | Built from | License |
 | --- | --- | --- |
-| Chinese | [pinyin-data](https://github.com/mozillazg/pinyin-data) (every reading of every character), [phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data) (readings of ~400,000 words), word frequencies from ICU | MIT; Unicode License V3 |
+| Chinese | [pinyin-data](https://github.com/mozillazg/pinyin-data) (every reading of every character), [phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data) (readings of ~400,000 words), word frequencies from ICU and [jieba](https://github.com/fxsjy/jieba) | MIT; Unicode License V3 |
 | Japanese | [Mozc OSS dictionary](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) (~1 million words with readings), ICU's word list and frequencies | IPAdic license and others (see its README); Unicode License V3 |
 | English | [SCOWL](http://wordlist.aspell.net/), its size levels as word frequencies | SCOWL's permissive license |
 
