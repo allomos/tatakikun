@@ -2,7 +2,7 @@
 "APP_TITLE" = "Tatakikun input method";
 "APP_DESCRIPTION" = "The input method itself. Choose the languages below; you can run this installer again to change them.";
 "ZH_TITLE" = "Chinese (pinyin)";
-"ZH_DESCRIPTION" = "Simplified Chinese words by pinyin, with every reading of polyphonic characters. Data: pinyin-data and phrase-pinyin-data (MIT), word frequencies from ICU. About 19 MB.";
+"ZH_DESCRIPTION" = "Simplified Chinese words by pinyin, with every reading of polyphonic characters. Data: pinyin-data and phrase-pinyin-data (MIT), word frequencies from ICU and jieba (MIT). About 21 MB.";
 "JA_TITLE" = "Japanese (romaji)";
 "JA_DESCRIPTION" = "Hiragana, katakana and kanji words by romaji, about a million words. Data: Mozc OSS dictionary (IPAdic license), ICU. About 45 MB.";
 "EN_TITLE" = "English";

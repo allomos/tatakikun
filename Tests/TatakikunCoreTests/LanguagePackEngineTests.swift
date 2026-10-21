@@ -36,6 +36,16 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssert(ai.isSuperset(of: [.chinese, .kanji, .hiragana, .katakana]), "\(ai)")
     }
 
+    /// A02-09: 重启 (chóng qǐ) is a word the base dictionary lacks; jieba's frequency ranks it, and
+    /// the bar offers more than the one cheapest sentence, so 重启之前 is there to choose.
+    func testLessCommonReadingInWholeSentence() throws {
+        let e = try engine([.zh, .ja, .en])
+        let bar = e.candidates(for: "chongqizhiqian").firstRow.map(\.text)
+        XCTAssertEqual(bar.first, "充气之前")
+        XCTAssert(bar.contains("重启之前"), "\(bar)")
+        XCTAssertEqual(e.candidates(for: "chongqi").firstRow.prefix(2).map(\.text), ["充气", "重启"])
+    }
+
     func testOnlyChinese() throws {
         let e = try engine([.zh])
         XCTAssertEqual(kinds(e, "ai"), [.chinese])

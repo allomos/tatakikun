@@ -66,7 +66,7 @@ Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更�
 
 | 语言包 | 数据来源 | 许可证 |
 | --- | --- | --- |
-| 中文 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(每个字的全部读音)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(约 40 万词的读音)、ICU 的词频 | MIT;Unicode License V3 |
+| 中文 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(每个字的全部读音)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(约 40 万词的读音)、ICU 和 [jieba](https://github.com/fxsjy/jieba) 的词频 | MIT;Unicode License V3 |
 | 日文 | [Mozc 开源词典](https://github.com/google/mozc/tree/master/src/data/dictionary_oss)(约 100 万词及读音)、ICU 的词表和词频 | IPAdic 等(见其 README);Unicode License V3 |
 | 英文 | [SCOWL](http://wordlist.aspell.net/),用它的分级作为词频 | SCOWL 的宽松许可 |
 

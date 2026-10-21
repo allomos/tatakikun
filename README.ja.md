@@ -69,7 +69,7 @@ Tatakikun は学習します。選んだ候補は、次に同じ英字を入力�
 
 | パック | データ | ライセンス |
 | --- | --- | --- |
-| 中国語 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(全漢字のすべての読み)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(約 40 万語の読み)、ICU の頻度 | MIT、Unicode License V3 |
+| 中国語 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(全漢字のすべての読み)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(約 40 万語の読み)、ICU と [jieba](https://github.com/fxsjy/jieba) の頻度 | MIT、Unicode License V3 |
 | 日本語 | [Mozc オープンソース辞書](https://github.com/google/mozc/tree/master/src/data/dictionary_oss)(約 100 万語と読み)、ICU の語彙と頻度 | IPAdic ほか(README 参照)、Unicode License V3 |
 | 英語 | [SCOWL](http://wordlist.aspell.net/)、そのサイズレベルを頻度として使用 | SCOWL の寛容なライセンス |
 

@@ -4,7 +4,7 @@ import TatakikunCore
 // Language packs: one folder per language with its dictionary and the licenses of the data in it.
 //   zh/zh.ttkd  words of the base Chinese dictionary (ICU frequencies), keyed by the readings of
 //               pinyin-data (every character) and phrase-pinyin-data (whole words), plus words
-//               only phrase-pinyin-data has
+//               only phrase-pinyin-data has (ranked by jieba's word frequencies when it has them)
 //   ja/ja.ttkd  the base Japanese dictionary merged with the Mozc OSS dictionary
 //   en/en.ttkd  SCOWL words, cheaper the more common their SCOWL level
 
@@ -62,12 +62,29 @@ func readWordCosts(_ url: URL) throws -> [String: Int] {
     return out
 }
 
+/// jieba's dict.txt: `重启 68 v` → 重启: 68 (how often the word was seen).
+func readWordFrequencies(_ url: URL) throws -> [String: Int] {
+    var out: [String: Int] = [:]
+    for line in try String(contentsOf: url, encoding: .utf8).split(separator: "\n") {
+        let p = line.split(separator: " ")
+        guard p.count >= 2, let n = Int(p[1]), n > 0 else { continue }
+        out[String(p[0])] = max(out[String(p[0])] ?? 0, n)
+    }
+    return out
+}
+
+/// A word the base dictionary lacks, by its jieba frequency, on the base dictionary's scale: fitted on
+/// the 68 000 words both have (cost ≈ 144 − 7.1 ln n), and never cheaper than 60 or dearer than 169,
+/// so it stays ahead of the words with no frequency at all (重启 68 → 114, after 充气 94).
+func cost(forFrequency n: Int) -> Int { min(169, max(60, Int((144 - 7.12 * log(Double(n))).rounded()))) }
+
 func buildChinesePack(base: URL, sources: URL, out: URL) throws {
     let zh = sources.appendingPathComponent("zh")
     let chars = try readCharacterReadings(zh.appendingPathComponent("pinyin.txt"))
     let phrases = try readPhraseReadings(zh.appendingPathComponent("large_pinyin.txt"))
     let costs = try readWordCosts(base.appendingPathComponent("zh.tsv"))
-    log("zh: \(chars.count) characters, \(phrases.count) phrases, \(costs.count) words with frequencies")
+    let frequencies = try readWordFrequencies(zh.appendingPathComponent("jieba-dict.txt"))
+    log("zh: \(chars.count) characters, \(phrases.count) phrases, \(costs.count) words with frequencies, \(frequencies.count) in jieba")
 
     var table: [String: Int] = [:]   // "syll'syll<TAB>word" → cost
     func add(_ sylls: [String], _ word: String, _ cost: Int) {
@@ -94,15 +111,17 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
             for (i, r) in readings.enumerated() { add(r, word, cost + (i == 0 ? 0 : (word.count == 1 ? 8 : 5))) }
         }
     }
-    // Words only phrase-pinyin-data has have no frequency: rank them after the known ones.
+    // Words only phrase-pinyin-data has: by jieba's frequency when it has them (重启), otherwise
+    // after every word with a frequency.
     let simplified = { (w: String) in w.applyingTransform(StringTransform("Traditional-Simplified"), reverse: false) ?? w }
     for (word, sylls) in phrases where costs[word] == nil && simplified(word) == word {
-        add(sylls, word, 170 + 10 * max(0, word.count - 2))
+        add(sylls, word, frequencies[word].map(cost(forFrequency:)) ?? 170 + 10 * max(0, word.count - 2))
     }
     try writePack(table, name: DictionaryFiles.chinese, to: out.appendingPathComponent("zh"),
                   normalizeKey: DictionaryFiles.pinyinKey, abbreviate: Abbreviation.pinyin,
                   licenses: [("pinyin-data (MIT)", zh.appendingPathComponent("pinyin-data-LICENSE")),
                              ("phrase-pinyin-data (MIT)", zh.appendingPathComponent("phrase-pinyin-data-LICENSE")),
+                             ("jieba: word frequencies (MIT)", zh.appendingPathComponent("jieba-LICENSE")),
                              ("ICU data: word frequencies (Unicode License V3)", sources.appendingPathComponent("icu-LICENSE"))])
 }
 
