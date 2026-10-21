@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-21T15:41:29Z",
+  "via": "alm",
+  "command": "block",
+  "kind": "task",
+  "id": "A02-island506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "blocked"
+    },
+    {
+      "field": "blocked_by",
+      "to": [
+        "A02-mantle732"
+      ]
+    }
+  ]
+}

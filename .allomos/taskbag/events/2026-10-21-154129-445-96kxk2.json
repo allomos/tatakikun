@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T15:41:29Z",
+  "via": "alm",
+  "command": "note",
+  "kind": "task",
+  "id": "A02-pit507",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Not to implement yet (person, 2026-10-22: \"don't implement now\"). Stays in backlog until the person says to start. Order: A02-mantle732, then A02-island506 and A02-pit507.",
+      "to": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first."
+    }
+  ]
+}

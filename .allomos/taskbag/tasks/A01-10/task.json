@@ -1,9 +1,10 @@
 {
   "area": "A01",
+  "blocked_by": [
+    "A02-island506"
+  ],
   "handoff_note": "Engine decided by the person 2026-10-22: stay with Swift everywhere (option a); switch the engine to FoundationEssentials (A02-mantle732); check the Android build and size (A02-island506) and the Windows build via GitHub Actions plus a GitHub pre-release the person tests on their own Windows PC, since there is no Windows VM (A02-pit507). If either check fails badly, switch to Rust for all platforms, not Kotlin. Person said: do not implement now. Release channel: the person distributes it themselves later. Android SDK/emulator install on this Mac approved.",
   "id": "A01-10",
-  "state": "waiting",
-  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选",
-  "waiting_on": "When to start: engine checks A02-mantle732, A02-island506 first (person said not now, 2026-10-22)",
-  "who": "the person"
+  "state": "blocked",
+  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选"
 }

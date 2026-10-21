@@ -4,6 +4,6 @@
   "id": "A01-09",
   "state": "waiting",
   "title": "Windows 版:在 Windows 上用 Tatakikun 输入英中日混合候选",
-  "waiting_on": "When to start: engine checks A02-mantle732, A02-pit507 first (person said not now, 2026-10-22). Still open: Windows release channel (code-signing certificate or Store, both have a cost).",
+  "waiting_on": "Engine checks first (A02-mantle732, then A02-pit507; ready for the loop session). Still open for the person: Windows release channel (code-signing certificate or Microsoft Store, both have a cost).",
   "who": "the person"
 }
