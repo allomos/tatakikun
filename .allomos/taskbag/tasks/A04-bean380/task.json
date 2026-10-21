@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-a04-punct",
+  "id": "A04-bean380",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Punctuation right after an English word's auto space replaces that space (hello , → hello,)"
+}
