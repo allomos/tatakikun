@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-21T15:11:39Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-bean380",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Only the space Space added, and only for the very next key; a hand-typed space, or a cursor moved away from the space (text before cursor not ending in a space), is left alone."
+    }
+  ]
+}
