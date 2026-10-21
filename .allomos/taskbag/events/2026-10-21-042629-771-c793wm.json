@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T04:26:29Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Only swapped neighbours are corrected (the default): no missing, doubled or wrong letters."
+    }
+  ]
+}

@@ -1,8 +1,11 @@
 {
   "area": "A02",
   "holder": "claude-loop",
+  "human_check_steps": "# Check A02-10: swapped letters in pinyin\n\nThe new build is installed on this Mac (scripts/install.sh, 2026-10-21).\n\n1. Switch to Tatakikun in any app.\n2. Type `zhogn`: 中, 重, 种… in the bar (gray), and `zhogn` as typed at the end.\n3. Type `zhognguo` → 中国; `nihoa` → 你好; `hne` → 很.\n4. Type valid input and check nothing changed: `zhong` → 中 (not gray), `is` → is, `an` → an/安.\n",
   "id": "A02-10",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Mistyped pinyin with swapped letters still gives the intended Chinese candidates (e.g. zhogn → 中)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "Mistyped pinyin with swapped letters still gives the intended Chinese candidates (e.g. zhogn → 中)",
+  "without_human_check": "Typing it in a real app is the person's check"
 }
