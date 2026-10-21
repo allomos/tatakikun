@@ -71,8 +71,10 @@ candidate in that language comes first for the next word (so in "is a hen", hen 
 for 60 seconds or until you switch to another app.
 
 Tatakikun learns: a candidate you choose ranks higher the next time you type the same letters.
-What it learned stays on this Mac in `~/Library/Application Support/Tatakikun/history.tsv`;
-delete that file to forget it.
+A Chinese or Japanese result of 2 to 4 characters that you build from several picks, or pick from
+further down than first, becomes a word of its own: typing the same letters again offers it as one
+candidate, first. What it learned stays on this Mac in `~/Library/Application Support/Tatakikun/`,
+in `history.tsv` and `custom-words.tsv`; delete those files to forget it.
 
 ## Dictionaries
 

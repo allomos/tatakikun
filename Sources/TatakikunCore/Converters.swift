@@ -58,6 +58,8 @@ enum Cost {
     static let kanaAbbreviation = 20
     /// How many leading words of each length to offer.
     static let leadingPerLength = 3
+    /// A word the user built by hand (CustomWords): near the top, after the most common words.
+    static let customWord = 40
     /// How many whole-sentence candidates to offer.
     static let sentences = 3
     /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).

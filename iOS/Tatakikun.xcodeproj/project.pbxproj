@@ -51,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0CDFE751BA44D88F5691F853 /* A02-11 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A02-11"; path = ..; sourceTree = SOURCE_ROOT; };
 		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
 		5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TatakikunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,7 +62,6 @@
 		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TatakikunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardUITests.swift; sourceTree = "<group>"; };
-		CF9B65C0DC229C783D0292A6 /* A01-11 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A01-11"; path = ..; sourceTree = SOURCE_ROOT; };
 		FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,7 +96,7 @@
 		8BD16FDDEC185437FD0D3F91 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				CF9B65C0DC229C783D0292A6 /* A01-11 */,
+				0CDFE751BA44D88F5691F853 /* A02-11 */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

@@ -10,6 +10,7 @@ enum Shared {
         let engine = (try? Engine(packFolders: [bundle.appendingPathComponent("packs")], rowSize: 9))
             ?? Engine(chinese: nil, japanese: nil, english: nil)
         engine.history = UserHistory(url: UserHistory.defaultURL)
+        engine.customWords = CustomWords(url: CustomWords.defaultURL)
         return engine
     }()
 }

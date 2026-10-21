@@ -41,6 +41,8 @@ public final class Engine {
     public var maxMore = 200
     /// Candidates chosen before rank higher; nil to rank by the dictionaries alone.
     public var history: UserHistory?
+    /// Words the user built by hand, offered as one candidate; nil for none.
+    public var customWords: CustomWords?
     /// The language of the last inserted word and when it was inserted (see `noteInserted`).
     public private(set) var recent: (language: Language, at: Date)?
     /// How long the last word's language keeps leading.
@@ -97,6 +99,7 @@ public final class Engine {
                 found += chinese.swapCorrections(for: input)
             }
             found += japanese?.candidates(for: input) ?? []
+            found += (customWords?.words(for: input) ?? []).map { Candidate(text: $0.word, kind: $0.kind, cost: Cost.customWord) }
         }
         found = found.map { leaning(learned($0, input), lead) }
         var ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
