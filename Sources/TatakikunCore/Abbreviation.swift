@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Words typed by their consonants alone: the first letter of each pinyin syllable (nh → 你好),
 /// or the consonant of each kana (wtx → わたし). Only inputs with no vowels are looked up this

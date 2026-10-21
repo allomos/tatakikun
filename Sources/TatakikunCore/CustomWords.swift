@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Words the user built by hand (two picks, or a candidate other than the first), remembered under
 /// the letters typed so they are offered as one candidate next time. Kept only on this device, in a

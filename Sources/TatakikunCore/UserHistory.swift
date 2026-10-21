@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Remembers which candidate was chosen for which letters, so it ranks higher next time.
 /// Kept only on this Mac, in a small `input<TAB>text<TAB>count` file.

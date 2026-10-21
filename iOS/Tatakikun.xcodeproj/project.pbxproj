@@ -51,12 +51,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0CDFE751BA44D88F5691F853 /* A02-11 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A02-11"; path = ..; sourceTree = SOURCE_ROOT; };
 		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
 		5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TatakikunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		623D340E71A8448F8868CEB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		71AE924F6A809D8B6A52B61C /* A02-mantle732 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A02-mantle732"; path = ..; sourceTree = SOURCE_ROOT; };
 		7AE0EE2F4739DD4AF085D934 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91B4B524C8F3CD2739117E26 /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +96,7 @@
 		8BD16FDDEC185437FD0D3F91 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				0CDFE751BA44D88F5691F853 /* A02-11 */,
+				71AE924F6A809D8B6A52B61C /* A02-mantle732 */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// Finds the installed language packs. The installer puts each one in its own folder,
 /// `<Packs>/<zh|ja|en>/<lang>.ttkd`, next to its LICENSE.txt; a language with no pack offers no candidates.

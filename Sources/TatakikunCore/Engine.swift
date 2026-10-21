@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// The candidates for one input: the first row (the candidate bar) and the rest (shown when expanded).
 public struct CandidateList {

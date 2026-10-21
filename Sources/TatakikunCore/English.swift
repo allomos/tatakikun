@@ -2,6 +2,8 @@
 import AppKit
 #elseif canImport(UIKit)
 import UIKit
+#elseif canImport(FoundationEssentials)
+import FoundationEssentials
 #else
 import Foundation
 #endif

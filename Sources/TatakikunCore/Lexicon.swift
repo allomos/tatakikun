@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// A word in a dictionary: `key` is how it is typed (pinyin letters, or a hiragana reading),
 /// `cost` is how rare it is (lower means more common).
@@ -20,7 +24,9 @@ public struct LexiconEntry: Equatable {
 ///   keyTable:  keyCount offsets of `key<TAB>word<TAB>cost\n` records, sorted by key bytes, then cost
 ///   abbrTable: abbrCount offsets of `abbreviation<TAB>word<TAB>cost\n` records, sorted the same way
 public final class Lexicon {
-    private let data: NSData
+    /// The file, memory-mapped (or the bytes built in memory). Kept, never changed: its bytes stay
+    /// where they are, so `base` points into them for as long as the lexicon lives.
+    private let data: Data
     private let base: UnsafePointer<UInt8>
     private let keys: Section
     private let abbreviations: Section
@@ -36,8 +42,8 @@ public final class Lexicon {
 
     /// Opens a `.ttkd` file.
     public convenience init(contentsOf url: URL) throws {
-        let data = try NSData(contentsOf: url, options: .alwaysMapped)
-        guard data.length >= 28, Array(UnsafeRawBufferPointer(start: data.bytes, count: 4)) == Self.magic else {
+        let data = try Data(contentsOf: url, options: .alwaysMapped)
+        guard data.count >= 28, Array(data.prefix(4)) == Self.magic else {
             throw Failure.notADictionary(url)
         }
         self.init(data: data)
@@ -46,13 +52,14 @@ public final class Lexicon {
     /// Builds a dictionary in memory (tests, and dictionaries made on the fly).
     /// - Parameter abbreviated: each word's abbreviation, for `abbreviated(_:)`.
     public convenience init(entries: [LexiconEntry], abbreviated: [(abbreviation: String, entry: LexiconEntry)] = []) {
-        self.init(data: Self.encode(entries: entries, abbreviated: abbreviated) as NSData)
+        self.init(data: Self.encode(entries: entries, abbreviated: abbreviated))
     }
 
-    private init(data: NSData) {
+    private init(data: Data) {
         self.data = data
-        base = data.bytes.assumingMemoryBound(to: UInt8.self)
-        func u32(_ o: Int) -> Int { Int(UInt32(littleEndian: UnsafeRawPointer(data.bytes + o).loadUnaligned(as: UInt32.self))) }
+        let base = data.withUnsafeBytes { $0.baseAddress!.assumingMemoryBound(to: UInt8.self) }
+        self.base = base
+        func u32(_ o: Int) -> Int { Int(UInt32(littleEndian: UnsafeRawPointer(base + o).loadUnaligned(as: UInt32.self))) }
         maxKeyLength = u32(8)
         keys = Section(count: u32(12), table: u32(16))
         abbreviations = Section(count: u32(20), table: u32(24))
@@ -149,7 +156,7 @@ public final class Lexicon {
 
     static func encode(entries: [LexiconEntry], abbreviated: [(abbreviation: String, entry: LexiconEntry)]) -> Data {
         func clean(_ s: String) -> [UInt8] {
-            Array(s.replacingOccurrences(of: "\t", with: " ").replacingOccurrences(of: "\n", with: " ").utf8)
+            Array(s.replacing("\t", with: " ").replacing("\n", with: " ").utf8)
         }
         struct Row { let key: [UInt8]; let word: [UInt8]; let cost: Int }
         func records(_ list: [(key: String, word: String, cost: Int)]) -> [[UInt8]] {
