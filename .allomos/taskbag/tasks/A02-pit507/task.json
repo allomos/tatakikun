@@ -4,6 +4,9 @@
   "holder": "claude-loop",
   "id": "A02-pit507",
   "iteration": "I05",
-  "state": "in_progress",
-  "title": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)"
+  "label": "locally verified",
+  "state": "waiting",
+  "title": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)",
+  "waiting_on": "OK to publish the Windows test build as a GitHub pre-release? Proposed: tag v0.6.1-windows-preview.1 on master (4 runs green), title 'Tatakikun engine for Windows (test build)', marked pre-release (not Latest), one asset tatakikun-cli-windows-x64.zip (~51 MB: tatakikun-cli.exe, Swift runtime DLLs, zh/ja/en packs) from CI run 39635979463. After that you unzip it on your PC and run .\\tatakikun-cli.exe --packs packs woaini watashi hello.",
+  "who": "the person"
 }

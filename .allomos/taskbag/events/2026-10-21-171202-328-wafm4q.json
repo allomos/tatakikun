@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T17:12:02Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A02-pit507",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "OK to publish the Windows test build as a GitHub pre-release? Proposed: tag v0.6.1-windows-preview.1 on master (4 runs green), title 'Tatakikun engine for Windows (test build)', marked pre-release (not Latest), one asset tatakikun-cli-windows-x64.zip (~51 MB: tatakikun-cli.exe, Swift runtime DLLs, zh/ja/en packs) from CI run 39635979463. After that you unzip it on your PC and run .\\tatakikun-cli.exe --packs packs woaini watashi hello."
+    },
+    {
+      "field": "who",
+      "to": "the person"
+    }
+  ]
+}
