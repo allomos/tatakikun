@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-21T15:10:52Z",
+  "via": "alm",
+  "command": "checked",
+  "kind": "task",
+  "id": "A04-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "label",
+      "to": "human verified"
+    },
+    {
+      "field": "without_human_check",
+      "from": "Unit tests pass and the app is built and installed; typing in real macOS apps and the iOS keyboard needs a person."
+    },
+    {
+      "field": "human_check_steps",
+      "from": "# Check A04-10: Space after an English word\n\n1. Choose Tatakikun as the input source in TextEdit (or any app).\n2. Type `hello`, press Space, type `world`, press Space. Expect `hello world ` (one half-width space after each word).\n3. Type `nihao`, press Space. Expect `你好` with no space after it.\n4. Type `konnichiha`, move to the hiragana candidate with →, press Space. Expect `こんにちは` with no space after it.\n5. Type `hello`, press 1 (or Return). Expect `hello` with no space after it (only Space adds the space).\n6. iOS (optional): in the Tatakikun app's demo screen, type `hello` and tap space; expect `hello `.\n"
+    }
+  ]
+}
