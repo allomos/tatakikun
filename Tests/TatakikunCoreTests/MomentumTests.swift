@@ -9,7 +9,7 @@ final class MomentumTests: XCTestCase {
         engine.forgetRecent()
     }
 
-    override func tearDown() { engine.forgetRecent() }
+    override func tearDown() { engine?.forgetRecent() }
 
     func first(_ input: String, at date: Date = Date()) -> String? { engine.candidates(for: input, at: date).firstRow.first?.text }
 

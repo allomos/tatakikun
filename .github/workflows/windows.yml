@@ -1,6 +1,7 @@
-# Builds the engine and tatakikun-cli on Windows and runs the engine tests there (A02-pit507).
-# The program, with the Swift runtime DLLs it needs, is kept as the run's artifact
-# "tatakikun-cli-windows-x64"; the language packs it reads are built on a Mac (scripts/build.sh).
+# Builds the engine and tatakikun-cli on Windows and runs the engine tests there against the real
+# dictionaries (A02-pit507). The dictionaries and language packs are made on a Mac (they come from
+# its ICU data) and handed to the Windows job. The program, with the Swift runtime DLLs it needs
+# and the language packs, is kept as the run's artifact "tatakikun-cli-windows-x64".
 name: Windows
 
 on:
@@ -10,10 +11,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  dictionaries:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: build/sources
+          key: sources-${{ hashFiles('scripts/fetch-sources.sh') }}
+      - name: Build the dictionaries and language packs
+        run: scripts/build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dictionaries
+          path: |
+            build/dict/*.ttkd
+            build/dict/*.tsv
+            build/packs
+
   build:
+    needs: dictionaries
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dictionaries
+          path: build
       - uses: compnerd/gha-setup-swift@bbae8ce86bac5a3449f3992b3d88bc4ca25f2057 # v0.5.0
         with:
           swift-version: swift-6.3.3-release
@@ -21,23 +45,26 @@ jobs:
       - name: Build
         run: swift build -c release --product tatakikun-cli
       - name: Test the engine
-        # Without the dictionaries (made on a Mac) the dictionary tests skip; the rest run.
         run: swift test
+      - name: Try it
+        run: .build/release/tatakikun-cli --packs build/packs woaini watashi hello chongqizhiqian zhogn
       - name: Package
         shell: pwsh
         run: |
           $out = "dist/tatakikun-cli"
           New-Item -ItemType Directory -Force $out | Out-Null
           Copy-Item .build/release/tatakikun-cli.exe $out
+          Copy-Item -Recurse build/packs "$out/packs"
           # The Swift runtime, next to the program so Windows finds it.
           $runtime = Get-ChildItem "$env:LOCALAPPDATA/Programs/Swift/Runtimes/*/usr/bin" -Directory | Select-Object -First 1
           Copy-Item "$($runtime.FullName)/*.dll" $out
           @"
-          Tatakikun engine for Windows (test build): prints Tatakikun's candidates for letters you type.
+          Tatakikun engine for Windows (test build): prints Tatakikun's candidates for the letters given.
+          In this folder, in a terminal (Windows Terminal or PowerShell, with a font that shows Chinese and Japanese):
 
-            tatakikun-cli --packs <folder with the zh, ja and en language packs> woaini watashi hello
-            tatakikun-cli --packs <packs folder>          (then type letters, one input per line)
-          "@ | Set-Content "$out/README.txt"
+            .\tatakikun-cli.exe --packs packs woaini watashi hello
+            .\tatakikun-cli.exe --packs packs          (then type letters, one input per line; Ctrl+Z, Enter to end)
+          "@ | Set-Content -Encoding utf8 "$out/README.txt"
           Get-ChildItem $out | Format-Table Name, Length
       - uses: actions/upload-artifact@v4
         with:
