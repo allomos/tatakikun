@@ -8,3 +8,11 @@
 **Notes.**
 - Related: A02-01 (whole-sentence pinyin), A03-02 / A03-04 (polyphonic readings), A04-02 (expanded candidate list).
 - If the fix changes how candidates are ranked for other input, say so in the handoff.
+
+**Evidence.**
+- Splitting and readings were fine: `chongqi` + `zhiqian`, and the pack has 重启 under chong'qi (from phrase-pinyin-data: `重启: chóng qǐ`).
+- 重启 is not in the base word list (this Mac's ICU data), so it had no frequency: like every word only phrase-pinyin-data has, it cost a flat 170, tied with rare words (崇期, 宠戚, 宠契…). For `chongqi` it came 7th, after 充气 94, 冲起 135, 重枝 145, 重己 152, 虫崎 156, 宠契 170.
+- Whole sentences came from one Viterbi pass that keeps only the cheapest path and only the cheapest word per span, so `chongqizhiqian` offered a single sentence, 充气之前 (94 + 76), and 重启 could never be part of a sentence.
+- Fix: (1) the Chinese pack ranks words only phrase-pinyin-data has by jieba's word frequencies (MIT, pinned), fitted on the 67 823 words both lists have: cost ≈ 144 − 7.1 ln n, kept within 60–169 (重启 68 → 114); (2) the converter offers the 3 cheapest different whole sentences (k-best Viterbi, each span's 3 cheapest words).
+- After: `chongqi` → 充气, 重启, 冲起…; `chongqizhiqian` → 充气之前, 充气直前, 重启之前 in the bar. `woaini`, `yinhang`, `nihao`, `zhongguo` keep their first candidate. Tests: SentenceTests (in-memory) and LanguagePackEngineTests.testLessCommonReadingInWholeSentence (packs).
+- Ranking changes for other input: phrase-only words jieba knows now rank by frequency instead of last (e.g. 重庆市, 重庆大学 rise for `chongqi…`); up to two more whole-sentence candidates can take places in the bar. The Chinese pack grew from 19 to 21 MB.

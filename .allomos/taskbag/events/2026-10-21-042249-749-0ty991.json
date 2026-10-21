@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T04:22:49Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Typing it in a real app is the person's check"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-09: chongqizhiqian → 重启之前\n\nTatakikun with the new Chinese pack is already installed on this Mac (scripts/install.sh, 2026-10-21).\n\n1. Switch to Tatakikun in any app (TextEdit, Notes).\n2. Type `chongqizhiqian`: 重启之前 is in the bar (third); press its number or click it.\n3. Type `chongqi`: 重启 is second.\n4. Type a few words you use often (woaini, yinhang, nihao, zhongguo, …) and check the first candidate is still the one you expect.\n"
+    }
+  ]
+}

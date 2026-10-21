@@ -2,8 +2,11 @@
   "area": "A02",
   "handoff_note": "Stopped by the person mid-investigation. Found so far: chongqizhiqian gives only one sentence (充气之前); 重启 is not in the built zh pack under chongqi at all, though build/sources/zh/large_pinyin.txt has '重启: chóng qǐ' and base zh.tsv lacks it, so it should come from the phrases-only branch of buildChinesePack (Packs.swift ~line 99). Next: check why that line is not parsed/added (or whether the cached packs in ../tatakikun-wt/cache are stale: rebuild packs), then whether the sentence builder offers only the best path. Worktree ../tatakikun-wt/A02-09 has no changes.",
   "holder": "claude-loop",
+  "human_check_steps": "# Check A02-09: chongqizhiqian → 重启之前\n\nTatakikun with the new Chinese pack is already installed on this Mac (scripts/install.sh, 2026-10-21).\n\n1. Switch to Tatakikun in any app (TextEdit, Notes).\n2. Type `chongqizhiqian`: 重启之前 is in the bar (third); press its number or click it.\n3. Type `chongqi`: 重启 is second.\n4. Type a few words you use often (woaini, yinhang, nihao, zhongguo, …) and check the first candidate is still the one you expect.\n",
   "id": "A02-09",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Typing chongqizhiqian offers 重启之前 in the candidate list (investigate why it does not)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "Typing chongqizhiqian offers 重启之前 in the candidate list (investigate why it does not)",
+  "without_human_check": "Typing it in a real app is the person's check"
 }

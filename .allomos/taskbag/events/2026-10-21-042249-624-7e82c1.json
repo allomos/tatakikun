@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T04:22:49Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Added jieba's dict.txt (MIT, pinned at v0.42.1 with its SHA-256) as a source of word frequencies for the Chinese pack: the only permissive word-frequency list found that has 重启; licenses stay permissive."
+    }
+  ]
+}
