@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T15:30:22Z",
+  "via": "alm",
+  "command": "note",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "2026-10-22 用户决定:发布渠道由用户本人以后自行处理(不由 AI 发布);同意在本机安装 Android SDK 和模拟器用于测试。引擎共用方式仍待决定(已给出 a/b/c 对比,AI 推荐 a)。",
+      "to": "2026-10-22 decisions by the person: release channel — the person will handle distribution themselves later (no publishing by AI). Installing the Android SDK and emulator on this Mac for testing is approved. Still open: how to share the engine (a/b/c compared in chat; AI recommends a), and whether/when to start."
+    }
+  ]
+}

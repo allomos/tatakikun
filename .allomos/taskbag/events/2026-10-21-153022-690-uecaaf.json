@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T15:30:22Z",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "waiting_on",
+      "from": "引擎共用方式选哪种:(a) 用 Swift SDK for Android 编译现有核心,Kotlin 输入法经 JNI 调用(推荐);(b) 移植为 Kotlin(两份代码需保持一致);(c) 用 Rust/C++ 重写给所有平台。另:是否现在开始、优先级。",
+      "to": "Which engine-sharing option: (a) build the existing Swift core with the Swift SDK for Android and call it from a Kotlin InputMethodService via JNI (recommended); (b) port the core to Kotlin (two copies to keep in step); (c) rewrite the core in Rust/C++ for all platforms. Also: start now, and what priority?"
+    }
+  ]
+}
