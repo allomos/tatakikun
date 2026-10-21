@@ -1,11 +1,9 @@
 {
   "area": "A04",
   "holder": "claude-release",
-  "human_check_steps": "1. 重启 Mac(不是注销:之前多次重装后切换列表整个消失,只有重启能恢复)。\n2. 登录后,不切换窗口,直接选中 Tatakikun 输入 nihao:应立刻出现候选。\n3. 按键盘上的「英数」键:应切到 ABC,而不是 Tatakikun。\n4. 按住 ⌘ 按 Space:列表里应有 Tatakikun(简体中文分类)。\n5. 系统设置 → 通用 → 登录项与扩展 → 允许在后台:应有 Tatakikun;关掉它再注销登录,登录后要切换一次窗口才能输入(这是未装登录项时的原状)。\n",
   "id": "A04-09",
   "iteration": "I04",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "登录后选中 Tatakikun 就能直接输入,不用先切换一次窗口",
-  "without_human_check": "登录后能否直接输入只能由人重启后确认;英数、⌘Space 列表、登录项已在本机验证"
+  "title": "登录后选中 Tatakikun 就能直接输入,不用先切换一次窗口"
 }
