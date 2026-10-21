@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-21T15:50:54Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "unblock",
+  "kind": "task",
+  "id": "A02-island506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "blocked",
+      "to": "ready"
+    },
+    {
+      "field": "blocked_by",
+      "from": [
+        "A02-mantle732"
+      ]
+    }
+  ]
+}
