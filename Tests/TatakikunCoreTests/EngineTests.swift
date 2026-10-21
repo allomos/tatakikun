@@ -8,7 +8,10 @@ final class EngineTests: XCTestCase {
         .appendingPathComponent("build/dict")
     static var shared: Engine?
 
-    func engine() throws -> Engine {
+    func engine() throws -> Engine { try Self.engine() }
+
+    /// The engine on build/dict, for other test classes too (made once).
+    static func engine() throws -> Engine {
         // Each test starts without the last inserted word's language from another test.
         if let e = Self.shared { e.forgetRecent(); return e }
         guard FileManager.default.fileExists(atPath: Self.dictFolder.appendingPathComponent(DictionaryFiles.chinese).path) else {

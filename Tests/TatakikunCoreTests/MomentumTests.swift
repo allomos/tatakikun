@@ -5,7 +5,7 @@ final class MomentumTests: XCTestCase {
     var engine: Engine!
 
     override func setUpWithError() throws {
-        engine = try EngineTests().engine()
+        engine = try EngineTests.engine()
         engine.forgetRecent()
     }
 

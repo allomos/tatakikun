@@ -20,7 +20,7 @@ final class AbbreviationTests: XCTestCase {
     }
 
     func testCandidates() throws {
-        let e = try EngineTests().engine()
+        let e = try EngineTests.engine()
         func row(_ s: String) -> [String] { e.candidates(for: s).firstRow.map(\.text) }
         XCTAssert(row("nh").contains("你好"), "\(row("nh"))")
         XCTAssertEqual(row("zhg").first, "中国")
