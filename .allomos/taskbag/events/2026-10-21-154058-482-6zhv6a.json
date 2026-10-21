@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-21T15:40:58Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-island506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Check: the Swift engine builds for Android, with its app size measured"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** We know whether the Swift engine builds for Android with the Swift SDK for Android, and how much size it adds to an app.\n\n**Done means.**\n- TatakikunCore builds for Android arm64 as a shared library with the Swift SDK for Android on this Mac.\n- The size of everything the app would ship (engine + Swift runtime + Foundation libraries) is measured and recorded under Evidence.\n- A verdict: OK for option (a), or fails badly (then propose Rust per the person's decision).\n\n**Notes.**\n- The person approved installing Android tools on this Mac (2026-10-22); the Swift SDK for Android is part of this check.\n- Running it on a device/emulator is part of A01-10, not this check.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

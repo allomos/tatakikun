@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-21T15:40:58Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-pit507",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** The Swift engine builds and passes its tests on Windows, and the person can try a Windows build of `tatakikun-cli` from a GitHub release on their own Windows PC.\n\n**Done means.**\n- A GitHub Actions workflow builds TatakikunCore and tatakikun-cli on a Windows runner and runs the engine tests there.\n- A `tatakikun-cli` Windows build (with the dictionaries it needs) is attached to a GitHub release (pre-release), after the person approves publishing it.\n- The person runs it on their Windows PC and sees the same candidates as on macOS.\n\n**Notes.**\n- No Windows VM here (person, 2026-10-22): CI builds it, the person tests the release on their PC.\n- Publishing the release is an outside effect: ask the person first.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

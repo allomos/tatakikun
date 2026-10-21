@@ -1,8 +1,9 @@
 {
   "area": "A01",
+  "handoff_note": "Engine decided by the person 2026-10-22: stay with Swift everywhere (option a); switch the engine to FoundationEssentials (A02-mantle732); check the Android build and size (A02-island506) and the Windows build via GitHub Actions plus a GitHub pre-release the person tests on their own Windows PC, since there is no Windows VM (A02-pit507). If either check fails badly, switch to Rust for all platforms, not Kotlin. Person said: do not implement now.",
   "id": "A01-09",
   "state": "waiting",
   "title": "Windows 版:在 Windows 上用 Tatakikun 输入英中日混合候选",
-  "waiting_on": "How should the Windows version share the engine? The core is Swift (Foundation only, apart from the spell checker). Options: (a) keep Swift and build it with the Swift toolchain for Windows, called from a small C++ TSF text service; (b) rewrite the core in a portable language (Rust or C++) and use it everywhere. Recommended: (a). Also: which release channel (signed installer needs a code-signing certificate, a cost; Microsoft Store has a fee)? I can't run or test Windows on this Mac, so a Windows machine or VM is needed to check it.",
+  "waiting_on": "When to start: engine checks A02-mantle732, A02-pit507 first (person said not now, 2026-10-22). Still open: Windows release channel (code-signing certificate or Store, both have a cost).",
   "who": "the person"
 }
