@@ -48,6 +48,9 @@ public final class Composer {
     /// The script of what was inserted last.
     public private(set) var lastScript = TextScript.latin
     private var punctuation = Punctuation()
+    /// The result being built from several picks (nihaoma: 你好, then 吗): the letters it started
+    /// from, the text inserted so far, how many picks, and whether one was not the first candidate.
+    private var built: (input: String, text: String, picks: Int, byHand: Bool)?
 
     public init(engine: Engine) { self.engine = engine }
 
@@ -135,7 +138,10 @@ public final class Composer {
         return candidate?.text ?? input
     }
 
-    public func reset() { setInput("") }
+    public func reset() {
+        built = nil
+        setInput("")
+    }
 
     private func collapse() {
         isExpanded = false
@@ -164,13 +170,28 @@ public final class Composer {
         }
         engine.history?.record(input: input, text: candidate.text)
         engine.noteInserted(candidate.kind)
+        let byHand = (built?.byHand ?? false) || candidate != rows.first?.first
+        let soFar = (input: built?.input ?? input, text: (built?.text ?? "") + candidate.text,
+                     picks: (built?.picks ?? 0) + 1, byHand: byHand)
         if let n = candidate.consumed, n < input.count {
             // Covers only the start: insert it and keep composing the rest.
             lastScript = TextScript(candidate.kind)
             setInput(String(input.dropFirst(n)))
+            built = soFar
             return ComposerUpdate(handled: true, commit: candidate.text)
         }
+        if soFar.byHand || soFar.picks > 1 { remember(soFar.input, soFar.text, last: candidate.kind) }
         return commit(candidate.text, script: TextScript(candidate.kind))
+    }
+
+    /// A result built by hand becomes a custom word under all the letters typed for it, when it is
+    /// 2–4 Chinese or Japanese characters (CustomWords decides). Built from several picks, it is
+    /// also learned for those letters, so it comes first next time.
+    private func remember(_ input: String, _ text: String, last kind: CandidateKind) {
+        let kind: CandidateKind = kind == .chinese ? .chinese : JapaneseConverter.kind(of: text)
+        if engine.customWords?.add(input: input, word: text, kind: kind) == true, built != nil {
+            engine.history?.record(input: input, text: text)
+        }
     }
 
     private func commit(_ text: String, script: TextScript) -> ComposerUpdate {

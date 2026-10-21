@@ -57,8 +57,9 @@ scripts/install.sh          # 安装全部三个语言包;也可以只装一部�
 (`nihaoma` → 你好)。选择后者会上屏这个词,剩下的字母(`ma`)留着继续输入。如果还没有任何候选
 完整匹配全部字母,候选条本身就显示最好的不完全匹配。
 
-Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更靠前。学到的内容只保存在这台 Mac 的
-`~/Library/Application Support/Tatakikun/history.tsv` 里;删除这个文件即可清除。
+Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更靠前。分几次选出来的、或者不是选第一个候选得到的
+2 到 4 个字的中文或日文结果,会成为一个新词:再键入同样的字母时,它作为一个候选排在第一位。学到的内容只保存在这台 Mac 的
+`~/Library/Application Support/Tatakikun/` 里的 `history.tsv` 和 `custom-words.tsv`;删除这两个文件即可清除。
 
 ## 词库
 
