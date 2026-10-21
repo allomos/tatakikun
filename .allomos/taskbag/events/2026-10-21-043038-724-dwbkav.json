@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-21T04:30:38Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Picking by hand in a real app is the person's check"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-11: custom words picked by hand\n\nThe new build is installed on this Mac (scripts/install.sh, 2026-10-21).\n\n1. Switch to Tatakikun in any app.\n2. Chinese: type `zhongwen`, press ↓ to expand, pick 种 (it keeps `wen`), then pick 闻. 种闻 is inserted.\n3. Type `zhongwen` again: 种闻 is the first candidate.\n4. Japanese: type `watashineko`, pick 私 from the expanded rows, then 猫; type `watashineko` again: 私猫 comes first.\n5. One character is not remembered: type `zhong`, pick the second candidate; the bar for `zhong` still has 中 as one character list, no new word.\n6. Quit Tatakikun (or log out and in) and type `zhongwen` again: 种闻 is still first.\n7. To forget: delete ~/Library/Application Support/Tatakikun/custom-words.tsv.\n"
+    }
+  ]
+}
