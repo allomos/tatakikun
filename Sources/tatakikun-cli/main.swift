@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import TatakikunCore
 
 // Prints Tatakikun's candidates for each word given (or each line on standard input).
