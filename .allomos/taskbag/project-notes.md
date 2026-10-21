@@ -19,6 +19,9 @@ Nothing.
 - Tests use the system spell checker for English (`SystemEnglish`); inside `xctest` its completions can come back empty (seen 2026-10-21), failing `testExpandedRowsIncludePartialMatches` while the app, which uses the en pack, is fine. Check with `tatakikun-cli --packs build/packs compu` before suspecting the code.
 - iOS (A01-11): `scripts/build-ios.sh [test]` builds `iOS/` for the simulator (and runs the UI tests); edit `iOS/project.yml` and regenerate with XcodeGen (`brew install xcodegen`), the generated project is committed. A simulator without a window never shows a third-party keyboard in other apps: the UI tests use the app's demo screen; the extension itself needs a person (or the Simulator app with its hardware keyboard off).
 - `tatakikun-cli` ignores TATAKIKUN_PACKS: without `--packs build/packs` it uses the base dictionaries (build/dict) and the Mac spell checker, which is not what the app uses. `ExpandTests.testExpandedRowsIncludePartialMatches` depends on that spell checker (compu → computer) and failed once on master (2026-10-21), then passed.
+- Android (A02-island506): `scripts/build-android.sh` builds the engine as libTatakikunEngine.so with the open-source Swift 6.3.3 toolchain (~/Library/Developer/Toolchains, per user) and the Swift SDK for Android 6.3.3 (`swift sdk list`), NDK 28.2 in ~/Library/Android/sdk. The SDK must match the toolchain exactly: Xcode's Swift 6.4 has no Android SDK.
+- The engine and tatakikun-cli import FoundationEssentials where it exists (A02-mantle732): no NSData, NSString, memcmp or other APIs that only full Foundation brings; macOS/iOS still compile against Foundation, so only the Android build (or Windows CI) catches a slip.
+- Windows: GitHub Actions `.github/workflows/windows.yml` builds tatakikun-cli and runs the engine tests on every push to master; the program is the run's artifact `tatakikun-cli-windows-x64`. No Windows machine here: the person tests on their PC.
 
 ## Repositories
 
