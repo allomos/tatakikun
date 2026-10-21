@@ -8,6 +8,9 @@ final class EngineTests: XCTestCase {
         .appendingPathComponent("build/dict")
     static var shared: Engine?
 
+    /// Skips every test here, not fails it, when the dictionaries are not built.
+    override func setUpWithError() throws { _ = try Self.engine() }
+
     func engine() throws -> Engine { try Self.engine() }
 
     /// The engine on build/dict, for other test classes too (made once).
@@ -17,7 +20,17 @@ final class EngineTests: XCTestCase {
         guard FileManager.default.fileExists(atPath: Self.dictFolder.appendingPathComponent(DictionaryFiles.chinese).path) else {
             throw XCTSkip("no dictionaries in build/dict: run scripts/build.sh first")
         }
-        let e = try Engine(dictionaryFolder: Self.dictFolder)
+        #if canImport(AppKit) || canImport(UIKit)
+        let english: EnglishLexicon = SystemEnglish()
+        #else
+        // No system spell checker (Windows, Linux, Android): English from the English pack.
+        let en = PackTests.packs.appendingPathComponent("en/en.ttkd")
+        guard FileManager.default.fileExists(atPath: en.path) else {
+            throw XCTSkip("no English pack in build/packs and no system spell checker: run scripts/build.sh first")
+        }
+        let english: EnglishLexicon = PackEnglish(lexicon: try Lexicon(contentsOf: en))
+        #endif
+        let e = try Engine(dictionaryFolder: Self.dictFolder, english: english)
         Self.shared = e
         return e
     }
