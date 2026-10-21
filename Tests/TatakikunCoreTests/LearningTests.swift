@@ -3,7 +3,7 @@ import XCTest
 
 final class LearningTests: XCTestCase {
     func testChosenCandidateMovesToFront() throws {
-        let engine = try EngineTests().engine()
+        let engine = try EngineTests.engine()
         let file = FileManager.default.temporaryDirectory.appendingPathComponent("tatakikun-history-\(UUID()).tsv")
         defer { engine.history = nil; try? FileManager.default.removeItem(at: file) }
         engine.history = UserHistory(url: file)
@@ -23,7 +23,7 @@ final class LearningTests: XCTestCase {
     }
 
     func testPolyphones() throws {
-        let engine = try EngineTests().engine()
+        let engine = try EngineTests.engine()
         XCTAssertEqual(engine.candidates(for: "yinhang").firstRow.first?.text, "银行")
         XCTAssertEqual(engine.candidates(for: "changcheng").firstRow.first?.text, "长城")
         XCTAssertEqual(engine.candidates(for: "zhangda").firstRow.first?.text, "长大")

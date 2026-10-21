@@ -2,7 +2,7 @@ import XCTest
 @testable import TatakikunCore
 
 final class ComposerTests: XCTestCase {
-    func composer() throws -> Composer { Composer(engine: try EngineTests().engine()) }
+    func composer() throws -> Composer { Composer(engine: try EngineTests.engine()) }
 
     func type(_ s: String, into c: Composer) { s.forEach { _ = c.handle(.letter($0)) } }
 
@@ -100,7 +100,7 @@ final class ComposerTests: XCTestCase {
         let c = try composer()
         type("ai", into: c)
         _ = c.handle(.right)
-        XCTAssertEqual(c.handle(.space).commit, try EngineTests().engine().candidates(for: "ai").firstRow[1].text)
+        XCTAssertEqual(c.handle(.space).commit, try EngineTests.engine().candidates(for: "ai").firstRow[1].text)
     }
 
     func testBackspaceAndEscape() throws {
@@ -178,7 +178,7 @@ final class ComposerTests: XCTestCase {
 
 final class ExpandTests: XCTestCase {
     func composer(_ letters: String) throws -> Composer {
-        let c = Composer(engine: try EngineTests().engine())
+        let c = Composer(engine: try EngineTests.engine())
         letters.forEach { _ = c.handle(.letter($0)) }
         return c
     }
