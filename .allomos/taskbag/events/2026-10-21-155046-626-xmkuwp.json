@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-21T15:50:46Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-mantle732",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Lexicon keeps a base pointer into a Data mapped with .alwaysMapped (the Data is held and never changed, so its bytes do not move), instead of NSData or calling mmap per platform."
+    }
+  ]
+}
