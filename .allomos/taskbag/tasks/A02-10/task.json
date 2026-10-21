@@ -1,0 +1,7 @@
+{
+  "area": "A02",
+  "id": "A02-10",
+  "iteration": "I04",
+  "state": "ready",
+  "title": "Mistyped pinyin with swapped letters still gives the intended Chinese candidates (e.g. zhogn → 中)"
+}
