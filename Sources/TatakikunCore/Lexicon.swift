@@ -115,14 +115,15 @@ public final class Lexicon {
         return n
     }
 
+    /// The record's key against `k`, byte by byte (no memcmp: the C library is not imported everywhere).
     private func compareKey(_ r: UnsafePointer<UInt8>, _ k: [UInt8]) -> Int {
         let n = keyLength(r)
-        let c = k.withUnsafeBufferPointer { memcmp(r, $0.baseAddress!, min(n, k.count)) }
-        return c != 0 ? Int(c) : n - k.count
+        for i in 0..<min(n, k.count) where r[i] != k[i] { return Int(r[i]) - Int(k[i]) }
+        return n - k.count
     }
 
     private func hasPrefix(_ r: UnsafePointer<UInt8>, _ p: [UInt8]) -> Bool {
-        keyLength(r) >= p.count && p.withUnsafeBufferPointer { memcmp(r, $0.baseAddress!, p.count) } == 0
+        keyLength(r) >= p.count && p.indices.allSatisfy { r[$0] == p[$0] }
     }
 
     private func lowerBound(_ k: [UInt8], in s: Section) -> Int {
