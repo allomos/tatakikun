@@ -89,7 +89,13 @@ public final class Engine {
         var found = english?.candidates(for: input) ?? []
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
         if letters {
-            found += chinese?.candidates(for: input) ?? []
+            let zh = chinese?.candidates(for: input) ?? []
+            found += zh
+            // No Chinese and no English word as typed: perhaps two letters typed in the wrong order
+            // (zhogn → 中). Not for two letters (is, ia), where nearly any swap is some syllable.
+            if let chinese, zh.isEmpty, found.isEmpty, input.count >= 3, !Abbreviation.applies(to: input) {
+                found += chinese.swapCorrections(for: input)
+            }
             found += japanese?.candidates(for: input) ?? []
         }
         found = found.map { leaning(learned($0, input), lead) }

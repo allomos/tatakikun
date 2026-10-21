@@ -46,6 +46,18 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "chongqi").firstRow.prefix(2).map(\.text), ["充气", "重启"])
     }
 
+    /// A02-10: neighbouring letters typed in the wrong order still give the intended words; valid
+    /// pinyin keeps its own candidates first, and the letters as typed stay in the bar.
+    func testSwappedLetters() throws {
+        let e = try engine([.zh, .ja, .en])
+        let zhogn = e.candidates(for: "zhogn").firstRow
+        XCTAssertEqual(zhogn.first?.text, "中")
+        XCTAssertFalse(zhogn.first!.isExact)
+        XCTAssert(zhogn.contains { $0.text == "zhogn" })
+        XCTAssertEqual(e.candidates(for: "zhognguo").firstRow.first?.text, "中国")
+        XCTAssertEqual(e.candidates(for: "zhong").firstRow.first.map { [$0.text, "\($0.isExact)"] }, ["中", "true"])
+    }
+
     func testOnlyChinese() throws {
         let e = try engine([.zh])
         XCTAssertEqual(kinds(e, "ai"), [.chinese])
