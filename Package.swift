@@ -6,6 +6,8 @@ let package = Package(
     platforms: [.macOS(.v13), .iOS(.v16)],
     products: [
         .library(name: "TatakikunCore", targets: ["TatakikunCore"]),
+        // The engine as one shared library, for apps on other platforms (Android, Windows, Linux).
+        .library(name: "TatakikunEngine", type: .dynamic, targets: ["TatakikunCore"]),
         .executable(name: "Tatakikun", targets: ["Tatakikun"]),
         .executable(name: "tatakikun-cli", targets: ["tatakikun-cli"]),
         .executable(name: "tatakikun-dictgen", targets: ["tatakikun-dictgen"]),
