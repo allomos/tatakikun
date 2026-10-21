@@ -60,6 +60,8 @@ enum Cost {
     static let leadingPerLength = 3
     /// How many whole-sentence candidates to offer.
     static let sentences = 3
+    /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).
+    static let swapped = 40
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).
@@ -127,17 +129,38 @@ public struct ChineseConverter {
 
     public func candidates(for input: String, limit: Int = 40) -> [Candidate] {
         let key = input.lowercased()
-        var out = lexicon.exact(key).prefix(limit).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
-        // Whole sentences: the cheapest few, so a less common reading of the start still shows
-        // (chongqizhiqian: 充气之前, then 重启之前).
-        for path in segmentations(Array(key), lexicon: lexicon, count: Cost.sentences) where path.words.count > 1 {
-            let text = path.words.joined()
-            if !out.contains(where: { $0.text == text }) { out.append(Candidate(text: text, kind: .chinese, cost: path.cost)) }
-        }
+        var out = readings(of: key, limit: limit)
         if Abbreviation.applies(to: key) {
             out += abbreviated(Abbreviation.pinyinKeys(key), in: lexicon, limit: limit) { _ in .chinese }
         }
         return out
+    }
+
+    /// The words typed as `key`, then whole sentences: the cheapest few, so a less common reading of
+    /// the start still shows (chongqizhiqian: 充气之前, then 重启之前).
+    func readings(of key: String, limit: Int) -> [Candidate] {
+        var out = lexicon.exact(key).prefix(limit).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
+        for path in segmentations(Array(key), lexicon: lexicon, count: Cost.sentences) where path.words.count > 1 {
+            let text = path.words.joined()
+            if !out.contains(where: { $0.text == text }) { out.append(Candidate(text: text, kind: .chinese, cost: path.cost)) }
+        }
+        return out
+    }
+
+    /// What the letters would be with two neighbouring letters swapped back (zhogn → zhong → 中,
+    /// zhognguo → 中国), a little dearer and shown as not typed exactly. The engine asks only when
+    /// the letters are no word as typed (see `Engine.candidates`).
+    public func swapCorrections(for input: String, limit: Int = 40) -> [Candidate] {
+        let letters = Array(input.lowercased())
+        var out: [Candidate] = []
+        for i in letters.indices.dropLast() where letters[i] != letters[i + 1] {
+            var fixed = letters
+            fixed.swapAt(i, i + 1)
+            for c in readings(of: String(fixed), limit: limit) where !out.contains(where: { $0.text == c.text }) {
+                out.append(Candidate(text: c.text, kind: .chinese, cost: c.cost + Cost.swapped, isExact: false))
+            }
+        }
+        return Array(out.sorted { $0.cost < $1.cost }.prefix(limit))
     }
 
     /// Words that complete the input (its letters are the start of their pinyin), and words
