@@ -1,7 +1,8 @@
 {
   "area": "A02",
+  "holder": "claude-loop",
   "id": "A02-09",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "Typing chongqizhiqian offers 重启之前 in the candidate list (investigate why it does not)"
 }
