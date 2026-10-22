@@ -1,7 +1,8 @@
 {
   "area": "A02",
+  "holder": "claude-loop",
   "id": "A02-wire178",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "口语整句能整句打出:niyongguolema 第一行出现“你用过了吗”"
 }
