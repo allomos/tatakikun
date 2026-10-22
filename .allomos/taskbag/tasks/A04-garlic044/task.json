@@ -2,8 +2,11 @@
   "area": "A04",
   "handoff_note": "Untested work in progress on branch task/A04-garlic044 (local commit 73506ab, worktree ../tatakikun-wt/A04-garlic044, build/dict and build/packs already copied in): Composer accepts '-' after whole kana, Engine gives Japanese candidates for romaji with '-' (Romaji.hasLongVowelMarks), new ComposerTests.testHyphenAfterKanaIsLongVowelMark. Next: swift build -c release, check tatakikun-cli --packs build/packs sute-tasu / ko-hi- / ra-men, run tests, merge, reinstall for a human check.",
   "holder": "claude-loop",
+  "human_check_steps": "# 检查 A04-garlic044\n\n新版本已装在这台 Mac 上(2026-10-22)。\n\n1. 切换到 Tatakikun,键入 `sute-tasu`:候选里有 ステータス、すてーたす;选 ステータス 上屏。\n2. 键入 `ko-hi-`:有 コーヒー 和 珈琲;`ra-men`:有 ラーメン。\n3. 英文连字符不受影响:键入 `well-known`,`well-` 照常上屏,再继续打 known。\n4. 什么都没打时按 -:直接输入 -。\n",
   "id": "A04-garlic044",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Typing - after romaji gives the long vowel mark ー (sute-tasu → ステータス)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "Typing - after romaji gives the long vowel mark ー (sute-tasu → ステータス)",
+  "without_human_check": "在真实应用里打字是人的检查"
 }
