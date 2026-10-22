@@ -7,8 +7,16 @@ name: Windows
 on:
   push:
     branches: [master]
+    # Only what can change the build or the tests: not the taskbag, not the docs.
+    paths: ['Sources/**', 'Tests/**', 'Package.swift', 'scripts/**', '.github/workflows/windows.yml']
   pull_request:
+    paths: ['Sources/**', 'Tests/**', 'Package.swift', 'scripts/**', '.github/workflows/windows.yml']
   workflow_dispatch:
+
+# A newer push makes an older run of the same branch pointless.
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   dictionaries:
