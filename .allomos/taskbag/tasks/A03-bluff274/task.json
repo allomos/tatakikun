@@ -1,8 +1,11 @@
 {
   "area": "A03",
   "holder": "claude-loop",
+  "human_check_steps": "# 检查 A03-bluff274\n\n新版本已装在这台 Mac 上(2026-10-22)。\n\n1. 切换到 Tatakikun,键入 `guole`:第一个是“过了”,不是“活了”。\n2. 键入 `yongguo`:前几个里没有“遇过”打头。\n3. 键入 `niyongguolema`:第一行没有“活了”“遇过”“勒马”。\n4. 常用词不变:yinhang→银行,woaini→我爱你,nihao→你好,zhongguo→中国。\n",
   "id": "A03-bluff274",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "汉字的生僻读音不再挤掉常用词(guole 先出“过了”,不再出“活了”)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "汉字的生僻读音不再挤掉常用词(guole 先出“过了”,不再出“活了”)",
+  "without_human_check": "在真实应用里打字是人的检查"
 }
