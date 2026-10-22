@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T14:38:18Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-mitten679",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "只出 arm64 APK（89.5 MB，语言包不压缩以加快首次解包）；不做 AAB、不上 Google Play"
+    }
+  ]
+}

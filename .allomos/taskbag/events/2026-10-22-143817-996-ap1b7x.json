@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T14:38:17Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-mitten679",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "APK 附在已有的 v0.6.3 Release 上，没有另发 v0.6.4：代码与 v0.6.3 相同，Mac 版没有变化"
+    }
+  ]
+}

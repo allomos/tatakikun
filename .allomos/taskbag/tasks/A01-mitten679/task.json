@@ -1,8 +1,10 @@
 {
   "area": "A01",
   "holder": "claude-android-release",
+  "human_check_steps": "# 在真机上检查 Tatakikun 安卓版（v0.6.3）\n\n需要：一台 arm64 的 Android 9 及以上手机（近几年的手机基本都是）。\n\n1. 用手机浏览器打开 https://github.com/allomos/tatakikun/releases/tag/v0.6.3 ，下载 `Tatakikun-0.6.3-android.apk`（约 90 MB）。\n2. 打开下载的文件。Android 会问是否允许这个浏览器（或文件管理器）安装应用：允许，然后点「安装」。Play 保护机制如果提示「未知应用」，选「仍然安装」。\n3. 打开 Tatakikun 应用：点 **Open settings** → 打开 Tatakikun（系统会警告键盘能读取输入内容，点确定）。返回，点 **Choose keyboard** → 选 Tatakikun。\n4. 在应用下方的输入框里试：\n   - `woaini` 空格 → 我爱你\n   - `nihao` 空格 → 你好\n   - `watashi` 空格 → 私\n   - `arigatou` → 候选栏里有 ありがとう / 有難う\n   - `hello` 空格 → hello\n   - 候选栏同时显示英、中、日候选，点任一候选能上屏\n5. 换到别的应用（微信、备忘录、浏览器地址栏）里再打几个词，确认能正常上屏、退格、换行。\n6. 切回别的键盘：输入时点右下角（或导航栏）的键盘图标，选 Gboard 等。\n\n全部正常：告诉我「A01-mitten679 检查过了」，我记为 human verified。A01-10（安卓键盘本身）也可以一起记。\n有问题：说出手机型号、Android 版本和哪一步不对。\n",
   "id": "A01-mitten679",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "在 GitHub Release 下载安卓版 APK,装到 Android 手机上就能用 Tatakikun 键盘"
+  "state": "done",
+  "title": "在 GitHub Release 下载安卓版 APK,装到 Android 手机上就能用 Tatakikun 键盘",
+  "without_human_check": "已发布并在模拟器上测过；还没在真机上装过"
 }

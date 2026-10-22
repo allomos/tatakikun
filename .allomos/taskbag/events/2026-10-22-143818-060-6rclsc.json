@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T14:38:18Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-mitten679",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "新建正式签名密钥（RSA 4096，有效期 10000 天，CN=Tatakikun），放在 ~/.config/tatakikun/，不进仓库；以后每个 APK 都必须用它签名，否则手机无法覆盖升级"
+    }
+  ]
+}

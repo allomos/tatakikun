@@ -2,4 +2,11 @@
 
 **Done means.** `gh release view v0.6.3` 列出 APK 和 .sha256;APK 用正式签名(不是 debug 签名),`apksigner verify` 通过;在模拟器上安装后能打字。
 
-**Notes.** 渠道由 approver 选定:GitHub Release 放 APK(2026-10-22,对话中「直接发这个」)。不上 Google Play。签名密钥放在项目外,丢了以后就不能覆盖升级。
+**Notes.** 渠道由 approver 选定:GitHub Release 放 APK(2026-10-22,对话中「GitHub Release 放 APK / 直接发这个」)。不上 Google Play。签名密钥放在项目外(见 project notes 的 Where credentials live),丢了以后就不能覆盖升级:要备份。
+
+## Evidence
+
+- 构建:`scripts/build-android-app.sh release` → build/Tatakikun-0.6.3-android.apk,89.5 MB;apksigner verify 通过,证书 CN=Tatakikun,SHA-256 05d10759b630e6d9ab267df2caa32584d8ae72e0c195d7c1eaf72d35cc7bdb41;versionName 0.6.3,versionCode 603;没有任何权限(aapt dump permissions 为空)。
+- 模拟器(Pixel_7_API_34, arm64):`APK=build/Tatakikun-0.6.3-android.apk scripts/test-android.sh` 9 项全部通过(woaini→我爱你、nihao→你好、watashi→私、hello、sute-tasu→ステータス、niyongguolema→你用过了吗、你好，、woaini ENTER、愛愛)。
+- 发布:`gh release upload v0.6.3` 加上 Tatakikun-0.6.3-android.apk(89516863 字节)和 .sha256,说明的 Install 部分加了 Android 一段和 APK 的 SHA-256(60694d4d8d5a1a41f641cc84f3a6f7622cc66bc4d6040e0823583435da142438)。重新下载后 shasum -c 通过;Release 页面 200。
+- 没做:真机检查(等人)。
