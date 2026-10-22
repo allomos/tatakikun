@@ -1,0 +1,7 @@
+.gradle/
+build/
+.cxx/
+local.properties
+# Made by scripts/build-android-app.sh from build/android and build/packs:
+app/src/main/jniLibs/
+app/src/main/assets/packs/

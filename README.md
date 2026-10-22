@@ -110,6 +110,23 @@ Open `iOS/Tatakikun.xcodeproj` in Xcode to run it on your own iPhone (sign with 
 turn it on: Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun. The app also
 has a screen to try the keyboard without turning it on. It is not on the App Store.
 
+## Android (preview)
+
+`android/` holds an Android app with a Tatakikun keyboard (Android 9 or later, arm64 phones):
+the same engine as on the Mac, built with the Swift SDK for Android and reached through JNI, a
+candidate bar over a QWERTY layout, and the three language packs inside the app. It also reads a
+hardware keyboard.
+
+```sh
+scripts/build-android-app.sh            # android/app/build/outputs/apk/debug/app-debug.apk
+scripts/build-android-app.sh install    # and install it on a connected phone or a running emulator
+scripts/test-android.sh                 # type a few inputs on the emulator and check the results
+```
+
+Building needs the Android SDK and NDK (Android Studio), and the Swift toolchain and Swift SDK for
+Android that match each other (see `scripts/build-android.sh`). On the phone: open Tatakikun → Open
+settings → turn on Tatakikun, then Choose keyboard → Tatakikun.
+
 ## Development
 
 - `swift test` — engine, key-handling and pack tests (needs `build/dict` and `build/packs`: run `scripts/build.sh` first).

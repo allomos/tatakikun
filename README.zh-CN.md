@@ -87,6 +87,20 @@ scripts/build-ios.sh test   # 并运行界面测试
 在 Xcode 中打开 `iOS/Tatakikun.xcodeproj` 可以装到自己的 iPhone 上(用你的 Apple ID 签名),然后启用:
 设置 → 通用 → 键盘 → 键盘 → 添加新键盘… → Tatakikun。应用里也有一个不用启用就能试用键盘的页面。目前没有上架 App Store。
 
+## Android(预览)
+
+`android/` 里是带 Tatakikun 键盘的 Android 应用(Android 9 以上,arm64 手机):引擎和 Mac 上的相同,
+用 Swift SDK for Android 构建、通过 JNI 调用;QWERTY 键盘上方是候选条;三个语言包装在应用里。也支持实体键盘。
+
+```sh
+scripts/build-android-app.sh            # 生成 android/app/build/outputs/apk/debug/app-debug.apk
+scripts/build-android-app.sh install    # 并安装到连接的手机或运行中的模拟器
+scripts/test-android.sh                 # 在模拟器上输入几组字母并检查结果
+```
+
+构建需要 Android SDK 和 NDK(Android Studio),以及相互匹配的 Swift 工具链和 Swift SDK for Android
+(见 `scripts/build-android.sh`)。在手机上:打开 Tatakikun → Open settings → 打开 Tatakikun,再 Choose keyboard → Tatakikun。
+
 ## 开发
 
 - `swift test` — 引擎、按键和语言包的测试(需要 `build/dict` 和 `build/packs`:先运行 `scripts/build.sh`)。

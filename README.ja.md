@@ -92,6 +92,22 @@ Xcode で `iOS/Tatakikun.xcodeproj` を開くと自分の iPhone で動かせま
 設定 → 一般 → キーボード → キーボード → 新しいキーボードを追加… → Tatakikun で有効にします。アプリには
 有効にしなくてもキーボードを試せる画面もあります。App Store にはまだありません。
 
+## Android(プレビュー)
+
+`android/` には Tatakikun キーボード付きの Android アプリがあります(Android 9 以降、arm64 の端末)。
+エンジンは Mac と同じで、Swift SDK for Android でビルドし JNI から呼び出します。QWERTY キーボードの上に
+候補バーがあり、3 つの言語パックはアプリに含まれます。ハードウェアキーボードにも対応します。
+
+```sh
+scripts/build-android-app.sh            # android/app/build/outputs/apk/debug/app-debug.apk を作る
+scripts/build-android-app.sh install    # 接続した端末か起動中のエミュレータにインストールする
+scripts/test-android.sh                 # エミュレータでいくつか入力して結果を確かめる
+```
+
+ビルドには Android SDK と NDK(Android Studio)、互いに対応する Swift ツールチェーンと Swift SDK for
+Android が必要です(`scripts/build-android.sh` を参照)。端末では Tatakikun を開き → Open settings →
+Tatakikun をオンにし、Choose keyboard → Tatakikun を選びます。
+
 ## 開発
 
 - `swift test` — エンジン・キー操作・言語パックのテスト(`build/dict` と `build/packs` が必要:先に `scripts/build.sh` を実行)。
