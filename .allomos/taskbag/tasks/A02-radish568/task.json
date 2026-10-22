@@ -1,8 +1,11 @@
 {
   "area": "A02",
   "holder": "claude-unei",
+  "human_check_steps": "# 检查 A02-radish568:元音前的 n 也按ん来查\n\n新版已装到这台 Mac(scripts/install.sh,2026-10-22)。Electron 应用(VS Code、Slack)要 ⌘Q 重开。\n\n1. 切到 Tatakikun,键入 `unei`:第一个候选是 運営,候选条里仍有 うねい。\n2. 键入 `unnei`:也有 運営。\n3. 键入 `renai`→恋愛,`genin`→原因,`kinen`→禁煙(都在候选条里)。\n4. 原来的没变:`konnichiha` 第一个是 こんにちは,`nihon` 第一个是 日本,`watashihagakuseidesu` 第一个是 私は学生です。\n",
   "id": "A02-radish568",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "键入 unei 时候选里有“運営”:罗马字里元音前的 n 也按ん来查(恋愛 renai、原因 genin 等同理)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "键入 unei 时候选里有“運営”:罗马字里元音前的 n 也按ん来查(恋愛 renai、原因 genin 等同理)",
+  "without_human_check": "在真实应用里打字是人的检查"
 }
