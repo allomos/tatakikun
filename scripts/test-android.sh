@@ -7,7 +7,7 @@
 set -e
 cd "$(dirname "$0")/.."
 ADB=${ANDROID_HOME:-$HOME/Library/Android/sdk}/platform-tools/adb
-APK=android/app/build/outputs/apk/debug/app-debug.apk
+APK=${APK:-android/app/build/outputs/apk/debug/app-debug.apk}   # APK=build/Tatakikun-X.Y.Z-android.apk tries a release
 [ -f $APK ] || scripts/build-android-app.sh
 $ADB wait-for-device
 $ADB install -r $APK >/dev/null

@@ -52,6 +52,7 @@ Facts for `alm guide github-release` (derived from the repository 2026-10-22, be
 | `NOTES_URL` | https://github.com/allomos/tatakikun/releases/tag/vX.Y.Z |
 | `NOTES_PUBLISH` | Published with the release by `gh release create --notes-file`. |
 | `GH_NOTES` | The agent writes them; they link to the previous release for everything unchanged. |
+| `ANDROID_ASSET` | From v0.6.3: `Tatakikun-X.Y.Z-android.apk` (arm64, Android 9+) and its `.sha256`, built by `scripts/build-android-app.sh release` into `build/` (version from `App/Info.plist`, versionCode X*10000+Y*100+Z, signed with the key under Where credentials live) and uploaded to the same release; the notes' Install section has an Android line. Check it first: `APK=build/Tatakikun-X.Y.Z-android.apk scripts/test-android.sh` (uninstall a debug build first: other signature). Not installed on this computer. |
 | `INSTALL_ASSET` | `Tatakikun-X.Y.Z.pkg` (Apple silicon and Intel), with `Tatakikun-X.Y.Z.pkg.sha256` (from v0.6.1; earlier releases give the SHA-256 in the notes only). |
 | `INSTALL_COMMAND` | `installer -pkg Tatakikun-X.Y.Z.pkg -target CurrentUserHomeDirectory`: installs into the user's Library, no password; all three packs by default. Then `pkill -x Tatakikun` so the new build loads. |
 | `VERIFY_INSTALLED` | `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ~/Library/Input\ Methods/Tatakikun.app/Contents/Info.plist`, and `pgrep -x Tatakikun` after typing in any app. |
@@ -60,7 +61,9 @@ Facts for `alm guide github-release` (derived from the repository 2026-10-22, be
 ## Where credentials live
 
 Never their values, and no personal details (email addresses, account names): write a
-placeholder such as `<ACCOUNT_EMAIL>` and how to look it up. None yet.
+placeholder such as `<ACCOUNT_EMAIL>` and how to look it up.
+
+- Android release signing key (A01-mitten679): `~/.config/tatakikun/android-release.jks` and its passwords in `~/.config/tatakikun/android-signing.properties` (mode 600), on the Mac that released v0.6.3 only; certificate SHA-256 05d10759…bdb41. Every later APK must be signed with it or phones cannot update in place: keep a backup outside this Mac.
 
 ## Agents set up
 
