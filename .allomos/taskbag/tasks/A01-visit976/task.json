@@ -1,0 +1,9 @@
+{
+  "area": "A01",
+  "id": "A01-visit976",
+  "iteration": "I04",
+  "state": "waiting",
+  "title": "安卓键盘布局和 Pixel 自带键盘(Gboard)一样顺手:数字行、符号提示、圆角功能键,底部不被系统栏挡住",
+  "waiting_on": "确认 Gboard 风格的键盘设计稿(对话中 2026-10-23)",
+  "who": "approver"
+}

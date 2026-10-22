@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T15:00:15Z",
+  "by": "claude-android-release",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-visit976",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "确认 Gboard 风格的键盘设计稿(对话中 2026-10-23)"
+    },
+    {
+      "field": "who",
+      "to": "approver"
+    }
+  ]
+}
