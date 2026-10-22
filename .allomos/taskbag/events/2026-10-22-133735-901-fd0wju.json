@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T13:37:35Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-mantle732",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Only a quick try on the Mac is left; the real check of FoundationEssentials is A02-island506"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-mantle732: nothing changes on the Mac\n\nThe new build is installed on this Mac (scripts/install.sh, 2026-10-22).\n\n1. Switch to Tatakikun and type a few words: `ai`, `woaini`, `watashi`, `hello`, `zhogn`. The candidates are as before.\n2. The Android build (A02-island506) is where the FoundationEssentials-only engine is really compiled.\n"
+    }
+  ]
+}

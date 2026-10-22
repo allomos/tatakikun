@@ -24,6 +24,7 @@ Nothing.
 - The engine and tatakikun-cli import FoundationEssentials where it exists (A02-mantle732): no NSData, NSString, memcmp or other APIs that only full Foundation brings; macOS/iOS still compile against Foundation, so only the Android build (or Windows CI) catches a slip.
 - Windows: GitHub Actions `.github/workflows/windows.yml` builds tatakikun-cli and runs the engine tests on every push to master; the program is the run's artifact `tatakikun-cli-windows-x64`. No Windows machine here: the person tests on their PC.
 - Android app (A01-10): `scripts/build-android-app.sh [install]` builds the engine and `android/` (Gradle 8.14.4 wrapper, AGP 8.13, Android Studio's Java via JAVA_HOME, SDK in ~/Library/Android/sdk); `scripts/test-android.sh` types on a running emulator (AVD Pixel_7_API_34, arm64: `~/Library/Android/sdk/emulator/emulator -avd Pixel_7_API_34 -no-window &`). Force-stopping the app also stops the keyboard and Android falls back to Gboard (select it again); leave the app for ~2 s before coming back or the input does not end (momentum stays).
+- History: the taskbag written by the earlier Allomos (format allomos/4), with its event history (`events/`) and its original handoffs, is in Git commit `0c234fb21e7835fca72d2150e0ea1debbc20f0c8` (`git show 0c234fb:.allomos/taskbag/`); it was moved into this taskbag on 2026-10-22 (docs/allomos-conversion.md).
 
 ## Repositories
 

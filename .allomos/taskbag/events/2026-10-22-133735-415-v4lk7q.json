@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T13:37:35Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Typing it in a real app is the person's check"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-10: swapped letters in pinyin\n\nThe new build is installed on this Mac (scripts/install.sh, 2026-10-21).\n\n1. Switch to Tatakikun in any app.\n2. Type `zhogn`: 中, 重, 种… in the bar (gray), and `zhogn` as typed at the end.\n3. Type `zhognguo` → 中国; `nihoa` → 你好; `hne` → 很.\n4. Type valid input and check nothing changed: `zhong` → 中 (not gray), `is` → is, `an` → an/安.\n"
+    }
+  ]
+}

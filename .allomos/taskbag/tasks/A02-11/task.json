@@ -6,6 +6,6 @@
   "iteration": "I04",
   "label": "locally verified",
   "state": "done",
-  "title": "A 2–4 character Chinese or Japanese result the user picked by hand is remembered as a custom word",
+  "title": "用户手动选出的 2–4 字中文或日文结果记成自定义词",
   "without_human_check": "Picking by hand in a real app is the person's check"
 }

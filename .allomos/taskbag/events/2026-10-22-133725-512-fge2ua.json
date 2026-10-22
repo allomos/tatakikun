@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "常见多音字词能用正确读音打出来(如 yinhang→银行)"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

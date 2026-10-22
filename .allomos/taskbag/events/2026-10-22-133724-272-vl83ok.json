@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:24Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-06",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "只键入辅音(首字母)也能出词:如 nh→你好,wtx→わたし/私"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

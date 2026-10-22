@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:24Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-mantle732",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "引擎不用庞大的 ICU 语言数据也能运行(只用 FoundationEssentials)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

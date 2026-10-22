@@ -6,6 +6,6 @@
   "iteration": "I04",
   "label": "locally verified",
   "state": "done",
-  "title": "Mistyped pinyin with swapped letters still gives the intended Chinese candidates (e.g. zhogn → 中)",
+  "title": "拼音字母顺序打反时仍能得到想要的中文候选(如 zhogn → 中)",
   "without_human_check": "Typing it in a real app is the person's check"
 }

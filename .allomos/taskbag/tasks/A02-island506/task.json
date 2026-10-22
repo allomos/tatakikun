@@ -6,5 +6,5 @@
   "iteration": "I05",
   "label": "human verified",
   "state": "done",
-  "title": "Check: the Swift engine builds for Android, with its app size measured"
+  "title": "检查:Swift 引擎能为 Android 构建,并量出应用大小"
 }

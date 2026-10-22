@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:22Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A01-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "对照规格 1–7、9 试用 v0.1,写下让这个人试用的步骤。\n\n**Evidence**(2026-10-20,master 上 a03aaa0 之后):\n- `swift test`:14 个测试,0 失败(引擎 7 个、按键 6 个、假名 1 个)。\n- `tatakikun-cli`:hello→hello;nihao→你好(第 1);zhongguo→中国(第 1);woaini→我爱你(第 1);arigatou→ありがとう/有難う/アリガトウ;toukyou→東京(第 1)/とうきょう/トウキョウ;ai→爱/愛/あい/アイ/ai 同在第一行;qwzx→只有 qwzx。\n- 按键测试覆盖:空格上屏首选、回车上屏原始串、数字选择、←→、退格、Esc、标点。\n- 输入法 app 能作为 IMK 服务启动(运行 4 秒未退出),Info.plist 校验通过,已临时签名。\n- **未验证**:规格 1(在系统设置里添加并在文本编辑里输入)需要这个人亲手做。\n"
+    }
+  ]
+}

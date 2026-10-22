@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:26Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "在任何应用里用 Tatakikun 输入:横向候选条、数字选择、空格/回车上屏"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

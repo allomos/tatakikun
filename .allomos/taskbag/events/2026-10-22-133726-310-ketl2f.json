@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:26Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A04-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "**Outcome.** InputMethodKit 输入法 app,自绘横向候选条;构建和安装脚本。**Done means.** 构建出 Tatakikun.app,安装后能在文本编辑里输入。\n"
+    }
+  ]
+}

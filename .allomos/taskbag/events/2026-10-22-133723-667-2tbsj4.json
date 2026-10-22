@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:23Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

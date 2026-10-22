@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T13:37:35Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "note",
+  "kind": "task",
+  "id": "A02-island506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first."
+    }
+  ]
+}
