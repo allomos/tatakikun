@@ -234,3 +234,48 @@ final class ExpandTests: XCTestCase {
         }
     }
 }
+
+/// A04-garlic044: "-" after romaji is the long vowel mark ー, as in other Japanese input methods.
+final class LongVowelMarkTests: XCTestCase {
+    func composer() -> Composer {
+        Composer(engine: Engine(chinese: nil, japanese: Lexicon(entries: [LexiconEntry(key: "こーひー", word: "珈琲", cost: 60)]), english: nil))
+    }
+
+    func type(_ c: Composer, _ keys: String) -> String {
+        var inserted = ""
+        for k in keys {
+            let key: Key = k.isLetter ? .letter(k) : .other(k)
+            inserted += c.handle(key).commit ?? ""
+        }
+        return inserted
+    }
+
+    func testHyphenAfterKanaIsLongVowelMark() {
+        let c = composer()
+        XCTAssertEqual(type(c, "sute-tasu"), "", "nothing inserted yet")
+        XCTAssertEqual(c.input, "sute-tasu")
+        XCTAssert(c.list.firstRow.contains { $0.text == "ステータス" }, "\(c.list.firstRow.map(\.text))")
+        XCTAssert(c.list.firstRow.contains { $0.text == "すてーたす" })
+        XCTAssertEqual(c.handle(.enter).commit, "sute-tasu", "Return still inserts the letters as typed")
+    }
+
+    func testTrailingHyphenAndDictionaryWord() {
+        let c = composer()
+        _ = type(c, "ko-hi-")
+        XCTAssertEqual(c.input, "ko-hi-")
+        XCTAssert(c.list.firstRow.contains { $0.text == "コーヒー" })
+        XCTAssert(c.list.firstRow.contains { $0.text == "珈琲" })
+    }
+
+    func testHyphenAfterNonKanaStillInserts() {
+        // "well" is no whole kana: "-" inserts what is typed, then the hyphen, as before.
+        let c = composer()
+        XCTAssertEqual(type(c, "well-"), "well-")
+        XCTAssertFalse(c.isComposing)
+    }
+
+    func testLeadingHyphenIsLeftToTheApplication() {
+        let c = composer()
+        XCTAssertFalse(c.handle(.other("-")).handled)
+    }
+}
