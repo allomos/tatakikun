@@ -207,9 +207,19 @@ public struct JapaneseConverter {
             return abbreviated(Abbreviation.kanaKeys(input), in: lexicon, limit: limit,
                                extraCost: Cost.kanaAbbreviation, kind: Self.kind)
         }
-        guard let kana = Romaji.toHiragana(input), !kana.isEmpty else { return [] }
-        var out = lexicon.exact(kana).prefix(limit).map { Candidate(text: $0.word, kind: Self.kind(of: $0.word), cost: $0.cost) }
-        if let path = segment(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana), path.words.count > 1 {
+        // Every reading of the letters (unei → うねい and うんえい), merged by cost: 運営 is there.
+        // The other readings only add whole words: their sentences (kanojo → 官お所) are noise.
+        let readings = Romaji.readings(input)
+        guard let kana = readings.first, !kana.isEmpty else { return [] }
+        var out: [Candidate] = []
+        var seen: Set<String> = []
+        for reading in readings {
+            for e in lexicon.exact(reading).prefix(limit) where seen.insert(e.word).inserted {
+                out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost))
+            }
+        }
+        if let path = segment(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana), path.words.count > 1,
+           seen.insert(path.words.joined()).inserted {
             let text = path.words.joined()
             var sentence = Candidate(text: text, kind: Self.kind(of: text), cost: path.cost)
             // Only kana, split into short words: no better than spelling the kana out.

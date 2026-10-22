@@ -46,6 +46,20 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "chongqi").firstRow.prefix(2).map(\.text), ["充气", "重启"])
     }
 
+    /// A02-radish568: an n before a vowel can be ん, so words with ん before a vowel come up from
+    /// one input (unei → 運営), and the な-row reading is still offered (うねい).
+    func testNBeforeVowelAsMoraicN() throws {
+        let e = try engine([.zh, .ja, .en])
+        for (input, word) in [("unei", "運営"), ("unnei", "運営"), ("renai", "恋愛"), ("genin", "原因"), ("kinen", "禁煙")] {
+            let all = e.candidates(for: input).all.map(\.text)
+            XCTAssert(all.contains(word), "\(input): \(all)")
+        }
+        let unei = e.candidates(for: "unei").all.map(\.text)
+        XCTAssert(unei.contains("うねい"), "\(unei)")
+        XCTAssertEqual(e.candidates(for: "konnichiha").firstRow.first?.text, "こんにちは")
+        XCTAssertEqual(e.candidates(for: "nihon").firstRow.first?.text, "日本")
+    }
+
     /// A02-10: neighbouring letters typed in the wrong order still give the intended words; valid
     /// pinyin keeps its own candidates first, and the letters as typed stay in the bar.
     func testSwappedLetters() throws {
