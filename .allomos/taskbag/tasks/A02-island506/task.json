@@ -2,11 +2,9 @@
   "area": "A02",
   "handoff_note": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first.",
   "holder": "claude-loop",
-  "human_check_steps": "# Check A02-island506: the verdict\n\n1. Read the Evidence on A02-island506: sizes and the verdict (OK for option a).\n2. If you agree, A01-10 (the Android keyboard) can go ahead with the Swift engine.\n3. To repeat the build: `scripts/build-android.sh` (prints the sizes).\n",
   "id": "A02-island506",
   "iteration": "I05",
-  "label": "locally verified",
+  "label": "human verified",
   "state": "done",
-  "title": "Check: the Swift engine builds for Android, with its app size measured",
-  "without_human_check": "The person reads the verdict and decides on A01-10"
+  "title": "Check: the Swift engine builds for Android, with its app size measured"
 }
