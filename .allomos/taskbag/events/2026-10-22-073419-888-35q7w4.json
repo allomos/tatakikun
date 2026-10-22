@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T07:34:19Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-legend681",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "只改 scripts/install.sh;.pkg 安装器的结束页没改(用户看得到的新页面,留给人决定)"
+    }
+  ]
+}

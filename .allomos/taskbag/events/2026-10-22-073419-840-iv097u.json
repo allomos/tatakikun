@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T07:34:19Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-legend681",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "提醒总是打印(中英两行),另外列出此刻在运行的 Electron 应用:靠检测 Contents/Frameworks/Electron Framework.framework 判断,检测漏掉也不会少了提醒"
+    }
+  ]
+}
