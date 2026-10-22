@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T07:45:18Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "在你的手机上安装试用是人的检查"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# 检查 A01-10:在 Android 手机上用 Tatakikun\n\n1. 手机打开“开发者选项”里的 USB 调试,用 USB 连到这台 Mac。\n2. 在项目文件夹运行:`scripts/build-android-app.sh install`(构建并安装 APK)。\n3. 手机上打开 Tatakikun 应用 → Open settings → 打开 Tatakikun;回到应用 → Choose keyboard → Tatakikun。\n4. 在任意应用(备忘录、聊天)里打字:woaini → 我爱你,watashi → 私,hello,sute-tasu → ステータス,nh → 你好/女孩…,点候选或按空格上屏。\n5. 选一个不是第一个的候选,再打同样的字母:它排到前面(学习)。\n6. 🌐 键切换到其他键盘。\n"
+    }
+  ]
+}

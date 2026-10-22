@@ -2,8 +2,11 @@
   "area": "A01",
   "handoff_note": "Engine decided by the person 2026-10-22: stay with Swift everywhere (option a); switch the engine to FoundationEssentials (A02-mantle732); check the Android build and size (A02-island506) and the Windows build via GitHub Actions plus a GitHub pre-release the person tests on their own Windows PC, since there is no Windows VM (A02-pit507). If either check fails badly, switch to Rust for all platforms, not Kotlin. Person said: do not implement now. Release channel: the person distributes it themselves later. Android SDK/emulator install on this Mac approved.",
   "holder": "claude-loop",
+  "human_check_steps": "# 检查 A01-10:在 Android 手机上用 Tatakikun\n\n1. 手机打开“开发者选项”里的 USB 调试,用 USB 连到这台 Mac。\n2. 在项目文件夹运行:`scripts/build-android-app.sh install`(构建并安装 APK)。\n3. 手机上打开 Tatakikun 应用 → Open settings → 打开 Tatakikun;回到应用 → Choose keyboard → Tatakikun。\n4. 在任意应用(备忘录、聊天)里打字:woaini → 我爱你,watashi → 私,hello,sute-tasu → ステータス,nh → 你好/女孩…,点候选或按空格上屏。\n5. 选一个不是第一个的候选,再打同样的字母:它排到前面(学习)。\n6. 🌐 键切换到其他键盘。\n",
   "id": "A01-10",
   "iteration": "I05",
-  "state": "in_progress",
-  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选"
+  "label": "locally verified",
+  "state": "done",
+  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选",
+  "without_human_check": "在你的手机上安装试用是人的检查"
 }

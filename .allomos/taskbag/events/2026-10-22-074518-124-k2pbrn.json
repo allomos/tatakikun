@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T07:45:18Z",
+  "by": "claude-loop",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "语言包放在 APK 里(不压缩),首次启动在后台复制到应用目录;APK 约 90 MB。没有按语言选择安装。"
+    }
+  ]
+}
