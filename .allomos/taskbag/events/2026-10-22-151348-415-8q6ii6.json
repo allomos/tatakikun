@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T15:13:48Z",
+  "by": "claude-android-release",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-visit976",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "打字中的字母只显示在键盘上方的小框里,不再作为下划线的 composing text 放进输入框;只有用硬件键盘、屏幕键盘隐藏时才放进输入框"
+    }
+  ]
+}

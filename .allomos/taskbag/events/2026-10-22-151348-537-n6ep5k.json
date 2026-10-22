@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T15:13:48Z",
+  "by": "claude-android-release",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-visit976",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "模拟器上测过并截图;Android 15+ 导航栏留空只能在真机上看"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# 在 Pixel 上检查新键盘(A01-visit976)\n\n1. 把 `build/Tatakikun-android-keyboard-test.apk`(这台 Mac 上)装到手机:USB 连上、打开开发者选项里的 USB 调试,运行 `~/Library/Android/sdk/platform-tools/adb install -r build/Tatakikun-android-keyboard-test.apk`;或者让 Claude 发一个 GitHub 预发布版,用手机下载。它覆盖已装的 v0.6.3,不用先卸载。\n2. 在任何输入框里调出 Tatakikun,看:\n   - 最下面一行(?123 ， 空格 。 回车)完整露出来,系统的 ⌄ 和地球图标在键盘下面,不压在键上。\n   - 没打字时顶部是 设置 / 粘贴 / ‹ › 工具栏;点粘贴能粘贴,‹ › 能移动光标。\n   - 打 `nihao`:键盘上方左边出现一个小框写着 nihao,候选栏是 你好 | … 字大、有分隔线;空格打出 你好。\n   - 长按 q 打出 %,长按 ， 打出 、;按住删除键能连续删。\n   - ?123 换到符号层,ABC 换回来;shift 一次打一个大写字母。\n3. 手机切到深色模式再看一眼。\n\n都正常:告诉 Claude「A01-visit976 检查过了」。不对:截图发过来。\n"
+    }
+  ]
+}

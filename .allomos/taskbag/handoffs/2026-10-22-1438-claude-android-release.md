@@ -1,5 +1,12 @@
 ---
 writer: claude-android-release
+tasks: A01-mitten679, A01-visit976
+written: 2026-10-22T14:38Z
+updated: 2026-10-22T15:13Z
+---
+
+---
+writer: claude-android-release
 tasks: A01-mitten679
 written: 2026-10-22T14:38Z
 updated: 2026-10-22T14:38Z
@@ -9,15 +16,15 @@ updated: 2026-10-22T14:38Z
 
 ## For anyone, in plain words
 
-- **What was being done:** 把安卓版 APK 发布到 GitHub Release(A01-mitten679)。
-- **Where it stopped:** 已发布:v0.6.3 Release 附上 Tatakikun-0.6.3-android.apk 和 .sha256,说明加了 Android 安装一段。任务记为 done,待人在真机上检查(alm human → To check,步骤在任务里)。
-- **Verified, and not verified yet:** 模拟器上 test-android.sh 9 项通过;下载回来校验和一致。真机没装过。
+- **What was being done:** 安卓版 APK 发布(A01-mitten679);安卓键盘改成 Gboard 风格(A01-visit976)。
+- **Where it stopped:** 两个都 done,待真机检查(alm human → To check)。新键盘已合并到 master,还没发布;测试 APK 在 build/Tatakikun-android-keyboard-test.apk(不在 git 里)。
+- **Verified, and not verified yet:** 模拟器 API 34 上测试全过、截图看过;Android 15+ 导航栏留空没验证。
 - **Waiting on whom:** approver:真机检查;备份签名密钥。
-- **The next step (one):** approver 说检查过了 → `alm checked A01-mitten679`(A01-10 同理)。
+- **The next step (one):** 把测试 APK 装到 approver 的 Pixel 上检查(USB adb,或经 approver 同意发 GitHub 预发布版)。
 
 ## Restart details
 
-- **Checkout:** master,b5d2bec 已合并并推送;worktree 和 task/A01-mitten679 分支已删。
+- **Checkout:** master 已推送;worktree 和 task 分支都已删除。
 - **Uncommitted changes:** none
 - **Running:** none(模拟器已关)。
 - **Approvals in force:** 2026-10-22 approver 在对话中选「GitHub Release 放 APK」并说「直接发这个」:只覆盖这次 v0.6.3 的 APK。Google Play 未批准。
