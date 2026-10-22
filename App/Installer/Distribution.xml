@@ -5,6 +5,7 @@
     <title>TITLE</title>
     <welcome file="welcome.html" mime-type="text/html"/>
     <license file="LICENSE.txt" mime-type="text/plain"/>
+    <conclusion file="conclusion.html" mime-type="text/html"/>
     <options customize="always" require-scripts="false" hostArchitectures="HOST_ARCHITECTURES"/>
     <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
     <os-version min="13.0"/>
