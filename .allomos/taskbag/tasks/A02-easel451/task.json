@@ -1,9 +1,12 @@
 {
   "area": "A02",
-  "handoff_note": "Cause: ICU and jieba both rate 女孩 (73) and 您好 (82) above 你好 (86); abbreviations rank by word cost alone. WIP on task/A02-easel451 (worktree ../tatakikun-wt/A02-easel451, committed locally, not merged): spokenChinese table caps 你好 at 70 in the base dictionary and the zh pack; with rebuilt dict/pack, nh → 1.你好 for both. Still to do: run swift test, add a pack-based AbbreviationTests case (nh first = 你好, wtx → 私/わたし), write the Evidence, merge. Loop stopped by the person; run mode was quiet.",
+  "handoff_note": "Merged into master (d080a6a). To see it in the app: rebuild the zh pack and reinstall (steps file). Base dictionaries only change after deleting build/dict and rebuilding.",
   "holder": "claude-loop2",
+  "human_check_steps": "# 检查 A02-easel451:nh 第一个候选是“你好”\n\n1. 在主目录 `git pull`,运行 `scripts/build.sh zh` 重新生成中文语言包(基础词库已有时不重建;要让基础词库也生效,先删掉 build/dict 再运行),然后 `scripts/install.sh`。\n2. 重装后 VS Code、Slack 等 Electron 应用要 ⌘Q 退出再打开。\n3. 在 TextEdit 里切换到 Tatakikun,键入 `nh`:第一个候选应是“你好”,后面是 女孩、您好。\n4. 再试 `nihao`(你好)、`ninhao`(您好)、`wtx`(私 / わたし)、`zhg`(中国),都应和以前一样。\n5. Android:`scripts/build-android-app.sh install` 后在模拟器上键入 `nh`,第一个应是“你好”。\n",
   "id": "A02-easel451",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "语言包里只打声母 nh 时第一个候选是“你好”(现在是“女孩”)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "语言包里只打声母 nh 时第一个候选是“你好”(现在是“女孩”)",
+  "without_human_check": "只等人在 macOS/Android 上亲手键入 nh 确认"
 }

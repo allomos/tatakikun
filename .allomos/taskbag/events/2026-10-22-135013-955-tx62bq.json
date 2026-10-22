@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T13:50:13Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-easel451",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "用手写的小表 spokenChinese(只有 你好,代价最多 70)修正排序,而不是换词频来源:ICU 和 jieba 都把 女孩/您好 排在 你好 前面,宽松许可的口语词频数据这里没有;表只影响这个词,容易撤销。只放 你好:xx→谢谢 等其他首字母排序不在任务范围,没有改。"
+    }
+  ]
+}
