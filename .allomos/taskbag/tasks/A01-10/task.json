@@ -1,8 +1,9 @@
 {
   "area": "A01",
   "handoff_note": "Engine decided by the person 2026-10-22: stay with Swift everywhere (option a); switch the engine to FoundationEssentials (A02-mantle732); check the Android build and size (A02-island506) and the Windows build via GitHub Actions plus a GitHub pre-release the person tests on their own Windows PC, since there is no Windows VM (A02-pit507). If either check fails badly, switch to Rust for all platforms, not Kotlin. Person said: do not implement now. Release channel: the person distributes it themselves later. Android SDK/emulator install on this Mac approved.",
+  "holder": "claude-loop",
   "id": "A01-10",
   "iteration": "I05",
-  "state": "ready",
+  "state": "in_progress",
   "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选"
 }
