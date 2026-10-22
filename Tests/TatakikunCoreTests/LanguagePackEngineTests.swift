@@ -58,6 +58,24 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "zhong").firstRow.first.map { [$0.text, "\($0.isExact)"] }, ["中", "true"])
     }
 
+    /// A02-wire178 / A03-bluff274: spoken sentences of single characters come out whole, and no rare
+    /// reading (活 guo, 遇 yong) or rare word (勒马) takes the first row.
+    func testSpokenSentences() throws {
+        let e = try engine([.zh, .ja, .en])
+        func bar(_ input: String) -> [String] { e.candidates(for: input).firstRow.map(\.text) }
+        XCTAssertEqual(bar("niyongguolema").first, "你用过了吗")
+        XCTAssertFalse(bar("niyongguolema").contains { $0.contains("活了") || $0.contains("遇过") || $0.contains("勒马") }, "\(bar("niyongguolema"))")
+        XCTAssertEqual(bar("nichifanlema").first, "你吃饭了吗")
+        XCTAssertEqual(bar("nizaiganshenme").first, "你在干什么")
+        XCTAssertEqual(bar("tamenqunale").first, "他们去那了")
+        XCTAssertEqual(bar("zhegehenhaochi").first, "这个很好吃")
+        XCTAssertEqual(bar("guole").first, "过了")
+        for (input, word) in [("de", "的"), ("le", "了"), ("guo", "过"), ("hao", "好"), ("qu", "去"), ("ai", "爱"),
+                              ("woaini", "我爱你"), ("nihao", "你好"), ("zhongguo", "中国"), ("yinhang", "银行")] {
+            XCTAssertEqual(e.candidates(for: input).firstRow.first { $0.kind == .chinese }?.text, word, input)
+        }
+    }
+
     func testOnlyChinese() throws {
         let e = try engine([.zh])
         XCTAssertEqual(kinds(e, "ai"), [.chinese])
