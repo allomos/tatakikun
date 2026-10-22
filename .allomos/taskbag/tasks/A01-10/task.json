@@ -3,8 +3,6 @@
   "handoff_note": "Engine decided by the person 2026-10-22: stay with Swift everywhere (option a); switch the engine to FoundationEssentials (A02-mantle732); check the Android build and size (A02-island506) and the Windows build via GitHub Actions plus a GitHub pre-release the person tests on their own Windows PC, since there is no Windows VM (A02-pit507). If either check fails badly, switch to Rust for all platforms, not Kotlin. Person said: do not implement now. Release channel: the person distributes it themselves later. Android SDK/emulator install on this Mac approved.",
   "id": "A01-10",
   "iteration": "I05",
-  "state": "waiting",
-  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选",
-  "waiting_on": "两项检查都通过了:Android 构建可行(A02-island506,引擎加 Swift 运行库安装后约 17 MB,压缩后约 6 MB),Windows 的 GitHub 构建和 72 个测试全部通过(A02-pit507,预发布版 v0.6.2-windows-preview.1 等你在 PC 上试)。之前你说先不要实现安卓版:现在开始做 Android 键盘吗?",
-  "who": "the person"
+  "state": "ready",
+  "title": "安卓版:在 Android 手机上用 Tatakikun 键盘输入英中日混合候选"
 }
