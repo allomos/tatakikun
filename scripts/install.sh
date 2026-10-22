@@ -50,3 +50,12 @@ done
 echo "Installed $DEST/Tatakikun.app with language packs: $LANGS"
 echo "First time: System Settings > Keyboard > Text Input > Input Sources > Edit… > + > 简体中文 (Chinese, Simplified) > Tatakikun."
 echo "You may need to log out and back in before it appears in the list."
+# Reinstalling ended the running Tatakikun. Native apps reconnect to the new one by themselves;
+# Electron apps (VS Code, Slack…) stay attached to the old one: Tatakikun shows in the menu bar
+# but keys do nothing there until the app is quit and reopened.
+ELECTRON=$(ps -axo comm= | sed -n 's|^\(/.*\.app\)/Contents/MacOS/.*|\1|p' | sort -u | while read -r app; do
+    [ -d "$app/Contents/Frameworks/Electron Framework.framework" ] && basename "$app" .app
+done | paste -sd, - | sed 's/,/, /g')
+echo "Electron apps (VS Code, Slack…) that were open: quit them with ⌘Q and reopen them, or Tatakikun types nothing there."
+echo "已经打开的 Electron 应用(VS Code、Slack 等)要用 ⌘Q 完全退出再打开,Tatakikun 才能在里面输入。"
+[ -z "$ELECTRON" ] || echo "Running now / 正在运行: $ELECTRON"
