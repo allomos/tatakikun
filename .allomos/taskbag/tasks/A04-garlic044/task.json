@@ -1,8 +1,9 @@
 {
   "area": "A04",
   "handoff_note": "Untested work in progress on branch task/A04-garlic044 (local commit 73506ab, worktree ../tatakikun-wt/A04-garlic044, build/dict and build/packs already copied in): Composer accepts '-' after whole kana, Engine gives Japanese candidates for romaji with '-' (Romaji.hasLongVowelMarks), new ComposerTests.testHyphenAfterKanaIsLongVowelMark. Next: swift build -c release, check tatakikun-cli --packs build/packs sute-tasu / ko-hi- / ra-men, run tests, merge, reinstall for a human check.",
+  "holder": "claude-loop",
   "id": "A04-garlic044",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "Typing - after romaji gives the long vowel mark ー (sute-tasu → ステータス)"
 }
