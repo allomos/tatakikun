@@ -48,6 +48,11 @@ func japaneseReading(_ w: String) -> String? {
 }
 
 
+/// Everyday spoken Chinese words that both frequency lists (ICU and jieba, counted from written text)
+/// rate below words typed the same way, with the cost each gets at most: 你好 is seen less often than
+/// 女孩 and 您好, yet it is what nh is typed for.
+let spokenChinese: [String: Int] = ["你好": 70]
+
 func buildSystemDictionaries(outDir: URL, icuPath: String) throws {
     try FileManager.default.createDirectory(at: outDir, withIntermediateDirectories: true)
     let words = try ICUDictionary.readCJDict(path: icuPath)
@@ -69,6 +74,11 @@ func buildSystemDictionaries(outDir: URL, icuPath: String) throws {
         if let reading = japaneseReading(word) {
             keep(&ja, reading + "\t" + word, cost)
         }
+    }
+
+    // Everyday spoken words the word frequencies undercount, at most at their cost here.
+    for (word, cost) in spokenChinese {
+        for key in zh.keys where key.hasSuffix("\t" + word) { keep(&zh, key, cost) }
     }
 
     // Common readings the system tokenizer does not give (it returns one reading per word).

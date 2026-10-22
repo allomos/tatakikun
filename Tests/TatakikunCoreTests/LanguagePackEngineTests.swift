@@ -46,6 +46,25 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "chongqi").firstRow.prefix(2).map(\.text), ["充气", "重启"])
     }
 
+    /// A02-easel451: consonants alone with the packs, as with the base dictionaries (A02-06). Both word
+    /// frequency lists put 女孩 and 您好 before 你好, so 你好 is capped as an everyday spoken word.
+    func testAbbreviations() throws {
+        let e = try engine([.zh, .ja, .en])
+        func row(_ s: String) -> [String] { e.candidates(for: s).firstRow.map(\.text) }
+        XCTAssertEqual(row("nh").first, "你好", "\(row("nh"))")
+        XCTAssertEqual(row("nihao").first, "你好")
+        XCTAssertEqual(row("ninhao").first, "您好")
+        XCTAssertEqual(row("nvhai").first, "女孩")
+        XCTAssertEqual(row("zhg").first, "中国")
+        XCTAssertEqual(row("bj").first, "北京")
+        for input in ["wtx", "wts", "wtsh"] {
+            let r = row(input)
+            XCTAssertEqual(r.first, "私", "\(input): \(r)")
+            XCTAssert(r.contains("わたし"), "\(input): \(r)")
+        }
+        XCTAssertEqual(row("rgt").first, "ありがとう")
+    }
+
     /// A02-radish568: an n before a vowel can be ん, so words with ん before a vowel come up from
     /// one input (unei → 運営), and the な-row reading is still offered (うねい).
     func testNBeforeVowelAsMoraicN() throws {

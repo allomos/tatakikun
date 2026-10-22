@@ -133,7 +133,7 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
 
     let characterCosts = singleCharacterCosts(base: costs, frequencies: frequencies)
     for (word, base) in costs {
-        let cost = characterCosts[word] ?? base
+        let cost = min(characterCosts[word] ?? base, spokenChinese[word] ?? .max)
         if let sylls = phrases[word] {
             add(sylls, word, cost)
         } else if let readings = characterReadings(word) {
