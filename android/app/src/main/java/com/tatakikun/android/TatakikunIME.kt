@@ -1,5 +1,6 @@
 package com.tatakikun.android
 
+import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.view.KeyEvent
 import android.view.View
@@ -7,7 +8,8 @@ import android.view.inputmethod.EditorInfo
 
 /**
  * The Tatakikun input method: the same engine and Composer as on the Mac, through JNI. The letters
- * being typed show as composing text (underlined) in the field; the candidates in the keyboard.
+ * being typed show in a small box above the keyboard, like Gboard's pinyin (as composing text in the
+ * field when the keyboard is hidden for a hardware keyboard); the candidates in the keyboard.
  * Keys come from the on-screen keyboard or a hardware keyboard.
  */
 class TatakikunIME : InputMethodService(), KeyboardView.Listener {
@@ -25,8 +27,18 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
-        view?.showsNextKeyboard = shouldOfferSwitchingToNextInputMethod()
         view?.show(null)
+    }
+
+    /** The application makes room for the keys only; the box with the letters lies over it, and lets touches through. */
+    override fun onComputeInsets(outInsets: Insets) {
+        super.onComputeInsets(outInsets)
+        val view = view ?: return
+        if (!isInputViewShown || isFullscreenMode) return
+        val top = outInsets.contentTopInsets + view.panelTop
+        outInsets.contentTopInsets = top
+        outInsets.visibleTopInsets = top
+        outInsets.touchableInsets = Insets.TOUCHABLE_INSETS_CONTENT
     }
 
     override fun onFinishInput() {
@@ -46,8 +58,18 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
         engine?.choose(row, column)?.let { apply(it) }
     }
 
-    override fun onNextKeyboard() {
-        switchToNextInputMethod(false)
+    override fun onAction(action: KeyboardView.Action) {
+        val ic = currentInputConnection ?: return
+        when (action) {
+            KeyboardView.Action.SETTINGS ->
+                startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            KeyboardView.Action.PASTE -> {
+                if (composing) engine?.finish()?.let { apply(it) }
+                ic.performContextMenuAction(android.R.id.paste)
+            }
+            KeyboardView.Action.LEFT -> sendDownUpKeyEvents(KeyEvent.KEYCODE_DPAD_LEFT)
+            KeyboardView.Action.RIGHT -> sendDownUpKeyEvents(KeyEvent.KEYCODE_DPAD_RIGHT)
+        }
     }
 
     /** Keys the composer leaves to the application, from the on-screen keyboard. */
@@ -123,7 +145,7 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
                 state.commit != null -> ic.commitText(state.commit, 1)
                 composing && !state.composing -> ic.commitText("", 1)
             }
-            if (state.composing) ic.setComposingText(state.input, 1)
+            if (state.composing && !isInputViewShown) ic.setComposingText(state.input, 1)
             ic.endBatchEdit()
         }
         composing = state.composing
