@@ -78,6 +78,22 @@ func readWordFrequencies(_ url: URL) throws -> [String: Int] {
 /// so it stays ahead of the words with no frequency at all (重启 68 → 114, after 充气 94).
 func cost(forFrequency n: Int) -> Int { min(169, max(60, Int((144 - 7.12 * log(Double(n))).rounded()))) }
 
+/// Single characters by how often jieba sees each used as a word on its own, which says more about
+/// typing it alone, and about it inside a spoken sentence, than its frequency inside other words
+/// (过 is used alone 97 817 times, 国 29 996: 国 is mostly in 中国, 国家). The base dictionary's
+/// costs for these characters are kept as a set and handed out again in jieba's order, so the
+/// scale stays the same: the character jieba sees most gets the lowest cost (过 67 → 56, 国 63 → 62).
+/// A character never becomes more than `maxCharacterCostRise` dearer: jieba undercounts a few of the
+/// most common ones (的 31 would become 47 and fall behind で for de).
+func singleCharacterCosts(base: [String: Int], frequencies: [String: Int]) -> [String: Int] {
+    let both = base.keys.filter { $0.count == 1 && frequencies[$0] != nil }
+    let costs = both.map { base[$0]! }.sorted()
+    let byFrequency = both.sorted { (frequencies[$0]!, $1) > (frequencies[$1]!, $0) }
+    return Dictionary(uniqueKeysWithValues: zip(byFrequency, costs).map { c, cost in (c, min(cost, base[c]! + maxCharacterCostRise)) })
+}
+
+let maxCharacterCostRise = 5
+
 /// What a character's rare reading adds to a word's cost (活 guo: 74 + 60, after 锅 88 and 过了).
 let rareReadingCost = 60
 
@@ -115,7 +131,9 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
         return combos
     }
 
-    for (word, cost) in costs {
+    let characterCosts = singleCharacterCosts(base: costs, frequencies: frequencies)
+    for (word, base) in costs {
+        let cost = characterCosts[word] ?? base
         if let sylls = phrases[word] {
             add(sylls, word, cost)
         } else if let readings = characterReadings(word) {
