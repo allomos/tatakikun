@@ -30,6 +30,29 @@ copy elsewhere (in the cloud, say) can find both: `- Code: https://github.com/<o
 The address only: never a token or a personal detail.
 - Code and taskbag: https://github.com/allomos/tatakikun (public, MIT)
 
+## Releases
+
+Facts for `alm guide github-release` (derived from the repository 2026-10-22, before v0.6.1).
+
+| Key | Value |
+|---|---|
+| `REMOTE` | https://github.com/allomos/tatakikun |
+| `BASE_BRANCH` | `master` |
+| `VERSION_FILES` | `App/Info.plist` `CFBundleShortVersionString` (`0.6.1`, no `v`); `CFBundleVersion` stays `1`. The installer's version comes from it. The iOS app's own version (`iOS/project.yml` `MARKETING_VERSION`) is not released and not bumped. |
+| `TAG_FORMAT` | `vX.Y.Z`, annotated, message `Tatakikun vX.Y.Z` |
+| `BUMP` | patch, unless the approver says `minor` or `major` |
+| `RELEASE_WORKFLOW` | None for the Mac release: built on this Mac with `scripts/make-installer.sh` (~2 min, needs build/dict and build/packs) and published with `gh release create`. `.github/workflows/windows.yml` runs on every push to master (CI only, ~10–35 min); it publishes nothing. |
+| `NOTES_DIR` | None: the notes are the GitHub release's own body, in the shape of the last release (intro paragraph, Chinese one-liner, `## New/Fixed in vX.Y.Z`, `## Install` with the SHA-256, license line). |
+| `NOTES_LANGUAGES` | English body, with the one-line Chinese description kept from the last release. |
+| `NOTES_INDEX` | None. |
+| `NOTES_URL` | https://github.com/allomos/tatakikun/releases/tag/vX.Y.Z |
+| `NOTES_PUBLISH` | Published with the release by `gh release create --notes-file`. |
+| `GH_NOTES` | The agent writes them; they link to the previous release for everything unchanged. |
+| `INSTALL_ASSET` | `Tatakikun-X.Y.Z.pkg` (Apple silicon and Intel), with `Tatakikun-X.Y.Z.pkg.sha256` (from v0.6.1; earlier releases give the SHA-256 in the notes only). |
+| `INSTALL_COMMAND` | `installer -pkg Tatakikun-X.Y.Z.pkg -target CurrentUserHomeDirectory`: installs into the user's Library, no password; all three packs by default. Then `pkill -x Tatakikun` so the new build loads. |
+| `VERIFY_INSTALLED` | `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ~/Library/Input\ Methods/Tatakikun.app/Contents/Info.plist`, and `pgrep -x Tatakikun` after typing in any app. |
+| `APPROVAL_RECORD` | The releasing session's handoff (`alm handoff --as <session>`): the approver's command line, when, and the evidence. |
+
 ## Where credentials live
 
 Never their values, and no personal details (email addresses, account names): write a

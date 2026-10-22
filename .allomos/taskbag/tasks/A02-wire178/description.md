@@ -1,0 +1,25 @@
+**Outcome.** 口语整句能整句打出:键入 `niyongguolema` 时“你用过了吗”出现在第一行(最好排第一),而不是由少数长词硬拼的句子。
+
+**Done means.**
+- 整句候选不再只看单个词的频率加每词 30 分(`Cost.perWord`):考虑常见的前后搭配(如 过了、用过、了吗),或改用其他办法让常见的单字虚词组合不吃亏。
+- `tatakikun-cli --packs build/packs niyongguolema` 第一行有“你用过了吗”;前后结果写在 **Evidence** 下。
+- 单元测试覆盖 `niyongguolema` → 你用过了吗,以及几句别的口语句(如 nichifanlema → 你吃饭了吗)。
+- 已有的整句和单词结果不退步(woaini、chongqizhiqian、yinhang、nihao、zhongguo 等),全部测试通过。
+
+**Notes.**
+- 起因(2026-10-22):词库里没有 过了、用过、你用、了吗 这些词,“你用过了吗”只能切成五个单字:你53+用53+过67+了46+吗66+4×30 = 405,比 拟用125+活了108+吗66+2×30 = 359 贵。代码在 `Sources/TatakikunCore/Converters.swift` 的 `segmentations`。
+- 可能做法:二元(bigram)语言模型;从 jieba 词频补进常见搭配;降低单字虚词的切词扣分。做法由做任务的人决定并用 `alm ai-decided` 记录。
+- 若要加新的数据来源,只用宽松许可的数据(MIT 等),不用 GPL(见 project notes)。语言包体积若明显变大,写进交接。
+- 最好先做 A03-bluff274(生僻读音:活 guo、遇 yong),再比较结果。
+
+**Evidence.**
+- 原因:你用过了吗 只能切成五个单字;单字的代价来自本机 ICU 的字频(国 63 < 过 67,持 66 < 吃 71,区 56 < 去 62),再加每词 30 分,于是 拟用(125)、勒马(122) 这类少见的词拼出的句子更便宜。jieba 里也没有 过了、用过、了吗 这些词,补词不够。
+- 做法(三处):
+  1. 中文语言包里单字按 jieba 中该字**单独作为词**出现的次数排序:把基础词库里这些单字的代价集合按 jieba 的顺序重新分配(量级不变),每个字最多比原来贵 5(的 仍是 de 的第一)。过 67→56、国 63→62、好 60→57、号 56→60、吃 71→61、持 66→71、去 62→55、区 56→61。
+  2. 整句每词加价从 30 降到 10,并且语气/助词(了 过 着 的 地 得 吗 呢 吧 啊 呀 嘛 哦 啦)不加价。
+  3. 整句的 k-best 内部多留一倍路径再去掉重复文字,保证给出 3 个不同的整句。
+- 之前 → 之后(第一候选):niyongguolema 你永国勒马 → **你用过了吗**;nichifanlema 你吃饭勒马 → **你吃饭了吗**;guole 裹了 → **过了**;tamenqunale 他们区那了 → **他们去那了**;zhegehenhaochi 这个很好持 → **这个很好吃**;nimenhao 你们号 → **你们好**;wozaijiali → 我在家里;nizaiganshenme → 你在干什么。
+- 单字的第一候选也变了(变好):guo 国→过、hao 号→好、qu 区→去、zhe 者→这、ge 下(日)→个;de 仍是 的,ai 仍是 爱。
+- 不退步:woaini、nihao、zhongguo、yinhang、chongqizhiqian(充气之前,重启之前 第 3)、xiexie、duibuqi、meiguanxi 第一候选不变;全部测试通过(新增 SentenceTests.testParticlesInSpokenSentences、LanguagePackEngineTests.testSpokenSentences)。
+- 语言包体积不变(只改代价,没有新数据)。
+- 没解决、与本任务无关:jintiantianqihenhao 第一是 今天天気很好(中文词库里混有日文 天気,改之前就这样)。

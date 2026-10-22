@@ -2,11 +2,11 @@
   "area": "A02",
   "handoff_note": "Ready for the loop session (person, 2026-10-22). Order: A02-mantle732 first, then A02-island506 and A02-pit507. Publishing the GitHub pre-release in A02-pit507 needs the person's OK first.",
   "holder": "claude-loop",
+  "human_check_steps": "# Check A02-pit507: the engine on your Windows PC\n\n1. On your Windows PC, download `tatakikun-cli-windows-x64.zip` from https://github.com/allomos/tatakikun/releases/tag/v0.6.2-windows-preview.1 and unzip it.\n2. Open Windows Terminal or PowerShell in the `tatakikun-cli` folder (a font that shows Chinese and Japanese).\n3. Run `.\\tatakikun-cli.exe --packs packs woaini watashi hello chongqizhiqian zhogn`.\n4. It should print the same candidates as on the Mac (they are in the release notes): 我爱你 first for woaini, 私 for watashi, hello for hello, 重启之前 among chongqizhiqian, 中 first for zhogn.\n5. If Windows warns that the program is not signed, choose to run it anyway (it is a test build).\n",
   "id": "A02-pit507",
   "iteration": "I05",
   "label": "locally verified",
-  "state": "waiting",
+  "state": "done",
   "title": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)",
-  "waiting_on": "OK to publish the Windows test build as a GitHub pre-release? Proposed: tag v0.6.1-windows-preview.1 on master (4 runs green), title 'Tatakikun engine for Windows (test build)', marked pre-release (not Latest), one asset tatakikun-cli-windows-x64.zip (~51 MB: tatakikun-cli.exe, Swift runtime DLLs, zh/ja/en packs) from CI run 39635979463. After that you unzip it on your PC and run .\\tatakikun-cli.exe --packs packs woaini watashi hello.",
-  "who": "the person"
+  "without_human_check": "The person runs the pre-release on their Windows PC"
 }

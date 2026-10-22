@@ -1,0 +1,21 @@
+**Outcome.** 汉字的生僻读音不再挤掉常用词:键入 `guole` 时“过了”排在“活了”前面,键入 `yongguo` 不再出现“遇过”。
+
+**Done means.**
+- 中文语言包里,不在 phrase-pinyin-data 的词只按字的常用读音收录,或生僻读音明显加价(活 guo、遇 yong、划 guo 这类读音排在常用词后面)。
+- 重新生成 `build/packs/zh` 后,`tatakikun-cli --packs build/packs niyongguolema` 的第一行不再出现“活了”“遇过”“勒马”;前后结果写在 **Evidence** 下。
+- 单元测试覆盖:生僻读音的词不排在同音常用词前面。
+- 常用多音字词仍然正确(yinhang→银行、chongqi→重启、woaini、nihao、zhongguo 第一候选不变)。
+
+**Notes.**
+- 起因(2026-10-22):`niyongguolema`(你用过了吗)给出 拟用活了吗 / 你遇过勒马 / 拟用活了马。
+- 原因:`Sources/tatakikun-dictgen/Packs.swift` 约 105–112 行,对不在 phrase-pinyin-data 的词把每个字的所有读音排列组合收录,非首读音只加 5 分(单字加 8)。于是 guo 下 活 82 排在 锅 88 前,guole 下 活了 108 最便宜,yongguo 下有 遇过 129。
+- 可能做法:只展开 `Polyphones.swift` 多音字表里的字;或按 pinyin-data 读音顺序给非首读音大幅加价。具体做法由做任务的人决定并用 `alm ai-decided` 记录。
+- 只修这一点,“你用过了吗”仍靠单字拼成,未必排第一;整句的排序见 A02-wire178。
+
+**Evidence.**
+- 做法:不在 phrase-pinyin-data 的词按字的读音组合收录时,一个读音算“常用”的条件是它是该字在 pinyin-data 里的第一个读音,或列在 `Polyphones.swift` 多音字表里(行 hang、重 chong、长 chang);其余读音(活 guo、遇 yong、划 guo)每个加 60(`rareReadingCost`)。
+- 之前:`guole` → 1.活了 2.划了 3.裹了;`yongguo` → 1.遇过;`guo` 第 5 位是 活;`niyongguolema` → 拟用活了吗 / 你遇过勒马 / 拟用活了马。
+- 之后(只改读音):`guole` → 裹了 国了 过了 活了…;`yongguo` → 永国 用国 用过…(遇过 第 5);`guo` 里 活 换成 锅。
+- 加上 A02-wire178(单字按 jieba 频率、整句的每词加价)后:`guole` → **1.过了**;`niyongguolema` 第一行 → 你用过了吗 / 拟用过了吗 / 你用过了马,不再有 活了、遇过、勒马。
+- 常用词不变:yinhang→银行、chongqi→充气 重启、woaini→我爱你、nihao→你好、zhongguo→中国 仍是第一(重启 第 2,和之前一样)。
+- 测试:PackTests.testRareReadingsComeAfterCommonWords、LanguagePackEngineTests.testSpokenSentences。

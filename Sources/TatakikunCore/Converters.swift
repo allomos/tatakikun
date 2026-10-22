@@ -48,8 +48,11 @@ extension Candidate {
 }
 
 enum Cost {
-    /// Added per word, so fewer longer words beat many short ones.
-    static let perWord = 30
+    /// Added per word after the first, so fewer longer words beat many short ones; not for the
+    /// particles of spoken sentences (你用过了吗: 过, 了, 吗), which come as single characters.
+    static let perWord = 10
+    static let particles: Set<String> = ["了", "过", "着", "的", "地", "得", "吗", "呢", "吧", "啊", "呀", "嘛", "哦", "啦"]
+    static func perWord(_ word: String) -> Int { particles.contains(word) ? 0 : perWord }
     /// A kana with no dictionary word, passed through as itself.
     static let unknownKana = 150
     /// Added to a word that only completes what was typed (zhongg → 中国).
@@ -79,9 +82,11 @@ func segment(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil) ->
 /// The `count` lowest-cost ways to cover `units` with dictionary words, cheapest first, each a
 /// different text (chongqizhiqian → 充气之前, 重启之前…): Viterbi keeping the best `count` paths
 /// to every position, trying each span's `count` cheapest words.
-func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil, count k: Int) -> [(words: [String], cost: Int)] {
+func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil, count: Int) -> [(words: [String], cost: Int)] {
     let n = units.count
-    guard n > 0, k > 0 else { return [] }
+    guard n > 0, count > 0 else { return [] }
+    // Twice as many paths as asked for: different splits of the same text (之前, 之+前) take a place each.
+    let k = 2 * count
     // paths[j]: the cheapest ways found to cover units[0..<j]: cost, where the last word starts,
     // which path there it continues, and the word.
     typealias Step = (cost: Int, from: Int, path: Int, word: String)
@@ -98,7 +103,7 @@ func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = n
             let words = lexicon.exact(String(units[i..<j])).prefix(k)
             guard !words.isEmpty else { continue }
             for (p, before) in paths[i].enumerated() {
-                for e in words { offer((before.cost + e.cost + Cost.perWord, i, p, e.word), at: j) }
+                for e in words { offer((before.cost + e.cost + (i == 0 ? 0 : Cost.perWord(e.word)), i, p, e.word), at: j) }
             }
         }
         if let u = unknownCost {
@@ -114,9 +119,9 @@ func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = n
             (j, step) = (step.from, paths[step.from][step.path])
         }
         words.reverse()
-        if !out.contains(where: { $0.words.joined() == words.joined() }) { out.append((words, end.cost - Cost.perWord)) }
+        if !out.contains(where: { $0.words.joined() == words.joined() }) { out.append((words, end.cost)) }
     }
-    return out
+    return Array(out.prefix(count))
 }
 
 /// The most common words with any of these abbreviations.

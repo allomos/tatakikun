@@ -27,6 +27,21 @@ final class PackTests: XCTestCase {
         XCTAssertEqual(zh.abbreviated("zg").first?.word, "中国")
     }
 
+    /// A03-bluff274: a character's rare reading (活 guo, 遇 yong, 划 guo) comes after the common
+    /// words typed the same way; common polyphones (行 hang, 重 chong, 长 chang) do not.
+    func testRareReadingsComeAfterCommonWords() throws {
+        let zh = try pack("zh")
+        func rank(_ word: String, _ key: String) -> Int? { zh.exact(key).firstIndex { $0.word == word } }
+        XCTAssertLessThan(rank("锅", "guo")!, rank("活", "guo")!)
+        XCTAssertLessThan(rank("锅", "guo")!, rank("划", "guo")!)
+        XCTAssertLessThan(rank("用", "yong")!, rank("遇", "yong")!)
+        XCTAssertNotEqual(first(zh, "guole"), "活了")
+        XCTAssertNotEqual(first(zh, "yongguo"), "遇过")
+        XCTAssertLessThan(rank("行", "hang")!, 5, "common polyphones keep their place")
+        XCTAssertLessThan(rank("重", "chong")!, 5)
+        XCTAssertLessThan(rank("长", "chang")!, 5)
+    }
+
     func testJapaneseReadings() throws {
         let ja = try pack("ja")
         XCTAssertEqual(first(ja, "わたし"), "私")

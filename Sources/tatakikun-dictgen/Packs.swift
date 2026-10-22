@@ -78,6 +78,25 @@ func readWordFrequencies(_ url: URL) throws -> [String: Int] {
 /// so it stays ahead of the words with no frequency at all (重启 68 → 114, after 充气 94).
 func cost(forFrequency n: Int) -> Int { min(169, max(60, Int((144 - 7.12 * log(Double(n))).rounded()))) }
 
+/// Single characters by how often jieba sees each used as a word on its own, which says more about
+/// typing it alone, and about it inside a spoken sentence, than its frequency inside other words
+/// (过 is used alone 97 817 times, 国 29 996: 国 is mostly in 中国, 国家). The base dictionary's
+/// costs for these characters are kept as a set and handed out again in jieba's order, so the
+/// scale stays the same: the character jieba sees most gets the lowest cost (过 67 → 56, 国 63 → 62).
+/// A character never becomes more than `maxCharacterCostRise` dearer: jieba undercounts a few of the
+/// most common ones (的 31 would become 47 and fall behind で for de).
+func singleCharacterCosts(base: [String: Int], frequencies: [String: Int]) -> [String: Int] {
+    let both = base.keys.filter { $0.count == 1 && frequencies[$0] != nil }
+    let costs = both.map { base[$0]! }.sorted()
+    let byFrequency = both.sorted { (frequencies[$0]!, $1) > (frequencies[$1]!, $0) }
+    return Dictionary(uniqueKeysWithValues: zip(byFrequency, costs).map { c, cost in (c, min(cost, base[c]! + maxCharacterCostRise)) })
+}
+
+let maxCharacterCostRise = 5
+
+/// What a character's rare reading adds to a word's cost (活 guo: 74 + 60, after 锅 88 and 过了).
+let rareReadingCost = 60
+
 func buildChinesePack(base: URL, sources: URL, out: URL) throws {
     let zh = sources.appendingPathComponent("zh")
     let chars = try readCharacterReadings(zh.appendingPathComponent("pinyin.txt"))
@@ -91,24 +110,36 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
         let k = sylls.joined(separator: "'") + "\t" + word
         table[k] = min(table[k] ?? cost, cost)
     }
-    /// Readings from the characters: the most common reading of each first, then other combinations.
-    func characterReadings(_ word: String) -> [[String]]? {
-        var combos: [[String]] = [[]]
+    /// Readings from the characters, each with what it adds to the word's cost: a character's first
+    /// reading in pinyin-data and the others the polyphone table lists (行 hang, 重 chong) are common
+    /// and cost little more; any other reading (活 guo, 遇 yong, 划 guo) is rare and costs
+    /// `rareReadingCost`, so it never comes before the common words typed the same way.
+    func characterReadings(_ word: String) -> [(sylls: [String], extra: Int)]? {
+        var combos: [(sylls: [String], extra: Int)] = [([], 0)]
         for c in word {
             guard let rs = chars[c] else { return nil }
-            combos = combos.flatMap { combo in rs.map { combo + [$0] } }
+            let common = Set([rs[0]] + (polyphones[c] ?? []))
+            combos = combos.flatMap { combo in
+                rs.enumerated().map { i, r in
+                    let extra = i == 0 ? 0 : common.contains(r) ? (word.count == 1 ? 8 : 5) : rareReadingCost
+                    return (combo.sylls + [r], combo.extra + extra)
+                }
+            }
+            combos.sort { $0.extra < $1.extra }
             if combos.count > 8 { combos = Array(combos.prefix(8)) }
         }
         return combos
     }
 
-    for (word, cost) in costs {
+    let characterCosts = singleCharacterCosts(base: costs, frequencies: frequencies)
+    for (word, base) in costs {
+        let cost = characterCosts[word] ?? base
         if let sylls = phrases[word] {
             add(sylls, word, cost)
         } else if let readings = characterReadings(word) {
             // A single character has all its readings; a longer word not in phrase-pinyin-data
             // has the combinations, the most likely one first.
-            for (i, r) in readings.enumerated() { add(r, word, cost + (i == 0 ? 0 : (word.count == 1 ? 8 : 5))) }
+            for r in readings { add(r.sylls, word, cost + r.extra) }
         }
     }
     // Words only phrase-pinyin-data has: by jieba's frequency when it has them (重启), otherwise

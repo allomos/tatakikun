@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T06:23:17Z",
+  "by": "claude-long-vowel",
+  "via": "alm",
+  "command": "release",
+  "kind": "task",
+  "id": "A04-garlic044",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "ready"
+    },
+    {
+      "field": "holder",
+      "from": "claude-long-vowel"
+    },
+    {
+      "field": "handoff_note",
+      "to": "Untested work in progress on branch task/A04-garlic044 (local commit 73506ab, worktree ../tatakikun-wt/A04-garlic044, build/dict and build/packs already copied in): Composer accepts '-' after whole kana, Engine gives Japanese candidates for romaji with '-' (Romaji.hasLongVowelMarks), new ComposerTests.testHyphenAfterKanaIsLongVowelMark. Next: swift build -c release, check tatakikun-cli --packs build/packs sute-tasu / ko-hi- / ra-men, run tests, merge, reinstall for a human check."
+    }
+  ]
+}
