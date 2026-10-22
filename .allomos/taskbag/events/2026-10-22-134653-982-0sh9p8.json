@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-22T13:46:53Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "release",
+  "kind": "task",
+  "id": "A02-easel451",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "ready"
+    },
+    {
+      "field": "holder",
+      "from": "claude-loop2"
+    },
+    {
+      "field": "handoff_note",
+      "to": "Cause: ICU and jieba both rate 女孩 (73) and 您好 (82) above 你好 (86); abbreviations rank by word cost alone. WIP on task/A02-easel451 (worktree ../tatakikun-wt/A02-easel451, committed locally, not merged): spokenChinese table caps 你好 at 70 in the base dictionary and the zh pack; with rebuilt dict/pack, nh → 1.你好 for both. Still to do: run swift test, add a pack-based AbbreviationTests case (nh first = 你好, wtx → 私/わたし), write the Evidence, merge. Loop stopped by the person; run mode was quiet."
+    }
+  ]
+}

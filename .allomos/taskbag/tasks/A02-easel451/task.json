@@ -1,8 +1,8 @@
 {
   "area": "A02",
-  "holder": "claude-loop2",
+  "handoff_note": "Cause: ICU and jieba both rate 女孩 (73) and 您好 (82) above 你好 (86); abbreviations rank by word cost alone. WIP on task/A02-easel451 (worktree ../tatakikun-wt/A02-easel451, committed locally, not merged): spokenChinese table caps 你好 at 70 in the base dictionary and the zh pack; with rebuilt dict/pack, nh → 1.你好 for both. Still to do: run swift test, add a pack-based AbbreviationTests case (nh first = 你好, wtx → 私/わたし), write the Evidence, merge. Loop stopped by the person; run mode was quiet.",
   "id": "A02-easel451",
   "iteration": "I04",
-  "state": "in_progress",
+  "state": "ready",
   "title": "语言包里只打声母 nh 时第一个候选是“你好”(现在是“女孩”)"
 }
