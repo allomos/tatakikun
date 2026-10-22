@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-22T14:25:51Z",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "waiting_on",
+      "from": "Engine checks first (A02-mantle732, then A02-pit507; ready for the loop session). Still open for the person: Windows release channel (code-signing certificate or Microsoft Store, both have a cost).",
+      "to": "等这个人决定 Windows 版的发布渠道:代码签名证书,还是 Microsoft Store(两种都要花钱)。"
+    }
+  ]
+}

@@ -5,6 +5,6 @@
   "iteration": "I05",
   "state": "waiting",
   "title": "Windows 版:在 Windows 上用 Tatakikun 输入英中日混合候选",
-  "waiting_on": "Engine checks first (A02-mantle732, then A02-pit507; ready for the loop session). Still open for the person: Windows release channel (code-signing certificate or Microsoft Store, both have a cost).",
+  "waiting_on": "等这个人决定 Windows 版的发布渠道:代码签名证书,还是 Microsoft Store(两种都要花钱)。",
   "who": "the person"
 }
