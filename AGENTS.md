@@ -2,7 +2,7 @@
 
 Shared rules for every AI agent working on this project.
 
-## Tasks: Allomos (v22)
+## Tasks: Allomos (v23)
 
 This project's tasks, progress and handoff notes live in Allomos's taskbag
 (`.allomos/taskbag/`). Work them with the `alm` command; never edit those files by hand, except
@@ -79,10 +79,13 @@ the project notes (below) and your own handoff file.
 - Handoff: `alm handoff-rules` says when to write one (quota and context gates); write it with
   `alm handoff --tasks <ids> --as <your session name>`, for any reader, agent or person.
   Whoever continues reads it with `alm next` or `alm show <id>`.
-- Quota: each time you check your quota for the handoff gate, report the figure you just read
-  with `alm quota --agent <your agent's id, e.g. claude-code or codex> --left <percent>
-  [--resets <local date and time>] [--account <name, only if you can tell one; never an email>]`;
-  the Allomos app shows it beside the agent. It stays on this computer: nothing to share.
+- Quota: each time you read your usage (in Claude Code: `get_usage`), at the handoff gate's check
+  and whenever `alm` asks, report the figure with `alm quota --agent <your agent's id, e.g.
+  claude-code or codex> --left <percent> [--resets <local date and time>] [--account <name, only
+  if you can tell one; never an email>]`; the Allomos app shows it beside the agent. `alm claim`,
+  `alm label`, `alm release`, `alm done` and `alm handoff` ask for it when your last report is
+  missing or 30 minutes old or more: read your usage then and report it. It stays on this
+  computer: nothing to share.
 
 Shared rules: every AI agent on this project follows one set of shared rules, in AGENTS.md.
 - Shared rules live only in AGENTS.md; never add a shared rule to one agent's own file (such as
