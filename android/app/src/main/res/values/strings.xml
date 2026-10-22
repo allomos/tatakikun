@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tatakikun</string>
+    <string name="setup">Type English letters; Tatakikun offers English, Chinese and Japanese candidates in one bar.\n\nTurn it on: Open settings → turn on Tatakikun. Then Choose keyboard → Tatakikun.</string>
+    <string name="open_settings">Open settings</string>
+    <string name="choose_keyboard">Choose keyboard</string>
+    <string name="try_hint">Try it here: ai, woaini, arigatou, hello</string>
+    <item name="try_field" type="id" />
+</resources>
