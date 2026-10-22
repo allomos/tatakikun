@@ -45,6 +45,12 @@ public enum Romaji {
         return t
     }()
 
+    /// Letters with "-" for the long vowel mark ー after them (sute-tasu), never leading.
+    static func hasLongVowelMarks(_ input: String) -> Bool {
+        input.first?.isLetter == true && input.contains("-")
+            && input.allSatisfy { ($0.isASCII && $0.isLetter) || $0 == "-" }
+    }
+
     static let vowels: Set<Character> = ["a", "i", "u", "e", "o"]
 
     /// Whether `letters` could be the start of a syllable still being typed (k, ky, sh, ts...).

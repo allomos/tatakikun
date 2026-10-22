@@ -134,6 +134,9 @@ public final class Composer {
                 selectedRow -= 1
                 selectedColumn = min(selectedColumn, rows[selectedRow].count - 1)
             } else if isExpanded { collapse() }
+        case .other("-") where Romaji.toHiragana(input) != nil:
+            // After whole kana, "-" is the long vowel mark ー, as in other Japanese input methods.
+            setInput(input + "-")
         case .other(let c):
             // Insert the selected candidate, then the punctuation in its script.
             let candidate = selected?.consumed == nil ? selected : nil

@@ -94,6 +94,8 @@ public final class Engine {
         let raw = Candidate(text: input, kind: .raw, cost: Int.max)
         var found = english?.candidates(for: input) ?? []
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
+        // Romaji may also hold "-" for the long vowel mark ー (sute-tasu → ステータス): Japanese only.
+        let romaji = letters || Romaji.hasLongVowelMarks(input)
         if letters {
             let zh = chinese?.candidates(for: input) ?? []
             found += zh
@@ -102,7 +104,9 @@ public final class Engine {
             if let chinese, zh.isEmpty, found.isEmpty, input.count >= 3, !Abbreviation.applies(to: input) {
                 found += chinese.swapCorrections(for: input)
             }
-            found += japanese?.candidates(for: input) ?? []
+        }
+        if romaji { found += japanese?.candidates(for: input) ?? [] }
+        if letters {
             found += (customWords?.words(for: input) ?? []).map { Candidate(text: $0.word, kind: $0.kind, cost: Cost.customWord) }
         }
         found = found.map { leaning(learned($0, input), lead) }
@@ -135,8 +139,8 @@ public final class Engine {
         var partial = english?.partialCandidates(for: input) ?? []
         if letters {
             partial += chinese?.partialCandidates(for: input) ?? []
-            partial += japanese?.partialCandidates(for: input) ?? []
         }
+        if romaji { partial += japanese?.partialCandidates(for: input) ?? [] }
         let sortedPartial = Self.dedupe(partial.map { leaning(learned($0, input), lead) }.sorted { $0.cost < $1.cost })
         if ranked.isEmpty {
             // Nothing matches all the letters yet (zhongg, arigat): show the best completions in the bar.
