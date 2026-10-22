@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "日文语言包:用 Mozc 开源词典,常见读法都能打出(如 watashi→私、nihon→日本)"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

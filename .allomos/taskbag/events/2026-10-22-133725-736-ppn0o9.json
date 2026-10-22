@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "中文语言包:用 pinyin-data / phrase-pinyin-data(MIT)补全多音字和词的读音"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

@@ -7,6 +7,6 @@
   "iteration": "I05",
   "label": "locally verified",
   "state": "done",
-  "title": "Check: the Swift engine builds and runs on Windows (GitHub build, tested on the person's PC)",
+  "title": "检查:Swift 引擎能在 Windows 上构建和运行(GitHub 构建,在这个人的 PC 上测试)",
   "without_human_check": "The person runs the pre-release on their Windows PC"
 }

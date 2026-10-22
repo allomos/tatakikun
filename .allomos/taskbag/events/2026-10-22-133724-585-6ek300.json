@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:24Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-10",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "拼音字母顺序打反时仍能得到想要的中文候选(如 zhogn → 中)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

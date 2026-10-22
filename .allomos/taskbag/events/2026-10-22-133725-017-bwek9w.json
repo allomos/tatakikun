@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A02-mantle732",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "**Outcome.** The engine (TatakikunCore) needs only FoundationEssentials, not the full Foundation with ICU, on platforms that have it (Linux, Windows, Android), so the Android build is about 40 MB smaller. macOS and iOS keep working the same.\n\n**Done means.**\n- No engine file needs the full Foundation where FoundationEssentials exists (`#if canImport(FoundationEssentials)`); NSString path calls are replaced by URL.\n- `swift build` and `swift test` pass on macOS; the iOS keyboard still builds.\n\n**Notes.**\n- Decided by the person 2026-10-22: stay with Swift everywhere (option a), switch to FoundationEssentials, then check Android and Windows builds; if either fails badly, switch to Rust for all platforms.\n- The English spell checker (English.swift) is Apple-only; other platforms get it without spell suggestions for now.\n"
+    }
+  ]
+}

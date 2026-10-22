@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:27Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-07",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "输入法切换列表和系统设置里看得清 Tatakikun 图标:改成实心圆角方块镂空「た」,和系统自带输入法一致"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

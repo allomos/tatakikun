@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:23Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A01-11",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "**Outcome.** 在 iOS 上安装 Tatakikun,在任何应用里键入字母就得到和 macOS 版一样的英中日混合候选。\n\n**Done means.**\n- 在 iOS 上安装后能切换到 Tatakikun 并在常用应用里输入。\n- 拼音、罗马字、英文、首字母、不完全匹配的候选与 macOS 版一致。\n- 候选选择、上屏、学习功能可用。\n\n**Notes.**\n- 平台接入方式:iOS 自定义键盘扩展。\n- 待人决定(暂不执行,用户 2026-10-20 要求只添加任务):是否要做、优先级和时间;转换引擎/词库怎样跨平台共用(会改动现有架构);发布渠道及可能的费用(如开发者账号、应用商店)。\n"
+    }
+  ]
+}

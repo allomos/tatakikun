@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:24Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-08",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "连续输入同一种语言时,下一个词优先排这种语言(如连续打英文时 hen 排在“很”前面)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

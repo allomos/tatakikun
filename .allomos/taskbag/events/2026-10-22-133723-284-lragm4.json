@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:23Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Tatakikun 以 MIT 协议在 GitHub allomos/tatakikun 公开"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

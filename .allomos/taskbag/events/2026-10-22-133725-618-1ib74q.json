@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "词库改成内存映射的二进制格式:大词库也能瞬间启动、少占内存"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

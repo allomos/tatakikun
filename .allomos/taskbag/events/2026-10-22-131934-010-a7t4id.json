@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-22T13:19:34Z",
+  "via": "app",
+  "command": "connect project folder",
+  "kind": "project",
+  "id": "tatakikun",
+  "changes": [
+    {
+      "field": "project_folder",
+      "to": "."
+    }
+  ]
+}

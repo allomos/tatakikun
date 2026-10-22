@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-radish568",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "键入 unei 时候选里有“運営”:罗马字里元音前的 n 也按ん来查(恋愛 renai、原因 genin 等同理)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

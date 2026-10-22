@@ -5,6 +5,6 @@
   "id": "A04-bean380",
   "iteration": "I04",
   "state": "done",
-  "title": "Punctuation right after an English word's auto space replaces that space (hello , → hello,)",
+  "title": "紧跟英文单词自动空格的标点替换那个空格(hello , → hello,)",
   "without_human_check": "Unit tests pass and macOS/iOS targets build; typing in real apps and the iOS keyboard needs a person."
 }

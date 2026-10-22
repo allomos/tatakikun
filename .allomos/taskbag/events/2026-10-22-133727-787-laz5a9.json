@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:27Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-legend681",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "重装后提示用 ⌘Q 重启 VS Code、Slack 等 Electron 应用"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-22T13:37:27Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-garlic044",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "罗马字后键入 - 得到长音符号 ー(sute-tasu → ステータス)"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:24Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A02-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "**Outcome.** 合并英中日候选,原始串必在第一行;命令行工具 tatakikun-cli 打印候选。**Done means.** hello、ai、qwzx 的测试通过。\n"
+    }
+  ]
+}

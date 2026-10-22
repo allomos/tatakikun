@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-22T13:37:25Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A03-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "to": "**Outcome.** 几十万到上百万日文词,带读音和代价。**Done means.** 测试:watashi→私、nihon→日本、ashita→明日、kyou→今日 在第一行。**Notes.** 只用许可宽松(非 GPL)的数据。\n"
+    }
+  ]
+}

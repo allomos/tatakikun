@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-22T13:37:33Z",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A01-09",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "Engine checks first (A02-mantle732, then A02-pit507; ready for the loop session). Still open for the person: Windows release channel (code-signing certificate or Microsoft Store, both have a cost)."
+    },
+    {
+      "field": "who",
+      "to": "the person"
+    }
+  ]
+}
