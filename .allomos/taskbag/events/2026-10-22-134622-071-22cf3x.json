@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-22T13:46:22Z",
+  "by": "will.w.hui",
+  "via": "app",
+  "command": "change iteration",
+  "kind": "iteration",
+  "id": "I02",
+  "changes": [
+    {
+      "field": "state",
+      "to": "closed"
+    }
+  ]
+}
