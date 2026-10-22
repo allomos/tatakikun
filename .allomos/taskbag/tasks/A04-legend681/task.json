@@ -1,8 +1,10 @@
 {
   "area": "A04",
   "holder": "claude-electron-hint",
+  "human_check_steps": "# 检查 A04-legend681\n\n1. 开着 VS Code 或 Slack 时运行 `scripts/install.sh`:结束时有中英两行提醒,下面一行列出正在运行的 Electron 应用。\n2. 用 `scripts/make-installer.sh` 构建 .pkg 并安装:最后一页(摘要)显示提醒,系统语言是中文、日文、英文时各显示对应语言。\n3. 按提醒 ⌘Q 重开 VS Code 后,用 Tatakikun 能正常输入。\n",
   "id": "A04-legend681",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "重装后提示用 ⌘Q 重启 VS Code、Slack 等 Electron 应用"
+  "state": "done",
+  "title": "重装后提示用 ⌘Q 重启 VS Code、Slack 等 Electron 应用",
+  "without_human_check": "提醒文字、检测和 .pkg 内容已验证;实际安装会再次断开正在用的 VS Code/Slack,留给人在下次重装时看"
 }
