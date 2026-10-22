@@ -2,6 +2,13 @@
 writer: claude-release
 tasks: 
 written: 2026-10-22T06:21Z
+updated: 2026-10-22T08:58Z
+---
+
+---
+writer: claude-release
+tasks: 
+written: 2026-10-22T06:21Z
 updated: 2026-10-22T06:21Z
 ---
 
@@ -28,3 +35,24 @@ updated: 2026-10-22T06:21Z
 - Typing in a real app after the install is the person's check.
 - Left out of the notes: AGENTS.md update, Allomos app changes, handoffs and taskbag commits.
 - A02-pit507's Windows pre-release (proposed tag v0.6.1-windows-preview.1) still waits for the person's OK; untouched.
+
+# GitHub release v0.6.2
+
+## Approval
+- The approver wrote `alm guide github release` in the conversation on 2026-10-22 (no `minor`/`major`, so patch).
+
+## What was done
+- Version 0.6.2 in App/Info.plist; commit 71f5908 on master, annotated tag v0.6.2, both pushed.
+- Release https://github.com/allomos/tatakikun/releases/tag/v0.6.2 (Latest): New 2, Fixed 3, Also 2.
+- Installed on this Mac from the downloaded asset (`installer -pkg … -target CurrentUserHomeDirectory`).
+
+## Evidence
+- `swift test`: 79 tests, 0 failures. tatakikun-cli: niyongguolema → 你用过了吗, guole → 过了, sute-tasu → ステータス.
+- Assets: Tatakikun-0.6.2.pkg (21932740 bytes, arm64 + x86_64), Tatakikun-0.6.2.pkg.sha256.
+- SHA-256 594439643dfc3741ba7cbd08421a77ee97b7b41735b45c03dc5eddde0e52e8d3, `shasum -c` OK on the download.
+- Release page answers 200. Installed version 0.6.2; packs en, ja, zh.
+
+## Not done / not checked
+- Typing in a real app after the install is the person's check (Tatakikun starts when a text field asks for it).
+- Left out of the notes: Windows CI path filter, project-notes and handoff commits.
+- The Android app is not built or attached; the notes say how to build it.
