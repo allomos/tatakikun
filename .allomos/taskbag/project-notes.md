@@ -23,6 +23,7 @@ Nothing.
 - Android (A02-island506): `scripts/build-android.sh` builds the engine as libTatakikunEngine.so with the open-source Swift 6.3.3 toolchain (~/Library/Developer/Toolchains, per user) and the Swift SDK for Android 6.3.3 (`swift sdk list`), NDK 28.2 in ~/Library/Android/sdk. The SDK must match the toolchain exactly: Xcode's Swift 6.4 has no Android SDK.
 - The engine and tatakikun-cli import FoundationEssentials where it exists (A02-mantle732): no NSData, NSString, memcmp or other APIs that only full Foundation brings; macOS/iOS still compile against Foundation, so only the Android build (or Windows CI) catches a slip.
 - Windows: GitHub Actions `.github/workflows/windows.yml` builds tatakikun-cli and runs the engine tests on every push to master; the program is the run's artifact `tatakikun-cli-windows-x64`. No Windows machine here: the person tests on their PC.
+- Android app (A01-10): `scripts/build-android-app.sh [install]` builds the engine and `android/` (Gradle 8.14.4 wrapper, AGP 8.13, Android Studio's Java via JAVA_HOME, SDK in ~/Library/Android/sdk); `scripts/test-android.sh` types on a running emulator (AVD Pixel_7_API_34, arm64: `~/Library/Android/sdk/emulator/emulator -avd Pixel_7_API_34 -no-window &`). Force-stopping the app also stops the keyboard and Android falls back to Gboard (select it again); leave the app for ~2 s before coming back or the input does not end (momentum stays).
 
 ## Repositories
 
