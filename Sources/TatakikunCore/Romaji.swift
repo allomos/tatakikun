@@ -69,35 +69,70 @@ public enum Romaji {
     }
 
     /// Converts as much of the input as spells kana; `rest` is the unconverted tail.
+    /// Where an `n` before a vowel could also be ん, this is the な-row reading (unei → うねい);
+    /// `readings` gives the others.
     public static func convert(_ input: String) -> (kana: String, rest: String) {
-        let s = Array(input.lowercased())
-        var out = ""
-        var i = 0
-        while i < s.count {
+        var first: (kana: String, rest: String)?
+        walk(Array(input.lowercased()), from: 0, kana: "", alternatives: false) { first = first ?? $0; return false }
+        return first!
+    }
+
+    /// Every way the whole input spells kana, the な-row reading of each `n` before a vowel first:
+    /// unei → [うねい, うんえい], unnei → [うんねい, うんえい]. Empty when some letters do not spell kana.
+    /// At most `limit` readings.
+    public static func readings(_ input: String, limit: Int = 8) -> [String] {
+        var out: [String] = []
+        walk(Array(input.lowercased()), from: 0, kana: "", alternatives: true) {
+            if $0.rest.isEmpty, !out.contains($0.kana) { out.append($0.kana) }
+            return out.count < limit
+        }
+        return out
+    }
+
+    /// Converts from `start`, calling `found` with each complete walk (the kana and the
+    /// unconverted tail): the straight reading first, then, with `alternatives`, the readings with
+    /// an `n` before a vowel as ん, nearest first. `found` returns whether to go on.
+    @discardableResult
+    private static func walk(_ s: [Character], from start: Int, kana: String, alternatives: Bool,
+                             _ found: ((kana: String, rest: String)) -> Bool) -> Bool {
+        var out = kana
+        var i = start
+        var branches: [(from: Int, kana: String)] = []
+        var rest = ""
+        loop: while i < s.count {
             let c = s[i]
             // A doubled consonant is a small tsu: kitte, matcha.
             if i + 1 < s.count, c != "n", !vowels.contains(c), c.isLetter,
                s[i + 1] == c || (c == "t" && s[i + 1] == "c") {
                 out += "っ"; i += 1; continue
             }
-            // "nn" before a vowel is ん plus the next syllable: konnichiha → こんにちは.
+            let beforeVowel = i + 1 < s.count && (vowels.contains(s[i + 1]) || s[i + 1] == "y")
+            // "nn" before a vowel is ん plus the next syllable: konnichiha → こんにちは;
+            // or, as in other input methods, ん and then the vowel: unnei → うんえい.
             if c == "n", i + 2 < s.count, s[i + 1] == "n", vowels.contains(s[i + 2]) || s[i + 2] == "y" {
+                branches.append((i + 2, out + "ん"))
                 out += "ん"; i += 1; continue
             }
-            var matched = false
+            // A lone n before a vowel is the な-row syllable (unei → うねい), but can also be ん
+            // closing a word: unei → うんえい (運営), renai → れんあい (恋愛). Never at the start.
+            if c == "n", beforeVowel, i > 0, s[i - 1] != "n" {
+                branches.append((i + 1, out + "ん"))
+            }
             for len in stride(from: 4, through: 1, by: -1) where i + len <= s.count {
-                let piece = String(s[i..<(i + len)])
-                if let kana = table[piece] {
-                    out += kana; i += len; matched = true; break
+                if let kana = table[String(s[i..<(i + len)])] {
+                    out += kana; i += len; continue loop
                 }
             }
-            if matched { continue }
             // A lone n before a consonant, or at the very end, is ん.
-            if c == "n", i + 1 == s.count || (!vowels.contains(s[i + 1]) && s[i + 1] != "y") {
+            if c == "n", !beforeVowel {
                 out += "ん"; i += 1; continue
             }
-            return (out, String(s[i...]))
+            rest = String(s[i...]); break
         }
-        return (out, "")
+        guard found((out, rest)) else { return false }
+        if alternatives {
+            for b in branches where !walk(s, from: b.from, kana: b.kana, alternatives: true, found) { return false }
+        }
+        return true
     }
 }
