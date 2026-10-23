@@ -11,3 +11,12 @@
 - Design samples (three ways, plus today's keyboard): https://claude.ai/artifact/BagrRgRszrB2vKng3kVDiM
 - How other keyboards do it: Gboard shows a separate balloon above the key ("Pop-up on keypress", on by default); long press opens a row of alternatives you slide across, released on the highlighted one. iOS grows the key upward into a connected callout (tulip shape); long press opens an accent row. SwiftKey and Samsung Keyboard use a Gboard-like balloon. Chinese IMEs (Sogou, Baidu) use a balloon and show the long-press symbol in it.
 - Decided by the approver in the conversation, 2026-10-23: design B (Tatakikun balloon: the corner symbol small inside, flips to the symbol on the function-key blue on long press); a long press types on release (sliding off the key cancels); no on/off switch for now.
+
+## Evidence
+
+- Merged into master (324cd74, merge be4e289): `KeyboardView.kt` only.
+- Emulator Pixel_7_API_34 (emulator-5554), debug build: `scripts/test-android.sh` 9/9 passed.
+- Touch checks with `adb shell input motionevent`, screenshots looked at: tap g (dark and light) shows a balloon with g and & in its corner; long press g flips to & on the blue, releasing types &; 1 and p keep the balloon inside the screen; long press ， shows 、 and types 、; long press g then sliding 400 px off types nothing.
+- Emulator artefact, not a bug: with adb, a screenshot taken while the key is held takes longer than the long-press delay, so some "taps" in the run became long presses (p → 』).
+- Not checked: a real phone, fast two-thumb typing (several keys down at once).
+- Test APK: `build/Tatakikun-android-key-popup-test.apk` on this Mac (debug-signed).

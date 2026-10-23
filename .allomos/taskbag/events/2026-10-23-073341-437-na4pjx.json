@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T07:33:41Z",
+  "by": "claude-key-popup",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked on the emulator by touch with screenshots; feel and fast two-thumb typing need a real phone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check the key popups on a phone (A01-cookie095)\n\n1. Install `build/Tatakikun-android-key-popup-test.apk` (on this Mac) on the phone: `~/Library/Android/sdk/platform-tools/adb install -r build/Tatakikun-android-key-popup-test.apk`, or ask Claude for a release. It is debug-signed: if the phone has the release v0.6.4 installed, uninstall that first.\n2. In any text field with Tatakikun up:\n   - Tap letters, digits and ， 。: a popup with the character shows above your finger, with the long-press symbol small in its corner.\n   - Hold g: the popup turns blue and shows &; lift: & is typed. Hold g and slide away before lifting: nothing is typed.\n   - Hold ，: 、 is typed on release.\n   - q, p, 1 and 0: the popup stays fully on screen.\n   - Space, shift, delete, return and ?123 show no popup.\n   - Type fast with two thumbs: no popup is left behind.\n3. Switch the phone to dark mode and look again.\n\nAll fine: tell Claude \"A01-cookie095 checked\". Otherwise send a screenshot.\n"
+    }
+  ]
+}
