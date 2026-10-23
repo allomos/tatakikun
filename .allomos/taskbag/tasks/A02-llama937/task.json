@@ -1,6 +1,6 @@
 {
   "area": "A02",
-  "handoff_note": "Done on master (not released). Next: the person checks on a phone with the attached steps; tune Cost.nearbyKey if slips crowd the bar.",
+  "handoff_note": "Released in v0.6.9: slips now on every keyboard (Mac too, tatakikun-cli --exact turns them off), at most two in the first row. Next: the person checks with the attached steps (step 5 is now: on the Mac, nihai also offers 你好).",
   "holder": "claude-typos",
   "human_check_steps": "# Check A02-llama937 on a phone\n\n1. Install the next Android APK (or iOS build); Tatakikun as the keyboard; open any text field.\n2. Type `nihai`: 你好 is in the bar (marked … as not typed exactly), beside 你还.\n3. Type `shrnme` (r instead of e): 什么 comes first. `xiexir`: 谢谢. `arigatpu`: ありがとう.\n4. Type `nihao` correctly: 你好 first, no unrelated words such as 怒号.\n5. On the Mac nothing changes: `nihai` gives no 你好.\n",
   "id": "A02-llama937",

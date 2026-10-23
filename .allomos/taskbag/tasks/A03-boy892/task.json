@@ -1,6 +1,6 @@
 {
   "area": "A03",
-  "handoff_note": "Done on master (not released). Packs must be rebuilt (scripts/build-packs.sh zh,ja) for a release. Next: the person checks with the attached steps.",
+  "handoff_note": "Released in v0.6.9. Next: the person checks with the attached steps.",
   "holder": "claude-names",
   "human_check_steps": "# Check A03-boy892\n\n1. Install the next build (Mac .pkg, or the Android/iOS app) so the new zh and ja packs are in place.\n2. Type `lixiangqin`: 李香琴 is in the candidate bar (Chinese).\n3. Type `ouki`: 王暉 is in the candidate bar (Japanese, next to 王輝).\n4. Type `lixiang`, `watashi`, `arigatou`: 理想, 私, ありがとう still come first.\n",
   "id": "A03-boy892",
