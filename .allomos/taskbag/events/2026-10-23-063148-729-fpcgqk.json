@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T06:31:48Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-guest284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android 15+: the keyboard's bottom row stays clear of the navigation bar's ⌄ and keyboard-switch buttons"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** On Android 15 and later the keyboard ends above the navigation bar, so ⌄ (hide keyboard) and the keyboard-switch globe do not overlap the bottom row (?123, comma, space, 。, return).\n\n**Done means.**\n- On an Android 15+ phone with gesture navigation, ⌄ and the globe sit below the bottom row, on the keyboard's background.\n- Android 14 and earlier look the same as before (no extra gap).\n- test-android.sh passes.\n\n**Notes.**\n- Reported by the approver with a screenshot from their phone (2026-10-23).\n- Cause: when the IME draws its own navigation bar, Android reports it to the IME as a caption-bar inset, not a navigation-bar inset (AOSP NavigationBarController sizes its frame from systemBars()). KeyboardView read navigationBars() only, which is 0 there.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

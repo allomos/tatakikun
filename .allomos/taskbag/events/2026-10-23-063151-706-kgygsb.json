@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T06:31:51Z",
+  "by": "claude-android-navbar",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A01-guest284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-android-navbar"
+    },
+    {
+      "field": "working_branch",
+      "to": "fix/android-navbar-overlap"
+    }
+  ]
+}
