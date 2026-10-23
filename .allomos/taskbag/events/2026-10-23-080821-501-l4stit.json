@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T08:08:21Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "The macOS app, iOS app and Android launcher show the new Tatakikun icon"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** The macOS app, the iOS app and the Android launcher show the new Tatakikun icon (teal background, white key with た, gold Allomos star).\n\n**Done means.**\n- macOS: Tatakikun.app built by scripts/build.sh shows the icon in Finder.\n- iOS: the app built from iOS/ shows the icon on the simulator home screen.\n- Android: the APK shows the icon in the launcher (adaptive icon, also on round masks).\n\n**Notes.** Design approved by the person in conversation on 2026-10-23 (\"Wire the new icon into the macOS app, iOS app and Android launcher builds\"). Sources: docs/icon/tatakikun-icon.svg (macOS, with padding) and docs/icon/tatakikun-icon-fullbleed.svg (iOS/Android). The menu bar input-source icon (scripts/make-icon.swift) stays as it is.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
