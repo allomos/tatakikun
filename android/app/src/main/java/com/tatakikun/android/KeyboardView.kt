@@ -77,6 +77,18 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private fun dp(v: Int) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), resources.displayMetrics).toInt()
     private fun sp(v: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, v, resources.displayMetrics)
 
+    /**
+     * The height of a row of keys, in dp: lower on a short landscape screen, so the application
+     * keeps room above the keyboard.
+     */
+    private val row = if (resources.configuration.screenHeightDp < 480) ROW_LOW else ROW
+
+    /**
+     * The keys' width at most, in pixels: on a wide screen (a phone sideways, a tablet) the keys
+     * stay in a block of a comfortable size in the middle instead of stretching across it.
+     */
+    private val keysWidth = resources.configuration.screenWidthDp.let { if (it > MAX_WIDTH) dp(MAX_WIDTH) else LayoutParams.MATCH_PARENT }
+
     /** Where the keyboard's panel starts, below the box with the letters: the part that takes touches. */
     val panelTop get() = panel.top
 
@@ -137,11 +149,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         val body = FrameLayout(context)
         keys.orientation = VERTICAL
         keys.setPadding(dp(3), 0, dp(3), dp(4))
-        body.addView(keys, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(5 * ROW + 4)))
+        body.addView(keys, FrameLayout.LayoutParams(keysWidth, dp(5 * row + 4), Gravity.CENTER_HORIZONTAL))
         more.orientation = VERTICAL
         moreScroll.addView(more)
         moreScroll.visibility = GONE
-        body.addView(moreScroll, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(5 * ROW + 4)))
+        body.addView(moreScroll, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(5 * row + 4)))
         panel.addView(body, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         overlay.add(popup)
         buildKeys()
@@ -276,7 +288,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         for ((v, w) in views) addView(v, LayoutParams(0, LayoutParams.MATCH_PARENT, w))
     }
 
-    private fun rowParams() = LayoutParams(LayoutParams.MATCH_PARENT, dp(ROW))
+    private fun rowParams() = LayoutParams(LayoutParams.MATCH_PARENT, dp(row))
 
     private enum class Style { LETTER, FUNCTION, PILL }
 
@@ -426,6 +438,12 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     companion object {
         /** The height of a row of keys, in dp. */
         const val ROW = 50
+
+        /** The height of a row of keys on a short landscape screen, in dp. */
+        const val ROW_LOW = 40
+
+        /** The widest the keys get, in dp: about a large phone's keyboard in portrait, a little wider. */
+        const val MAX_WIDTH = 640
 
         /** The symbol a long press on each letter types, as on Gboard. */
         val HINTS = mapOf(

@@ -23,6 +23,12 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
         Thread { engine = Engine(Packs.folder(this).path, filesDir.path).takeIf { it.isOpen } }.start()
     }
 
+    /**
+     * Never the full-screen edit box Android shows in landscape: the application stays visible
+     * above the keyboard (the keyboard keeps itself low and narrow enough there).
+     */
+    override fun onEvaluateFullscreenMode() = false
+
     override fun onCreateInputView(): View = KeyboardView(this, this).also { view = it }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
