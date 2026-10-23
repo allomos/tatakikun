@@ -1,6 +1,6 @@
 {
   "area": "A01",
-  "handoff_note": "Done, merged into master (not released). Next: the person checks on a real phone (steps attached). Emulator Pixel_7_API_34_b (port 5556) left running with the debug build and long_press_timeout 1000.",
+  "handoff_note": "Done and released in v0.6.8 (not yet checked on a real phone). Next: the person checks on a phone with the attached steps (alm human, To check).",
   "holder": "claude-android-landscape",
   "human_check_steps": "# Check A01-edge463 on a phone\n\n1. Install the debug or next release APK; Tatakikun as the keyboard.\n2. Optional: Settings → Accessibility → Touch & hold delay → Long.\n3. In any text field, hold `a` for about half a second: `@` is typed (not `a`), whatever the setting.\n4. A quick tap still types the letter; hold delete: it keeps deleting until you let go.\n5. Open Keep (or Messages) with Gboard and then with Tatakikun: the key rows are about the same height.\n",
   "id": "A01-edge463",

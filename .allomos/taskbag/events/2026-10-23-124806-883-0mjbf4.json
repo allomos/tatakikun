@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-23T12:48:06Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-edge463",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Done, merged into master (not released). Next: the person checks on a real phone (steps attached). Emulator Pixel_7_API_34_b (port 5556) left running with the debug build and long_press_timeout 1000.",
+      "to": "Done and released in v0.6.8 (not yet checked on a real phone). Next: the person checks on a phone with the attached steps (alm human, To check)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** Holding a key shows its symbol (or starts repeating delete) after 400 ms, Android's short value, even when the phone's Touch & hold delay is set longer; the key rows are as low as Gboard's, so the keyboard takes less of the screen.\n\n**Done means.** On the emulator with long_press_timeout 1000, a hold of ~0.5 s types the corner symbol; a tap still types the letter; holding delete repeats; a portrait screenshot beside Gboard's shows rows of the same height.\n\n**Notes.** Asked by the person on 2026-10-23, with screenshots of Gboard and Tatakikun in Keep.\n",
+      "to": "**Outcome.** Holding a key shows its symbol (or starts repeating delete) after 400 ms, Android's short value, even when the phone's Touch & hold delay is set longer; the key rows are as low as Gboard's, so the keyboard takes less of the screen.\n\n**Done means.** On the emulator with long_press_timeout 1000, a hold of ~0.5 s types the corner symbol; a tap still types the letter; holding delete repeats; a portrait screenshot beside Gboard's shows rows of the same height.\n\n**Notes.** Asked by the person on 2026-10-23, with screenshots of Gboard and Tatakikun in Keep.\n\n## Evidence\n\n- 2026-10-23, claude-android-landscape: Released in v0.6.8 (2026-10-23), approved by the person's line \"when finished, call alm guide GitHub release\" in the conversation, 2026-10-23. https://github.com/allomos/tatakikun/releases/tag/v0.6.8 with Tatakikun-0.6.8.pkg (sha256 5f85b1a183d5657c52ad7d141d17046bdfa445c282708344fc461f90eb515473), Tatakikun-0.6.8-android.apk (sha256 b0deb561ccffaa25da23a1b204060d23b5a33a2fd71831ffa7f0d034d314ad81, signer 05d10759…) and both .sha256 files; release APK passed scripts/test-android.sh on Pixel_7_API_34_b (9/9); pkg downloaded, checksum OK, installed here, version 0.6.8 running. No CI release workflow (Mac build is local).\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-android-landscape"
+    }
+  ]
+}
