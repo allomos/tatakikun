@@ -4,7 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.Rect
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Build
@@ -12,6 +19,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
@@ -25,6 +33,7 @@ import android.widget.TextView
  * the candidate bar while typing, a number row, letters with a symbol on long press, and a layer of
  * symbols behind ?123. Above it, over the application, a small box shows the letters being typed;
  * only the panel below it takes touches ([panelTop]). ⌄ shows more candidates in place of the keys.
+ * A key that types a character shows it in a popup above the finger ([KeyPopup]).
  */
 @SuppressLint("ViewConstructor")
 class KeyboardView(context: Context, private val listener: Listener) : LinearLayout(context) {
@@ -46,6 +55,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private val functionText = if (dark) Color.rgb(0xd3, 0xe3, 0xfd) else Color.rgb(0x0b, 0x2a, 0x5c)
     private val pressedColor = if (dark) Color.argb(0x40, 0xff, 0xff, 0xff) else Color.argb(0x30, 0x00, 0x00, 0x00)
     private val dividerColor = if (dark) Color.rgb(0x4a, 0x4d, 0x53) else Color.rgb(0xb9, 0xbe, 0xc6)
+    private val shadowColor = if (dark) Color.argb(0x8c, 0, 0, 0) else Color.argb(0x2e, 0, 0, 0)
+    private val edgeColor = if (dark) Color.argb(0x12, 0xff, 0xff, 0xff) else Color.argb(0x0d, 0, 0, 0)
 
     private val reading = TextView(context)
     private val panel = LinearLayout(context)
@@ -60,8 +71,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private var symbols = false
     private var shift = false
     private var expanded = false
+    private val popup = KeyPopup()
+    private val slop = ViewConfiguration.get(context).scaledTouchSlop
 
     private fun dp(v: Int) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v.toFloat(), resources.displayMetrics).toInt()
+    private fun sp(v: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, v, resources.displayMetrics)
 
     /** Where the keyboard's panel starts, below the box with the letters: the part that takes touches. */
     val panelTop get() = panel.top
@@ -129,6 +143,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         moreScroll.visibility = GONE
         body.addView(moreScroll, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(5 * ROW + 4)))
         panel.addView(body, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
+        overlay.add(popup)
         buildKeys()
         show(null)
     }
@@ -197,7 +212,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
     private fun buildKeys() {
         keys.removeAllViews()
-        keys.addView(weighted("1234567890".map { ch -> key(ch.toString(), ch.toString()) { listener.onKey(Engine.Keys.DIGIT, ch.code) } to 1f }), rowParams())
+        keys.addView(weighted("1234567890".map { ch -> key(ch.toString(), ch.toString(), preview = true) { listener.onKey(Engine.Keys.DIGIT, ch.code) } to 1f }), rowParams())
 
         val letters = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
         val symbolRows = listOf("@#$%&-+()/", "*\"':;!?=_", "[]{}<>\\|")
@@ -208,7 +223,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             for (ch in chars) {
                 val shown = if (shift && !symbols) ch.uppercase() else ch.toString()
                 val hint = if (symbols) null else HINTS[ch]
-                views += key(shown, shown, hint = hint, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
+                views += key(shown, shown, hint = hint, preview = true, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
                     val c = shown[0]
                     if (c.isLetter()) {
                         listener.onKey(Engine.Keys.LETTER, c.code)
@@ -224,11 +239,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         keys.addView(weighted(listOf(
             key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = false; buildKeys() } to 1.5f,
             // The composer types ， or , (。 or .) to suit the text around it.
-            key("，", "comma", Style.PILL, hint = '、', onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
+            key("，", "comma", Style.PILL, hint = '、', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, ','.code)
             } to 1f,
             key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to 4.6f,
-            key("。", "period", Style.PILL, hint = '?', onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
+            key("。", "period", Style.PILL, hint = '?', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, '.'.code)
             } to 1f,
             key("", "return", Style.PILL, iconRes = R.drawable.ic_return) { listener.onKey(Engine.Keys.ENTER) } to 1.5f,
@@ -274,11 +289,13 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     /**
      * A key: its face with rounded corners (letters and shift / delete) or a pill (the bottom row's
      * function keys), inside a frame that makes the gap to the next key; a symbol in the corner
-     * types on a long press.
+     * types on a long press. A key with `preview` shows its character in the popup while pressed;
+     * held long, the popup turns to the corner symbol, typed on release (sliding off cancels).
      */
+    @SuppressLint("ClickableViewAccessibility")
     private fun key(
-        label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, onLongPress: (() -> Unit)? = null,
-        iconRes: Int = 0, textSize: Float = 0f, ink: Int = 0, onClick: () -> Unit,
+        label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false,
+        onLongPress: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f, ink: Int = 0, onClick: () -> Unit,
     ): View {
         val function = style != Style.LETTER
         val color = if (ink != 0) ink else if (function) functionText else textColor
@@ -286,7 +303,25 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             contentDescription = id
             background = pressable(if (function) functionColor else keyColor, dp(if (style == Style.PILL) 21 else 8).toFloat())
             setOnClickListener { onClick() }
-            if (onLongPress != null) setOnLongClickListener { onLongPress(); true }
+            // Without a finger on it (TalkBack), a long press types the symbol at once.
+            if (onLongPress != null) setOnLongClickListener { v -> if (!popup.flip(v)) onLongPress(); true }
+        }
+        if (preview) {
+            var shown = 0
+            face.setOnTouchListener { v, e ->
+                when (e.actionMasked) {
+                    MotionEvent.ACTION_DOWN -> shown = popup.show(v, label, hint?.toString().orEmpty())
+                    MotionEvent.ACTION_MOVE -> if (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop) popup.hide(shown)
+                    MotionEvent.ACTION_UP -> {
+                        popup.lift(v)
+                        if (popup.flipped(shown)) onLongPress?.invoke()
+                        val last = shown
+                        postDelayed({ popup.hide(last) }, 50)
+                    }
+                    MotionEvent.ACTION_CANCEL -> { popup.lift(v); popup.hide(shown) }
+                }
+                false
+            }
         }
         if (iconRes != 0) {
             face.addView(ImageView(context).apply { setImageResource(iconRes); setColorFilter(color); scaleType = ImageView.ScaleType.CENTER },
@@ -311,6 +346,81 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             setPadding(dp(3), dp(4), dp(3), dp(4))
             addView(face, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         }
+    }
+
+    /**
+     * The popup above the pressed key, drawn over the keyboard: the character large with the
+     * long-press symbol small in its corner, as on the key; held long, it flips to the symbol on the
+     * function keys' blue. One at a time: each press gets a number, and only the latest one shows.
+     */
+    private inner class KeyPopup : Drawable() {
+        private var key: View? = null
+        private var finger: View? = null
+        private var press = 0
+        private var main = ""
+        private var corner = ""
+        private var long = false
+        private val box = RectF()
+        private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
+        private val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = dp(1) / 2f; color = edgeColor }
+        private val big = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; textSize = sp(32f) }
+        private val small = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.RIGHT; textSize = sp(13f) }
+
+        /** Shows `label` over `view`; returns this press's number. */
+        fun show(view: View, label: String, hint: String): Int {
+            val r = Rect()
+            view.getDrawingRect(r)
+            offsetDescendantRectToMyCoords(view, r)
+            val w = maxOf(r.width() * 1.45f, dp(54).toFloat())
+            val h = dp(64).toFloat()
+            val left = (r.exactCenterX() - w / 2).coerceIn(dp(4).toFloat(), maxOf(dp(4).toFloat(), width - dp(4) - w))
+            val top = maxOf(0f, r.top - dp(4) - h)
+            box.set(left, top, left + w, top + h)
+            key = view; finger = view; main = label; corner = hint; long = false
+            setBounds(0, 0, width, height)
+            invalidateSelf()
+            return ++press
+        }
+
+        /** Turns the popup of the press on `view` to its symbol; false when no finger is on `view`. */
+        fun flip(view: View): Boolean {
+            if (finger != view) return false
+            if (key == view && corner.isNotEmpty()) { long = true; invalidateSelf() }
+            return true
+        }
+
+        /** The finger has left `view` (released or cancelled). */
+        fun lift(view: View) { if (finger == view) finger = null }
+
+        fun flipped(number: Int) = number == press && key != null && long
+
+        fun hide(number: Int) {
+            if (number != press || key == null) return
+            key = null
+            invalidateSelf()
+        }
+
+        override fun draw(canvas: Canvas) {
+            if (key == null) return
+            val radius = dp(14).toFloat()
+            fill.color = if (long) functionColor else keyColor
+            fill.setShadowLayer(dp(5).toFloat(), 0f, dp(2).toFloat(), shadowColor)
+            canvas.drawRoundRect(box, radius, radius, fill)
+            canvas.drawRoundRect(box, radius, radius, edge)
+            big.color = if (long) functionText else textColor
+            canvas.drawText(if (long) corner else main, box.centerX(), box.centerY() - (big.descent() + big.ascent()) / 2, big)
+            val sub = if (long) main else corner
+            if (sub.isNotEmpty()) {
+                small.color = if (long) functionText else hintColor
+                small.alpha = if (long) 0xb3 else 0xff
+                canvas.drawText(sub, box.right - dp(8), box.top + dp(5) - small.ascent(), small)
+            }
+        }
+
+        override fun setAlpha(alpha: Int) {}
+        override fun setColorFilter(colorFilter: ColorFilter?) {}
+        @Deprecated("Deprecated in Java")
+        override fun getOpacity() = PixelFormat.TRANSLUCENT
     }
 
     companion object {
