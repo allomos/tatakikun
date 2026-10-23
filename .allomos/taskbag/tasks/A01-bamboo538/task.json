@@ -1,7 +1,9 @@
 {
   "area": "A01",
+  "handoff_note": "Design chosen by the person on 2026-10-23: sample B (hero and checklist).",
+  "holder": "claude-android-settings",
   "id": "A01-bamboo538",
   "iteration": "I04",
-  "state": "backlog",
+  "state": "in_progress",
   "title": "Android: the Tatakikun settings screen looks polished and clear — setup steps with live status, a try-it field, and app info"
 }

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-23T07:27:07Z",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A01-bamboo538",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}
