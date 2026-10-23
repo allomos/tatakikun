@@ -267,19 +267,12 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     }
 
     /** Delete: held down, it deletes again and again, like Gboard. */
-    @SuppressLint("ClickableViewAccessibility")
     private fun deleteKey(): View {
         val repeat = object : Runnable {
             override fun run() { listener.onKey(Engine.Keys.BACKSPACE); postDelayed(this, 60) }
         }
-        val view = key("", "delete", Style.FUNCTION, iconRes = R.drawable.ic_backspace) { listener.onKey(Engine.Keys.BACKSPACE) }
-        val face = (view as FrameLayout).getChildAt(0)
-        face.setOnLongClickListener { post(repeat); true }
-        face.setOnTouchListener { _, e ->
-            if (e.action == MotionEvent.ACTION_UP || e.action == MotionEvent.ACTION_CANCEL) removeCallbacks(repeat)
-            false
-        }
-        return view
+        return key("", "delete", Style.FUNCTION, iconRes = R.drawable.ic_backspace,
+            onLongPress = { post(repeat) }, onRelease = { removeCallbacks(repeat) }) { listener.onKey(Engine.Keys.BACKSPACE) }
     }
 
     private fun weighted(views: List<Pair<View, Float>>) = LinearLayout(context).apply {
@@ -303,11 +296,14 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
      * function keys), inside a frame that makes the gap to the next key; a symbol in the corner
      * types on a long press. A key with `preview` shows its character in the popup while pressed;
      * held long, the popup turns to the corner symbol, typed on release (sliding off cancels).
+     * The keyboard tracks the finger itself, so a long press takes [LONG_PRESS] ms whatever the
+     * phone's touch-and-hold delay; `onRelease` runs when the finger lifts or slides off.
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun key(
         label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false,
-        onLongPress: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f, ink: Int = 0, onClick: () -> Unit,
+        onLongPress: (() -> Unit)? = null, onRelease: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f,
+        ink: Int = 0, onClick: () -> Unit,
     ): View {
         val function = style != Style.LETTER
         val color = if (ink != 0) ink else if (function) functionText else textColor
@@ -318,22 +314,46 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             // Without a finger on it (TalkBack), a long press types the symbol at once.
             if (onLongPress != null) setOnLongClickListener { v -> if (!popup.flip(v)) onLongPress(); true }
         }
-        if (preview) {
-            var shown = 0
-            face.setOnTouchListener { v, e ->
-                when (e.actionMasked) {
-                    MotionEvent.ACTION_DOWN -> shown = popup.show(v, label, hint?.toString().orEmpty())
-                    MotionEvent.ACTION_MOVE -> if (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop) popup.hide(shown)
-                    MotionEvent.ACTION_UP -> {
+        var shown = 0
+        var held = false
+        var off = false
+        val hold = Runnable { held = true; if (!popup.flip(face)) onLongPress?.invoke() }
+        face.setOnTouchListener { v, e ->
+            when (e.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    held = false; off = false
+                    v.drawableHotspotChanged(e.x, e.y)
+                    v.isPressed = true
+                    if (preview) shown = popup.show(v, label, hint?.toString().orEmpty())
+                    if (onLongPress != null) postDelayed(hold, LONG_PRESS)
+                }
+                MotionEvent.ACTION_MOVE -> if (!off && (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop)) {
+                    off = true
+                    removeCallbacks(hold)
+                    v.isPressed = false
+                    if (preview) popup.hide(shown)
+                    onRelease?.invoke()
+                }
+                MotionEvent.ACTION_UP -> {
+                    removeCallbacks(hold)
+                    v.isPressed = false
+                    if (preview) {
                         popup.lift(v)
                         if (popup.flipped(shown)) onLongPress?.invoke()
                         val last = shown
                         postDelayed({ popup.hide(last) }, 50)
                     }
-                    MotionEvent.ACTION_CANCEL -> { popup.lift(v); popup.hide(shown) }
+                    if (!off) onRelease?.invoke()
+                    if (!held && !off) v.performClick()
                 }
-                false
+                MotionEvent.ACTION_CANCEL -> {
+                    removeCallbacks(hold)
+                    v.isPressed = false
+                    if (preview) { popup.lift(v); popup.hide(shown) }
+                    if (!off) onRelease?.invoke()
+                }
             }
+            true
         }
         if (iconRes != 0) {
             face.addView(ImageView(context).apply { setImageResource(iconRes); setColorFilter(color); scaleType = ImageView.ScaleType.CENTER },
@@ -436,8 +456,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     }
 
     companion object {
-        /** The height of a row of keys, in dp. */
-        const val ROW = 50
+        /** The height of a row of keys, in dp: as on Gboard. */
+        const val ROW = 45
+
+        /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
+        const val LONG_PRESS = 400L
 
         /** The height of a row of keys on a short landscape screen, in dp. */
         const val ROW_LOW = 40
