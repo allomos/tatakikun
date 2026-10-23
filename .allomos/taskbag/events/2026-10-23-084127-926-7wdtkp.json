@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T08:41:27Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-quail228",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "On the phone keyboards (Android, iOS), double-tapping shift turns on caps lock"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** On the Android and iOS keyboards, double-tapping shift turns on caps lock: every letter types in uppercase until shift is tapped again. The shift key shows that caps lock is on, so it looks different from a single shift.\n\n**Done means.**\n- Single tap on shift: the next letter only is uppercase, then it goes back to lowercase (as now).\n- Two quick taps on shift: caps lock is on; several letters in a row all type in uppercase, and the shift key shows the caps lock look (for example a filled arrow with a bar under it, as in Gboard and the iOS keyboard).\n- One tap on shift while caps lock is on: back to lowercase.\n- Works on the Android keyboard and the iOS keyboard, in light and dark mode.\n\n**Notes.**\n- Uppercase letters with caps lock go through the engine like single-shift letters do now (the raw letter string stays a candidate).\n- The double-tap time window and the exact caps lock look are routine choices for whoever works the task.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
