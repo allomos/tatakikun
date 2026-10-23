@@ -33,13 +33,16 @@ import android.widget.TextView
  * the candidate bar while typing, a number row, letters with a symbol on long press, and a layer of
  * symbols behind ?123. Above it, over the application, a small box shows the letters being typed;
  * only the panel below it takes touches ([panelTop]). ⌄ shows more candidates in place of the keys.
- * A key that types a character shows it in a popup above the finger ([KeyPopup]).
+ * A key that types a character shows it in a popup above the finger ([KeyPopup]); held, the popup
+ * offers its symbol half-width and full-width.
  */
 @SuppressLint("ViewConstructor")
 class KeyboardView(context: Context, private val listener: Listener) : LinearLayout(context) {
     interface Listener {
         fun onKey(kind: Int, char: Int = 0)
         fun onChoose(row: Int, column: Int)
+        /** A symbol chosen in the long-press popup, typed exactly as shown. */
+        fun onSymbol(text: String)
         fun onAction(action: Action)
     }
 
@@ -295,7 +298,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
      * A key: its face with rounded corners (letters and shift / delete) or a pill (the bottom row's
      * function keys), inside a frame that makes the gap to the next key; a symbol in the corner
      * types on a long press. A key with `preview` shows its character in the popup while pressed;
-     * held long, the popup turns to the corner symbol, typed on release (sliding off cancels).
+     * held long, the popup turns to the corner symbol, half-width and full-width side by side; sliding
+     * picks one, typed on release (sliding off before that cancels).
      * The keyboard tracks the finger itself, so a long press takes [LONG_PRESS] ms whatever the
      * phone's touch-and-hold delay; `onRelease` runs when the finger lifts or slides off.
      */
@@ -327,7 +331,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     if (preview) shown = popup.show(v, label, hint?.toString().orEmpty())
                     if (onLongPress != null) postDelayed(hold, LONG_PRESS)
                 }
-                MotionEvent.ACTION_MOVE -> if (!off && (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop)) {
+                MotionEvent.ACTION_MOVE -> if (preview && popup.flipped(shown)) popup.select(v, e.x)
+                else if (!off && (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop)) {
                     off = true
                     removeCallbacks(hold)
                     v.isPressed = false
@@ -339,7 +344,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     v.isPressed = false
                     if (preview) {
                         popup.lift(v)
-                        if (popup.flipped(shown)) onLongPress?.invoke()
+                        popup.choice(shown)?.let { listener.onSymbol(it) }
                         val last = shown
                         postDelayed({ popup.hide(last) }, 50)
                     }
@@ -392,11 +397,16 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         private var main = ""
         private var corner = ""
         private var long = false
+        /** Held: the symbol half-width and full-width (one choice when it has no other form), and the one under the finger. */
+        private var options = listOf<String>()
+        private var selected = 0
+        private val keyBox = RectF()
         private val box = RectF()
         private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
         private val edge = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = dp(1) / 2f; color = edgeColor }
         private val big = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; textSize = sp(32f) }
         private val small = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.RIGHT; textSize = sp(13f) }
+        private val caption = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; textSize = sp(10f) }
 
         /** Shows `label` over `view`; returns this press's number. */
         fun show(view: View, label: String, hint: String): Int {
@@ -408,6 +418,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             val left = (r.exactCenterX() - w / 2).coerceIn(dp(4).toFloat(), maxOf(dp(4).toFloat(), width - dp(4) - w))
             val top = maxOf(0f, r.top - dp(4) - h)
             box.set(left, top, left + w, top + h)
+            keyBox.set(r)
             key = view; finger = view; main = label; corner = hint; long = false
             setBounds(0, 0, width, height)
             invalidateSelf()
@@ -417,9 +428,30 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         /** Turns the popup of the press on `view` to its symbol; false when no finger is on `view`. */
         fun flip(view: View): Boolean {
             if (finger != view) return false
-            if (key == view && corner.isNotEmpty()) { long = true; invalidateSelf() }
+            if (key == view && corner.isNotEmpty()) {
+                long = true
+                val c = corner.codePointAt(0)
+                options = if (c in 0x21..0x7e) listOf(corner, String(Character.toChars(c + 0xfee0))) else listOf(corner)
+                selected = 0
+                // The half-width one over the key, the full-width one beside it (to the left at the right edge).
+                val cell = box.width()
+                val left = (keyBox.centerX() - cell / 2).coerceIn(dp(4).toFloat(), maxOf(dp(4).toFloat(), width - dp(4) - cell * options.size))
+                box.set(left, box.top, left + cell * options.size, box.bottom)
+                invalidateSelf()
+            }
             return true
         }
+
+        /** The finger on `view` is at `x` (in the key's coordinates): picks the choice under it. */
+        fun select(view: View, x: Float) {
+            if (finger != view || !long) return
+            val cell = box.width() / options.size
+            val i = ((x + keyBox.left - box.left) / cell).toInt().coerceIn(0, options.size - 1)
+            if (i != selected) { selected = i; invalidateSelf() }
+        }
+
+        /** What the press `number` types on release: the chosen symbol once held, else null. */
+        fun choice(number: Int) = if (flipped(number)) options[selected] else null
 
         /** The finger has left `view` (released or cancelled). */
         fun lift(view: View) { if (finger == view) finger = null }
@@ -437,6 +469,25 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             val radius = dp(14).toFloat()
             fill.color = if (long) functionColor else keyColor
             fill.setShadowLayer(dp(5).toFloat(), 0f, dp(2).toFloat(), shadowColor)
+            if (long && options.size > 1) {
+                fill.color = keyColor
+                canvas.drawRoundRect(box, radius, radius, fill)
+                canvas.drawRoundRect(box, radius, radius, edge)
+                fill.clearShadowLayer()
+                val cell = box.width() / options.size
+                for ((i, text) in options.withIndex()) {
+                    val r = RectF(box.left + i * cell, box.top, box.left + (i + 1) * cell, box.bottom)
+                    if (i == selected) {
+                        fill.color = functionColor
+                        canvas.drawRoundRect(RectF(r.left + dp(3), r.top + dp(3), r.right - dp(3), r.bottom - dp(3)), radius - dp(3), radius - dp(3), fill)
+                    }
+                    big.color = if (i == selected) functionText else textColor
+                    canvas.drawText(text, r.centerX(), r.centerY() - dp(4) - (big.descent() + big.ascent()) / 2, big)
+                    caption.color = if (i == selected) functionText else hintColor
+                    canvas.drawText(if (i == 0) "半角" else "全角", r.centerX(), r.bottom - dp(6) - caption.descent(), caption)
+                }
+                return
+            }
             canvas.drawRoundRect(box, radius, radius, fill)
             canvas.drawRoundRect(box, radius, radius, edge)
             big.color = if (long) functionText else textColor
