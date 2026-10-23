@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T23:18:38Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-boy892",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Typing a person's full name gives it as one candidate: lixiangqin → 李香琴 (Chinese), ouki → 王暉 (Japanese)"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Names that are no dictionary word still come out whole: Chinese names jieba lists as person names, and Japanese names built from a family name and a given name in the Mozc dictionary.\n\n**Done means.** `tatakikun-cli --packs build/packs lixiangqin` shows 李香琴 and `ouki` shows 王暉 among the candidates; common words still come first (lixiang → 理想); engine tests pass.\n\n**Notes.** Asked by the person on 2026-10-24.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

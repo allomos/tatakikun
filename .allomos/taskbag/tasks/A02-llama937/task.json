@@ -1,0 +1,8 @@
+{
+  "area": "A02",
+  "holder": "claude-typos",
+  "id": "A02-llama937",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "On the phone keyboards, a letter hit on a neighbouring key still finds the intended word (nihai → 你好)"
+}
