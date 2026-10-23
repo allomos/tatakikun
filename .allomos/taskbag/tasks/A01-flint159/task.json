@@ -2,8 +2,10 @@
   "area": "A01",
   "handoff_note": "Done, merged into master (not released). Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. Next: the person checks on a real phone and tablet (steps attached), then it ships with the next Android release. The emulator now has the debug build instead of the release build.",
   "holder": "claude-android-landscape",
+  "human_check_steps": "# Check A01-flint159 on a phone and a tablet\n\n1. Install the debug or next release APK, choose Tatakikun as the keyboard.\n2. Turn the phone sideways and tap a text field (for example Messages, or Tatakikun's \"Try it\").\n   - The app stays visible above the keyboard; no full-screen edit box with a Done button.\n   - The keys form a centred block (about a portrait keyboard's width), not stretched edge to edge.\n3. Type `nihao` and pick 你好: it lands in the field.\n4. On a tablet, in both orientations: the app stays visible and the keys are not stretched across the whole screen.\n5. Turn back to portrait: the keyboard looks as before.\n",
   "id": "A01-flint159",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Android in landscape: the app stays visible above the keyboard (no fullscreen edit box), and the keys keep a comfortable width on wide screens and tablets"
+  "state": "done",
+  "title": "Android in landscape: the app stays visible above the keyboard (no fullscreen edit box), and the keys keep a comfortable width on wide screens and tablets",
+  "without_human_check": "Checked on the Pixel 7 emulator in landscape and portrait; a real phone and a tablet need a person"
 }

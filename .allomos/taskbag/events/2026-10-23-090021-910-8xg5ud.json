@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T09:00:21Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked on the Pixel 7 emulator in landscape and portrait; a real phone and a tablet need a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A01-flint159 on a phone and a tablet\n\n1. Install the debug or next release APK, choose Tatakikun as the keyboard.\n2. Turn the phone sideways and tap a text field (for example Messages, or Tatakikun's \"Try it\").\n   - The app stays visible above the keyboard; no full-screen edit box with a Done button.\n   - The keys form a centred block (about a portrait keyboard's width), not stretched edge to edge.\n3. Type `nihao` and pick 你好: it lands in the field.\n4. On a tablet, in both orientations: the app stays visible and the keys are not stretched across the whole screen.\n5. Turn back to portrait: the keyboard looks as before.\n"
+    }
+  ]
+}
