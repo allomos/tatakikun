@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T09:00:12Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Keys capped at 640dp wide (centred) on any screen wider than that, so phones in landscape and tablets in both orientations; candidate bar stays full width; rows 40dp instead of 50dp when the screen is under 480dp tall (phone landscape). Fullscreen extract mode turned off everywhere."
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "area": "A01",
+  "handoff_note": "Done, merged into master (not released). Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. Next: the person checks on a real phone and tablet (steps attached), then it ships with the next Android release. The emulator now has the debug build instead of the release build.",
   "holder": "claude-android-landscape",
   "id": "A01-flint159",
   "iteration": "I04",
