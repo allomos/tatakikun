@@ -1,7 +1,8 @@
 {
   "area": "A01",
+  "holder": "claude-key-popup",
   "id": "A01-cookie095",
   "iteration": "I04",
-  "state": "backlog",
+  "state": "in_progress",
   "title": "Android: pressing a key shows a small popup with its character above the finger; long press shows the symbol it will type"
 }

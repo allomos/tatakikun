@@ -10,4 +10,4 @@
 **Notes.**
 - Design samples (three ways, plus today's keyboard): https://claude.ai/artifact/BagrRgRszrB2vKng3kVDiM
 - How other keyboards do it: Gboard shows a separate balloon above the key ("Pop-up on keypress", on by default); long press opens a row of alternatives you slide across, released on the highlighted one. iOS grows the key upward into a connected callout (tulip shape); long press opens an accent row. SwiftKey and Samsung Keyboard use a Gboard-like balloon. Chinese IMEs (Sogou, Baidu) use a balloon and show the long-press symbol in it.
-- Open for the approver: (1) which of the three designs; (2) long press types on release (the popup shows what you will get; slide off to cancel) instead of at the moment the long press is recognised, as today; (3) whether to add an on/off switch in the Tatakikun app (Gboard has one).
+- Decided by the approver in the conversation, 2026-10-23: design B (Tatakikun balloon: the corner symbol small inside, flips to the symbol on the function-key blue on long press); a long press types on release (sliding off the key cancels); no on/off switch for now.

@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T07:24:57Z",
+  "by": "claude-key-popup",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-key-popup"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A01-cookie095"
+    }
+  ]
+}
