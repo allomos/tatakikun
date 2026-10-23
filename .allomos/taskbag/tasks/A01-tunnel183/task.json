@@ -1,0 +1,8 @@
+{
+  "area": "A01",
+  "holder": "claude-android-landscape",
+  "id": "A01-tunnel183",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Android keyboard: a long press on a key offers its symbol both half-width and full-width (@ ＠), and sliding picks one"
+}

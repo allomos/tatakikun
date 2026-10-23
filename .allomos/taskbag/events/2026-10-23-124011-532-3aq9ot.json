@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T12:40:11Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-tunnel183",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android keyboard: a long press on a key offers its symbol both half-width and full-width (@ ＠), and sliding picks one"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Holding a key with a corner symbol shows it twice in the popup, half-width and full-width (for example ? and ？); sliding the finger onto one and lifting types exactly that one, whatever the language before the cursor.\n\n**Done means.** On the emulator: hold a, lift → @; hold a, slide right, lift → ＠, also right after Chinese text; a tap still types the letter.\n\n**Notes.** Asked by the person on 2026-10-23. Symbols without a full-width form (、) show one choice.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

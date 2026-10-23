@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T12:40:17Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A01-tunnel183",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-android-landscape"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A01-tunnel183"
+    }
+  ]
+}
