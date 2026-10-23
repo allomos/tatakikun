@@ -46,6 +46,19 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "chongqi").firstRow.prefix(2).map(\.text), ["充气", "重启"])
     }
 
+    /// A03-boy892: whole person names no dictionary word has, typed in one go: jieba's person
+    /// names in Chinese, a family and a given name from Mozc in Japanese; common words stay first.
+    func testFullNames() throws {
+        let e = try engine([.zh, .ja, .en])
+        func row(_ s: String) -> [String] { e.candidates(for: s).firstRow.map(\.text) }
+        XCTAssert(row("lixiangqin").contains("李香琴"), "\(row("lixiangqin"))")
+        XCTAssertEqual(row("lixiang").first, "理想")
+        XCTAssert(row("ouki").contains("王暉"), "\(row("ouki"))")
+        XCTAssert(row("yamadatarou").contains("山田太郎"), "\(row("yamadatarou"))")
+        XCTAssertEqual(row("watashi").first, "私")
+        XCTAssertEqual(row("arigatou").first, "ありがとう")
+    }
+
     /// A02-easel451: consonants alone with the packs, as with the base dictionaries (A02-06). Both word
     /// frequency lists put 女孩 and 您好 before 你好, so 你好 is capped as an everyday spoken word.
     func testAbbreviations() throws {
