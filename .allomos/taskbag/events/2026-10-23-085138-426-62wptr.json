@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-23T08:51:38Z",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A03-wood850",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "from": "**Outcome.** Five more of the world's most spoken languages can be typed with Tatakikun, mixed into the candidates like English, Chinese and Japanese. Each one comes as a language pack that can be turned on or off.\n\n**Done means.**\n- For each new language: typing on a Latin keyboard gives correct candidates in that language, including whole words, and they mix with the other languages' candidates.\n- Each language is its own pack, and the installer and settings can choose it.\n- Tests cover common words in each language.\n\n**Notes.**\n- **Open for the person: which five.** Proposal, by total speakers (Ethnologue), after English, Chinese and Japanese: **Hindi, Spanish, Arabic, French, Bengali**. Next in line: Portuguese, Russian, Urdu, Indonesian.\n- Spanish and French are typed in Latin letters: the work is word lists, plus accents (é, ñ) typed from plain letters. Hindi, Bengali (Devanagari/Bengali script) and Arabic (right-to-left) need typing by sound in Latin letters, like pinyin, so they are much larger. Arabic also needs right-to-left text checked in the candidate bar.\n- Open for the person: the dictionary sources and their licences (they must allow MIT redistribution), and app size, since every pack makes the download bigger.\n- Once the five are chosen, split this into one task per language.\n",
+      "to": "**Outcome.** Five more of the world's most spoken languages can be typed with Tatakikun, mixed into the candidates like English, Chinese and Japanese. Each one comes as a language pack that can be turned on or off.\n\n**Done means.**\n- All five language tasks are done: Spanish (A03-wood850-01), French (A03-wood850-02), Hindi (A03-wood850-03), Arabic (A03-wood850-04), Bengali (A03-wood850-05).\n\n**Notes.**\n- **Decided by the person (2026-10-23):** Hindi, Spanish, Arabic, French and Bengali (the proposal, by total speakers after English, Chinese and Japanese).\n- Suggested order: Spanish and French first (Latin script, mostly word lists), then Hindi and Bengali (typing by sound, sharing one approach), then Arabic (also right to left).\n- Still open for the person, in each language task: the word list source and its licence (it must allow MIT redistribution), and the app size.\n"
+    }
+  ]
+}

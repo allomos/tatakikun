@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T08:51:38Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-wood850-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Type Bengali with Tatakikun"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Typing Bengali by sound in Latin letters gives Bengali-script candidates: `ami` → আমি, `bhalobasha` → ভালোবাসা.\n\n**Done means.**\n- Common romanized spellings work, including loose ones (`tumi`, `tomi` → তুমি).\n- Whole short phrases work: `ami tomake bhalobashi` → আমি তোমাকে ভালোবাসি.\n- It is its own language pack, chosen in the installer and turned on or off in settings (A04-tuna688).\n- Its candidates mix with English, Chinese and Japanese ones, and the raw letter string stays a candidate.\n- Tests cover at least 50 common words and a few whole short phrases.\n- Checked on macOS, Android and iOS.\n\n**Notes.**\n- Can share the transliteration approach with Hindi (A03-wood850-03). Check Bengali rendering (conjuncts, vowel signs) in the candidate bar on every platform.\n- Part of A03-wood850 (five more languages, chosen by the person on 2026-10-23).\n- **Open for the person:** the word list source and its licence (it must allow MIT redistribution), and how much the pack may add to the app size. Propose a source with its licence and size before building.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
