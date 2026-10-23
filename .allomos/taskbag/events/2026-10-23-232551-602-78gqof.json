@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T23:25:51Z",
+  "by": "claude-typos",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-llama937",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked with tatakikun-cli --phone and engine tests; Android and iOS build, not tried on a phone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-llama937 on a phone\n\n1. Install the next Android APK (or iOS build); Tatakikun as the keyboard; open any text field.\n2. Type `nihai`: 你好 is in the bar (marked … as not typed exactly), beside 你还.\n3. Type `shrnme` (r instead of e): 什么 comes first. `xiexir`: 谢谢. `arigatpu`: ありがとう.\n4. Type `nihao` correctly: 你好 first, no unrelated words such as 怒号.\n5. On the Mac nothing changes: `nihai` gives no 你好.\n"
+    }
+  ]
+}

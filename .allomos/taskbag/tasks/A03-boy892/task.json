@@ -2,8 +2,10 @@
   "area": "A03",
   "handoff_note": "Done on master (not released). Packs must be rebuilt (scripts/build-packs.sh zh,ja) for a release. Next: the person checks with the attached steps.",
   "holder": "claude-names",
+  "human_check_steps": "# Check A03-boy892\n\n1. Install the next build (Mac .pkg, or the Android/iOS app) so the new zh and ja packs are in place.\n2. Type `lixiangqin`: 李香琴 is in the candidate bar (Chinese).\n3. Type `ouki`: 王暉 is in the candidate bar (Japanese, next to 王輝).\n4. Type `lixiang`, `watashi`, `arigatou`: 理想, 私, ありがとう still come first.\n",
   "id": "A03-boy892",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Typing a person's full name gives it as one candidate: lixiangqin → 李香琴 (Chinese), ouki → 王暉 (Japanese)"
+  "state": "done",
+  "title": "Typing a person's full name gives it as one candidate: lixiangqin → 李香琴 (Chinese), ouki → 王暉 (Japanese)",
+  "without_human_check": "Checked with tatakikun-cli and engine tests on new packs; a person checks in the app"
 }

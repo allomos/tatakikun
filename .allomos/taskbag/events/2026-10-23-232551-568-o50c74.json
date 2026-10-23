@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T23:25:51Z",
+  "by": "claude-names",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-boy892",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked with tatakikun-cli and engine tests on new packs; a person checks in the app"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A03-boy892\n\n1. Install the next build (Mac .pkg, or the Android/iOS app) so the new zh and ja packs are in place.\n2. Type `lixiangqin`: 李香琴 is in the candidate bar (Chinese).\n3. Type `ouki`: 王暉 is in the candidate bar (Japanese, next to 王輝).\n4. Type `lixiang`, `watashi`, `arigatou`: 理想, 私, ありがとう still come first.\n"
+    }
+  ]
+}
