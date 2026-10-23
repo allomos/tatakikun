@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:43:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-bamboo538",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Colours from one purple ramp (light #534AB7, dark #AFA9EC), set in code for light and dark mode; a NoActionBar DeviceDefault theme (values/values-night themes.xml) so the screen's own header replaces the system title bar."
+    }
+  ]
+}

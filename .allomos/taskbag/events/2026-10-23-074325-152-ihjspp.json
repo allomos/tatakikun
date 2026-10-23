@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:43:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-bamboo538",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Language packs row shows the packs bundled in the APK (assets/packs) with a count pill, no tap action; About shows the app version and opens the GitHub project page."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:43:25Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-bamboo538",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The screen no longer opens the keyboard by itself (windowSoftInputMode stateHidden instead of stateAlwaysVisible), so the setup checklist is visible on first open; tapping Try it brings the keyboard up and scrolls the field above it."
+    }
+  ]
+}

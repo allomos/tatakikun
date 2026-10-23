@@ -2,8 +2,11 @@
   "area": "A01",
   "handoff_note": "Design chosen by the person on 2026-10-23: sample B (hero and checklist).",
   "holder": "claude-android-settings",
+  "human_check_steps": "# Check the new Android settings screen (A01-bamboo538)\n\n1. Install the next APK (or a debug build: `scripts/build-android-app.sh install`) on your phone.\n2. Open Tatakikun from the launcher. You see the purple header with hello / 我爱你 / ありがとう, then Set up, Keyboard and Try it. The keyboard does not pop up by itself.\n3. If Tatakikun is not on yet: tap Turn on Tatakikun, switch it on, come back. Step 1 shows a green ✓ Done.\n4. Tap Choose it as your keyboard, pick Tatakikun. Step 2 shows ✓ Done as soon as the picker closes.\n5. Tap the Try it field, type woaini: the field stays above the keyboard and 我爱你 is the first candidate.\n6. Switch the phone to dark mode and open the screen again: dark background, light purple header, everything readable.\n7. Tap ⚙ on the keyboard: it opens this screen.\n",
   "id": "A01-bamboo538",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Android: the Tatakikun settings screen looks polished and clear — setup steps with live status, a try-it field, and app info"
+  "label": "locally verified",
+  "state": "done",
+  "title": "Android: the Tatakikun settings screen looks polished and clear — setup steps with live status, a try-it field, and app info",
+  "without_human_check": "Built and checked on an emulator; a person should try the screen on a real phone (Android 15+), including dark mode and the keyboard picker."
 }
