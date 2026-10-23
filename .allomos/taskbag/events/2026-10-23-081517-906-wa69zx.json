@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T08:15:17Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Rendered platform files (icns, iOS AppIcon.png, Android foreground PNGs) are checked in; scripts/make-app-icons.sh regenerates them (needs rsvg-convert and ImageMagick) so builds need no extra tools"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T08:15:25Z",
+  "by": "claude-app-icon",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Built and seen on macOS Finder, iOS simulator and Android emulator; a person should look at it on their own Mac and phones"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check the new app icon\n\n1. **macOS**: run `scripts/build.sh`, then look at `build/Tatakikun.app` in Finder: it shows the teal icon with the white key, た and the gold star (not a generic icon). After `scripts/install.sh`, System Settings → General → Login Items shows the same icon next to Tatakikun.\n2. **iOS**: run `scripts/build-ios.sh`, install the app on a simulator or iPhone; the home screen shows the icon with iOS rounded corners.\n3. **Android**: install the APK (`scripts/build-android-app.sh install`); the app drawer shows the icon in the launcher's shape (circle on Pixel). With Settings → Wallpaper & style → Themed icons on, it shows the one-color key with た.\n"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T08:15:17Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The menu bar input-source icon (template た badge from scripts/make-icon.swift) is unchanged: it must stay a monochrome template"
+    }
+  ]
+}

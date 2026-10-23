@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T08:15:17Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Android foreground: key and star scaled to 0.7 and the star moved closer to the key so round launcher masks do not cut it (66dp safe zone); themed icon is the key with た and the star's overlap cut out"
+    }
+  ]
+}

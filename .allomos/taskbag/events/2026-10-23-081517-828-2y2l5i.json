@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T08:15:17Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-plant167",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "た is drawn as outlines (Hiragino Sans W6, the weight the approved preview used) so the SVGs render the same without the font; the render matches the approved PNG pixel for pixel"
+    }
+  ]
+}
