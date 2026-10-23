@@ -4,8 +4,10 @@ import TatakikunCore
 // Language packs: one folder per language with its dictionary and the licenses of the data in it.
 //   zh/zh.ttkd  words of the base Chinese dictionary (ICU frequencies), keyed by the readings of
 //               pinyin-data (every character) and phrase-pinyin-data (whole words), plus words
-//               only phrase-pinyin-data has (ranked by jieba's word frequencies when it has them)
-//   ja/ja.ttkd  the base Japanese dictionary merged with the Mozc OSS dictionary
+//               only phrase-pinyin-data has (ranked by jieba's word frequencies when it has them),
+//               and jieba's person names
+//   ja/ja.ttkd  the base Japanese dictionary merged with the Mozc OSS dictionary, and its family
+//               and given names under marked keys (姓おう 王, 名き 暉)
 //   en/en.ttkd  SCOWL words, cheaper the more common their SCOWL level
 
 /// Words above this cost are left out of the abbreviation index, so typing consonants alone
@@ -72,6 +74,21 @@ func readWordFrequencies(_ url: URL) throws -> [String: Int] {
     }
     return out
 }
+
+/// jieba's person names (`李香琴 3 nr`) of 2–4 characters, with how often each was seen.
+func readPersonNames(_ url: URL) throws -> [String: Int] {
+    var out: [String: Int] = [:]
+    for line in try String(contentsOf: url, encoding: .utf8).split(separator: "\n") {
+        let p = line.split(separator: " ")
+        guard p.count == 3, p[2] == "nr", let n = Int(p[1]), n > 0, (2...4).contains(p[0].count), isAll(String(p[0]), Kana.isHan) else { continue }
+        out[String(p[0])] = max(out[String(p[0])] ?? 0, n)
+    }
+    return out
+}
+
+/// What a person name adds to its jieba cost: most are seen only a few times, so they come after
+/// the words and phrases typed the same way (lixiang 理想 before 李翔).
+let personNameCost = 10
 
 /// A word the base dictionary lacks, by its jieba frequency, on the base dictionary's scale: fitted on
 /// the 68 000 words both have (cost ≈ 144 − 7.1 ln n), and never cheaper than 60 or dearer than 169,
@@ -148,6 +165,15 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
     for (word, sylls) in phrases where costs[word] == nil && simplified(word) == word {
         add(sylls, word, frequencies[word].map(cost(forFrequency:)) ?? 170 + 10 * max(0, word.count - 2))
     }
+    // Person names only jieba has (李香琴), read by their characters.
+    let names = try readPersonNames(zh.appendingPathComponent("jieba-dict.txt"))
+    var nameCount = 0
+    for (word, n) in names where costs[word] == nil && phrases[word] == nil && simplified(word) == word {
+        guard let readings = characterReadings(word) else { continue }
+        for r in readings { add(r.sylls, word, cost(forFrequency: n) + personNameCost + r.extra) }
+        nameCount += 1
+    }
+    log("zh: \(nameCount) person names from jieba")
     try writePack(table, name: DictionaryFiles.chinese, to: out.appendingPathComponent("zh"),
                   normalizeKey: DictionaryFiles.pinyinKey, abbreviate: Abbreviation.pinyin,
                   licenses: [("pinyin-data (MIT)", zh.appendingPathComponent("pinyin-data-LICENSE")),
@@ -179,6 +205,7 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
     }
     let baseCount = table.count
     var mozcRaw: [String: Int] = [:]   // lowest non-zero raw cost per pair; 0 when only zeros
+    var nameParts: [String: Int] = [:]  // "姓おう<TAB>王" or "名き<TAB>暉" → cost
     for i in 0...9 {
         let url = ja.appendingPathComponent("dictionary0\(i).txt")
         for line in try String(contentsOf: url, encoding: .utf8).split(separator: "\n") {
@@ -188,6 +215,13 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
                   p[0].unicodeScalars.allSatisfy(Kana.isHiragana),
                   !p[4].unicodeScalars.contains(where: { $0.isASCII && CharacterSet.letters.contains($0) }) else { continue }
             let k = String(p[0]) + "\t" + String(p[4])
+            // Family names (Mozc's id 1923) and given names (1922) of one to three kanji, for whole
+            // names no dictionary has (王暉): the engine puts one of each together.
+            if let mark = p[1] == "1923" ? JapaneseConverter.familyNameMark : p[1] == "1922" ? JapaneseConverter.givenNameMark : nil,
+               c > 0, (1...3).contains(p[4].count), isAll(String(p[4]), Kana.isHan) {
+                let n = mark + k
+                nameParts[n] = min(nameParts[n] ?? .max, c / 40)
+            }
             if let old = mozcRaw[k] { mozcRaw[k] = old == 0 ? c : (c == 0 ? old : min(old, c)) } else { mozcRaw[k] = c }
         }
     }
@@ -199,9 +233,11 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
         if word.unicodeScalars.allSatisfy(Kana.isHiragana) { cost += 10 }
         table[k] = cost
     }
-    log("ja: \(baseCount) base entries, \(mozcRaw.count) Mozc pairs, \(table.count) together")
+    log("ja: \(baseCount) base entries, \(mozcRaw.count) Mozc pairs, \(table.count) together, \(nameParts.count) name parts")
+    table.merge(nameParts) { a, _ in a }
+    let isNamePart = { (k: Substring) in k.hasPrefix(JapaneseConverter.familyNameMark) || k.hasPrefix(JapaneseConverter.givenNameMark) }
     try writePack(table, name: DictionaryFiles.japanese, to: out.appendingPathComponent("ja"),
-                  normalizeKey: { String($0) }, abbreviate: Abbreviation.kana,
+                  normalizeKey: { String($0) }, abbreviate: { isNamePart($0) ? nil : Abbreviation.kana($0) },
                   licenses: [("Mozc OSS dictionary (its README, with the IPAdic and Okinawa dictionary licenses)", ja.appendingPathComponent("README.txt")),
                              ("ICU data: word list and frequencies (Unicode License V3)", sources.appendingPathComponent("icu-LICENSE"))])
 }

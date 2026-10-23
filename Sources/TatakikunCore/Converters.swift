@@ -67,6 +67,10 @@ enum Cost {
     static let leadingPerLength = 3
     /// A word the user built by hand (CustomWords): near the top, after the most common words.
     static let customWord = 40
+    /// What a Japanese family name and given name put together start from (see `fullNames`), and
+    /// how many of them to offer.
+    static let fullName = 90
+    static let fullNames = 12
     /// How many whole-sentence candidates to offer.
     static let sentences = 3
     /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).
@@ -196,6 +200,11 @@ public struct JapaneseConverter {
     public let lexicon: Lexicon
     public init(lexicon: Lexicon) { self.lexicon = lexicon }
 
+    /// Family and given names are kept in the dictionary under their reading with one of these in
+    /// front (姓おう 王, 名き 暉): no typed reading starts with a kanji, so other lookups never see them.
+    public static let familyNameMark = "姓"
+    public static let givenNameMark = "名"
+
     static func kind(of word: String) -> CandidateKind {
         if word.unicodeScalars.allSatisfy(Kana.isHiragana) { return .hiragana }
         if word.unicodeScalars.allSatisfy(Kana.isKatakana) { return .katakana }
@@ -226,6 +235,7 @@ public struct JapaneseConverter {
             sentence.isGuess = sentence.kind != .kanji
             out.append(sentence)
         }
+        for name in fullNames(kana) where seen.insert(name.text).inserted { out.append(name) }
         // The kana themselves are always offered.
         let plain = Cost.unknownKana + 15 * kana.count
         var hiragana = Candidate(text: kana, kind: .hiragana, cost: plain)
@@ -234,6 +244,23 @@ public struct JapaneseConverter {
         katakana.isGuess = true
         out += [hiragana, katakana]
         return out
+    }
+
+    /// A family name and a given name together (ouki → 王暉, 王輝), for names no dictionary has:
+    /// the cheapest few of every split of the reading.
+    func fullNames(_ kana: String) -> [Candidate] {
+        let chars = Array(kana)
+        guard chars.count >= 2 else { return [] }
+        var out: [Candidate] = []
+        for i in 1..<chars.count {
+            let family = lexicon.exact(Self.familyNameMark + String(chars[..<i])).prefix(3)
+            guard !family.isEmpty else { continue }
+            let given = lexicon.exact(Self.givenNameMark + String(chars[i...])).prefix(6)
+            for f in family {
+                for g in given { out.append(Candidate(text: f.word + g.word, kind: .kanji, cost: Cost.fullName + (f.cost + g.cost) / 2)) }
+            }
+        }
+        return Array(out.sorted { $0.cost < $1.cost }.prefix(Cost.fullNames))
     }
 
     /// Words whose reading starts with what was typed (including a half-typed last syllable,
