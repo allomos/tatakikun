@@ -75,6 +75,10 @@ enum Cost {
     static let sentences = 3
     /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).
     static let swapped = 40
+    /// Added to a word read with one letter moved to a neighbouring key (nihai → 你好), and how
+    /// many such words to offer.
+    static let nearbyKey = 50
+    static let nearbyKeyWords = 6
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).

@@ -47,6 +47,9 @@ public final class Engine {
     public var history: UserHistory?
     /// Words the user built by hand, offered as one candidate; nil for none.
     public var customWords: CustomWords?
+    /// Phone keyboards: also offer the words the letters would give with one of them moved to a
+    /// neighbouring key (nihai → 你好), since small keys are easy to miss. Off on the Mac.
+    public var nearbyKeyCorrections = false
     /// The language of the last inserted word and when it was inserted (see `noteInserted`).
     public private(set) var recent: (language: Language, at: Date)?
     /// How long the last word's language keeps leading.
@@ -106,6 +109,11 @@ public final class Engine {
             }
         }
         if romaji { found += japanese?.candidates(for: input) ?? [] }
+        if nearbyKeyCorrections, letters, input.count >= 3, !Abbreviation.applies(to: input) {
+            // A slip is likely only when the word meant is more common than what the letters give.
+            let typed = found.filter { $0.kind != .english && !$0.isGuess }.map(\.cost).min() ?? .max
+            found += nearbyKeyCandidates(for: input).filter { $0.cost - Cost.nearbyKey <= typed }
+        }
         if letters {
             found += (customWords?.words(for: input) ?? []).map { Candidate(text: $0.word, kind: $0.kind, cost: Cost.customWord) }
         }
@@ -149,6 +157,40 @@ public final class Engine {
         let rest = Self.dedupe((ranked + sortedPartial).sorted { $0.cost < $1.cost })
             .filter { c in !row.contains { $0.text == c.text } }
         return CandidateList(input: input, firstRow: row, more: Array(rest.prefix(maxMore)))
+    }
+
+    /// Neighbours on the same row of a QWERTY keyboard, where a finger on a phone misses most.
+    static let nearbyKeys: [Character: [Character]] = {
+        var out: [Character: [Character]] = [:]
+        for row in ["qwertyuiop", "asdfghjkl", "zxcvbnm"].map(Array.init) {
+            for (i, c) in row.enumerated() {
+                out[c] = [i > 0 ? row[i - 1] : nil, i + 1 < row.count ? row[i + 1] : nil].compactMap { $0 }
+            }
+        }
+        return out
+    }()
+
+    /// Whole Chinese and Japanese words typed with one letter on a neighbouring key (nihai → 你好,
+    /// arigatpu → ありがとう), dearer than what was typed and shown as not typed exactly.
+    func nearbyKeyCandidates(for input: String) -> [Candidate] {
+        let letters = Array(input.lowercased())
+        var out: [Candidate] = []
+        for i in letters.indices {
+            for n in Self.nearbyKeys[letters[i]] ?? [] {
+                var fixed = letters
+                fixed[i] = n
+                let key = String(fixed)
+                for e in chinese?.lexicon.exact(key).prefix(3) ?? [] {
+                    out.append(Candidate(text: e.word, kind: .chinese, cost: e.cost + Cost.nearbyKey, isExact: false))
+                }
+                if let japanese, let kana = Romaji.toHiragana(key) {
+                    for e in japanese.lexicon.exact(kana).prefix(3) {
+                        out.append(Candidate(text: e.word, kind: JapaneseConverter.kind(of: e.word), cost: e.cost + Cost.nearbyKey, isExact: false))
+                    }
+                }
+            }
+        }
+        return Array(out.sorted { $0.cost < $1.cost }.prefix(Cost.nearbyKeyWords))
     }
 
     private func learned(_ c: Candidate, _ input: String) -> Candidate {
