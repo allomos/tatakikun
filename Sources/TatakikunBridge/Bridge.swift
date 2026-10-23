@@ -58,7 +58,6 @@ public func ttk_create(_ packs: UnsafePointer<CChar>, _ data: UnsafePointer<CCha
     let folder = URL(fileURLWithPath: String(cString: packs))
     let dataFolder = URL(fileURLWithPath: String(cString: data))
     guard let engine = try? Engine(packFolders: [folder]) else { return nil }
-    engine.nearbyKeyCorrections = true
     engine.history = UserHistory(url: dataFolder.appendingPathComponent("history.tsv"))
     engine.customWords = CustomWords(url: dataFolder.appendingPathComponent("custom-words.tsv"))
     return Unmanaged.passRetained(Keyboard(engine: engine)).toOpaque()

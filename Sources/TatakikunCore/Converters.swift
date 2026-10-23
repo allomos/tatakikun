@@ -32,6 +32,8 @@ public struct Candidate: Equatable {
     public var consumed: Int?
     /// True for kana spelled out from the letters with no dictionary word behind them (にはお for nihao).
     public var isGuess = false
+    /// True for a word read with one letter moved to a neighbouring key (nihai → 你好).
+    public var isSlip = false
 
     public init(text: String, kind: CandidateKind, cost: Int, isExact: Bool = true, consumed: Int? = nil) {
         self.text = text; self.kind = kind; self.cost = cost; self.isExact = isExact; self.consumed = consumed
@@ -43,6 +45,7 @@ extension Candidate {
     func costing(_ cost: Int) -> Candidate {
         var c = Candidate(text: text, kind: kind, cost: cost, isExact: isExact, consumed: consumed)
         c.isGuess = isGuess
+        c.isSlip = isSlip
         return c
     }
 }
@@ -79,6 +82,8 @@ enum Cost {
     /// many such words to offer.
     static let nearbyKey = 50
     static let nearbyKeyWords = 6
+    /// At most this many of them in the first row, so they never crowd out what was typed (ouki → 王暉).
+    static let nearbyKeyWordsInRow = 2
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).

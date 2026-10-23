@@ -9,7 +9,6 @@ enum Shared {
             : Bundle.main.builtInPlugInsURL!.appendingPathComponent("TatakikunKeyboard.appex")
         let engine = (try? Engine(packFolders: [bundle.appendingPathComponent("packs")], rowSize: 9))
             ?? Engine(chinese: nil, japanese: nil, english: nil)
-        engine.nearbyKeyCorrections = true
         engine.history = UserHistory(url: UserHistory.defaultURL)
         engine.customWords = CustomWords(url: CustomWords.defaultURL)
         return engine

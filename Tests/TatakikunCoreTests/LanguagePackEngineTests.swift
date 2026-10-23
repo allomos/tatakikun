@@ -59,13 +59,12 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(row("arigatou").first, "ありがとう")
     }
 
-    /// A02-llama937: on the phone keyboards a letter on a neighbouring key still finds the word meant,
-    /// shown as not typed exactly; what was typed right stays first, and the Mac is unchanged.
+    /// A02-llama937: a letter on a neighbouring key still finds the word meant (on every keyboard),
+    /// shown as not typed exactly; what was typed right stays first.
     func testNearbyKeySlips() throws {
         let e = try engine([.zh, .ja, .en])
         func row(_ s: String) -> [Candidate] { e.candidates(for: s).firstRow }
-        XCTAssertFalse(row("nihai").contains { $0.text == "你好" }, "off unless asked for")
-        e.nearbyKeyCorrections = true
+        XCTAssert(e.nearbyKeyCorrections, "on by default")
         XCTAssert(row("nihai").contains { $0.text == "你好" && !$0.isExact }, "\(row("nihai").map(\.text))")
         XCTAssertEqual(row("xiexir").first?.text, "谢谢")
         XCTAssertEqual(row("shrnme").first?.text, "什么")
