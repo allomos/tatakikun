@@ -84,8 +84,10 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         panel.setBackgroundColor(panelColor)
         // Below Android 15 the keyboard ends above the navigation bar; from 15 on it reaches under
         // it, and the bar's ⌄ and keyboard switch would cover the bottom row: keep that space free.
+        // The keyboard draws that bar itself and Android reports it as a caption bar, not a
+        // navigation bar, so ask for all system bars.
         panel.setOnApplyWindowInsetsListener { v, insets ->
-            val bottom = if (Build.VERSION.SDK_INT >= 30) insets.getInsets(WindowInsets.Type.navigationBars()).bottom
+            val bottom = if (Build.VERSION.SDK_INT >= 30) insets.getInsets(WindowInsets.Type.systemBars()).bottom
                 else @Suppress("DEPRECATION") insets.systemWindowInsetBottom
             v.setPadding(0, 0, 0, bottom)
             insets
