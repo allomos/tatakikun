@@ -7,6 +7,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 - Android emulator Pixel_7_API_34, headless (started 2026-10-23 for the v0.6.4 release check by claude-release): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
 
 ## Pitfalls
+- App icon (A01-plant167): edit `docs/icon/*.svg`, then `scripts/make-app-icons.sh` re-renders the checked-in icns, iOS AppIcon and Android foreground PNGs (needs rsvg-convert and ImageMagick); the Android background and monochrome vectors are kept by hand. The menu bar badge is separate (`scripts/make-icon.swift`).
 
 - Dictionaries are generated, not committed: `scripts/build.sh` makes `build/dict` from this Mac's ICU data (~1 min), downloads the pinned open data into `build/sources` (~80 MB, `scripts/fetch-sources.sh`) and builds the language packs in `build/packs`. Tests skip without them.
 - `build/dict` and `build/packs` are not rebuilt when the dictgen code changes: `scripts/build.sh` keeps existing files. After a change to how dictionaries or packs are made (costs, tables in `tatakikun-dictgen`), delete `build/dict` and run `scripts/build-packs.sh`, and do the same before a release; a stale `build/dict` fails `AbbreviationTests` (seen with nh → 你好, 2026-10-22). ../tatakikun-wt/cache may hold stale copies too.
@@ -54,7 +55,7 @@ Facts for `alm guide github-release` (derived from the repository 2026-10-22, be
 | `NOTES_PUBLISH` | Published with the release by `gh release create --notes-file`. |
 | `GH_NOTES` | The agent writes them; they link to the previous release for everything unchanged. |
 | `ANDROID_ASSET` | From v0.6.3: `Tatakikun-X.Y.Z-android.apk` (arm64, Android 9+) and its `.sha256`, built by `scripts/build-android-app.sh release` into `build/` (version from `App/Info.plist`, versionCode X*10000+Y*100+Z, signed with the key under Where credentials live) and uploaded to the same release; the notes' Install section has an Android line. Check it first: `APK=build/Tatakikun-X.Y.Z-android.apk scripts/test-android.sh` (uninstall a debug build first: other signature). Not installed on this computer. |
-| `INSTALL_ASSET` | `Tatakikun-X.Y.Z.pkg` (Apple silicon and Intel), with `Tatakikun-X.Y.Z.pkg.sha256` (from v0.6.1; earlier releases give the SHA-256 in the notes only). |
+| `INSTALL_ASSET` | `Tatakikun-X.Y.Z.pkg` (Apple silicon and Intel), with `Tatakikun-X.Y.Z.pkg.sha256` (from v0.6.1; earlier releases give the SHA-256 in the notes only). `scripts/make-installer.sh` does not write the `.sha256`: `(cd build && shasum -a 256 Tatakikun-X.Y.Z.pkg > Tatakikun-X.Y.Z.pkg.sha256)`. |
 | `INSTALL_COMMAND` | `installer -pkg Tatakikun-X.Y.Z.pkg -target CurrentUserHomeDirectory`: installs into the user's Library, no password; all three packs by default. Then `pkill -x Tatakikun` so the new build loads. |
 | `VERIFY_INSTALLED` | `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ~/Library/Input\ Methods/Tatakikun.app/Contents/Info.plist`, and `pgrep -x Tatakikun` after typing in any app. |
 | `APPROVAL_RECORD` | `alm handoff <task> --as <session> --evidence "…"` on the task the release ships (from v0.6.4, alm v25 writes handoffs per task): the approver's command line, when, and the evidence. Earlier releases' records are in Git history (handoffs/2026-10-22-1337-claude-release.md). |
