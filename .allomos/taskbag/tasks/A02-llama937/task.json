@@ -1,5 +1,6 @@
 {
   "area": "A02",
+  "handoff_note": "Done on master (not released). Next: the person checks on a phone with the attached steps; tune Cost.nearbyKey if slips crowd the bar.",
   "holder": "claude-typos",
   "id": "A02-llama937",
   "iteration": "I04",

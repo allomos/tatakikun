@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-23T23:25:40Z",
+  "by": "claude-names",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A03-boy892",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Done on master (not released). Packs must be rebuilt (scripts/build-packs.sh zh,ja) for a release. Next: the person checks with the attached steps."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-names"
+    }
+  ]
+}

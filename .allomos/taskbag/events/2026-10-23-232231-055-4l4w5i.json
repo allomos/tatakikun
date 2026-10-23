@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T23:22:31Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-boy892",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Chinese: jieba words tagged nr (2–4 Han characters, not already a word) read by their characters, cost by jieba frequency + 10. Japanese: Mozc ids 1923 (family) and 1922 (given), 1–3 kanji, stored in ja.ttkd under keys 姓<reading> / 名<reading> (no format change; older engines ignore them); a name costs 90 + the parts' average, at most 12 per input."
+    }
+  ]
+}

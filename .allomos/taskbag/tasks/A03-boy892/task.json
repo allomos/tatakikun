@@ -1,5 +1,6 @@
 {
   "area": "A03",
+  "handoff_note": "Done on master (not released). Packs must be rebuilt (scripts/build-packs.sh zh,ja) for a release. Next: the person checks with the attached steps.",
   "holder": "claude-names",
   "id": "A03-boy892",
   "iteration": "I04",

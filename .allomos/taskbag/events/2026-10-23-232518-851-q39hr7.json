@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T23:25:18Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-llama937",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Only left/right neighbours on the same QWERTY row, one slip per input, whole Chinese and Japanese words only (not English, which has the spell checker), cost +50, at most 6; a slip is offered only when the word meant is at least as common as the best thing the letters give as typed, so nihao stays clean. On for Android (bridge) and iOS, off on the Mac; tatakikun-cli --phone tries it."
+    }
+  ]
+}
