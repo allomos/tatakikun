@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T06:35:16Z",
+  "by": "claude-android-navbar",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-guest284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Fix is for Android 15+; the only emulator here is Android 14 (no change there, test-android.sh passes). Needs a look on the approver's phone."
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. Install an Android build that contains commit cd9827d on an Android 15 or later phone with gesture navigation.\n2. Open any text field (for example a new note) so the Tatakikun keyboard shows.\n3. Check that ⌄ (hide keyboard) and the globe (switch keyboard) sit below the bottom row (?123, comma, space, 。, return), on the keyboard's background, not on the keys.\n4. Tap ⌄: the keyboard hides. Tap space and return: they type as before.\n"
+    }
+  ]
+}

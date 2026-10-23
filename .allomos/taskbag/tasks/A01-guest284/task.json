@@ -1,8 +1,10 @@
 {
   "area": "A01",
   "holder": "claude-android-navbar",
+  "human_check_steps": "1. Install an Android build that contains commit cd9827d on an Android 15 or later phone with gesture navigation.\n2. Open any text field (for example a new note) so the Tatakikun keyboard shows.\n3. Check that ⌄ (hide keyboard) and the globe (switch keyboard) sit below the bottom row (?123, comma, space, 。, return), on the keyboard's background, not on the keys.\n4. Tap ⌄: the keyboard hides. Tap space and return: they type as before.\n",
   "id": "A01-guest284",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Android 15+: the keyboard's bottom row stays clear of the navigation bar's ⌄ and keyboard-switch buttons"
+  "state": "done",
+  "title": "Android 15+: the keyboard's bottom row stays clear of the navigation bar's ⌄ and keyboard-switch buttons",
+  "without_human_check": "Fix is for Android 15+; the only emulator here is Android 14 (no change there, test-android.sh passes). Needs a look on the approver's phone."
 }
