@@ -10,3 +10,4 @@
 - 模拟器 Pixel_7_API_34:debug 版和正式签名的测试 APK(build/Tatakikun-android-keyboard-test.apk,SHA-256 1add729b…a917e)各跑一次 test-android.sh,9 项全过。
 - 截图看过:浅色空闲(工具栏)、打字 nihao(小框 nihao,候选 你好|你号|妳好|にはお|昵好)、深色打字 ai、深色 ?123 符号层。
 - 没验证:Android 15 及以上的导航栏留空(本机只有 API 33/34 模拟器;API 34 上键盘本来就在导航栏上方)。要在真机(Pixel)上看。
+- 2026-10-23, claude-release: GitHub release v0.6.4 (2026-10-23, approved by the approver's `alm guide github release` in the conversation): tag v0.6.4 pushed; assets Tatakikun-0.6.4.pkg (+.sha256 7e49e208…bf29b5) and Tatakikun-0.6.4-android.apk (versionCode 604, release cert 05d10759…bdb41, +.sha256 e6d782f5…1abb5276). test-android.sh with the release APK 9/9 on Pixel_7_API_34; upgrade from the v0.6.3 APK with adb install -r: Success. Mac .pkg downloaded, shasum OK, installed: 0.6.4. swift test 81, 1 failure (known compu spell-checker pitfall; no Mac code changed since v0.6.3).

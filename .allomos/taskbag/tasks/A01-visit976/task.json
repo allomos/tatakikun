@@ -1,6 +1,6 @@
 {
   "area": "A01",
-  "handoff_note": "2026-10-23 approver 发来 Gboard 拼音打字中的截图;设计稿第二版:打字时字母显示在候选栏上方的小框里(Gboard 风格),候选更大、均分、细分隔线、没有蓝色高亮;空格和回车打字时不变;不照搬 '词 键和表情键。引擎只给原始字母(State.input),不分音节,所以小框里显示 nihao 而不是 ni hao(同一串字母也可能是英文或罗马字)。",
+  "handoff_note": "2026-10-23 approver 发来 Gboard 拼音打字中的截图;设计稿第二版:打字时字母显示在候选栏上方的小框里(Gboard 风格),候选更大、均分、细分隔线、没有蓝色高亮;空格和回车打字时不变;不照搬 '词 键和表情键。引擎只给原始字母(State.input),不分音节,所以小框里显示 nihao 而不是 ni hao(同一串字母也可能是英文或罗马字)。\n\n已随 v0.6.4 发布(2026-10-23,approver 在对话中写 `alm guide github release`):https://github.com/allomos/tatakikun/releases/tag/v0.6.4 。真机检查(新布局、Android 15+ 导航栏留空、从 v0.6.3 覆盖升级)还要人来做。",
   "holder": "claude-android-release",
   "human_check_steps": "# 在 Pixel 上检查新键盘(A01-visit976)\n\n1. 把 `build/Tatakikun-android-keyboard-test.apk`(这台 Mac 上)装到手机:USB 连上、打开开发者选项里的 USB 调试,运行 `~/Library/Android/sdk/platform-tools/adb install -r build/Tatakikun-android-keyboard-test.apk`;或者让 Claude 发一个 GitHub 预发布版,用手机下载。它覆盖已装的 v0.6.3,不用先卸载。\n2. 在任何输入框里调出 Tatakikun,看:\n   - 最下面一行(?123 ， 空格 。 回车)完整露出来,系统的 ⌄ 和地球图标在键盘下面,不压在键上。\n   - 没打字时顶部是 设置 / 粘贴 / ‹ › 工具栏;点粘贴能粘贴,‹ › 能移动光标。\n   - 打 `nihao`:键盘上方左边出现一个小框写着 nihao,候选栏是 你好 | … 字大、有分隔线;空格打出 你好。\n   - 长按 q 打出 %,长按 ， 打出 、;按住删除键能连续删。\n   - ?123 换到符号层,ABC 换回来;shift 一次打一个大写字母。\n3. 手机切到深色模式再看一眼。\n\n都正常:告诉 Claude「A01-visit976 检查过了」。不对:截图发过来。\n",
   "id": "A01-visit976",

@@ -4,7 +4,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 
 ## Running
 
-Nothing.
+- Android emulator Pixel_7_API_34, headless (started 2026-10-23 for the v0.6.4 release check by claude-release): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
 
 ## Pitfalls
 
@@ -56,7 +56,7 @@ Facts for `alm guide github-release` (derived from the repository 2026-10-22, be
 | `INSTALL_ASSET` | `Tatakikun-X.Y.Z.pkg` (Apple silicon and Intel), with `Tatakikun-X.Y.Z.pkg.sha256` (from v0.6.1; earlier releases give the SHA-256 in the notes only). |
 | `INSTALL_COMMAND` | `installer -pkg Tatakikun-X.Y.Z.pkg -target CurrentUserHomeDirectory`: installs into the user's Library, no password; all three packs by default. Then `pkill -x Tatakikun` so the new build loads. |
 | `VERIFY_INSTALLED` | `/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" ~/Library/Input\ Methods/Tatakikun.app/Contents/Info.plist`, and `pgrep -x Tatakikun` after typing in any app. |
-| `APPROVAL_RECORD` | The releasing session's handoff (`alm handoff --as <session>`): the approver's command line, when, and the evidence. |
+| `APPROVAL_RECORD` | `alm handoff <task> --as <session> --evidence "…"` on the task the release ships (from v0.6.4, alm v25 writes handoffs per task): the approver's command line, when, and the evidence. Earlier releases' records are in Git history (handoffs/2026-10-22-1337-claude-release.md). |
 
 ## Where credentials live
 
