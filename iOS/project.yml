@@ -36,6 +36,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tatakikun.ios.Tatakikun
         PRODUCT_NAME: Tatakikun
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
   TatakikunUITests:
     type: bundle.ui-testing
     platform: iOS

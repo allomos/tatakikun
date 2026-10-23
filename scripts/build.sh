@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds build/Tatakikun.app (the input method and its icon) and the language packs in build/packs.
+# Builds build/Tatakikun.app (the input method, its menu bar icon and app icon) and the language packs in build/packs.
 # The dictionaries are not in the app: each language is a pack the installer puts next to it.
 # Usage: scripts/build.sh [zh,ja,en]   (the packs to build; all by default)
 set -e

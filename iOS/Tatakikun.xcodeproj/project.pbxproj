@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		19E96D76CA45E5BDBB511AC8 /* KeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */; };
 		38D434F8D91C74C3E8DD036D /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */; };
+		948BE120D2DEBC6B9375045E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08B03DF6022293B6CDE7B47F /* Assets.xcassets */; };
 		96A5CADDE54718DCBE13A789 /* TatakikunCore in Frameworks */ = {isa = PBXBuildFile; productRef = 03ADABA727F838B02C3E30FE /* TatakikunCore */; };
 		A4D5A517FA03DEE6AD4B14E6 /* packs in Resources */ = {isa = PBXBuildFile; fileRef = 4C8C1AD9D45070CAAA5D7290 /* packs */; };
 		AAD32476DFE99D09359B2CA6 /* TatakikunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B155C70011DC5F40B14D3C /* TatakikunApp.swift */; };
@@ -51,13 +52,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08B03DF6022293B6CDE7B47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
 		5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TatakikunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		623D340E71A8448F8868CEB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7AE0EE2F4739DD4AF085D934 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8F4AFDC31098B33BC1E91DB6 /* A02-island506 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "A02-island506"; path = ..; sourceTree = SOURCE_ROOT; };
+		86AAF0168ED952F8FAE2A136 /* app-icon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "app-icon"; path = ..; sourceTree = SOURCE_ROOT; };
 		91B4B524C8F3CD2739117E26 /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TatakikunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +98,7 @@
 		8BD16FDDEC185437FD0D3F91 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				8F4AFDC31098B33BC1E91DB6 /* A02-island506 */,
+				86AAF0168ED952F8FAE2A136 /* app-icon */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -104,6 +106,7 @@
 		90C29C612640E20499B2D040 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				08B03DF6022293B6CDE7B47F /* Assets.xcassets */,
 				91B4B524C8F3CD2739117E26 /* DemoView.swift */,
 				7AE0EE2F4739DD4AF085D934 /* Info.plist */,
 				50B155C70011DC5F40B14D3C /* TatakikunApp.swift */,
@@ -169,6 +172,7 @@
 			buildConfigurationList = 91369D4103DF505FB06523DE /* Build configuration list for PBXNativeTarget "TatakikunIOS" */;
 			buildPhases = (
 				3E54BD4A063E6FB3E4318247 /* Sources */,
+				614A2816748ED7A9CD689A01 /* Resources */,
 				48CED6C4C48E3A54F134EB5E /* Frameworks */,
 				E120DD62045C6D45FB4B1666 /* Embed Foundation Extensions */,
 			);
@@ -251,6 +255,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		614A2816748ED7A9CD689A01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				948BE120D2DEBC6B9375045E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69122BE2A32A7C3945E89232 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;

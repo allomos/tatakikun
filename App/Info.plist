@@ -8,6 +8,8 @@
 	<string>Tatakikun</string>
 	<key>CFBundleExecutable</key>
 	<string>Tatakikun</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.tatakikun.inputmethod.Tatakikun</string>
 	<key>CFBundleName</key>
