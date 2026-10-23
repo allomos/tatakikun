@@ -4,7 +4,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 
 ## Running
 
-- Android emulator Pixel_7_API_34, headless (started 2026-10-23 for the v0.6.4 release check by claude-release): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
+- Android emulator Pixel_7_API_34, headless (started 2026-10-23 by claude-release; v0.6.7 release build installed): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
 
 ## Pitfalls
 - App icon (A01-plant167): edit `docs/icon/*.svg`, then `scripts/make-app-icons.sh` re-renders the checked-in icns, iOS AppIcon and Android foreground PNGs (needs rsvg-convert and ImageMagick); the Android background and monochrome vectors are kept by hand. The menu bar badge is separate (`scripts/make-icon.swift`).

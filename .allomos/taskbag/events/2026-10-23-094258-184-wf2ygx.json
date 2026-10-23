@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-23T09:42:58Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Done, merged into master. Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. Next: the person checks on a real phone and tablet (steps attached), Released in v0.6.7. The emulator now has the debug build instead of the release build.\n\nReleased in v0.6.7 (2026-10-23, the approver wrote `alm guide github release` in the conversation): https://github.com/allomos/tatakikun/releases/tag/v0.6.7 . The emulator now has the v0.6.7 release build. A real phone and a tablet still need a person.",
+      "to": "Done, merged into master and released in v0.6.7 (2026-10-23, the approver wrote `alm guide github release` in the conversation): https://github.com/allomos/tatakikun/releases/tag/v0.6.7 . Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. The emulator now has the v0.6.7 release build. Next: the person checks on a real phone and tablet (steps attached)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-release"
+    }
+  ]
+}

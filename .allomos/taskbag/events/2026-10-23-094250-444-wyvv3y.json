@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-23T09:42:50Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Done, merged into master (not released). Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. Next: the person checks on a real phone and tablet (steps attached), then it ships with the next Android release. The emulator now has the debug build instead of the release build.",
+      "to": "Done, merged into master. Emulator check: landscape shows the app above the keyboard, keys a centred 640dp block with 40dp rows; portrait unchanged. Next: the person checks on a real phone and tablet (steps attached), Released in v0.6.7. The emulator now has the debug build instead of the release build.\n\nReleased in v0.6.7 (2026-10-23, the approver wrote `alm guide github release` in the conversation): https://github.com/allomos/tatakikun/releases/tag/v0.6.7 . The emulator now has the v0.6.7 release build. A real phone and a tablet still need a person."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** Turning a phone or tablet sideways no longer hides the app behind a full-screen edit box; the keyboard sits at the bottom with the app visible, and its keys are not stretched across the whole width.\n\n**Done means.** On the emulator in landscape, a text field shows the app above the keyboard; the key area is capped in width and centred, rows are lower on short landscape screens; portrait is unchanged.\n\n**Notes.** Asked by the person on 2026-10-23.\n",
+      "to": "**Outcome.** Turning a phone or tablet sideways no longer hides the app behind a full-screen edit box; the keyboard sits at the bottom with the app visible, and its keys are not stretched across the whole width.\n\n**Done means.** On the emulator in landscape, a text field shows the app above the keyboard; the key area is capped in width and centred, rows are lower on short landscape screens; portrait is unchanged.\n\n**Notes.** Asked by the person on 2026-10-23.\n\n## Evidence\n\n- 2026-10-23, claude-release: GitHub release v0.6.7 (2026-10-23, approved by the approver's `alm guide github release` in the conversation): tag v0.6.7 pushed; assets Tatakikun-0.6.7.pkg (22115312 bytes, +.sha256 142f021a…45aae6d) and Tatakikun-0.6.7-android.apk (89600411 bytes, versionCode 607, release cert 05d10759…bdb41, +.sha256 84c41f27…27f73f). Upgrade from the downloaded v0.6.6 APK (checksum OK) with adb install -r: Success; test-android.sh with the release APK 9/9 on Pixel_7_API_34; landscape screenshot: app field above the keyboard, keys centred, nihao → 你好. Mac .pkg downloaded, shasum OK, installed: 0.6.7. Release page 200.\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-release"
+    }
+  ]
+}
