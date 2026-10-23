@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-23T12:39:30Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-edge463",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Done, merged into master (not released). Next: the person checks on a real phone (steps attached). Emulator Pixel_7_API_34_b (port 5556) left running with the debug build and long_press_timeout 1000."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-android-landscape"
+    }
+  ]
+}

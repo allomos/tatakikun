@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T12:39:30Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-edge463",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Row height 45dp (was 50), measured from the person's Gboard screenshot (key pitch ~45dp); landscape rows stay 40dp. Long press 400 ms, tracked by the keyboard's own touch handling; TalkBack keeps the system long-click."
+    }
+  ]
+}
