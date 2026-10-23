@@ -4,8 +4,8 @@
         android:label="@string/app_name"
         android:icon="@android:drawable/ic_menu_edit"
         android:supportsRtl="true">
-        <activity android:name=".MainActivity" android:exported="true"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
+        <activity android:name=".MainActivity" android:theme="@style/Settings" android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

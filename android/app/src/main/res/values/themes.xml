@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The settings screen draws its own header: no action bar. -->
+    <style name="Settings" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:colorAccent">#534AB7</item>
+        <item name="android:windowBackground">#FBFAFF</item>
+    </style>
+</resources>
