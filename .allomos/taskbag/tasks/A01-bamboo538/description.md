@@ -16,3 +16,7 @@
 - Tapping Try it brings up Tatakikun, the field scrolls above the keyboard, `woaini` shows 我爱你 first.
 - `ANDROID_SERIAL=emulator-5556 scripts/test-android.sh`: all 9 checks passed (woaini → 我爱你, nihao → 你好, watashi → 私, hello, sute-tasu → ステータス, niyongguolema → 你用过了吗, 你好，, woaini ENTER, 愛愛).
 - Not checked: Android 15+ device (the emulator is Android 14), tapping About (opens the browser) and the system keyboard picker by hand.
+
+## Evidence
+
+- 2026-10-23, claude-android-settings: Release v0.6.5, approved by the approver's line "when finished, call alm guide github release" in the session claude-android-settings on 2026-10-23 (patch bump, install here). Version commit 'Tatakikun 0.6.5' (App/Info.plist), annotated tag v0.6.5 pushed; built locally (scripts/make-installer.sh, scripts/build-android-app.sh release, signer SHA-256 05d10759…bdb41); release APK passed scripts/test-android.sh 9/9 on an Android 14 emulator before tagging. gh release create v0.6.5 with 4 assets: Tatakikun-0.6.5.pkg (21937919 B, SHA-256 a8649aa4…3a1d), .pkg.sha256, Tatakikun-0.6.5-android.apk (89559163 B, SHA-256 0279d3aa…32ce), .apk.sha256; marked Latest; https://github.com/allomos/tatakikun/releases/tag/v0.6.5 answers 200. Downloaded into a new folder, checksum OK, installed with installer -target CurrentUserHomeDirectory, pkill Tatakikun; installed version 0.6.5. Notes: New (2: Android settings screen, key popups), Fixed (1: bottom row clear of the navigation bar's buttons on Android 15+).
