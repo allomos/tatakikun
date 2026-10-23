@@ -64,6 +64,13 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
         engine?.choose(row, column)?.let { apply(it) }
     }
 
+    override fun onSymbol(text: String) {
+        val ic = currentInputConnection ?: return
+        // As chosen, not turned to the language before the cursor; what is being typed goes in first.
+        if (composing) engine?.finish()?.let { apply(it) }
+        ic.commitText(text, 1)
+    }
+
     override fun onAction(action: KeyboardView.Action) {
         val ic = currentInputConnection ?: return
         when (action) {
