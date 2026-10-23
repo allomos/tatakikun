@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T08:57:19Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android in landscape: the app stays visible above the keyboard (no fullscreen edit box), and the keys keep a comfortable width on wide screens and tablets"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Turning a phone or tablet sideways no longer hides the app behind a full-screen edit box; the keyboard sits at the bottom with the app visible, and its keys are not stretched across the whole width.\n\n**Done means.** On the emulator in landscape, a text field shows the app above the keyboard; the key area is capped in width and centred, rows are lower on short landscape screens; portrait is unchanged.\n\n**Notes.** Asked by the person on 2026-10-23.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

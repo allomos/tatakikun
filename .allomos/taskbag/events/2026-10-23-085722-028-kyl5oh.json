@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-23T08:57:22Z",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A01-flint159",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}

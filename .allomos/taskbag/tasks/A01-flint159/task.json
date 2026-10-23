@@ -1,0 +1,8 @@
+{
+  "area": "A01",
+  "holder": "claude-android-landscape",
+  "id": "A01-flint159",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Android in landscape: the app stays visible above the keyboard (no fullscreen edit box), and the keys keep a comfortable width on wide screens and tablets"
+}
