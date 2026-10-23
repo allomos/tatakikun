@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:33:20Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Popup size and place: 1.45 x the key's width (at least 54 dp), 64 dp tall, 4 dp above the key, kept 4 dp inside the screen edges; character 32 sp, corner symbol 13 sp; it stays 50 ms after release so a quick tap is still seen"
+    }
+  ]
+}

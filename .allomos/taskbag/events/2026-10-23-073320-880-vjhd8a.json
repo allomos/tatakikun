@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:33:20Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Without a finger on the key (TalkBack's long press action) a long press still types the symbol at once"
+    }
+  ]
+}

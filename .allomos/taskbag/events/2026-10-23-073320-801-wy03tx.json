@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:33:20Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Popup on letters, digits, the ?123 layer's symbols, ， and 。; none on space, shift, delete, return, ?123/ABC, the candidate bar or toolbar"
+    }
+  ]
+}

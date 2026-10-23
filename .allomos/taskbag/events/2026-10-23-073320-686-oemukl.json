@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T07:33:20Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-cookie095",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The popup is a Drawable in the keyboard view's overlay, not a PopupWindow: it can draw over the bar and the strip above the panel and needs no window token"
+    }
+  ]
+}
