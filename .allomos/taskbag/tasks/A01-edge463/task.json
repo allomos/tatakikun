@@ -1,0 +1,8 @@
+{
+  "area": "A01",
+  "holder": "claude-android-landscape",
+  "id": "A01-edge463",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Android keyboard: a long press takes 400 ms whatever the phone's touch-and-hold setting, and the keyboard is about as tall as Gboard's"
+}

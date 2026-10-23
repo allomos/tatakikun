@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T12:36:23Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-edge463",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android keyboard: a long press takes 400 ms whatever the phone's touch-and-hold setting, and the keyboard is about as tall as Gboard's"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Holding a key shows its symbol (or starts repeating delete) after 400 ms, Android's short value, even when the phone's Touch & hold delay is set longer; the key rows are as low as Gboard's, so the keyboard takes less of the screen.\n\n**Done means.** On the emulator with long_press_timeout 1000, a hold of ~0.5 s types the corner symbol; a tap still types the letter; holding delete repeats; a portrait screenshot beside Gboard's shows rows of the same height.\n\n**Notes.** Asked by the person on 2026-10-23, with screenshots of Gboard and Tatakikun in Keep.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
