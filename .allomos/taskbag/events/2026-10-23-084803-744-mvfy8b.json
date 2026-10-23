@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T08:48:03Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "In settings, the user chooses which input languages give candidates"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** In Tatakikun's settings, the user turns each input language on or off. Only the languages that are on give candidates, and a change works at once, without reinstalling.\n\n**Done means.**\n- The settings list every installed language with an on/off switch, on macOS, Android and iOS.\n- With a language off, typing gives no candidates in it. For example, with Japanese off, `watashi` gives no わたし or 私. Turn it back on and the candidates come back.\n- The choice is kept after the keyboard or the app restarts.\n- At least one language always stays on: you can't turn off the last one.\n\n**Notes.**\n- Today, macOS picks languages only when installing (A04-05), and the engine works from the installed packs (A02-07). This task adds turning them on and off afterwards.\n- Open for the person: on macOS, should the settings also install and remove packs (download), or only turn installed ones on and off?\n- Languages from the \"five more languages\" task should show up in this list too.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
