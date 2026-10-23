@@ -59,6 +59,23 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(row("arigatou").first, "ありがとう")
     }
 
+    /// A02-llama937: on the phone keyboards a letter on a neighbouring key still finds the word meant,
+    /// shown as not typed exactly; what was typed right stays first, and the Mac is unchanged.
+    func testNearbyKeySlips() throws {
+        let e = try engine([.zh, .ja, .en])
+        func row(_ s: String) -> [Candidate] { e.candidates(for: s).firstRow }
+        XCTAssertFalse(row("nihai").contains { $0.text == "你好" }, "off unless asked for")
+        e.nearbyKeyCorrections = true
+        XCTAssert(row("nihai").contains { $0.text == "你好" && !$0.isExact }, "\(row("nihai").map(\.text))")
+        XCTAssertEqual(row("xiexir").first?.text, "谢谢")
+        XCTAssertEqual(row("shrnme").first?.text, "什么")
+        XCTAssertEqual(row("arigatpu").first?.text, "ありがとう")
+        XCTAssertEqual(row("nihao").first?.text, "你好")
+        XCTAssertFalse(row("nihao").contains { $0.text == "怒号" }, "a rarer word is no likely slip")
+        XCTAssertEqual(row("watashi").first?.text, "私")
+        XCTAssertEqual(row("hello").first?.text, "hello")
+    }
+
     /// A02-easel451: consonants alone with the packs, as with the base dictionaries (A02-06). Both word
     /// frequency lists put 女孩 and 您好 before 你好, so 你好 is capped as an everyday spoken word.
     func testAbbreviations() throws {
