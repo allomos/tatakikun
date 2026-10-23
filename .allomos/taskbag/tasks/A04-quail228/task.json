@@ -1,7 +1,8 @@
 {
   "area": "A04",
+  "holder": "claude-loop2",
   "id": "A04-quail228",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "On the phone keyboards (Android, iOS), double-tapping shift turns on caps lock"
 }
