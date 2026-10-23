@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T23:45:21Z",
+  "by": "will.w.hui",
+  "via": "app",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}
