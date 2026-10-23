@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-23T12:42:20Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-tunnel183",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Done, merged into master (not released yet). Next: the person checks on a real phone (steps attached)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-android-landscape"
+    }
+  ]
+}

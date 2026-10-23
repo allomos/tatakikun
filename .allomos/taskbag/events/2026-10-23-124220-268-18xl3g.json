@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T12:42:20Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-tunnel183",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Half-width is first and preselected (as before, a hold-and-lift types it); full-width is the strict U+FF01–FF5E form (＠ ［ not 【); captions 半角/全角 under each; a chosen symbol is typed as is, not converted by the language before the cursor."
+    }
+  ]
+}

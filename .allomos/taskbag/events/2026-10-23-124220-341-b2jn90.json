@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T12:42:20Z",
+  "by": "claude-android-landscape",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-tunnel183",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked on the Pixel_7_API_34_b emulator (code points read back from the field); a real phone needs a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A01-tunnel183 on a phone\n\n1. Install the next APK; Tatakikun as the keyboard; open any text field.\n2. Hold `a`: the popup shows `@` (半角) and `＠` (全角), the half-width one highlighted. Lift: `@` is typed.\n3. Hold `a` again, slide right onto `＠`, lift: `＠` is typed.\n4. Type `nihao`, Space (你好), then hold `。` and lift on `?`: a half-width `?` is typed, not `？`.\n5. Hold `,`: only `、` is offered.\n"
+    }
+  ]
+}
