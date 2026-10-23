@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-23T07:20:50Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-bamboo538",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android: the Tatakikun settings screen looks polished and clear — setup steps with live status, a try-it field, and app info"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Opening Tatakikun from the launcher (or the keyboard's ⚙ key) shows a designed settings screen instead of the plain stacked buttons: a header, the two setup steps with whether each is done, a field to try the keyboard, and the installed language packs / version.\n\n**Done means.**\n- The screen follows the design sample the person picks; light and dark mode both look right.\n- Step 1 (enable in system settings) and step 2 (choose as current keyboard) show done/not-done and update when you come back to the app.\n- The try-it field still works; the keyboard's settings key still opens this screen.\n- Screenshots on an Android 15 device/emulator in light and dark mode under **Evidence**.\n\n**Notes.**\n- Open for the person: which design sample to build (samples shown in the session that added this task). What users see is theirs to decide.\n- Current code: android/app/src/main/java/com/tatakikun/android/MainActivity.kt (views built in code, no XML layouts, no AndroidX).\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
