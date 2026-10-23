@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tatakikun</string>
-    <string name="setup">Type English letters; Tatakikun offers English, Chinese and Japanese candidates in one bar.\n\nTurn it on: Open settings → turn on Tatakikun. Then Choose keyboard → Tatakikun.</string>
-    <string name="open_settings">Open settings</string>
-    <string name="choose_keyboard">Choose keyboard</string>
-    <string name="try_hint">Try it here: ai, woaini, arigatou, hello</string>
+    <string name="tagline">Type letters, get English, Chinese and Japanese in one candidate bar.</string>
+    <string-array name="hero_samples">
+        <item>hello</item>
+        <item>我爱你</item>
+        <item>ありがとう</item>
+    </string-array>
+    <string name="section_setup">Set up</string>
+    <string name="step_enable">Turn on Tatakikun</string>
+    <string name="step_enable_todo">In your system keyboard settings</string>
+    <string name="step_choose">Choose it as your keyboard</string>
+    <string name="step_choose_todo">Switch to Tatakikun</string>
+    <string name="step_choose_after">After you turn it on</string>
+    <string name="step_done">Done</string>
+    <string name="section_keyboard">Keyboard</string>
+    <string name="language_packs">Language packs</string>
+    <string name="about">About</string>
+    <string name="about_detail">Open source, MIT license</string>
+    <string name="project_url">https://github.com/allomos/tatakikun</string>
+    <string name="section_try">Try it</string>
+    <string name="try_hint">ai, woaini, arigatou, hello</string>
     <item name="try_field" type="id" />
 </resources>
