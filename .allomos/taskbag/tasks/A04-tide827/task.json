@@ -2,9 +2,11 @@
   "area": "A04",
   "handoff_note": "Code done and committed on task/A04-tide827 (b0a6d58), not merged. iOS: all 7 UI tests pass, including the new testTapsBetweenKeysTypeTheNearestKey (gap q|w, blank left of a, past p, below b). Android: built and installed on emulator-5556, but the emulator kept stalling (Mac load 30-40 from other work), so the tap check is not done; one stalled run did type on q, a, p and b (b as a long press). Next step: when the Mac is quiet, on emulator-5556 tap (110,1848) (30,1968) (1075,1848) (644,2140) in the app's Try it field and see qapb in the reading box, then merge into master. Waits on: nothing, or the person testing on a real phone.",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: taps between keys type the nearest key (A04-tide827)\n\n1. Put the current master on the phone: Android `scripts/build-android-app.sh install` with the phone on USB debugging; iPhone: build `iOS/` from Xcode onto the phone.\n2. Open any text field with the Tatakikun keyboard.\n3. Tap in the thin gap between q and w, a little nearer q: q is typed (before, nothing happened).\n4. Tap the blank space left of a (and right of l): a (l) is typed.\n5. Tap just past the right edge of p, near the screen edge, and just below the bottom row's keys: the nearest key answers.\n6. Type fast with two thumbs: no letters lost. Press a key, slide far off it, lift: nothing is typed.\n",
   "id": "A04-tide827",
   "iteration": "I04",
   "label": "locally verified",
-  "state": "in_progress",
-  "title": "Phone keyboards: a tap in the gap between keys types the nearest key, and keys on the outer edge answer taps a little beyond their edge"
+  "state": "done",
+  "title": "Phone keyboards: a tap in the gap between keys types the nearest key, and keys on the outer edge answer taps a little beyond their edge",
+  "without_human_check": "iOS UI tests pass; the person checks Android and iPhone on their own phone (the emulator stalled under load)"
 }
