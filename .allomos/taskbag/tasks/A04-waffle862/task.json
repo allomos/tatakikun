@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-tap-reach",
+  "id": "A04-waffle862",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "iOS app: the Try it field always types with Tatakikun (its keys built into the app, even before the keyboard is turned on) and stays in view above the keys"
+}

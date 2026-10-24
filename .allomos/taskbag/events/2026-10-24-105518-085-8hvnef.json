@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-24T10:55:18Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-waffle862",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iOS app: the Try it field always types with Tatakikun (its keys built into the app, even before the keyboard is turned on) and stays in view above the keys"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Tapping the Try it field on the iOS app's home screen brings up Tatakikun's keys (the copy built into the app), whatever keyboard is chosen in Settings; the screen scrolls so the field is above the keys, not under them. The UI tests type into this field, so the separate -demo screen goes.\n\n**Done means.** The app and UI tests build; on the simulator the field shows Tatakikun's keys and stays visible; UI tests pass (run when the person allows: they asked to stop the iOS tests for now).\n\n**Notes.** Asked by the person 2026-10-24. Trade-off told to the person: the field no longer exercises the real keyboard extension (use another app for that).\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
