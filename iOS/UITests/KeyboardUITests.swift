@@ -1,18 +1,18 @@
 import XCTest
 
-/// Types with the Tatakikun keyboard in the app's demo screen (the same KeyboardView as the
+/// Types with the Tatakikun keyboard in the app's Try it field (the same KeyboardView as the
 /// extension; a simulator without a window never shows third-party keyboards in other apps).
 final class KeyboardUITests: XCTestCase {
     let app = XCUIApplication()
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app.launchArguments = ["-demo"]   // the app opens its built-in keyboard screen
         app.launch()
+        app.textViews["tryField"].tap()   // the Try it field always brings up Tatakikun's keys
         XCTAssertTrue(app.buttons["layer"].waitForExistence(timeout: 5), "the Tatakikun keys are not showing")
     }
 
-    var field: XCUIElement { app.textViews["demoText"] }
+    var field: XCUIElement { app.textViews["tryField"] }
 
     func type(_ letters: String) {
         for c in letters { app.buttons[String(c)].firstMatch.tap() }
