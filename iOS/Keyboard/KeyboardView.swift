@@ -334,6 +334,10 @@ final class KeyboardKeys: UIView {
         rows.distribution = .fillEqually
         rows.spacing = 8
         rows.translatesAutoresizingMaskIntoConstraints = false
+        isMultipleTouchEnabled = true   // two thumbs landing between keys at once
+        // iOS gives a keyboard extension no touches on fully transparent parts of it: without a
+        // background, a tap in the gap between keys never arrives. Almost clear is enough.
+        backgroundColor = UIColor(white: 0.5, alpha: 0.01)
         addSubview(rows)
         addSubview(popup)
         NSLayoutConstraint.activate([
@@ -350,24 +354,55 @@ final class KeyboardKeys: UIView {
     /// How far outside itself a key around the edge of the block still takes a tap, in points.
     private static let reach: CGFloat = 32
 
-    /// A touch inside the block that misses every key goes to the nearest one: a tap in the gap between keys (or on
-    /// the blank ends of the asdf row) types that key, and the keys around the edge also take taps
-    /// up to `reach` outside them, since a finger is not that precise. Each finger is tested on its
+    /// A touch inside the block that misses every key goes to the nearest one: a tap in the gap
+    /// between keys (or on the blank ends of the asdf row) types that key, and the keys around the
+    /// edge also take taps up to `reach` outside them, since a finger is not that precise. The block
+    /// takes such a touch itself and fires the key when the finger lifts: a button handed a touch
+    /// that starts outside it does not reliably count it as a tap. Each finger is followed on its
     /// own, so fast typing with two thumbs works as before.
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let hit = super.hitTest(point, with: event)
         if hit == nil || hit is UIButton { return hit }   // outside the block (the candidate bar), or on a key
+        return nearestKey(to: point) != nil ? self : hit
+    }
+
+    /// The key nearest to `point`, within `reach` of it (not 🌐, which only works under the finger).
+    private func nearestKey(to point: CGPoint) -> UIButton? {
         var best: UIButton?
         var bestDistance = Self.reach * Self.reach
         for line in rows.arrangedSubviews {
-            for case let button as UIButton in line.subviews where !button.isHidden && button.alpha >= 0.01 {
+            for case let button as UIButton in line.subviews
+            where !button.isHidden && button.alpha >= 0.01 && button.accessibilityIdentifier != "nextKeyboard" {
                 let frame = button.convert(button.bounds, to: self)
                 let dx = max(frame.minX - point.x, 0, point.x - frame.maxX)
                 let dy = max(frame.minY - point.y, 0, point.y - frame.maxY)
                 if dx * dx + dy * dy <= bestDistance { bestDistance = dx * dx + dy * dy; best = button }
             }
         }
-        return best ?? hit
+        return best
+    }
+
+    /// The fingers that landed between keys, with the key each one presses.
+    private var gapTouches: [ObjectIdentifier: UIButton] = [:]
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            guard let key = nearestKey(to: touch.location(in: self)) else { continue }
+            gapTouches[ObjectIdentifier(touch)] = key
+            key.isHighlighted = true
+        }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            guard let key = gapTouches.removeValue(forKey: ObjectIdentifier(touch)) else { continue }
+            key.isHighlighted = false
+            key.sendActions(for: .touchUpInside)
+        }
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches { gapTouches.removeValue(forKey: ObjectIdentifier(touch))?.isHighlighted = false }
     }
 
     private func shiftKey() -> UIView {
