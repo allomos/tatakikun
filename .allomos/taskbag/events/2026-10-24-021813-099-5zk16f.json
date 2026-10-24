@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-24T02:18:13Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-solar247",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Slips: the 4–6 keys touching each key (staggered rows), a letter too many (not the last), two letters swapped, a letter left out (inputs ≤ 10 letters, words only); sentences for inputs ≤ 16 letters and only at ≤ 25 cost per letter. A slip never outranks a good reading as typed (≤ 25 per letter), costs +20 in another language than the best typed reading, does not take its kind's reserved place, and only one goes in the bar when the letters give words. Cost on the Mac: ~14 ms per keystroke typical (was 11), 19 ms on a 26-letter input (was 8)."
+    }
+  ]
+}

@@ -1,8 +1,11 @@
 {
   "area": "A03",
+  "handoff_note": "Merged to master and installed on this Mac, not released. Packs must be rebuilt (scripts/build-packs.sh ja; fetch-sources now also gets Mozc single_kanji.tsv and its LICENSE) for a release. Next: the person checks with the steps.",
   "holder": "claude-pieces",
+  "human_check_steps": "# Check A03-world979\n\n1. Type `houtokukai`, open the full list (↓ on the Mac, ⌄ on the phone): 彭 is there (about the 22nd); choose it.\n2. `tokukai` is left: choose 徳 from the list (about the 18th). Then `kai` is left: choose 懐 (far down, it is in the list).\n3. Next time, `houtokukai` offers 彭徳懐 as one candidate.\n4. For the simplified Chinese 彭德怀, type `pengdehuai`: it comes first.\n",
   "id": "A03-world979",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "A name or word no dictionary has can be built one character at a time: houtokukai → 彭 (ほう), then 徳 (とく), then 懐 (かい)"
+  "state": "done",
+  "title": "A name or word no dictionary has can be built one character at a time: houtokukai → 彭 (ほう), then 徳 (とく), then 懐 (かい)",
+  "without_human_check": "Checked with tatakikun-cli and engine tests; installed here; a person checks in the app"
 }

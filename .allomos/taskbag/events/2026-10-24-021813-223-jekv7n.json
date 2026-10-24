@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T02:18:13Z",
+  "by": "claude-typos2",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A02-solar247",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked with tatakikun-cli, engine tests and timing; installed here; a person checks in the app and on a phone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A02-solar247\n\n1. Type each and look at the bar: `nihap` → 你好, `xiexe` → 谢谢, `nihoa` → 你好, `wozaijua` → 我在家, `wozaixuexo` → 我在学习, `arigtou` → ありがとう (marked … as not typed exactly).\n2. Typed right, the bar is as before: `nihao` → 你好 first, `tamenqunale` → 他们去那了 first, `zhongguo` → 中国 with no … candidates.\n3. On the phone the same, and typing a long sentence stays quick.\n"
+    }
+  ]
+}

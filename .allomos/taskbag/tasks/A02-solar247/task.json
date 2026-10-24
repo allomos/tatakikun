@@ -1,8 +1,11 @@
 {
   "area": "A02",
+  "handoff_note": "Merged to master and installed on this Mac, not released. Next: the person checks with the steps; if slips feel noisy, tune Cost.nearbyKey / otherSlip / slipSentenceLetter.",
   "holder": "claude-typos2",
+  "human_check_steps": "# Check A02-solar247\n\n1. Type each and look at the bar: `nihap` → 你好, `xiexe` → 谢谢, `nihoa` → 你好, `wozaijua` → 我在家, `wozaixuexo` → 我在学习, `arigtou` → ありがとう (marked … as not typed exactly).\n2. Typed right, the bar is as before: `nihao` → 你好 first, `tamenqunale` → 他们去那了 first, `zhongguo` → 中国 with no … candidates.\n3. On the phone the same, and typing a long sentence stays quick.\n",
   "id": "A02-solar247",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Typos are caught more often: a key above or below the one meant, a letter left out or typed twice, and inside whole sentences (wozaijia → 我在家, nihoa → 你好, xiexei → 谢谢)"
+  "state": "done",
+  "title": "Typos are caught more often: a key above or below the one meant, a letter left out or typed twice, and inside whole sentences (wozaijia → 我在家, nihoa → 你好, xiexei → 谢谢)",
+  "without_human_check": "Checked with tatakikun-cli, engine tests and timing; installed here; a person checks in the app and on a phone"
 }

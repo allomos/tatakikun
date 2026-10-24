@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T02:18:13Z",
+  "by": "claude-pieces",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A03-world979",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Merged to master and installed on this Mac, not released. Packs must be rebuilt (scripts/build-packs.sh ja; fetch-sources now also gets Mozc single_kanji.tsv and its LICENSE) for a release. Next: the person checks with the steps."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-pieces"
+    }
+  ]
+}

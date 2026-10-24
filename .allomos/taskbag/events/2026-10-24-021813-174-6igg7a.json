@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T02:18:13Z",
+  "by": "claude-pieces",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-world979",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked with tatakikun-cli and engine tests; installed here; a person checks in the app"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A03-world979\n\n1. Type `houtokukai`, open the full list (↓ on the Mac, ⌄ on the phone): 彭 is there (about the 22nd); choose it.\n2. `tokukai` is left: choose 徳 from the list (about the 18th). Then `kai` is left: choose 懐 (far down, it is in the list).\n3. Next time, `houtokukai` offers 彭徳懐 as one candidate.\n4. For the simplified Chinese 彭德怀, type `pengdehuai`: it comes first.\n"
+    }
+  ]
+}
