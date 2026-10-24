@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T02:05:12Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A03-world979",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "A name or word no dictionary has can be built one character at a time: houtokukai → 彭 (ほう), then 徳 (とく), then 懐 (かい)"
+    },
+    {
+      "field": "area",
+      "to": "A03"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Every kanji with a reading is reachable, and while typing a long input the list offers every single character for its start, so any word can be put together piece by piece.\n\n**Done means.** `kai` lists 懐; in `houtokukai` the list offers 彭 for ほう; choosing it leaves tokukai, which offers 徳, then kai offers 懐; engine tests pass.\n\n**Notes.** Asked by the person on 2026-10-24. 彭德怀 with 德 and 怀 is simplified Chinese: typed as pinyin, pengdehuai gives it first; in Japanese it is written 彭徳懐.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

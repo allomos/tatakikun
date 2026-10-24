@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T02:05:18Z",
+  "by": "claude-pieces",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A03-world979",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-pieces"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A03-world979"
+    }
+  ]
+}
