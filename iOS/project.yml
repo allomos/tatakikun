@@ -8,8 +8,8 @@ packages:
     path: ..
 settings:
   base:
-    MARKETING_VERSION: "0.5.1"
-    CURRENT_PROJECT_VERSION: "1"
+    # The version comes from the Mac app's App/Info.plist at every build (scripts/ios-version.sh).
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
     SWIFT_VERSION: "5.9"
     TARGETED_DEVICE_FAMILY: "1,2"
     CODE_SIGN_STYLE: Automatic
@@ -26,6 +26,10 @@ targets:
       - target: TatakikunKeyboard
       - package: TatakikunPackage
         product: TatakikunCore
+    postBuildScripts:
+      - name: Version from the Mac app
+        script: '"$SRCROOT/../scripts/ios-version.sh"'
+        basedOnDependencyAnalysis: false
     info:
       path: App/Info.plist
       properties:
@@ -59,6 +63,10 @@ targets:
     dependencies:
       - package: TatakikunPackage
         product: TatakikunCore
+    postBuildScripts:
+      - name: Version from the Mac app
+        script: '"$SRCROOT/../scripts/ios-version.sh"'
+        basedOnDependencyAnalysis: false
     info:
       path: Keyboard/Info.plist
       properties:
