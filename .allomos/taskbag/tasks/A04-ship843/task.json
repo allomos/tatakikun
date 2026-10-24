@@ -1,7 +1,8 @@
 {
   "area": "A04",
+  "holder": "claude-loop2",
   "id": "A04-ship843",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "Android keyboard: the long-press symbol in a key's corner stays inside the key on every key and screen size (the ? on 。 no longer sticks out)"
 }
