@@ -150,10 +150,18 @@ final class KeyboardUITests: XCTestCase {
         period.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
             .press(forDuration: 0.8, thenDragTo: app.buttons["return"].coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.5)))
         XCTAssertEqual(text, "你好？.")
+        // After Chinese again the comma key shows ，; held, it offers 、 and , (slide right to ,).
+        type("nihao")
+        XCTAssertTrue(app.buttons["你好"].waitForExistence(timeout: 3))
+        app.buttons["你好"].tap()
+        let comma = app.buttons["comma"]
+        comma.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            .press(forDuration: 0.8, thenDragTo: comma.coordinate(withNormalizedOffset: CGVector(dx: 2.5, dy: 0.5)))
+        XCTAssertEqual(text, "你好？.你好,")
         type("hello")
         app.buttons["space"].tap()
         app.buttons["m"].firstMatch.press(forDuration: 0.8)
-        XCTAssertEqual(text, "你好？.hello ?")
+        XCTAssertEqual(text, "你好？.你好,hello ?")
     }
 
     func attach(_ name: String) {

@@ -474,7 +474,8 @@ final class KeyboardKeys: UIView {
         let comma = key("，", id: "comma", dark: true) { [weak self] in self?.onKey?(.other(",")) }
         let period = key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) }
         markKeys += [(comma, ","), (period, ".")]
-        addHint("、", to: comma)
+        // Held, the comma key also offers the other comma: , when it shows ，, ， when it shows ,
+        addHint("、", to: comma) { [weak self] in self?.mark(",") == "," ? ["，"] : [","] }
         // Held, the period key also offers the other period: . when it shows 。, 。 when it shows .
         addHint("?", to: period, followsMark: true) { [weak self] in self?.mark(".") == "." ? ["。"] : ["."] }
         bottom += [
