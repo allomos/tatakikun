@@ -321,7 +321,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                 listener.onKey(Engine.Keys.OTHER, ','.code)
             } to 1f,
             key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to if (tablet) 3.1f else 4.6f,
-            key("。", "period", Style.PILL, hint = '?', preview = true, mark = '.', onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
+            // Held, it also offers the other period: . when it shows 。, 。 when it shows .
+            key("。", "period", Style.PILL, hint = '?', preview = true, mark = '.', extras = { listOf(if (marks["."] == ".") "。" else ".") }, onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, '.'.code)
             } to 1f,
             key("", "return", Style.PILL, iconRes = R.drawable.ic_return) { listener.onKey(Engine.Keys.ENTER) } to 1.5f,
@@ -433,6 +434,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private fun key(
         label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false, mark: Char? = null,
         onLongPress: (() -> Unit)? = null, onRelease: (() -> Unit)? = null, onPress: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f,
+        extras: (() -> List<String>)? = null,
         ink: Int = 0, onClick: () -> Unit,
     ): View {
         val function = style != Style.LETTER
@@ -457,7 +459,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     held = false; off = false
                     v.drawableHotspotChanged(e.x, e.y)
                     v.isPressed = true
-                    if (preview) shown = popup.show(v, labelView?.text?.toString() ?: label, cornerView?.text?.toString() ?: hint?.toString().orEmpty())
+                    if (preview) shown = popup.show(v, labelView?.text?.toString() ?: label, cornerView?.text?.toString() ?: hint?.toString().orEmpty(), extras)
                     if (onLongPress != null) postDelayed(hold, LONG_PRESS)
                     onPress?.invoke()
                 }
@@ -598,6 +600,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         /** Held: the symbol half-width and full-width (one choice when it has no other form), and the one under the finger. */
         private var options = listOf<String>()
         private var selected = 0
+        /** Where the finger was when the popup flipped, until it slides away from there. */
+        private var start: Float? = null
+        /** More choices after the symbol's two forms (the period key's other period). */
+        private var extras: (() -> List<String>)? = null
+        private var sliding = false
         private val keyBox = RectF()
         private val box = RectF()
         private val fill = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -607,7 +614,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         private val caption = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; textSize = sp(10f) }
 
         /** Shows `label` over `view`; returns this press's number. */
-        fun show(view: View, label: String, hint: String): Int {
+        fun show(view: View, label: String, hint: String, extras: (() -> List<String>)? = null): Int {
             val r = Rect()
             view.getDrawingRect(r)
             offsetDescendantRectToMyCoords(view, r)
@@ -617,7 +624,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             val top = maxOf(0f, r.top - dp(4) - h)
             box.set(left, top, left + w, top + h)
             keyBox.set(r)
-            key = view; finger = view; main = label; corner = hint; long = false
+            key = view; finger = view; main = label; corner = hint; long = false; this.extras = extras
             setBounds(0, 0, width, height)
             invalidateSelf()
             return ++press
@@ -630,8 +637,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                 long = true
                 // Shown full-width (after Chinese), the choice still starts with the half-width form.
                 val c = corner.codePointAt(0).let { if (it in 0xff01..0xff5e) it - 0xfee0 else it }
-                options = if (c in 0x21..0x7e) listOf(String(Character.toChars(c)), String(Character.toChars(c + 0xfee0))) else listOf(corner)
-                selected = 0
+                options = (if (c in 0x21..0x7e) listOf(String(Character.toChars(c)), String(Character.toChars(c + 0xfee0))) else listOf(corner)) +
+                    extras?.invoke().orEmpty()
+                // It starts on the form a tap would type now (全角 after Chinese, 半角 after English).
+                selected = options.indexOf(marks[options[0]]).coerceAtLeast(0)
+                start = null; sliding = false
                 // The half-width one over the key, the full-width one beside it (to the left at the right edge).
                 val cell = box.width()
                 val left = (keyBox.centerX() - cell / 2).coerceIn(dp(4).toFloat(), maxOf(dp(4).toFloat(), width - dp(4) - cell * options.size))
@@ -644,6 +654,12 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         /** The finger on `view` is at `x` (in the key's coordinates): picks the choice under it. */
         fun select(view: View, x: Float) {
             if (finger != view || !long) return
+            // The first choice stays until the finger slides: a finger never holds quite still.
+            if (!sliding) {
+                val from = start ?: run { start = x; return }
+                if (kotlin.math.abs(x - from) < slop) return
+                sliding = true
+            }
             val cell = box.width() / options.size
             val i = ((x + keyBox.left - box.left) / cell).toInt().coerceIn(0, options.size - 1)
             if (i != selected) { selected = i; invalidateSelf() }
@@ -683,7 +699,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     big.color = if (i == selected) functionText else textColor
                     canvas.drawText(text, r.centerX(), r.centerY() - dp(4) - (big.descent() + big.ascent()) / 2, big)
                     caption.color = if (i == selected) functionText else hintColor
-                    canvas.drawText(if (i == 0) "半角" else "全角", r.centerX(), r.bottom - dp(6) - caption.descent(), caption)
+                    canvas.drawText(if (text.all { it.code < 0x80 }) "半角" else "全角", r.centerX(), r.bottom - dp(6) - caption.descent(), caption)
                 }
                 return
             }

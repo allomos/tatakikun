@@ -475,7 +475,8 @@ final class KeyboardKeys: UIView {
         let period = key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) }
         markKeys += [(comma, ","), (period, ".")]
         addHint("、", to: comma)
-        addHint("?", to: period, followsMark: true)
+        // Held, the period key also offers the other period: . when it shows 。, 。 when it shows .
+        addHint("?", to: period, followsMark: true) { [weak self] in self?.mark(".") == "." ? ["。"] : ["."] }
         bottom += [
             comma,
             key("space", id: "space") { [weak self] in self?.onKey?(.space) },
@@ -502,7 +503,7 @@ final class KeyboardKeys: UIView {
 
     /// Puts `symbol` in the key's top right corner; held, the key offers it in a popup above it
     /// (half-width and full-width side by side), sliding picks one, lifting types it.
-    private func addHint(_ symbol: Character, to button: UIButton, followsMark: Bool = false) {
+    private func addHint(_ symbol: Character, to button: UIButton, followsMark: Bool = false, extra: (() -> [String])? = nil) {
         let label = UILabel()
         label.text = String(symbol)
         label.font = .systemFont(ofSize: 11)
@@ -517,6 +518,7 @@ final class KeyboardKeys: UIView {
         if followsMark { markHints.append((label, symbol)) }
         let press = SymbolPress(target: self, action: #selector(longPress(_:)))
         press.corner = label
+        press.extra = extra
         press.minimumPressDuration = Self.longPress
         button.addGestureRecognizer(press)
     }
@@ -526,11 +528,13 @@ final class KeyboardKeys: UIView {
         switch press.state {
         case .began:
             // Over the key, reaching up over the candidate bar but not past the keyboard's top.
-            popup.show(symbol, over: button.convert(button.bounds, to: self), within: CGRect(x: 0, y: -frame.minY, width: bounds.width, height: bounds.height + frame.minY))
+            // It starts on the form a tap would type now (全角 after Chinese, 半角 after English).
+            let typed = SymbolPopup.halfWidth(of: symbol).map { mark($0) } ?? symbol
+            popup.show(symbol, extra: press.extra?() ?? [], selecting: typed, over: button.convert(button.bounds, to: self),
+                       within: CGRect(x: 0, y: -frame.minY, width: bounds.width, height: bounds.height + frame.minY))
         case .changed:
-            popup.select(x: press.location(in: popup).x)
+            popup.follow(x: press.location(in: popup).x)
         case .ended:
-            popup.select(x: press.location(in: popup).x)
             if let text = popup.choice { onSymbol?(text) }
             popup.isHidden = true
         default:
@@ -598,6 +602,8 @@ final class KeyboardKeys: UIView {
 /// A long press on a key with a symbol in its corner (the label it reads the symbol from).
 final class SymbolPress: UILongPressGestureRecognizer {
     weak var corner: UILabel?
+    /// More choices after the symbol's two forms (the period key's other period).
+    var extra: (() -> [String])?
 }
 
 /// The popup over a held key: its symbol half-width and full-width side by side (one choice when
@@ -625,13 +631,24 @@ final class SymbolPopup: UIView {
     /// The symbol lifting the finger types, while shown.
     var choice: String? { isHidden || options.isEmpty ? nil : options[selected] }
 
-    func show(_ symbol: String, over key: CGRect, within area: CGRect) {
-        // Shown full-width on the key (after Chinese), the choice still starts with the half-width form.
-        var c = symbol.unicodeScalars.first!.value
+    /// The half-width form of `symbol` (shown full-width on the key after Chinese), when it has a full-width one.
+    static func halfWidth(of symbol: String) -> Character? {
+        guard symbol.unicodeScalars.count == 1, var c = symbol.unicodeScalars.first?.value else { return nil }
         if (0xFF01...0xFF5E).contains(c) { c -= 0xFEE0 }
-        options = (0x21...0x7E).contains(c) && symbol.unicodeScalars.count == 1
-            ? [String(Character(UnicodeScalar(c)!)), String(Character(UnicodeScalar(c + 0xFEE0)!))] : [symbol]
-        selected = 0
+        return (0x21...0x7E).contains(c) ? Character(UnicodeScalar(c)!) : nil
+    }
+
+    /// Shows `symbol` half-width and full-width, then `extra`, with `typed` (the one a tap would type now) selected.
+    func show(_ symbol: String, extra: [String] = [], selecting typed: String, over key: CGRect, within area: CGRect) {
+        if let half = Self.halfWidth(of: symbol), let c = half.unicodeScalars.first?.value {
+            options = [String(half), String(Character(UnicodeScalar(c + 0xFEE0)!))]
+        } else {
+            options = [symbol]
+        }
+        options += extra
+        selected = options.firstIndex(of: typed) ?? 0
+        start = nil
+        sliding = false
         cells.forEach { $0.view.removeFromSuperview() }
         cells = []
         let cell = max(key.width * 1.45, 54), height: CGFloat = 58
@@ -648,7 +665,7 @@ final class SymbolPopup: UIView {
             symbol.font = .systemFont(ofSize: 26)
             symbol.textAlignment = .center
             let caption = UILabel(frame: CGRect(x: 0, y: 36, width: view.bounds.width, height: 14))
-            caption.text = options.count > 1 ? (i == 0 ? "半角" : "全角") : nil
+            caption.text = options.count > 1 ? (text.unicodeScalars.allSatisfy(\.isASCII) ? "半角" : "全角") : nil
             caption.font = .systemFont(ofSize: 10)
             caption.textAlignment = .center
             view.addSubview(symbol)
@@ -661,9 +678,18 @@ final class SymbolPopup: UIView {
         superview?.bringSubviewToFront(self)
     }
 
-    /// The finger is at `x` (in the popup's coordinates): picks the choice under it.
-    func select(x: CGFloat) {
+    /// Where the finger was when the popup opened, until it slides: the first choice stays until then.
+    private var start: CGFloat?
+    private var sliding = false
+
+    /// The finger is at `x` (in the popup's coordinates): once it has slid, picks the choice under it.
+    func follow(x: CGFloat) {
         guard !options.isEmpty else { return }
+        if !sliding {
+            guard let start else { self.start = x; return }
+            if abs(x - start) < 8 { return }
+            sliding = true
+        }
         let i = min(max(Int(x / (bounds.width / CGFloat(options.count))), 0), options.count - 1)
         if i != selected { selected = i; restyle() }
     }
