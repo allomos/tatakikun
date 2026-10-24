@@ -24,6 +24,10 @@ protocol KeyboardTarget: AnyObject {
     func mark(_ text: String, selectedRange: NSRange)
     /// Keeps what is shown as inserted text.
     func endMarking()
+    /// The text selected in the field, if any (what Ctrl+C copies).
+    var selectedText: String? { get }
+    /// Whether the keyboard may use the pasteboard: an extension needs Full Access for it.
+    var canUsePasteboard: Bool { get }
 }
 
 /// The Tatakikun keyboard: a candidate bar over a QWERTY layout, driven by the same Composer as
@@ -79,6 +83,7 @@ final class KeyboardView: UIView {
         more.onChoose = { [weak self] row, column in self?.choose(row: row, column: column) }
         keys.onKey = { [weak self] key in self?.send(key) }
         keys.onSymbol = { [weak self] text in self?.typeSymbol(text) }
+        keys.onCtrl = { [weak self] letter in self?.ctrl(letter) }
         refresh()
     }
 
@@ -116,6 +121,22 @@ final class KeyboardView: UIView {
     private func typeSymbol(_ text: String) {
         insert((composer.finish() ?? "") + text)
         refresh()
+    }
+
+    /// Ctrl+C copies the selected text, Ctrl+V cuts it (iPad; Apple's keyboard API has no select
+    /// all, undo or redo). What is being typed is inserted first. Without Full Access the
+    /// pasteboard is closed to the keyboard: the bar says so instead.
+    private func ctrl(_ letter: Character) {
+        guard let target else { return }
+        if let text = composer.finish() { insert(text) }
+        refresh()
+        guard target.canUsePasteboard else {
+            bar.showNotice("Copy and cut need Full Access: see the Tatakikun app")
+            return
+        }
+        guard let text = target.selectedText, !text.isEmpty else { return }
+        UIPasteboard.general.string = text
+        if letter == "v" { target.deleteBackward() }   // deletes the selection
     }
 
     private func choose(row: Int, column: Int) {
@@ -187,9 +208,22 @@ final class CandidateBar: UIView {
     private let scroll = UIScrollView()
     private let stack = UIStackView()
     private let toggle = UIButton(type: .system)
+    /// A short line in place of the candidates (Ctrl+C without Full Access), until the next key.
+    private let notice = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        notice.font = .systemFont(ofSize: 15)
+        notice.textColor = .secondaryLabel
+        notice.isHidden = true
+        notice.accessibilityIdentifier = "notice"
+        notice.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(notice)
+        NSLayoutConstraint.activate([
+            notice.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            notice.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -14),
+            notice.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
         scroll.showsHorizontalScrollIndicator = false
         stack.axis = .horizontal
         stack.spacing = 2
@@ -230,6 +264,12 @@ final class CandidateBar: UIView {
         scroll.contentOffset = .zero
         toggle.setTitle(expanded ? "⌃" : "⌄", for: .normal)
         toggle.isHidden = !canExpand && !expanded
+        notice.isHidden = true
+    }
+
+    func showNotice(_ text: String) {
+        notice.text = text
+        notice.isHidden = false
     }
 }
 
@@ -303,6 +343,16 @@ final class KeyboardKeys: UIView {
     var onSymbol: ((String) -> Void)?
     var onNextKeyboard: ((UIView, UIEvent) -> Void)?
     var showsNextKeyboard = true { didSet { if oldValue != showsNextKeyboard { build() } } }
+    /// A letter tapped while Ctrl is held (c or v), in place of typing it.
+    var onCtrl: ((Character) -> Void)?
+    /// iPad has a Ctrl key at the start of the bottom row (letters only); phones do not.
+    private let showsCtrl = UIDevice.current.userInterfaceIdiom == .pad
+    private static let ctrlLetters: Set<Character> = ["c", "v"]
+    private var ctrlHeld = false { didSet { if oldValue != ctrlHeld { showCtrl() } } }
+    private var ctrlButton: UIButton?
+    /// Letters that went down while Ctrl was held: they run their shortcut when lifted, even if
+    /// Ctrl was let go first (both fingers lifting together).
+    private var ctrlTaps: Set<Character> = []
     private var symbols = false { didSet { build() } }
     /// Shift: off, on for the next letter only, or caps lock (two quick taps) until tapped again.
     private enum Shift { case off, once, locked }
@@ -439,18 +489,44 @@ final class KeyboardKeys: UIView {
         lastShiftTap = now
     }
 
+    /// Holding Ctrl lights up the letters that have a shortcut.
+    private func showCtrl() {
+        for (button, c) in letterKeys where Self.ctrlLetters.contains(c) {
+            button.backgroundColor = ctrlHeld ? UIColor.systemBlue.withAlphaComponent(0.35) : UIColor.systemBackground
+        }
+        ctrlButton?.backgroundColor = ctrlHeld ? UIColor.systemBackground : UIColor.systemGray3
+        ctrlButton?.accessibilityValue = ctrlHeld ? "held" : nil
+    }
+
+    private func ctrlKey() -> UIButton {
+        let k = key("ctrl", id: "ctrl", dark: true) {}
+        k.addAction(UIAction { [weak self] _ in self?.ctrlHeld = true }, for: .touchDown)
+        k.addAction(UIAction { [weak self] _ in self?.ctrlHeld = false },
+                    for: [.touchUpInside, .touchUpOutside, .touchCancel, .touchDragExit])
+        ctrlButton = k
+        return k
+    }
+
     private func build() {
         rows.arrangedSubviews.forEach { $0.removeFromSuperview() }
         letterKeys = []
         markKeys = []
         markHints = []
         shiftButton = nil
+        ctrlButton = nil
+        ctrlHeld = false
+        ctrlTaps = []
         let top = symbols ? Self.symbolRows : Self.letters
         for (i, chars) in top.enumerated() {
             var keys = chars.map { c -> UIView in
                 let shown = symbols ? String(c) : letter(c)
                 let button = key(shown, id: shown) { [weak self] in
                     guard let self else { return }
+                    if !self.symbols, self.ctrlTaps.remove(c) != nil || self.ctrlHeld {
+                        // Other letters do nothing while Ctrl is held.
+                        if Self.ctrlLetters.contains(c) { self.onCtrl?(c) }
+                        return
+                    }
                     let ch = self.symbols ? c : Character(self.letter(c))
                     if ch.isLetter { self.onKey?(.letter(ch)); if self.shift == .once { self.shift = .off } }
                     else if let n = ch.wholeNumberValue { self.onKey?(.digit(n)) }
@@ -458,6 +534,13 @@ final class KeyboardKeys: UIView {
                 }
                 if !symbols { letterKeys.append((button, c)) } else if !c.isNumber { markKeys.append((button, c)) }
                 if !symbols, let hint = Self.hints[c] { addHint(hint, to: button) }
+                if !symbols && showsCtrl {
+                    button.addAction(UIAction { [weak self] _ in
+                        if self?.ctrlHeld == true { self?.ctrlTaps.insert(c) }
+                    }, for: .touchDown)
+                    button.addAction(UIAction { [weak self] _ in self?.ctrlTaps.remove(c) },
+                                     for: [.touchUpOutside, .touchCancel])
+                }
                 return button
             }
             if i == 2 {
@@ -468,7 +551,9 @@ final class KeyboardKeys: UIView {
             }
             rows.addArrangedSubview(row(keys, weights: i == 2 ? [1.4] + Array(repeating: 1, count: chars.count) + [1.4] : nil))
         }
-        var bottom: [UIView] = [key(symbols ? "ABC" : "123", id: "layer", dark: true) { [weak self] in self?.symbols.toggle() }]
+        let ctrl = showsCtrl && !symbols
+        var bottom: [UIView] = ctrl ? [ctrlKey()] : []
+        bottom.append(key(symbols ? "ABC" : "123", id: "layer", dark: true) { [weak self] in self?.symbols.toggle() })
         if showsNextKeyboard {
             let globe = UIButton(type: .system)
             style(globe, title: "🌐", dark: true)
@@ -489,9 +574,11 @@ final class KeyboardKeys: UIView {
             period,
             key("return", id: "return", dark: true) { [weak self] in self?.onKey?(.enter) },
         ]
-        let weights: [CGFloat] = (showsNextKeyboard ? [1.2, 1.2] : [1.2]) + [1, 4, 1, 2]
+        // Ctrl takes its room from the space bar.
+        let weights: [CGFloat] = (ctrl ? [1.2] : []) + (showsNextKeyboard ? [1.2, 1.2] : [1.2]) + [1, ctrl ? 2.8 : 4, 1, 2]
         rows.addArrangedSubview(row(bottom, weights: weights))
         showShift()
+        showCtrl()
         showMarks(mark)
     }
 
@@ -530,7 +617,7 @@ final class KeyboardKeys: UIView {
     }
 
     @objc private func longPress(_ press: SymbolPress) {
-        guard let button = press.view, let symbol = press.corner?.text, !symbol.isEmpty else { return }
+        guard let button = press.view, let symbol = press.corner?.text, !symbol.isEmpty, !ctrlHeld else { return }
         switch press.state {
         case .began:
             // Over the key, reaching up over the candidate bar but not past the keyboard's top.

@@ -73,6 +73,10 @@ struct SetupView: View {
                         divider
                         SettingsRow(icon: "globe", iconColor: Palette.accent, title: "Choose it as your keyboard",
                                     detail: added ? "Hold 🌐 on the keyboard and pick Tatakikun" : "After you turn it on")
+                        if Self.isPad {
+                            divider
+                            fullAccess
+                        }
 
                         section("Keyboard")
                         SettingsRow(icon: "character.bubble", title: "Language packs", detail: Self.packs.joined(separator: " · ")) {
@@ -100,6 +104,9 @@ struct SetupView: View {
                             help("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate (with a space after an English word), return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
                             help("Hold a letter for the symbol in its corner (g → &); slide to pick it half-width or full-width.")
                             help("The comma and period keys show what they type: ，。 after Chinese, 、。 after Japanese, , . after English.")
+                            if Self.isPad {
+                                help("Hold ctrl and tap c to copy the selected text, or v to cut it (needs Full Access).")
+                            }
                         }
                         .padding(.horizontal, 4)
 
@@ -119,6 +126,22 @@ struct SetupView: View {
         }
         .tint(Palette.accent)
         .onChange(of: phase) { now in if now == .active { added = Self.keyboardAdded() } }
+    }
+
+    private static let isPad = UIDevice.current.userInterfaceIdiom == .pad
+
+    /// Full Access, explained before iOS shows its own warning: what it is for, and that typed
+    /// text is not sent anywhere (the app and keyboard have no networking at all).
+    private var fullAccess: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            SettingsRow(icon: "lock.shield", iconColor: Palette.accent, title: "Allow Full Access",
+                        detail: "Settings → General → Keyboard → Keyboards → Tatakikun → Allow Full Access", action: {
+                if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+            })
+            .accessibilityIdentifier("fullAccess")
+            help("Tatakikun needs it only to copy and cut with the ctrl key: iOS lets a keyboard use the clipboard only with Full Access. iOS will warn that a keyboard with Full Access could send what you type. Tatakikun never does: it has no network code, and what you type stays on this device.")
+                .padding(.leading, 46).padding(.trailing, 4).padding(.bottom, 8)
+        }
     }
 
     private var hero: some View {

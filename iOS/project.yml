@@ -82,7 +82,8 @@ targets:
             IsASCIICapable: false
             PrefersRightToLeft: false
             PrimaryLanguage: zh-Hans
-            RequestsOpenAccess: false
+            # Full Access: copy and cut with Ctrl on iPad (A04-cell054). The app explains it first.
+            RequestsOpenAccess: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tatakikun.ios.Tatakikun.Keyboard

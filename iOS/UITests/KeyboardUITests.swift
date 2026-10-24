@@ -171,6 +171,20 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "good?")
     }
 
+    /// A04-cell054: iPad has a Ctrl key at the start of the bottom row; iPhone does not. The
+    /// Full Access explanation is on the iPad setup screen.
+    func testCtrlKeyOnlyOnPad() {
+        let pad = UIDevice.current.userInterfaceIdiom == .pad
+        XCTAssertEqual(app.buttons["ctrl"].exists, pad)
+        guard pad else { return }
+        XCTAssertLessThan(app.buttons["ctrl"].frame.minX, app.buttons["layer"].frame.minX)
+        attach("ctrl key")
+        app.buttons["layer"].tap()
+        XCTAssertFalse(app.buttons["ctrl"].exists, "the symbols layer has no Ctrl")
+        app.buttons["layer"].tap()
+        XCTAssertTrue(app.buttons["ctrl"].exists)
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

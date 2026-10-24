@@ -8,6 +8,8 @@ extension UITextView: KeyboardTarget {
     }
     func mark(_ text: String, selectedRange: NSRange) { setMarkedText(text, selectedRange: selectedRange) }
     func endMarking() { unmarkText() }
+    var selectedText: String? { selectedTextRange.flatMap { text(in: $0) } }
+    var canUsePasteboard: Bool { true }
 }
 
 /// The Try it field: it always types with Tatakikun, the keys built into the app (the same

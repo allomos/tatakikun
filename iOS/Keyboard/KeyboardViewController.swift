@@ -6,6 +6,8 @@ extension UIInputViewController: KeyboardTarget {
     func deleteBackward() { textDocumentProxy.deleteBackward() }
     func mark(_ text: String, selectedRange: NSRange) { textDocumentProxy.setMarkedText(text, selectedRange: selectedRange) }
     func endMarking() { textDocumentProxy.unmarkText() }
+    var selectedText: String? { textDocumentProxy.selectedText }
+    var canUsePasteboard: Bool { hasFullAccess }
 }
 
 /// The keyboard extension's entry point: shows the KeyboardView and types through the text proxy.
