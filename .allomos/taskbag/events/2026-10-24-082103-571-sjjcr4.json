@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T08:21:03Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-tide827",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Phone keyboards: a tap in the gap between keys types the nearest key, and keys on the outer edge answer taps a little beyond their edge"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** On Android and iOS a tap that lands between keys (gaps, the blank ends of the asdf row) types the nearest key instead of nothing; the keys around the edge of the key block also take taps up to about 32 dp/pt outside them.\n\n**Done means.** On the emulator, taps in the gaps and just outside the edge keys type the nearest key; a tap on a key still types it; fast two-finger typing still works; sliding off a key still cancels.\n\n**Notes.** Asked by the person 2026-10-24.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
