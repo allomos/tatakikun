@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T00:43:33Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Tablet = smallest screen side ≥ 600 dp. Ctrl is the first key of the bottom row (width of ?123), the space bar gives up that width. Highlight = the function key color. Redo is sent as Ctrl+Shift+Z (Android text fields undo/redo by key shortcut). Other letters do nothing while Ctrl is held."
+    }
+  ]
+}

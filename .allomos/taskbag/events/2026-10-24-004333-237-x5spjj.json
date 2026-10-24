@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T00:43:33Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Android Ctrl key done and merged into master (ce3f552). Waiting on the approver: what to do on iPad (question under Waiting). Run mode: quiet (chosen by the person, 2026-10-22). Next after the answer: (a) finish with --without-human-check and steps for an Android tablet; (b) turn on RequestsOpenAccess in iOS/project.yml and add the iPad Ctrl key with copy/cut."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop2"
+    }
+  ]
+}
