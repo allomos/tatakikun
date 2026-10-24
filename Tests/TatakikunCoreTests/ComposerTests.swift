@@ -157,6 +157,30 @@ final class ComposerTests: XCTestCase {
         XCTAssertFalse(c.handle(.other(",")).handled, "unknown: follows what was judged last")
     }
 
+    /// A04-peak016: the keys show what they will type, and showing it types nothing.
+    func testMarkShowsWhatThePunctuationKeyTypes() throws {
+        let c = try composer()
+        var before: String? = "这是"
+        c.textBeforeCursor = { before }
+        XCTAssertEqual(c.mark(for: ","), "，")
+        XCTAssertEqual(c.mark(for: "\""), "“")
+        XCTAssertEqual(c.mark(for: "\""), "“", "showing does not turn the quote to closing")
+        XCTAssertEqual(c.handle(.other("\"")).commit, "“")
+        XCTAssertEqual(c.mark(for: "\""), "”")
+        before = "ですね"
+        XCTAssertEqual(c.mark(for: ","), "、")
+        before = "Hi"
+        XCTAssertEqual(c.mark(for: ","), ",")
+        XCTAssertEqual(c.mark(for: "."), ".")
+        before = nil
+        type("nihao", into: c)
+        XCTAssertEqual(c.mark(for: "."), "。", "composing: by the selected candidate")
+        XCTAssertEqual(c.handle(.other(".")).commit, "你好。")
+        type("hello", into: c)
+        XCTAssertEqual(c.mark(for: "?"), "?")
+        XCTAssertEqual(c.handle(.other("?")).commit, "hello?")
+    }
+
     func testScriptBeforeText() {
         XCTAssertEqual(Punctuation.script(before: "東京", fallback: .japanese), .japanese)
         XCTAssertEqual(Punctuation.script(before: "東京", fallback: .latin), .chinese)

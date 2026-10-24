@@ -56,6 +56,12 @@ class Engine(packs: String, data: String) {
     fun key(kind: Int, char: Int = 0) = State.parse(key(handle, kind, char))
     fun choose(row: Int, column: Int) = State.parse(choose(handle, row, column))
     fun finish() = State.parse(finish(handle))
+    /** What each punctuation key types now (",": "，" after Chinese, "," after English), for the keys to show. */
+    fun marks(): Map<String, String> {
+        val bytes = if (handle != 0L) marks(handle) else null
+        val o = JSONObject(String(bytes ?: return emptyMap(), Charsets.UTF_8))
+        return o.keys().asSequence().associateWith { o.getString(it) }
+    }
     fun close() { if (handle != 0L) destroy(handle) }
 
     /** The composer's keys (Key in TatakikunCore). */
@@ -74,5 +80,6 @@ class Engine(packs: String, data: String) {
         @JvmStatic private external fun key(handle: Long, kind: Int, scalar: Int): ByteArray?
         @JvmStatic private external fun choose(handle: Long, row: Int, column: Int): ByteArray?
         @JvmStatic private external fun finish(handle: Long): ByteArray?
+        @JvmStatic private external fun marks(handle: Long): ByteArray?
     }
 }

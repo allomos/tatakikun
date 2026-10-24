@@ -39,6 +39,20 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
         // The languages may have been turned on or off in the app since the keyboard was last up.
         engine?.setTurnedOff(Languages.turnedOff(this))
         view?.show(null)
+        showMarks()
+    }
+
+    /** The cursor moved or the text changed: the punctuation keys follow the text before the cursor. */
+    override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        showMarks()
+    }
+
+    /** Shows on the punctuation keys what they type now. */
+    private fun showMarks() {
+        val engine = engine ?: return
+        if (!composing) engine.setTextBefore(currentInputConnection?.getTextBeforeCursor(4, 0))
+        view?.showMarks(engine.marks())
     }
 
     /** The application makes room for the keys only; the box with the letters lies over it, and lets touches through. */
@@ -188,6 +202,7 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
         }
         composing = state.composing
         view?.show(state)
+        if (composing) showMarks()
     }
 
     override fun onDestroy() {

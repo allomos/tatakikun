@@ -33,6 +33,17 @@ final class KeyboardViewController: UIInputViewController {
         super.viewWillLayoutSubviews()
     }
 
+    /// The text or the cursor changed: the punctuation keys follow the text before the cursor.
+    override func textDidChange(_ textInput: UITextInput?) {
+        super.textDidChange(textInput)
+        keyboard.refreshMarks()
+    }
+
+    override func selectionDidChange(_ textInput: UITextInput?) {
+        super.selectionDidChange(textInput)
+        keyboard.refreshMarks()
+    }
+
     override func viewWillDisappear(_ animated: Bool) {
         keyboard.finish()
         super.viewWillDisappear(animated)
