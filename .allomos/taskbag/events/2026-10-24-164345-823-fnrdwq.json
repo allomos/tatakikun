@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-24T16:43:45Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "wait",
+  "kind": "task",
+  "id": "A03-wood850-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "waiting"
+    },
+    {
+      "field": "waiting_on",
+      "to": "Approve the word list sources and pack size in the handoff note's proposal (or name others)"
+    }
+  ]
+}

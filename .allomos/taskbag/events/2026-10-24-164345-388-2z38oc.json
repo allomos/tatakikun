@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T16:43:45Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "note",
+  "kind": "task",
+  "id": "A03-wood850-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Proposal (claude-loop3, 2026-10-25): words and frequencies counted from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>): fr 113 MB of sentences; keep about 50,000 words; the accent matching is shared with Spanish (coeur → cœur by also folding œ to oe). Pack about 1–2 MB. Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial)."
+    }
+  ]
+}

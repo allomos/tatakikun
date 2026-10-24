@@ -1,7 +1,10 @@
 {
   "area": "A03",
+  "handoff_note": "Proposal (claude-loop3, 2026-10-25): words and frequencies from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (ar: only 3.9 MB of sentences, so coverage and ranking are thin; no larger permissive Arabic list found), plus a Latin-to-Arabic table built by hand, including the digits people use in Arabizi (2 ء, 3 ع, 7 ح). Pack about 1 MB. Also for the person: should Arabizi digits be supported, or plain letters only? Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+  "holder": "claude-loop3",
   "id": "A03-wood850-04",
   "iteration": "I04",
-  "state": "ready",
-  "title": "Type Arabic with Tatakikun"
+  "state": "waiting",
+  "title": "Type Arabic with Tatakikun",
+  "waiting_on": "Approve the word list sources and pack size in the handoff note's proposal (or name others)"
 }

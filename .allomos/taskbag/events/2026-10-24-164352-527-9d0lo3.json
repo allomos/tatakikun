@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-24T16:43:52Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "block",
+  "kind": "task",
+  "id": "A03-wood850",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "blocked"
+    },
+    {
+      "field": "blocked_by",
+      "to": [
+        "A03-wood850-01"
+      ]
+    }
+  ]
+}
