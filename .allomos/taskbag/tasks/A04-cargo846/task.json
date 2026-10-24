@@ -1,8 +1,10 @@
 {
   "area": "A04",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: comma popup offers the other comma (A04-cargo846)\n\n1. Rebuild the iPhone app from Xcode (Android: `scripts/build-android-app.sh install`).\n2. Type nihao, pick 你好: the comma key shows ，. Hold it: the popup shows 、 (selected) and ,.\n3. Slide to , and lift: , is typed. Lift without sliding: 、 is typed.\n4. After English the comma key shows ,; holding it offers 、 and ，.\n",
   "id": "A04-cargo846",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Phone keyboards: holding the comma key also offers the other comma (, when it shows ，, ， when it shows ,) next to 、"
+  "state": "done",
+  "title": "Phone keyboards: holding the comma key also offers the other comma (, when it shows ，, ， when it shows ,) next to 、",
+  "without_human_check": "iOS UI tests pass 10/10 (the popup test now slides to , on the comma key); Android builds; the person checks on the phones"
 }

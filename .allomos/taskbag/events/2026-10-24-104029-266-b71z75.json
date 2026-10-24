@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:40:29Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-cargo846",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "iOS UI tests pass 10/10 (the popup test now slides to , on the comma key); Android builds; the person checks on the phones"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: comma popup offers the other comma (A04-cargo846)\n\n1. Rebuild the iPhone app from Xcode (Android: `scripts/build-android-app.sh install`).\n2. Type nihao, pick 你好: the comma key shows ，. Hold it: the popup shows 、 (selected) and ,.\n3. Slide to , and lift: , is typed. Lift without sliding: 、 is typed.\n4. After English the comma key shows ,; holding it offers 、 and ，.\n"
+    }
+  ]
+}
