@@ -30,6 +30,8 @@ targets:
       - name: Version from the Mac app
         script: '"$SRCROOT/../scripts/ios-version.sh"'
         basedOnDependencyAnalysis: false
+        # After Xcode has written the Info.plist, or it overwrites the version again.
+        inputFiles: ['$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)']
     info:
       path: App/Info.plist
       properties:
@@ -67,6 +69,8 @@ targets:
       - name: Version from the Mac app
         script: '"$SRCROOT/../scripts/ios-version.sh"'
         basedOnDependencyAnalysis: false
+        # After Xcode has written the Info.plist, or it overwrites the version again.
+        inputFiles: ['$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)']
     info:
       path: Keyboard/Info.plist
       properties:

@@ -52,7 +52,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		86AAF0168ED952F8FAE2A136 /* app-icon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "app-icon"; path = ..; sourceTree = SOURCE_ROOT; };
 		08B03DF6022293B6CDE7B47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		7AE0EE2F4739DD4AF085D934 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91B4B524C8F3CD2739117E26 /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A057D8230DF788AC2ABB58A8 /* app-icon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "app-icon"; path = ..; sourceTree = SOURCE_ROOT; };
 		A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TatakikunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardUITests.swift; sourceTree = "<group>"; };
 		FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 		8BD16FDDEC185437FD0D3F91 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				86AAF0168ED952F8FAE2A136 /* app-icon */,
+				A057D8230DF788AC2ABB58A8 /* app-icon */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -285,6 +285,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = "Version from the Mac app";
 			outputFileListPaths = (
@@ -304,6 +305,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
 			);
 			name = "Version from the Mac app";
 			outputFileListPaths = (
