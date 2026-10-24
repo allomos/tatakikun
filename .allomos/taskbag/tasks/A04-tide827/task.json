@@ -8,5 +8,5 @@
   "label": "locally verified",
   "state": "done",
   "title": "Phone keyboards: a tap in the gap between keys types the nearest key, and keys on the outer edge answer taps a little beyond their edge",
-  "without_human_check": "iOS UI tests pass; the person checks Android and iPhone on their own phone (the emulator stalled under load)"
+  "without_human_check": "iOS: gap taps did nothing in the real keyboard (iOS gives an extension no touches on transparent parts); fixed and checked in the simulator's real keyboard"
 }

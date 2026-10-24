@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-24T10:15:56Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "recheck",
+  "kind": "task",
+  "id": "A04-tide827",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "without_human_check",
+      "from": "iOS UI tests pass; the person checks Android and iPhone on their own phone (the emulator stalled under load)",
+      "to": "iOS: gap taps did nothing in the real keyboard (iOS gives an extension no touches on transparent parts); fixed and checked in the simulator's real keyboard"
+    }
+  ]
+}
