@@ -164,6 +164,13 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "你好？.你好,hello ?")
     }
 
+    /// A04-plate725: a symbol picked by long press while a word is being typed comes after the word.
+    func testLongPressAfterAWordComesAfterIt() {
+        type("good")
+        app.buttons["m"].firstMatch.press(forDuration: 0.8)
+        XCTAssertEqual(text, "good?")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

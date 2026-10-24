@@ -107,9 +107,10 @@ final class KeyboardView: UIView {
     }
 
     /// A symbol chosen in a key's long-press popup: typed exactly as shown, after what is being typed.
+    /// Both go in as one edit: the text field gets a keyboard's edits later, and two of them could
+    /// arrive the other way round (good + ? came out as ?good).
     private func typeSymbol(_ text: String) {
-        if let typed = composer.finish() { insert(typed) }
-        target?.insertText(text)
+        insert((composer.finish() ?? "") + text)
         refresh()
     }
 
