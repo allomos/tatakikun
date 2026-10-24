@@ -317,7 +317,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             if (tablet) ctrlKey() to 1.5f else null,
             key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = Shift.OFF; buildKeys() } to 1.5f,
             // The composer types ， or , (。 or .) to suit the text around it.
-            key("，", "comma", Style.PILL, hint = '、', preview = true, mark = ',', onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
+            // Held, it also offers the other comma: , when it shows ，, ， when it shows ,
+            key("，", "comma", Style.PILL, hint = '、', preview = true, mark = ',', extras = { listOf(if (marks[","] == ",") "，" else ",") }, onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, ','.code)
             } to 1f,
             key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to if (tablet) 3.1f else 4.6f,
