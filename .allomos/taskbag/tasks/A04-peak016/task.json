@@ -2,8 +2,10 @@
   "area": "A04",
   "handoff_note": "Started on task/A04-peak016 (worktree ../tatakikun-wt/A04-peak016), uncommitted. Done: Composer.mark(for:) + ComposerTests (pass), ttk_marks in Bridge, JNI Engine.marks(), TatakikunIME refreshes marks after keys and on onUpdateSelection, Android KeyboardView.showMarks (comma, period, period's corner ?, symbol layer), iOS KeyboardKeys.showMarks + KeyboardViewController textDidChange/selectionDidChange. Not built yet for Android or iOS. Next: merge master after A04-tide827 lands (both touch KeyboardView files), build both, check ， after Chinese / , after English on the keys.",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: punctuation keys show what they type (A04-peak016)\n\n1. Put the current master on the phone (Android: `scripts/build-android-app.sh install`; iPhone: build `iOS/` from Xcode).\n2. In an empty field, the comma and period keys show , and . (English).\n3. Type nihao: while 你好 is in the bar the keys show ，and 。; tap 你好: they still show ，。; tap the comma key: ， is typed.\n4. Type konnichiha and pick the hiragana: the comma key shows 、.\n5. Type hello and Space: the keys show , and . again; move the cursor back into Chinese text: they turn to ，。.\n6. Android: the period key's corner shows ? or ？ to match; ?123 shows the symbols as they will be typed (（ ） 【 】 after Chinese).\n7. Holding a letter still shows its symbol (g → &) with half-width and full-width to choose.\n",
   "id": "A04-peak016",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Phone keyboards: the punctuation keys show the mark they will type (， or , and 。 or . by the text around the cursor), and change as that text changes"
+  "state": "done",
+  "title": "Phone keyboards: the punctuation keys show the mark they will type (， or , and 。 or . by the text around the cursor), and change as that text changes",
+  "without_human_check": "iOS UI tests and ComposerTests pass; Android builds; the person checks on their phone"
 }

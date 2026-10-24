@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T09:47:32Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-peak016",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "iOS UI tests and ComposerTests pass; Android builds; the person checks on their phone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: punctuation keys show what they type (A04-peak016)\n\n1. Put the current master on the phone (Android: `scripts/build-android-app.sh install`; iPhone: build `iOS/` from Xcode).\n2. In an empty field, the comma and period keys show , and . (English).\n3. Type nihao: while 你好 is in the bar the keys show ，and 。; tap 你好: they still show ，。; tap the comma key: ， is typed.\n4. Type konnichiha and pick the hiragana: the comma key shows 、.\n5. Type hello and Space: the keys show , and . again; move the cursor back into Chinese text: they turn to ，。.\n6. Android: the period key's corner shows ? or ？ to match; ?123 shows the symbols as they will be typed (（ ） 【 】 after Chinese).\n7. Holding a letter still shows its symbol (g → &) with half-width and full-width to choose.\n"
+    }
+  ]
+}
