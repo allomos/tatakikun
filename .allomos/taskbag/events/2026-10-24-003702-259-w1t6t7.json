@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T00:37:02Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-ship843",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Corner symbols are moved in only as far as needed to fit inside the rounded shape (along the diagonal, 0.5 px steps), so keys where they already fit look the same as before."
+    }
+  ]
+}

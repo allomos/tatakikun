@@ -9,3 +9,10 @@
 **Notes.**
 - Seen in a screenshot from the person's phone: the ? on 。 sticks out past the key's right edge, and the ` on ， is tight against its edge too. On narrow keys the corner symbol seems to be placed from the key's rectangle, not its rounded shape.
 - Check the iOS keyboard for the same problem. If iOS has it too, fix it in this task as well.
+
+**Evidence.**
+- Cause: the corner symbol was placed from the key's rectangle (top right, 1 dp down, 4 dp in). On a pill key narrower than its radius allows (the bottom row's 。 and ，, drawn as a circle or capsule), that corner is cut away, so the symbol sat on or past the edge.
+- Fix (`KeyboardView.keepInside`): after layout, each corner symbol's glyph is checked against the key's rounded shape (radius capped at half the width and height) and moved in along the diagonal until it is inside. Keys where it already fits (letters, digits) do not move.
+- Checked on an emulator (Pixel 7, API 34) at three densities (default 420, 340 and 560 dpi), light and dark: the ? on 。 sits inside the key on every one; before the fix it touched the edge at the default density. Letters' corner symbols are unchanged, and the big letters are not covered.
+- iOS: its keyboard shows no corner symbols, so it does not have this problem.
+- Not checked on the person's own phone (where the ? stuck out past the edge): steps for a person.

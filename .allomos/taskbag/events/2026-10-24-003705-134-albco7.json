@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T00:37:05Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-ship843",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Done, to check. Merged into master. Run mode: quiet (chosen by the person, 2026-10-22). Next: a person looks at the bottom row on their own phone (steps)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop2"
+    }
+  ]
+}

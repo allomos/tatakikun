@@ -1,8 +1,12 @@
 {
   "area": "A04",
+  "handoff_note": "Done, to check. Merged into master. Run mode: quiet (chosen by the person, 2026-10-22). Next: a person looks at the bottom row on their own phone (steps).",
   "holder": "claude-loop2",
+  "human_check_steps": "# Check A04-ship843: corner symbols stay inside their keys (Android)\n\n1. Install the new build on your phone (`scripts/build-android-app.sh install`, or the next release).\n2. Open any text field with the Tatakikun keyboard.\n3. Look at the bottom row: the ? on 。 and the ` on ， sit inside their rounded keys, not past the edge.\n4. Look at the letter keys: each small symbol sits in its key's top right corner, as before.\n5. Switch to dark mode and look again.\n",
   "id": "A04-ship843",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Android keyboard: the long-press symbol in a key's corner stays inside the key on every key and screen size (the ? on 。 no longer sticks out)"
+  "label": "locally verified",
+  "state": "done",
+  "title": "Android keyboard: the long-press symbol in a key's corner stays inside the key on every key and screen size (the ? on 。 no longer sticks out)",
+  "without_human_check": "Only a person's look on their own phone is left"
 }

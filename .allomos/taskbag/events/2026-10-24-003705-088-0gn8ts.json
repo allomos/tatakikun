@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T00:37:05Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-ship843",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Only a person's look on their own phone is left"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A04-ship843: corner symbols stay inside their keys (Android)\n\n1. Install the new build on your phone (`scripts/build-android-app.sh install`, or the next release).\n2. Open any text field with the Tatakikun keyboard.\n3. Look at the bottom row: the ? on 。 and the ` on ， sit inside their rounded keys, not past the edge.\n4. Look at the letter keys: each small symbol sits in its key's top right corner, as before.\n5. Switch to dark mode and look again.\n"
+    }
+  ]
+}
