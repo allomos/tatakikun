@@ -1,6 +1,7 @@
 package com.tatakikun.android
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
@@ -24,6 +25,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 
 /**
  * The settings screen: a header with sample candidates, the two setup steps with whether each is
@@ -75,10 +77,17 @@ class MainActivity : Activity() {
 
         column.addView(section(R.string.section_keyboard))
         val packs = assets.list("packs").orEmpty()
-        val packNames = listOf("en" to "English", "zh" to "中文", "ja" to "日本語").filter { it.first in packs }
-        val packsRow = row(R.drawable.ic_language, R.string.language_packs, null)
-        packsRow.detail.text = packNames.joinToString(" · ") { it.second }
-        packsRow.view.addView(pill(packNames.size.toString()))
+        val packNames = Languages.all.filter { it.first in packs }
+        lateinit var packsRow: Row
+        val count = pill("")
+        fun showLanguages() {
+            val on = packNames.filter { it.first !in Languages.turnedOff(this) }
+            packsRow.detail.text = on.joinToString(" · ") { it.second }
+            count.text = on.size.toString()
+        }
+        packsRow = row(R.drawable.ic_language, R.string.language_packs) { chooseLanguages(packNames) { showLanguages() } }
+        packsRow.view.addView(count)
+        showLanguages()
         column.addView(packsRow.view)
         column.addView(divider())
         val aboutRow = row(R.drawable.ic_info, R.string.about) {
@@ -233,6 +242,30 @@ class MainActivity : Activity() {
             }, LinearLayout.LayoutParams(dp(20), dp(20)).apply { marginStart = dp(8) })
         }
         return Row(view, image, titleView, detailView)
+    }
+
+    /**
+     * Turns each input language on or off: only the ones on give candidates, from the next time
+     * the keyboard comes up. The last one on cannot be turned off.
+     */
+    private fun chooseLanguages(packs: List<Pair<String, String>>, changed: () -> Unit) {
+        val checked = BooleanArray(packs.size) { packs[it].first !in Languages.turnedOff(this) }
+        AlertDialog.Builder(this)
+            .setTitle(R.string.languages_title)
+            .setMultiChoiceItems(packs.map { it.second }.toTypedArray(), checked) { dialog, which, isChecked ->
+                // The dialog may already have unchecked it in `checked`: count the others.
+                if (!isChecked && packs.indices.none { it != which && checked[it] }) {
+                    checked[which] = true
+                    (dialog as AlertDialog).listView.setItemChecked(which, true)
+                    Toast.makeText(this, R.string.languages_last, Toast.LENGTH_SHORT).show()
+                    return@setMultiChoiceItems
+                }
+                checked[which] = isChecked
+                Languages.setTurnedOff(this, packs.indices.filter { !checked[it] }.map { packs[it].first }.toSet())
+                changed()
+            }
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     private fun pill(text: String) = TextView(this).apply {

@@ -76,6 +76,14 @@ public func ttk_set_text_before(_ handle: UnsafeMutableRawPointer, _ text: Unsaf
 
 /// A key: `kind` 0 letter, 1 digit, 2 backspace, 3 escape, 4 space, 5 enter, 6 left, 7 right,
 /// 8 up, 9 down, 10 tab, 11 other character; `scalar` the character for 0, 1 and 11.
+/// The languages turned off in the settings, as their pack names separated by commas ("ja,en"; "" for none).
+@_cdecl("ttk_set_turned_off")
+public func ttk_set_turned_off(_ handle: UnsafeMutableRawPointer, _ languages: UnsafePointer<CChar>) {
+    let names = String(cString: languages).split(separator: ",")
+    Unmanaged<Keyboard>.fromOpaque(handle).takeUnretainedValue().composer.engine.turnedOff =
+        Set(names.compactMap { LanguagePacks.Language(rawValue: String($0)) })
+}
+
 @_cdecl("ttk_key")
 public func ttk_key(_ handle: UnsafeMutableRawPointer, _ kind: Int32, _ scalar: UInt32) -> UnsafeMutablePointer<CChar>? {
     let k = Unmanaged<Keyboard>.fromOpaque(handle).takeUnretainedValue()

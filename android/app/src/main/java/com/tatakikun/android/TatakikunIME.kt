@@ -21,7 +21,9 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
 
     override fun onCreate() {
         super.onCreate()
-        Thread { engine = Engine(Packs.folder(this).path, filesDir.path).takeIf { it.isOpen } }.start()
+        Thread {
+            engine = Engine(Packs.folder(this).path, filesDir.path).takeIf { it.isOpen }?.also { it.setTurnedOff(Languages.turnedOff(this)) }
+        }.start()
     }
 
     /**
@@ -34,6 +36,8 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        // The languages may have been turned on or off in the app since the keyboard was last up.
+        engine?.setTurnedOff(Languages.turnedOff(this))
         view?.show(null)
     }
 

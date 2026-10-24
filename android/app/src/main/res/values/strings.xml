@@ -16,6 +16,8 @@
     <string name="step_done">Done</string>
     <string name="section_keyboard">Keyboard</string>
     <string name="language_packs">Language packs</string>
+    <string name="languages_title">Input languages</string>
+    <string name="languages_last">At least one language stays on</string>
     <string name="about">About</string>
     <string name="about_detail">Open source, MIT license</string>
     <string name="project_url">https://github.com/allomos/tatakikun</string>

@@ -72,9 +72,22 @@ public final class Engine {
         self.init(chinese: try open(.zh), japanese: try open(.ja), english: try open(.en).map(PackEnglish.init), rowSize: rowSize)
     }
 
-    /// The languages this engine offers.
+    /// The languages this engine offers (installed), whether turned on or not.
     public var languages: [LanguagePacks.Language] {
         [chinese.map { _ in .zh }, japanese.map { _ in .ja }, english.map { _ in .en }].compactMap { $0 }
+    }
+
+    /// Installed languages the user turned off in the settings: they give no candidates until
+    /// turned on again (the letters as typed are still offered).
+    public var turnedOff: Set<LanguagePacks.Language> = []
+
+    func isOn(_ kind: CandidateKind) -> Bool {
+        switch Language(kind) {
+        case _ where kind == .raw: true
+        case .english: !turnedOff.contains(.en)
+        case .chinese: !turnedOff.contains(.zh)
+        case .japanese: !turnedOff.contains(.ja)
+        }
     }
 
     /// Loads the base `zh.ttkd` and `ja.ttkd` from a folder made by tatakikun-dictgen, with English
@@ -95,6 +108,9 @@ public final class Engine {
         let lead = recent.flatMap { date.timeIntervalSince($0.at) <= momentumDuration ? $0.language : nil }
         guard !input.isEmpty else { return CandidateList(input: input, firstRow: [], more: []) }
         let raw = Candidate(text: input, kind: .raw, cost: Int.max)
+        let english = turnedOff.contains(.en) ? nil : self.english
+        let chinese = turnedOff.contains(.zh) ? nil : self.chinese
+        let japanese = turnedOff.contains(.ja) ? nil : self.japanese
         var found = english?.candidates(for: input) ?? []
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
         // Romaji may also hold "-" for the long vowel mark ー (sute-tasu → ステータス): Japanese only.
@@ -117,7 +133,7 @@ public final class Engine {
         if letters {
             found += (customWords?.words(for: input) ?? []).map { Candidate(text: $0.word, kind: $0.kind, cost: Cost.customWord) }
         }
-        found = found.map { leaning(learned($0, input), lead) }
+        found = found.filter { isOn($0.kind) }.map { leaning(learned($0, input), lead) }
         var ranked = Self.dedupe(found.sorted { $0.cost < $1.cost })
         if let lead, let i = ranked.firstIndex(where: { Language($0.kind) == lead && !$0.isGuess }) {
             ranked.insert(ranked.remove(at: i), at: 0)

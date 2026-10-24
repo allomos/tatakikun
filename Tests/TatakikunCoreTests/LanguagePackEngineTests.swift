@@ -101,6 +101,27 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(row("rgt").first, "ありがとう")
     }
 
+    /// A04-tuna688: a language turned off in the settings gives no candidates, the letters as typed
+    /// stay, and turning it on again brings its candidates back at once.
+    func testTurnedOffLanguages() throws {
+        let e = try engine([.zh, .ja, .en])
+        func all(_ s: String) -> [Candidate] { e.candidates(for: s).all }
+        XCTAssert(all("watashi").contains { $0.text == "私" })
+        e.turnedOff = [.ja]
+        let off = all("watashi")
+        XCTAssertFalse(off.contains { [.kanji, .hiragana, .katakana].contains($0.kind) }, "\(off.map(\.text))")
+        XCTAssert(off.contains { $0.text == "watashi" })
+        XCTAssertFalse(all("wts").contains { $0.text == "私" })
+        e.turnedOff = [.zh, .en]
+        let ai = Set(all("ai").map(\.kind))
+        XCTAssertFalse(ai.contains(.chinese) || ai.contains(.english), "\(ai)")
+        XCTAssert(ai.contains(.hiragana))
+        XCTAssertEqual(e.candidates(for: "hello").firstRow.last?.text, "hello")
+        e.turnedOff = []
+        XCTAssertEqual(e.candidates(for: "watashi").firstRow.first?.text, "私")
+        XCTAssertEqual(e.candidates(for: "yinhang").firstRow.first?.text, "银行")
+    }
+
     /// A02-radish568: an n before a vowel can be ん, so words with ん before a vowel come up from
     /// one input (unei → 運営), and the な-row reading is still offered (うねい).
     func testNBeforeVowelAsMoraicN() throws {

@@ -51,6 +51,8 @@ class Engine(packs: String, data: String) {
     val isOpen get() = handle != 0L
 
     fun setTextBefore(text: CharSequence?) = setTextBefore(handle, text?.toString()?.toByteArray(Charsets.UTF_8))
+    /** The languages turned off in the settings (zh, ja, en): they give no candidates. */
+    fun setTurnedOff(languages: Set<String>) { if (handle != 0L) setTurnedOff(handle, languages.sorted().joinToString(",")) }
     fun key(kind: Int, char: Int = 0) = State.parse(key(handle, kind, char))
     fun choose(row: Int, column: Int) = State.parse(choose(handle, row, column))
     fun finish() = State.parse(finish(handle))
@@ -68,6 +70,7 @@ class Engine(packs: String, data: String) {
         @JvmStatic private external fun create(packs: String, data: String): Long
         @JvmStatic private external fun destroy(handle: Long)
         @JvmStatic private external fun setTextBefore(handle: Long, text: ByteArray?)
+        @JvmStatic private external fun setTurnedOff(handle: Long, languages: String)
         @JvmStatic private external fun key(handle: Long, kind: Int, scalar: Int): ByteArray?
         @JvmStatic private external fun choose(handle: Long, row: Int, column: Int): ByteArray?
         @JvmStatic private external fun finish(handle: Long): ByteArray?

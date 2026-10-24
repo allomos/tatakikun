@@ -7,6 +7,7 @@
 void *ttk_create(const char *packs, const char *data);
 void ttk_destroy(void *handle);
 void ttk_set_text_before(void *handle, const char *text);
+void ttk_set_turned_off(void *handle, const char *languages);
 char *ttk_key(void *handle, int32_t kind, uint32_t scalar);
 char *ttk_choose(void *handle, int32_t row, int32_t column);
 char *ttk_finish(void *handle);
@@ -45,6 +46,13 @@ Java_com_tatakikun_android_Engine_setTextBefore(JNIEnv *env, jclass cls, jlong h
     (*env)->GetByteArrayRegion(env, text, 0, n, (jbyte *)buf);
     buf[n] = 0;
     ttk_set_text_before((void *)(intptr_t)h, buf);
+}
+
+JNIEXPORT void JNICALL
+Java_com_tatakikun_android_Engine_setTurnedOff(JNIEnv *env, jclass cls, jlong h, jstring languages) {
+    const char *s = (*env)->GetStringUTFChars(env, languages, NULL);
+    ttk_set_turned_off((void *)(intptr_t)h, s);
+    (*env)->ReleaseStringUTFChars(env, languages, s);
 }
 
 JNIEXPORT jbyteArray JNICALL
