@@ -75,6 +75,23 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(row("hello").first?.text, "hello")
     }
 
+    /// A02-solar247: one slip of any kind, in words and in sentences; typed right stays clean.
+    func testMoreKindsOfSlips() throws {
+        let e = try engine([.zh, .ja, .en])
+        func first(_ s: String) -> String? { e.candidates(for: s).firstRow.first?.text }
+        XCTAssertEqual(first("nihap"), "你好", "a key above or below")
+        XCTAssertEqual(first("xiexe"), "谢谢", "a letter left out")
+        XCTAssert(e.candidates(for: "nihaoo").firstRow.contains { $0.text == "你好" }, "a letter too many")
+        XCTAssertEqual(first("nihoa"), "你好", "two letters swapped")
+        XCTAssertEqual(first("wozaijua"), "我在家", "inside a sentence")
+        XCTAssertEqual(first("wozaixuexo"), "我在学习")
+        XCTAssertEqual(first("arigtou"), "ありがとう")
+        XCTAssertFalse(e.candidates(for: "arigatpu").firstRow.contains { $0.text == "啊日伽头" }, "no string of rare characters")
+        XCTAssertEqual(first("wozaijia"), "我在家")
+        XCTAssertEqual(first("zhongguo"), "中国")
+        XCTAssertFalse(e.candidates(for: "zhongguo").firstRow.contains { $0.isSlip })
+    }
+
     /// A02-curve968: every word of a reading can be reached, not only the 40 most common.
     func testRareWordsOfAReadingAreInTheList() throws {
         let e = try engine([.zh, .ja, .en])

@@ -47,8 +47,8 @@ public final class Engine {
     public var history: UserHistory?
     /// Words the user built by hand, offered as one candidate; nil for none.
     public var customWords: CustomWords?
-    /// Also offer the words the letters would give with one of them moved to a neighbouring key
-    /// (nihai → 你好): small phone keys are easy to miss, and so is a key on a computer keyboard.
+    /// Also offer what the letters would give after one slip of the fingers (see `slipCandidates`):
+    /// small phone keys are easy to miss, and so is a key on a computer keyboard.
     public var nearbyKeyCorrections = true
     /// The language of the last inserted word and when it was inserted (see `noteInserted`).
     public private(set) var recent: (language: Language, at: Date)?
@@ -125,10 +125,13 @@ public final class Engine {
             }
         }
         if romaji { found += japanese?.candidates(for: input) ?? [] }
+        var typedGivesWords = false
         if nearbyKeyCorrections, letters, input.count >= 3, !Abbreviation.applies(to: input) {
             // A slip is likely only when the word meant is more common than what the letters give.
-            let typed = found.filter { $0.kind != .english && !$0.isGuess }.map(\.cost).min() ?? .max
-            found += nearbyKeyCandidates(for: input).filter { $0.cost - Cost.nearbyKey <= typed }
+            let best = found.filter { $0.kind != .english && !$0.isGuess }.min { $0.cost < $1.cost }
+            let typed = best?.cost ?? .max
+            found += slipCandidates(for: input, typedCost: typed, language: best.map { Language($0.kind) })
+            typedGivesWords = best != nil
         }
         if letters {
             found += (customWords?.words(for: input) ?? []).map { Candidate(text: $0.word, kind: $0.kind, cost: Cost.customWord) }
@@ -148,13 +151,14 @@ public final class Engine {
             }
         } else {
             for kind in CandidateKind.allCases {
-                if let best = ranked.first(where: { $0.kind == kind }) { row.append(best) }
+                // A slip does not stand for its kind: it takes a place only as one of the cheapest.
+                if let best = ranked.first(where: { $0.kind == kind && !$0.isSlip }) { row.append(best) }
             }
         }
         let rawInRow = { row.contains { $0.text == input } }
         let room = rowSize - (rawInRow() || ranked.contains { $0.text == input } ? 0 : 1)
         for c in ranked where row.count < room && !row.contains(c) {
-            if c.isSlip, row.filter(\.isSlip).count >= Cost.nearbyKeyWordsInRow { continue }
+            if c.isSlip, row.filter(\.isSlip).count >= (typedGivesWords ? 1 : Cost.nearbyKeyWordsInRow) { continue }
             row.append(c)
         }
         row.sort { $0.cost < $1.cost }
@@ -176,41 +180,6 @@ public final class Engine {
         let rest = Self.dedupe((ranked + sortedPartial).sorted { $0.cost < $1.cost })
             .filter { c in !row.contains { $0.text == c.text } }
         return CandidateList(input: input, firstRow: row, more: Array(rest.prefix(maxMore)))
-    }
-
-    /// Neighbours on the same row of a QWERTY keyboard, where a finger misses most.
-    static let nearbyKeys: [Character: [Character]] = {
-        var out: [Character: [Character]] = [:]
-        for row in ["qwertyuiop", "asdfghjkl", "zxcvbnm"].map(Array.init) {
-            for (i, c) in row.enumerated() {
-                out[c] = [i > 0 ? row[i - 1] : nil, i + 1 < row.count ? row[i + 1] : nil].compactMap { $0 }
-            }
-        }
-        return out
-    }()
-
-    /// Whole Chinese and Japanese words typed with one letter on a neighbouring key (nihai → 你好,
-    /// arigatpu → ありがとう), dearer than what was typed and shown as not typed exactly.
-    func nearbyKeyCandidates(for input: String) -> [Candidate] {
-        func slip(_ c: Candidate) -> Candidate { var c = c; c.isSlip = true; return c }
-        let letters = Array(input.lowercased())
-        var out: [Candidate] = []
-        for i in letters.indices {
-            for n in Self.nearbyKeys[letters[i]] ?? [] {
-                var fixed = letters
-                fixed[i] = n
-                let key = String(fixed)
-                for e in chinese?.lexicon.exact(key).prefix(3) ?? [] {
-                    out.append(slip(Candidate(text: e.word, kind: .chinese, cost: e.cost + Cost.nearbyKey, isExact: false)))
-                }
-                if let japanese, let kana = Romaji.toHiragana(key) {
-                    for e in japanese.lexicon.exact(kana).prefix(3) {
-                        out.append(slip(Candidate(text: e.word, kind: JapaneseConverter.kind(of: e.word), cost: e.cost + Cost.nearbyKey, isExact: false)))
-                    }
-                }
-            }
-        }
-        return Array(out.sorted { $0.cost < $1.cost }.prefix(Cost.nearbyKeyWords))
     }
 
     private func learned(_ c: Candidate, _ input: String) -> Candidate {

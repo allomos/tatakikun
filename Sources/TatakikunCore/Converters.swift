@@ -81,11 +81,24 @@ enum Cost {
     static let sentences = 3
     /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).
     static let swapped = 40
-    /// Added to a word read with one letter moved to a neighbouring key (nihai → 你好), and how
-    /// many such words to offer.
+    /// Added to a word or sentence read with one letter on a neighbouring key (nihai → 你好), and
+    /// how many such candidates to offer.
     static let nearbyKey = 50
-    static let nearbyKeyWords = 6
-    /// At most this many of them in the first row, so they never crowd out what was typed (ouki → 王暉).
+    static let nearbyKeyWords = 8
+    /// Added to what a letter too many, too few or two letters swapped give (nihaoo, nhao, nihoa → 你好).
+    static let otherSlip = 55
+    /// Added to a slip in another language than the best reading of the letters as typed (nihai:
+    /// 你好 before にない, after 你还).
+    static let slipOtherLanguage = 20
+    /// A sentence read after a slip is offered only when it costs this much or less per letter typed
+    /// (我在学习 16, 今天七天很好 14; 啊日伽头 37).
+    static let slipSentenceLetter = 25
+    /// Sentences are read after a slip only for inputs up to this long (it takes too long after that).
+    static let slipSentenceLetters = 16
+    /// A letter left out is looked for only in inputs up to this long.
+    static let leftOutLetters = 10
+    /// At most this many of them in the first row, one when the letters as typed give words, so they
+    /// never crowd out what was typed (ouki → 王暉).
     static let nearbyKeyWordsInRow = 2
 }
 
