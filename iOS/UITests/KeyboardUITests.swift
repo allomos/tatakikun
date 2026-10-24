@@ -7,8 +7,8 @@ final class KeyboardUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app.launchArguments = ["-demo"]   // the app opens its built-in keyboard screen
         app.launch()
-        app.buttons["demo"].tap()
         XCTAssertTrue(app.buttons["layer"].waitForExistence(timeout: 5), "the Tatakikun keys are not showing")
     }
 
