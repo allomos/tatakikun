@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T16:41:36Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "iOS: the switches live on their own page (Input languages) opened from the Language packs row, as on Android; the app group is group.com.tatakikun.ios with key languagesOff (same name as macOS); the keyboard reads them in viewWillAppear only with Full Access, otherwise every language is on; the Try it field always follows them; the Full Access row and explanation now show on iPhone too, worded per device. UI tests start with every language on (launch argument -languagesOff ())."
+    }
+  ]
+}

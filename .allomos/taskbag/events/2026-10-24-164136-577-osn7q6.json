@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T16:41:36Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Engine, Android, macOS and iOS finished; the real keyboard in other apps (iOS with Full Access) and the macOS menu after a reinstall need a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check the input language switches\n\n## iOS (iPhone or iPad, Tatakikun built from master)\n1. Open the Tatakikun app. Under Set up, read the \"Allow Full Access\" row; turn Full Access on in Settings (iOS shows its warning).\n2. Tap Language packs: Input languages lists English, 中文, 日本語 with switches. Turn 日本語 off; the Language packs row shows 2.\n3. In Notes, with the Tatakikun keyboard, type `watashi`: no わたし or 私. Turn 日本語 back on in the app, come back to Notes: 私 わたし are back.\n4. Turn English and 中文 off: 日本語's switch cannot be turned off. Turn them on again.\n5. Quit the app (swipe it away) and open it again: the switches are as you left them.\n6. Turn Full Access off and 日本語 off: the keyboard still shows Japanese (it uses every language without Full Access).\n\n## Android\n1. Tatakikun app → Language packs → Input languages: turn 日本語 off; `watashi` gives no Japanese; turn it on again; the last language cannot be turned off.\n\n## macOS (needs the installer from master; reinstalling disconnects Electron apps until they are reopened)\n1. Tatakikun's menu in the menu bar lists each installed language with a check mark. Uncheck 日本語: `watashi` gives no Japanese. The last checked language is greyed out.\n"
+    }
+  ]
+}
