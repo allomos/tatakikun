@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T00:36:26Z",
+  "by": "claude-bar-fit",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-elm284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked on the Pixel_7_API_34 emulator (screenshots: bar fits, list wraps, tapping a moved candidate types it); a real phone needs a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A04-elm284 on a phone\n\n1. Install the next APK; Tatakikun as the keyboard; open any text field.\n2. Type `ki`: every candidate in the bar is whole; none is cut off at the right edge.\n3. Tap ⌄: the list starts with the bar's candidates that did not fit (起, ki, キ…), in lines that fit the screen; nothing scrolls sideways.\n4. Tap one of them: it is typed.\n5. Type `nihaoshijie`: the long candidates fit or move under ⌄.\n"
+    }
+  ]
+}

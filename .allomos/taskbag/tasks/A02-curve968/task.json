@@ -2,8 +2,10 @@
   "area": "A02",
   "handoff_note": "Merged to master, not released. Next: a person checks with the steps.",
   "holder": "claude-ki",
+  "human_check_steps": "# Check A02-curve968\n\n1. Install the next build; type `ki` and open the full candidate list (⌄ on the phone, ↓ on the Mac).\n2. Scroll down: 暉 is in the list (far down: it is a rare kanji; once chosen it comes up sooner).\n",
   "id": "A02-curve968",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Every word for a reading can be reached: ki lists 暉 among the more candidates"
+  "state": "done",
+  "title": "Every word for a reading can be reached: ki lists 暉 among the more candidates",
+  "without_human_check": "Checked with tatakikun-cli and an engine test; a person checks in the app"
 }

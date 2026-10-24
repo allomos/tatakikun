@@ -2,8 +2,10 @@
   "area": "A04",
   "handoff_note": "Merged to master, not released. The v0.6.9-numbered APK on emulator-5554 is this build (installed over the release). test-android.sh's last step (ai → 愛) alternates pass/fail on a release build because learning persists between runs; on a debug build it is cleared. Next: a person checks on a phone.",
   "holder": "claude-bar-fit",
+  "human_check_steps": "# Check A04-elm284 on a phone\n\n1. Install the next APK; Tatakikun as the keyboard; open any text field.\n2. Type `ki`: every candidate in the bar is whole; none is cut off at the right edge.\n3. Tap ⌄: the list starts with the bar's candidates that did not fit (起, ki, キ…), in lines that fit the screen; nothing scrolls sideways.\n4. Tap one of them: it is typed.\n5. Type `nihaoshijie`: the long candidates fit or move under ⌄.\n",
   "id": "A04-elm284",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Android keyboard: the candidate bar shows only the candidates that fit the screen; the rest are in the expanded list, which wraps to the screen width"
+  "state": "done",
+  "title": "Android keyboard: the candidate bar shows only the candidates that fit the screen; the rest are in the expanded list, which wraps to the screen width",
+  "without_human_check": "Checked on the Pixel_7_API_34 emulator (screenshots: bar fits, list wraps, tapping a moved candidate types it); a real phone needs a person"
 }
