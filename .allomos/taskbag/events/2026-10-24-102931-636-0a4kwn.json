@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:29:31Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-canvas393",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "iOS UI tests pass 10/10 (new test: ？ after Chinese, ? after English, . from the period popup); Android builds; the person checks on the phones"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: long-press popup starts on what a tap types (A04-canvas393)\n\n1. Rebuild the iPhone app from Xcode (Android: `scripts/build-android-app.sh install`).\n2. Type nihao, pick 你好. Hold m: the popup opens with ？ (全角) selected; lift: ？ is typed.\n3. Type hello and Space. Hold m: ? (半角) is selected; lift: ? is typed.\n4. Hold a key and wiggle the finger slightly: the selection stays; slide clearly sideways: it follows the finger.\n5. After Chinese the period key shows 。: hold it: the popup shows ? ？ and . ; slide to . and lift: . is typed. After English it shows . and offers 。 instead.\n"
+    }
+  ]
+}

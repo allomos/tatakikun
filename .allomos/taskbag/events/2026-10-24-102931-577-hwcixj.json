@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T10:29:31Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-canvas393",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The popup keeps its starting choice until the finger slides 8 pt (iOS) / the touch slop (Android), so a still finger types the form shown; the period key's extra choice is the period the key is not showing, captioned 半角 or 全角 like the others."
+    }
+  ]
+}
