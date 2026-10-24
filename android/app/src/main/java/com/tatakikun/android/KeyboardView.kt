@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Build
+import android.os.SystemClock
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
@@ -72,7 +73,10 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private val moreScroll = ScrollView(context)
     private val more = LinearLayout(context)
     private var symbols = false
-    private var shift = false
+    /** Shift: off, on for the next letter only, or caps lock (two quick taps) until tapped again. */
+    private enum class Shift { OFF, ONCE, LOCKED }
+    private var shift = Shift.OFF
+    private var lastShiftTap = 0L
     private var expanded = false
     private val popup = KeyPopup()
     private val slop = ViewConfiguration.get(context).scaledTouchSlop
@@ -236,13 +240,13 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             if (i == 1 && !symbols) views += View(context) to 0.5f
             if (i == 2) views += (if (symbols) View(context) else shiftKey()) to 1.5f
             for (ch in chars) {
-                val shown = if (shift && !symbols) ch.uppercase() else ch.toString()
+                val shown = if (shift != Shift.OFF && !symbols) ch.uppercase() else ch.toString()
                 val hint = if (symbols) null else HINTS[ch]
                 views += key(shown, shown, hint = hint, preview = true, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
                     val c = shown[0]
                     if (c.isLetter()) {
                         listener.onKey(Engine.Keys.LETTER, c.code)
-                        if (shift) { shift = false; buildKeys() }
+                        if (shift == Shift.ONCE) { shift = Shift.OFF; buildKeys() }
                     } else listener.onKey(Engine.Keys.OTHER, c.code)
                 } to 1f
             }
@@ -252,7 +256,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         }
 
         keys.addView(weighted(listOf(
-            key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = false; buildKeys() } to 1.5f,
+            key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = Shift.OFF; buildKeys() } to 1.5f,
             // The composer types ， or , (。 or .) to suit the text around it.
             key("，", "comma", Style.PILL, hint = '、', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, ','.code)
@@ -265,8 +269,19 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         )), rowParams())
     }
 
-    private fun shiftKey() = key("", "shift", Style.FUNCTION, iconRes = if (shift) R.drawable.ic_shift_on else R.drawable.ic_shift) {
-        shift = !shift; buildKeys()
+    private fun shiftKey() = key("", "shift", Style.FUNCTION, iconRes = when (shift) {
+        Shift.OFF -> R.drawable.ic_shift
+        Shift.ONCE -> R.drawable.ic_shift_on
+        Shift.LOCKED -> R.drawable.ic_shift_lock
+    }) {
+        val now = SystemClock.uptimeMillis()
+        shift = when {
+            shift == Shift.ONCE && now - lastShiftTap < DOUBLE_TAP_MS -> Shift.LOCKED
+            shift == Shift.OFF -> Shift.ONCE
+            else -> Shift.OFF
+        }
+        lastShiftTap = now
+        buildKeys()
     }
 
     /** Delete: held down, it deletes again and again, like Gboard. */
@@ -512,6 +527,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
         /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
         const val LONG_PRESS = 400L
+
+        /** Two taps on shift closer than this, in ms, turn on caps lock. */
+        const val DOUBLE_TAP_MS = 400L
 
         /** The height of a row of keys on a short landscape screen, in dp. */
         const val ROW_LOW = 40

@@ -62,6 +62,27 @@ final class KeyboardUITests: XCTestCase {
         }())
     }
 
+    /// A04-quail228: one tap on shift is for the next letter only; two quick taps are caps lock
+    /// until shift is tapped again.
+    func testShiftOnceAndCapsLock() {
+        let shift = app.buttons["shift"]
+        shift.tap()
+        XCTAssertEqual(shift.value as? String, "on")
+        type("Hi")
+        XCTAssertEqual(shift.value as? String, "off")
+        app.buttons["return"].tap()
+        shift.doubleTap()
+        XCTAssertEqual(shift.value as? String, "caps lock")
+        type("OK")
+        XCTAssertEqual(shift.value as? String, "caps lock")
+        attach("caps lock")
+        shift.tap()
+        XCTAssertEqual(shift.value as? String, "off")
+        type("a")
+        app.buttons["return"].tap()
+        XCTAssertEqual(text, "HiOKa")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name
