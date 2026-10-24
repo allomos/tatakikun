@@ -1,10 +1,9 @@
 {
   "area": "A04",
-  "handoff_note": "Android done and merged (ce3f552). Approver answered the iPad question (2026-10-25, see Notes): option (b) with an in-app explanation of why Full Access is needed. Next: set RequestsOpenAccess true in iOS/project.yml, add the iPad Ctrl key (c copy, v cut), add the Full Access explanation in the app, then finish with --without-human-check and steps for an Android tablet and an iPad. Run mode: quiet (chosen by the person, 2026-10-22).",
-  "holder": "claude-loop2",
+  "handoff_note": "Released when the person moved the loop to a new session (2026-10-25); no iOS code written yet. Checked: the iOS app and keyboard have no networking (only the project link opened in Safari), so 'typed text is not sent anywhere' holds. Plan: RequestsOpenAccess true in iOS/project.yml and iOS/Keyboard/Info.plist; iPad (userInterfaceIdiom .pad) bottom-row Ctrl key in KeyboardKeys (iOS/Keyboard/KeyboardView.swift), held = highlight c and v; c copies textDocumentProxy.selectedText to UIPasteboard, v copies then deleteBackward; without Full Access (UIInputViewController.hasFullAccess) show a short line in the candidate bar instead; add the Full Access explanation to SetupView (iOS/App/TatakikunApp.swift) with a button to Settings; extend KeyboardTarget for selection/pasteboard (UITextView in iOS/App/TryField.swift implements it). A04-tuna688 reuses the explanation and adds an App Group for the language switches.",
   "id": "A04-cell054",
   "iteration": "I04",
   "label": "locally verified",
-  "state": "in_progress",
+  "state": "ready",
   "title": "On a tablet, the keyboard has a Ctrl key: holding it highlights a, c, v, y, z and runs select all, copy, cut, redo, undo"
 }
