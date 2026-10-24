@@ -48,7 +48,7 @@ Facts for `alm guide github-release` (derived from the repository 2026-10-22, be
 |---|---|
 | `REMOTE` | https://github.com/allomos/tatakikun |
 | `BASE_BRANCH` | `master` |
-| `VERSION_FILES` | `App/Info.plist` `CFBundleShortVersionString` (`0.6.1`, no `v`); `CFBundleVersion` stays `1`. The installer's version comes from it. The iOS app's own version (`iOS/project.yml` `MARKETING_VERSION`) is not released and not bumped. |
+| `VERSION_FILES` | `App/Info.plist` `CFBundleShortVersionString` (`0.6.1`, no `v`); `CFBundleVersion` stays `1`. The installer's version comes from it. The iOS app and keyboard take it from there at every build (`scripts/ios-version.sh`, A04-yarn480); iOS is not released. |
 | `TAG_FORMAT` | `vX.Y.Z`, annotated, message `Tatakikun vX.Y.Z` |
 | `BUMP` | patch, unless the approver says `minor` or `major` |
 | `RELEASE_WORKFLOW` | None for the Mac release: built on this Mac with `scripts/make-installer.sh` (~2 min, needs build/dict and build/packs) and published with `gh release create`. `.github/workflows/windows.yml` runs on every push to master (CI only, ~10–35 min); it publishes nothing. |
