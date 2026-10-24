@@ -1,10 +1,18 @@
 import SwiftUI
 
 /// The app only holds the keyboard: it tells how to turn it on and gives a field to try it in.
+/// Launched with `-demo` (the UI tests), it opens the keyboard built into the app instead: a
+/// simulator run by tests cannot show a third-party keyboard.
 @main
 struct TatakikunApp: App {
     var body: some Scene {
-        WindowGroup { SetupView() }
+        WindowGroup {
+            if ProcessInfo.processInfo.arguments.contains("-demo") {
+                NavigationStack { DemoView().navigationTitle("Try Tatakikun").navigationBarTitleDisplayMode(.inline) }
+            } else {
+                SetupView()
+            }
+        }
     }
 }
 
@@ -94,16 +102,6 @@ struct SetupView: View {
                         .padding(.horizontal, 16).padding(.vertical, 14)
                         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.accent, lineWidth: 1))
                         .accessibilityIdentifier("tryField")
-                    NavigationLink {
-                        DemoView().navigationTitle("Try Tatakikun").navigationBarTitleDisplayMode(.inline)
-                    } label: {
-                        SettingsRowContent(icon: "keyboard", title: "Try it here, without turning it on",
-                                           detail: "The keyboard inside this app", chevron: true)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("demo")
-                    .padding(.top, 4)
-
                     section("Keys")
                     VStack(alignment: .leading, spacing: 8) {
                         help("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate (with a space after an English word), return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
