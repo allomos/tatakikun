@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T00:35:17Z",
+  "by": "claude-bar-fit",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-elm284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Merged to master, not released. The v0.6.9-numbered APK on emulator-5554 is this build (installed over the release). test-android.sh's last step (ai → 愛) alternates pass/fail on a release build because learning persists between runs; on a debug build it is cleared. Next: a person checks on a phone."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-bar-fit"
+    }
+  ]
+}
