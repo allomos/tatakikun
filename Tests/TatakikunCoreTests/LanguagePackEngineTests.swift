@@ -75,6 +75,13 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(row("hello").first?.text, "hello")
     }
 
+    /// A02-curve968: every word of a reading can be reached, not only the 40 most common.
+    func testRareWordsOfAReadingAreInTheList() throws {
+        let e = try engine([.zh, .ja, .en])
+        XCTAssert(e.candidates(for: "ki").all.contains { $0.text == "暉" })
+        XCTAssertEqual(e.candidates(for: "ki").firstRow.first?.text, "き")
+    }
+
     /// A02-easel451: consonants alone with the packs, as with the base dictionaries (A02-06). Both word
     /// frequency lists put 女孩 and 您好 before 你好, so 你好 is capped as an everyday spoken word.
     func testAbbreviations() throws {
