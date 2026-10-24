@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-24T10:01:36Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-yarn480",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}
