@@ -1,18 +1,10 @@
 import SwiftUI
 
 /// The app only holds the keyboard: it tells how to turn it on and gives a field to try it in.
-/// Launched with `-demo` (the UI tests), it opens the keyboard built into the app instead: a
-/// simulator run by tests cannot show a third-party keyboard.
 @main
 struct TatakikunApp: App {
     var body: some Scene {
-        WindowGroup {
-            if ProcessInfo.processInfo.arguments.contains("-demo") {
-                NavigationStack { DemoView().navigationTitle("Try Tatakikun").navigationBarTitleDisplayMode(.inline) }
-            } else {
-                SetupView()
-            }
-        }
+        WindowGroup { SetupView() }
     }
 }
 
@@ -42,7 +34,6 @@ private enum Palette {
 /// steps (whether the keyboard is added is checked again whenever the app comes back), the
 /// language packs and version, and a field to try the keyboard in.
 struct SetupView: View {
-    @State private var text = ""
     @State private var added = SetupView.keyboardAdded()
     @Environment(\.scenePhase) private var phase
     @Environment(\.openURL) private var openURL
@@ -66,56 +57,63 @@ struct SetupView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    hero.padding(.top, 12)
+            ScrollViewReader { scroll in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        hero.padding(.top, 12)
 
-                    section("Set up")
-                    SettingsRow(icon: added ? "checkmark.circle.fill" : "circle", iconColor: added ? Palette.done : Palette.accent,
-                                title: "Turn on Tatakikun",
-                                detail: added ? "Done" : "Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun",
-                                detailColor: added ? Palette.done : Palette.secondary, action: {
-                        if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
-                    })
-                    .accessibilityIdentifier("openSettings")
-                    divider
-                    SettingsRow(icon: "globe", iconColor: Palette.accent, title: "Choose it as your keyboard",
-                                detail: added ? "Hold 🌐 on the keyboard and pick Tatakikun" : "After you turn it on")
+                        section("Set up")
+                        SettingsRow(icon: added ? "checkmark.circle.fill" : "circle", iconColor: added ? Palette.done : Palette.accent,
+                                    title: "Turn on Tatakikun",
+                                    detail: added ? "Done" : "Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun",
+                                    detailColor: added ? Palette.done : Palette.secondary, action: {
+                            if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+                        })
+                        .accessibilityIdentifier("openSettings")
+                        divider
+                        SettingsRow(icon: "globe", iconColor: Palette.accent, title: "Choose it as your keyboard",
+                                    detail: added ? "Hold 🌐 on the keyboard and pick Tatakikun" : "After you turn it on")
 
-                    section("Keyboard")
-                    SettingsRow(icon: "character.bubble", title: "Language packs", detail: Self.packs.joined(separator: " · ")) {
-                        Text("\(Self.packs.count)")
-                            .font(.footnote.weight(.medium))
-                            .foregroundStyle(Palette.pillText)
-                            .padding(.horizontal, 10).padding(.vertical, 3)
-                            .background(Capsule().fill(Palette.pillBackground))
-                    }
-                    divider
-                    SettingsRow(icon: "info.circle", title: "About", detail: "Open source, MIT license", action: { openURL(Self.projectURL) }) {
-                        Text("v\(version)").font(.subheadline).foregroundStyle(Palette.secondary)
-                    }
+                        section("Keyboard")
+                        SettingsRow(icon: "character.bubble", title: "Language packs", detail: Self.packs.joined(separator: " · ")) {
+                            Text("\(Self.packs.count)")
+                                .font(.footnote.weight(.medium))
+                                .foregroundStyle(Palette.pillText)
+                                .padding(.horizontal, 10).padding(.vertical, 3)
+                                .background(Capsule().fill(Palette.pillBackground))
+                        }
+                        divider
+                        SettingsRow(icon: "info.circle", title: "About", detail: "Open source, MIT license", action: { openURL(Self.projectURL) }) {
+                            Text("v\(version)").font(.subheadline).foregroundStyle(Palette.secondary)
+                        }
 
-                    section("Try it")
-                    TextField("ai, woaini, arigatou, hello", text: $text, axis: .vertical)
-                        .lineLimit(3, reservesSpace: true)
-                        .foregroundStyle(Palette.text)
-                        .padding(.horizontal, 16).padding(.vertical, 14)
+                        section("Try it")
+                        TryField(placeholder: "ai, woaini, arigatou, hello") {
+                            // Once the keys are up, scroll the field to just above them.
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                withAnimation { scroll.scrollTo("tryField", anchor: .bottom) }
+                            }
+                        }
+                        .frame(height: 104)
                         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Palette.accent, lineWidth: 1))
-                        .accessibilityIdentifier("tryField")
-                    section("Keys")
-                    VStack(alignment: .leading, spacing: 8) {
-                        help("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate (with a space after an English word), return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
-                        help("Hold a letter for the symbol in its corner (g → &); slide to pick it half-width or full-width.")
-                        help("The comma and period keys show what they type: ，。 after Chinese, 、。 after Japanese, , . after English.")
+                        .id("tryField")
+                        help("Types with Tatakikun's keys built into this app, even before you turn the keyboard on.")
+                            .padding(.horizontal, 4).padding(.top, 8)
+                        section("Keys")
+                        VStack(alignment: .leading, spacing: 8) {
+                            help("Letters show English, Chinese and Japanese candidates in one bar. Space inserts the first candidate (with a space after an English word), return inserts the letters as typed, tap a candidate to insert it, ⌄ shows more.")
+                            help("Hold a letter for the symbol in its corner (g → &); slide to pick it half-width or full-width.")
+                            help("The comma and period keys show what they type: ，。 after Chinese, 、。 after Japanese, , . after English.")
+                        }
+                        .padding(.horizontal, 4)
                     }
-                    .padding(.horizontal, 4)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 24)
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 24)
+                .background(Palette.page.ignoresSafeArea())
+                .scrollDismissesKeyboard(.interactively)
+                .toolbar(.hidden, for: .navigationBar)
             }
-            .background(Palette.page.ignoresSafeArea())
-            .scrollDismissesKeyboard(.interactively)
-            .toolbar(.hidden, for: .navigationBar)
         }
         .tint(Palette.accent)
         .onChange(of: phase) { now in if now == .active { added = Self.keyboardAdded() } }
