@@ -1,8 +1,10 @@
 {
   "area": "A04",
+  "handoff_note": "Built (app + UI tests) and committed on task/A04-waffle862 (worktree ../tatakikun-wt/A04-waffle862), not merged: not yet looked at on screen and the UI tests not run, because the person asked to stop the iOS tests. Next: with the person's OK, install on the simulator, tap Try it, check Tatakikun's keys come up and the field scrolls above them (light and dark), run scripts/build-ios.sh test, then merge into master. Waits on: the person's OK to use the simulator.",
   "holder": "claude-tap-reach",
   "id": "A04-waffle862",
   "iteration": "I04",
+  "label": "implemented",
   "state": "in_progress",
   "title": "iOS app: the Try it field always types with Tatakikun (its keys built into the app, even before the keyboard is turned on) and stays in view above the keys"
 }

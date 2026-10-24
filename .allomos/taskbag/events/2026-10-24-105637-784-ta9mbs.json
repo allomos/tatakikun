@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T10:56:37Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-waffle862",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Built (app + UI tests) and committed on task/A04-waffle862 (worktree ../tatakikun-wt/A04-waffle862), not merged: not yet looked at on screen and the UI tests not run, because the person asked to stop the iOS tests. Next: with the person's OK, install on the simulator, tap Try it, check Tatakikun's keys come up and the field scrolls above them (light and dark), run scripts/build-ios.sh test, then merge into master. Waits on: the person's OK to use the simulator."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-tap-reach"
+    }
+  ]
+}
