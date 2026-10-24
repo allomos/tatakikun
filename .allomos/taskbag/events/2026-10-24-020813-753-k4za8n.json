@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T02:08:13Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-solar247",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Typos are caught more often: a key above or below the one meant, a letter left out or typed twice, and inside whole sentences (wozaijia → 我在家, nihoa → 你好, xiexei → 谢谢)"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** The candidates find what was meant after one slip of any kind a phone or computer keyboard makes, not only a key to the left or right, and in a sentence as well as a single word.\n\n**Done means.** One slip finds the word: a neighbouring key in any direction (nihai, nihap), a letter left out (nhao, xiexe), one too many (nihaoo), two letters swapped (nihoa); and in sentences (wozaijia → 我在家 with wozaijua). Correctly typed words stay first and clean. Engine tests cover it; typing stays fast.\n\n**Notes.** Asked by the person on 2026-10-24 (\"容错率还不够高\"). Follows A02-llama937.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

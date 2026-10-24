@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-24T02:07:58Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-world979",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Added Mozc's single_kanji.tsv (same pinned commit, BSD 3-Clause, license in the ja pack's LICENSE.txt): readings the dictionary lacks cost 140 + position/4. Leading pieces: beyond the top 3 per length, every single character for that start at +60; the expanded list holds up to 400 (was 200)."
+    }
+  ]
+}
