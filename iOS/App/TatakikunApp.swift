@@ -82,10 +82,6 @@ struct SetupView: View {
                                 .padding(.horizontal, 10).padding(.vertical, 3)
                                 .background(Capsule().fill(Palette.pillBackground))
                         }
-                        divider
-                        SettingsRow(icon: "info.circle", title: "About", detail: "Open source, MIT license", action: { openURL(Self.projectURL) }) {
-                            Text("v\(version)").font(.subheadline).foregroundStyle(Palette.secondary)
-                        }
 
                         section("Try it")
                         TryField(placeholder: "ai, woaini, arigatou, hello") {
@@ -106,6 +102,12 @@ struct SetupView: View {
                             help("The comma and period keys show what they type: ，。 after Chinese, 、。 after Japanese, , . after English.")
                         }
                         .padding(.horizontal, 4)
+
+                        // About comes last, under everything else.
+                        Palette.divider.frame(height: 1).padding(.top, 24)
+                        SettingsRow(icon: "info.circle", title: "About", detail: "Open source, MIT license", action: { openURL(Self.projectURL) }) {
+                            Text("v\(version)").font(.subheadline).foregroundStyle(Palette.secondary)
+                        }
                     }
                     .padding(.horizontal, 16)
                     .padding(.bottom, 24)

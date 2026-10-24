@@ -47,6 +47,10 @@ final class KeyboardView: UIView {
     private let more = CandidateGrid()
     private let keys = KeyboardKeys()
     private var hasMarkedText = false
+    private static let barHeight: CGFloat = 46
+    private static let keysHeight: CGFloat = 216
+    /// The whole keyboard's height: the candidate bar over the keys.
+    static let height = barHeight + keysHeight
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,12 +63,12 @@ final class KeyboardView: UIView {
             bar.topAnchor.constraint(equalTo: topAnchor),
             bar.leadingAnchor.constraint(equalTo: leadingAnchor),
             bar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bar.heightAnchor.constraint(equalToConstant: 46),
+            bar.heightAnchor.constraint(equalToConstant: Self.barHeight),
             keys.topAnchor.constraint(equalTo: bar.bottomAnchor),
             keys.leadingAnchor.constraint(equalTo: leadingAnchor),
             keys.trailingAnchor.constraint(equalTo: trailingAnchor),
             keys.bottomAnchor.constraint(equalTo: bottomAnchor),
-            keys.heightAnchor.constraint(equalToConstant: 216),
+            keys.heightAnchor.constraint(equalToConstant: Self.keysHeight),
             more.topAnchor.constraint(equalTo: keys.topAnchor),
             more.leadingAnchor.constraint(equalTo: keys.leadingAnchor),
             more.trailingAnchor.constraint(equalTo: keys.trailingAnchor),

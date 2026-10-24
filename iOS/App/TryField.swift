@@ -42,9 +42,11 @@ struct TryField: UIViewRepresentable {
         ])
         context.coordinator.hint = hint
 
-        // Tatakikun's keys in place of the system keyboard.
-        let keys = UIInputView(frame: .zero, inputViewStyle: .keyboard)
-        keys.allowsSelfSizing = true
+        // Tatakikun's keys in place of the system keyboard: the keyboard view (its candidate bar and
+        // keys) with the home indicator's room below it, as a system keyboard leaves.
+        let indicator = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .first?.safeAreaInsets.bottom ?? 0
+        let keys = UIInputView(frame: CGRect(x: 0, y: 0, width: 0, height: KeyboardView.height + indicator), inputViewStyle: .keyboard)
         let keyboard = context.coordinator.keyboard
         keyboard.showsNextKeyboard = false
         keyboard.target = field
@@ -54,7 +56,7 @@ struct TryField: UIViewRepresentable {
             keyboard.topAnchor.constraint(equalTo: keys.topAnchor),
             keyboard.leadingAnchor.constraint(equalTo: keys.leadingAnchor),
             keyboard.trailingAnchor.constraint(equalTo: keys.trailingAnchor),
-            keyboard.bottomAnchor.constraint(equalTo: keys.safeAreaLayoutGuide.bottomAnchor),
+            keyboard.bottomAnchor.constraint(equalTo: keys.bottomAnchor, constant: -indicator),
         ])
         field.inputView = keys
         return field
