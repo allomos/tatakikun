@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-24T11:12:46Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-tide827",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Code done and committed on task/A04-tide827 (b0a6d58), not merged. iOS: all 7 UI tests pass, including the new testTapsBetweenKeysTypeTheNearestKey (gap q|w, blank left of a, past p, below b). Android: built and installed on emulator-5556, but the emulator kept stalling (Mac load 30-40 from other work), so the tap check is not done; one stalled run did type on q, a, p and b (b as a long press). Next step: when the Mac is quiet, on emulator-5556 tap (110,1848) (30,1968) (1075,1848) (644,2140) in the app's Try it field and see qapb in the reading box, then merge into master. Waits on: nothing, or the person testing on a real phone.",
+      "to": "Released in v0.6.11 (2026-10-24) with the other phone-keyboard changes of the day. Android gap taps now also checked on the release emulator (emulator-5554, v0.6.11 release APK): taps between q|w, left of a, past p and below b typed qapb. Left for the person: a check on real phones (steps in alm human)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** On Android and iOS a tap that lands between keys (gaps, the blank ends of the asdf row) types the nearest key instead of nothing; the keys around the edge of the key block also take taps up to about 32 dp/pt outside them.\n\n**Done means.** On the emulator, taps in the gaps and just outside the edge keys type the nearest key; a tap on a key still types it; fast two-finger typing still works; sliding off a key still cancels.\n\n**Notes.** Asked by the person 2026-10-24.\n",
+      "to": "**Outcome.** On Android and iOS a tap that lands between keys (gaps, the blank ends of the asdf row) types the nearest key instead of nothing; the keys around the edge of the key block also take taps up to about 32 dp/pt outside them.\n\n**Done means.** On the emulator, taps in the gaps and just outside the edge keys type the nearest key; a tap on a key still types it; fast two-finger typing still works; sliding off a key still cancels.\n\n**Notes.** Asked by the person 2026-10-24.\n\n## Evidence\n\n- 2026-10-24, claude-tap-reach: Release v0.6.11 approved by the person's line 'when finished, move the item about down to the last item, need no test, and call alm guide github release' (2026-10-24 ~20:00 JST). Tag v0.6.11 on a465a85; https://github.com/allomos/tatakikun/releases/tag/v0.6.11 (200). Assets: Tatakikun-0.6.11.pkg (sha256 58b8e709…3a9e49) + .sha256, Tatakikun-0.6.11-android.apk (sha256 e6f91c37…40505a, signed 05d10759…bdb41) + .sha256. Packs rebuilt before the build (build/dict deleted, scripts/build-packs.sh). APK check: scripts/test-android.sh on emulator-5554, 9/9 passed. Installed on this Mac from the downloaded release: checksum OK, installer -target CurrentUserHomeDirectory, launchctl kickstart; installed version 0.6.11, Tatakikun running.\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-tap-reach"
+    }
+  ]
+}
