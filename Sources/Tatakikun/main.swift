@@ -22,6 +22,21 @@ enum TatakikunApp {
     }()
     static let panel = CandidatePanel()
     static var server: IMKServer?
+
+    /// The installed languages in the order the input menu shows them, with their names.
+    static var languageNames: [(language: LanguagePacks.Language, name: String)] {
+        [(.en, "English"), (.zh, "中文"), (.ja, "日本語")].filter { engine.languages.contains($0.0) }
+    }
+
+    /// The languages turned off in the input menu, kept in the input method's defaults; setting it
+    /// applies it to the engine at once.
+    static var turnedOff: Set<LanguagePacks.Language> {
+        get { Set((UserDefaults.standard.stringArray(forKey: "languagesOff") ?? []).compactMap(LanguagePacks.Language.init)) }
+        set {
+            UserDefaults.standard.set(newValue.map(\.rawValue).sorted(), forKey: "languagesOff")
+            engine.turnedOff = newValue
+        }
+    }
 }
 
 let app = NSApplication.shared
@@ -39,8 +54,9 @@ if let i = arguments.firstIndex(of: "--snapshot"), i + 2 < arguments.count {
                                   appearance: arguments.contains("dark") ? .darkAqua : .aqua)
     exit(0)
 }
-// Learning from choices (not for snapshots, which should look the same every time).
+// Learning from choices and the languages turned off (not for snapshots, which should look the same every time).
 TatakikunApp.engine.history = UserHistory(url: UserHistory.defaultURL)
+TatakikunApp.engine.turnedOff = TatakikunApp.turnedOff
 TatakikunApp.engine.customWords = CustomWords(url: CustomWords.defaultURL)
 if CommandLine.arguments.contains("--demo") {
     // A window that types through the same composer and panel, for trying Tatakikun without installing it.

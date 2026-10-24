@@ -73,6 +73,36 @@ final class InputController: IMKInputController {
         super.deactivateServer(sender)
     }
 
+    /// The input menu (in the menu bar): each installed language with a check mark when it gives
+    /// candidates; choosing one turns it on or off at once. The last one on cannot be turned off.
+    override func menu() -> NSMenu! {
+        let menu = NSMenu()
+        let title = NSMenuItem(title: "Input languages", action: nil, keyEquivalent: "")
+        title.isEnabled = false
+        menu.addItem(title)
+        let off = TatakikunApp.turnedOff
+        let on = TatakikunApp.languageNames.filter { !off.contains($0.language) }
+        for (language, name) in TatakikunApp.languageNames {
+            let item = NSMenuItem(title: name, action: #selector(toggleLanguage(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = language.rawValue
+            item.state = off.contains(language) ? .off : .on
+            item.isEnabled = !(on.count == 1 && on[0].language == language)
+            menu.addItem(item)
+        }
+        return menu
+    }
+
+    /// InputMethodKit sends a menu action with a dictionary holding the item, AppKit with the item itself.
+    @objc func toggleLanguage(_ sender: Any?) {
+        let item = sender as? NSMenuItem ?? (sender as? [String: Any])?[kIMKCommandMenuItemName] as? NSMenuItem
+        guard let name = item?.representedObject as? String, let language = LanguagePacks.Language(rawValue: name) else { return }
+        var off = TatakikunApp.turnedOff
+        if off.contains(language) { off.remove(language) } else { off.insert(language) }
+        guard TatakikunApp.languageNames.contains(where: { !off.contains($0.language) }) else { return }
+        TatakikunApp.turnedOff = off
+    }
+
     static let noRange = NSRange(location: NSNotFound, length: NSNotFound)
 
     /// The range of the `count` characters before the cursor, to replace with the inserted text.
