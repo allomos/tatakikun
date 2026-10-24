@@ -82,6 +82,16 @@ final class LanguagePackEngineTests: XCTestCase {
         XCTAssertEqual(e.candidates(for: "ki").firstRow.first?.text, "き")
     }
 
+    /// A03-world979: any word can be put together one character at a time: every kanji by its reading
+    /// (Mozc's single kanji table), and every single character for the start of a long input.
+    func testOneCharacterAtATime() throws {
+        let e = try engine([.zh, .ja, .en])
+        XCTAssert(e.candidates(for: "kai").all.contains { $0.text == "懐" })
+        XCTAssert(e.candidates(for: "houtokukai").all.contains { $0.text == "彭" && $0.consumed == 3 })
+        XCTAssert(e.candidates(for: "tokukai").all.contains { $0.text == "徳" && $0.consumed == 4 })
+        XCTAssertEqual(e.candidates(for: "kai").firstRow.first?.text, "会")
+    }
+
     /// A02-easel451: consonants alone with the packs, as with the base dictionaries (A02-06). Both word
     /// frequency lists put 女孩 and 您好 before 你好, so 你好 is capped as an everyday spoken word.
     func testAbbreviations() throws {

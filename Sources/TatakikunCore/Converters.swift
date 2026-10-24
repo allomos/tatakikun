@@ -66,8 +66,11 @@ enum Cost {
     static let abbreviation = 50
     /// Added on top for Japanese: dropping every vowel of a reading leaves more words alike.
     static let kanaAbbreviation = 20
-    /// How many leading words of each length to offer.
+    /// How many leading words of each length to offer among the others; every other single
+    /// character for the start comes after them at `leadingCharacter` more, so any word can be put
+    /// together one character at a time (houtokukai: 彭 for ほう, then 徳, then 懐).
     static let leadingPerLength = 3
+    static let leadingCharacter = 60
     /// A word the user built by hand (CustomWords): near the top, after the most common words.
     static let customWord = 40
     /// What a Japanese family name and given name put together start from (see `fullNames`), and
@@ -197,8 +200,9 @@ public struct ChineseConverter {
         }
         let letters = Array(key)
         for j in stride(from: letters.count - 1, through: 1, by: -1) {
-            for e in lexicon.exact(String(letters[0..<j])).prefix(Cost.leadingPerLength) {
-                out.append(Candidate(text: e.word, kind: .chinese, cost: e.cost + Cost.leadingWord, isExact: false, consumed: j))
+            for (i, e) in lexicon.exact(String(letters[0..<j])).enumerated() where i < Cost.leadingPerLength || e.word.count == 1 {
+                out.append(Candidate(text: e.word, kind: .chinese, cost: e.cost + Cost.leadingWord + (i < Cost.leadingPerLength ? 0 : Cost.leadingCharacter),
+                                     isExact: false, consumed: j))
             }
         }
         return out
@@ -290,8 +294,9 @@ public struct JapaneseConverter {
             // Only cut where the letters before spell whole kana (not inside "kya" or a doubled consonant).
             guard let head = Romaji.toHiragana(String(letters[0..<j])), head.count >= 2, !head.hasSuffix("っ"),
                   !(letters[j - 1] == "n" && "aiueoy".contains(letters[j])) else { continue }
-            for e in lexicon.exact(head).prefix(Cost.leadingPerLength) {
-                out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost + Cost.leadingWord,
+            for (i, e) in lexicon.exact(head).enumerated() where i < Cost.leadingPerLength || e.word.count == 1 {
+                out.append(Candidate(text: e.word, kind: Self.kind(of: e.word),
+                                     cost: e.cost + Cost.leadingWord + (i < Cost.leadingPerLength ? 0 : Cost.leadingCharacter),
                                      isExact: false, consumed: j))
             }
         }

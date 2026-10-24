@@ -2,7 +2,7 @@
 # Downloads the open dictionary data the language packs are built from, into build/sources.
 # Every file is pinned to a version and checked against its SHA-256; nothing else is fetched.
 #   zh: pinyin-data, phrase-pinyin-data (MIT, mozillazg); jieba word frequencies (MIT, Sun Junyi)
-#   ja: Mozc OSS dictionary (IPAdic license and others; see its README)
+#   ja: Mozc OSS dictionary (IPAdic license and others; see its README), Mozc's single kanji readings (BSD)
 #   en: SCOWL 2020.12.07 (permissive, Kevin Atkinson)
 #   all: the ICU license (the packs also use word frequencies from this Mac's ICU data)
 set -e
@@ -14,6 +14,7 @@ PHRASE=https://raw.githubusercontent.com/mozillazg/phrase-pinyin-data/cee0ed6e6e
 JIEBA=https://raw.githubusercontent.com/fxsjy/jieba/1e20c89b66f56c9301b0feed211733ffaa1bd72a
 MOZC_SUMS="9e07ce292932c4fff327ed8cb06274c09acca556bd8bdf7c7ef1f6173eae3b61 836fd5fd8399510de0d8ef7b33be913cca6bbaee7b712cc8045fba03f4c75a89 93943858d0cfd092b849a78def6901eaf228177e1ac5663544e865a3a1e45a9e cb9f1b0b4a7550d682d86244a021cd17e0b15366328819e69135b5f183a1a24b 9fdc4e3948d03463de13ab5782adffbc11dd06e934cb80138c5920029cd3d2f6 199e3b0f050b691823ae7ba943090d437f51af6436b27c5f3dc69cafa12000e4 b95b14f7770ae2a824bc8e9fad8b03c1bc45c504f93a36554b8b56daa0368d2a 7f53649b529d4c8c495d3a8dd9c4d489dfe7696080f7423107ff01331174be48 50a31bb5fc1646721b00be371a5695dffab1292bda143e1e59cc70cbbdd8643f 4e5fcd4cbfbf11395166a37b506f547fc54d20edc0884f5184ecd3fc705f0d9a"
 MOZC=https://raw.githubusercontent.com/google/mozc/0136c35782536cb43d710575c311cd4185982738/src/data/dictionary_oss
+MOZC_SRC=https://raw.githubusercontent.com/google/mozc/0136c35782536cb43d710575c311cd4185982738/src
 ICU_LICENSE=https://raw.githubusercontent.com/unicode-org/icu/ad484f3d6c036ba06193ac7c3bc2233a53ab68b8/LICENSE
 SCOWL=https://downloads.sourceforge.net/project/wordlist/SCOWL/2020.12.07/scowl-2020.12.07.tar.gz
 
@@ -44,6 +45,8 @@ case ",$LANGS," in *,zh,*)
 esac
 case ",$LANGS," in *,ja,*)
     fetch $MOZC/README.txt $OUT/ja/README.txt 6b1de66bc6fa30e0b45dc45b8c8f6c57bd78aff923c261a3efffac8eb86f7bac
+    fetch $MOZC_SRC/data/single_kanji/single_kanji.tsv $OUT/ja/single_kanji.tsv bfa6a4be1319a144f770ba281dfc04091a05320e334357f949b293dc5f9c3d0c
+    fetch $MOZC_SRC/../LICENSE $OUT/ja/mozc-LICENSE 44cdd923b91ea9199293abecc2762c70c87dbf1e581c027a94c416368d1a648c
     i=0
     for sum in $MOZC_SUMS; do
         fetch $MOZC/dictionary0$i.txt $OUT/ja/dictionary0$i.txt $sum
