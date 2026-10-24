@@ -2,6 +2,7 @@ package com.tatakikun.android
 
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
+import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -82,7 +83,27 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
             }
             KeyboardView.Action.LEFT -> sendDownUpKeyEvents(KeyEvent.KEYCODE_DPAD_LEFT)
             KeyboardView.Action.RIGHT -> sendDownUpKeyEvents(KeyEvent.KEYCODE_DPAD_RIGHT)
+            else -> {
+                if (composing) engine?.finish()?.let { apply(it) }
+                when (action) {
+                    KeyboardView.Action.SELECT_ALL -> ic.performContextMenuAction(android.R.id.selectAll)
+                    KeyboardView.Action.COPY -> ic.performContextMenuAction(android.R.id.copy)
+                    KeyboardView.Action.CUT -> ic.performContextMenuAction(android.R.id.cut)
+                    // No context menu action for these: Ctrl+Z and Ctrl+Shift+Z, as a hardware keyboard sends them.
+                    KeyboardView.Action.UNDO -> sendCtrl(KeyEvent.KEYCODE_Z, 0)
+                    KeyboardView.Action.REDO -> sendCtrl(KeyEvent.KEYCODE_Z, KeyEvent.META_SHIFT_ON or KeyEvent.META_SHIFT_LEFT_ON)
+                    else -> {}
+                }
+            }
         }
+    }
+
+    private fun sendCtrl(keyCode: Int, meta: Int) {
+        val ic = currentInputConnection ?: return
+        val state = KeyEvent.META_CTRL_ON or KeyEvent.META_CTRL_LEFT_ON or meta
+        val now = SystemClock.uptimeMillis()
+        ic.sendKeyEvent(KeyEvent(now, now, KeyEvent.ACTION_DOWN, keyCode, 0, state))
+        ic.sendKeyEvent(KeyEvent(now, now, KeyEvent.ACTION_UP, keyCode, 0, state))
     }
 
     /** Keys the composer leaves to the application, from the on-screen keyboard. */

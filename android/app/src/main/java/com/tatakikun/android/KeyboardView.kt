@@ -22,6 +22,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import android.widget.HorizontalScrollView
@@ -48,7 +49,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         fun onAction(action: Action)
     }
 
-    enum class Action { SETTINGS, PASTE, LEFT, RIGHT }
+    enum class Action { SETTINGS, PASTE, LEFT, RIGHT, SELECT_ALL, COPY, CUT, UNDO, REDO }
 
     private val dark = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     private val panelColor = if (dark) Color.rgb(0x1f, 0x20, 0x24) else Color.rgb(0xe8, 0xed, 0xf3)
@@ -78,6 +79,10 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private enum class Shift { OFF, ONCE, LOCKED }
     private var shift = Shift.OFF
     private var lastShiftTap = 0L
+    /** A tablet (the smallest screen side 600 dp or more) has a Ctrl key; held, it turns a, c, v, y, z into shortcuts. */
+    private val tablet = resources.configuration.smallestScreenWidthDp >= 600
+    private var ctrl = false
+    private val shortcutFaces = mutableListOf<View>()
     private var expanded = false
     /** ⌄ opened here, to show the bar's candidates that did not fit when the engine has no more rows. */
     private var overflowOpen = false
@@ -273,6 +278,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
     private fun buildKeys() {
         keys.removeAllViews()
+        shortcutFaces.clear()
         keys.addView(weighted("1234567890".map { ch -> key(ch.toString(), ch.toString(), preview = true) { listener.onKey(Engine.Keys.DIGIT, ch.code) } to 1f }), rowParams())
 
         val letters = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
@@ -284,26 +290,30 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             for (ch in chars) {
                 val shown = if (shift != Shift.OFF && !symbols) ch.uppercase() else ch.toString()
                 val hint = if (symbols) null else HINTS[ch]
-                views += key(shown, shown, hint = hint, preview = true, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
+                val letter = key(shown, shown, hint = hint, preview = true, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
                     val c = shown[0]
-                    if (c.isLetter()) {
+                    if (ctrl) SHORTCUTS[ch]?.let { listener.onAction(it) }
+                    else if (c.isLetter()) {
                         listener.onKey(Engine.Keys.LETTER, c.code)
                         if (shift == Shift.ONCE) { shift = Shift.OFF; buildKeys() }
                     } else listener.onKey(Engine.Keys.OTHER, c.code)
-                } to 1f
+                }
+                if (!symbols && ch in SHORTCUTS) shortcutFaces += (letter as ViewGroup).getChildAt(0)
+                views += letter to 1f
             }
             if (i == 1 && !symbols) views += View(context) to 0.5f
             if (i == 2) views += deleteKey() to 1.5f
             keys.addView(weighted(views), rowParams())
         }
 
-        keys.addView(weighted(listOf(
+        keys.addView(weighted(listOfNotNull(
+            if (tablet) ctrlKey() to 1.5f else null,
             key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = Shift.OFF; buildKeys() } to 1.5f,
             // The composer types ， or , (。 or .) to suit the text around it.
             key("，", "comma", Style.PILL, hint = '、', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, ','.code)
             } to 1f,
-            key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to 4.6f,
+            key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to if (tablet) 3.1f else 4.6f,
             key("。", "period", Style.PILL, hint = '?', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, '.'.code)
             } to 1f,
@@ -324,6 +334,19 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         }
         lastShiftTap = now
         buildKeys()
+    }
+
+    /**
+     * Ctrl: while it is held down, a, c, v, y and z are highlighted and run select all, copy, cut,
+     * redo and undo instead of typing. A tap alone does nothing.
+     */
+    private fun ctrlKey() = key("Ctrl", "ctrl", Style.PILL, onPress = { showCtrl(true) }, onRelease = { showCtrl(false) }) {}
+
+    private fun showCtrl(on: Boolean) {
+        if (ctrl == on) return
+        ctrl = on
+        val radius = dp(8).toFloat()
+        for (face in shortcutFaces) face.background = pressable(if (on) functionColor else keyColor, radius)
     }
 
     /** Delete: held down, it deletes again and again, like Gboard. */
@@ -387,7 +410,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     @SuppressLint("ClickableViewAccessibility")
     private fun key(
         label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false,
-        onLongPress: (() -> Unit)? = null, onRelease: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f,
+        onLongPress: (() -> Unit)? = null, onRelease: (() -> Unit)? = null, onPress: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f,
         ink: Int = 0, onClick: () -> Unit,
     ): View {
         val function = style != Style.LETTER
@@ -411,6 +434,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     v.isPressed = true
                     if (preview) shown = popup.show(v, label, hint?.toString().orEmpty())
                     if (onLongPress != null) postDelayed(hold, LONG_PRESS)
+                    onPress?.invoke()
                 }
                 MotionEvent.ACTION_MOVE -> if (preview && popup.flipped(shown)) popup.select(v, e.x)
                 else if (!off && (e.x < -slop || e.y < -slop || e.x > v.width + slop || e.y > v.height + slop)) {
@@ -596,6 +620,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
         /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
         const val LONG_PRESS = 400L
+
+        /** What each letter does while Ctrl is held (Ctrl+V cuts, as the person asked). */
+        val SHORTCUTS = mapOf('a' to Action.SELECT_ALL, 'c' to Action.COPY, 'v' to Action.CUT, 'y' to Action.REDO, 'z' to Action.UNDO)
 
         /** Two taps on shift closer than this, in ms, turn on caps lock. */
         const val DOUBLE_TAP_MS = 400L
