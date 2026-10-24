@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T00:13:33Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-elm284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android keyboard: the candidate bar shows only the candidates that fit the screen; the rest are in the expanded list, which wraps to the screen width"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** No candidate is cut off at the screen edge: the bar holds what fits, ⌄ shows the others in lines as wide as the screen.\n\n**Done means.** On the emulator, typing ki shows whole candidates only in the bar; ⌄ lists the rest, wrapped, none cut off; choosing any of them types it.\n\n**Notes.** Asked by the person on 2026-10-24.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

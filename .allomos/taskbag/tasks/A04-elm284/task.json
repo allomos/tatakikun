@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-bar-fit",
+  "id": "A04-elm284",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Android keyboard: the candidate bar shows only the candidates that fit the screen; the rest are in the expanded list, which wraps to the screen width"
+}

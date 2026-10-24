@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-24T00:13:34Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A02-curve968",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Every word for a reading can be reached: ki lists 暉 among the more candidates"
+    },
+    {
+      "field": "area",
+      "to": "A02"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** A rare kanji or character read the same way as what was typed is in the expanded list, not cut off after the 40 most common.\n\n**Done means.** `tatakikun-cli --packs build/packs --more 300 ki` lists 暉; engine tests pass.\n\n**Notes.** Asked by the person on 2026-10-24.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
