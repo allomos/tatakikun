@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:50:12Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-plate725",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Reproduced ?good in the Simulator's real keyboard, fixed (good?); iOS UI tests pass 11/11; the person checks on the iPhone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: long press after a word (A04-plate725)\n\n1. Rebuild the iPhone app from Xcode.\n2. In any text field with Tatakikun: type good, hold m, lift: good? (not ?good).\n3. Type nihao, hold m: 你好？.\n"
+    }
+  ]
+}

@@ -1,8 +1,10 @@
 {
   "area": "A04",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: long press after a word (A04-plate725)\n\n1. Rebuild the iPhone app from Xcode.\n2. In any text field with Tatakikun: type good, hold m, lift: good? (not ?good).\n3. Type nihao, hold m: 你好？.\n",
   "id": "A04-plate725",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "iOS keyboard: a symbol picked by long press while a word is being typed comes after the word (good + ? → good?, not ?good)"
+  "state": "done",
+  "title": "iOS keyboard: a symbol picked by long press while a word is being typed comes after the word (good + ? → good?, not ?good)",
+  "without_human_check": "Reproduced ?good in the Simulator's real keyboard, fixed (good?); iOS UI tests pass 11/11; the person checks on the iPhone"
 }
