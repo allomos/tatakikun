@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-24T10:52:13Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-chest678",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iOS app: the home screen has one place to try the keyboard (the Try it field); the 'Try it here, without turning it on' row is gone"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** The iOS app's home screen no longer shows the 'Try it here, without turning it on' row; the Try it field stays. The UI tests still reach the in-app keyboard screen, by a launch option.\n\n**Done means.** The row is gone from the home screen; the app and UI tests build.\n\n**Notes.** Asked by the person 2026-10-24. The UI tests were not run at the time (the person asked to stop the iOS tests); run them before relying on them.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

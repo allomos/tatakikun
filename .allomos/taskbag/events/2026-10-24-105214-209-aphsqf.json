@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:52:14Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A04-chest678",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-tap-reach"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A04-chest678"
+    }
+  ]
+}
