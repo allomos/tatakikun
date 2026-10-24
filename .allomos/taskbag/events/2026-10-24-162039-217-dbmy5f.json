@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-24T16:20:39Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "iPad Ctrl: first key of the letter layer's bottom row (1.2 key widths, the space bar gives up the room); none on the symbols layer. Highlight of c and v = systemBlue at 35% over the key, light and dark. Without Full Access the Ctrl key still shows; c and v show a one-line notice in the candidate bar instead of acting. A letter pressed while Ctrl was down runs its shortcut even if Ctrl lifts first. The Full Access row and explanation show only on iPad for now (only Ctrl uses it); A04-tuna688 widens it when the language switches need it on iPhone too. (claude-loop3)"
+    }
+  ]
+}

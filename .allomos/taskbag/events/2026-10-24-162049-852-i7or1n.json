@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T16:20:49Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Finished on Android and iPad; holding Ctrl with one finger while tapping with another, and the real iPad keyboard in other apps, need a person on a tablet"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check the tablet Ctrl key\n\n## iPad (needs Tatakikun 0.6.x built from master on an iPad, or the iPad simulator with its hardware keyboard off)\n1. Open the Tatakikun app. Under Set up, read the \"Allow Full Access\" row and its explanation; tap it and turn on Settings → General → Keyboard → Keyboards → Tatakikun → Allow Full Access (iOS shows its warning).\n2. In Notes (or any app), choose the Tatakikun keyboard with 🌐. The bottom row starts with ctrl.\n3. Type a few words, select one. Hold ctrl with one finger: c and v turn blue. Still holding, tap c. Release ctrl, put the cursor elsewhere and paste (Edit menu): the word is pasted.\n4. Select a word, hold ctrl, tap v: the word disappears; paste brings it back.\n5. Hold ctrl and tap a or another letter: nothing is typed. Tap ctrl alone: nothing happens.\n6. Switch to dark mode and look at the highlight again.\n7. Turn Full Access off, hold ctrl and tap c: the candidate bar says \"Copy and cut need Full Access: see the Tatakikun app\".\n8. On an iPhone, the keyboard has no ctrl key and the app has no Full Access row.\n\n## Android tablet\n1. Install the Android app on a tablet (or an emulator with smallest width ≥ 600 dp) and choose Tatakikun.\n2. The bottom row starts with Ctrl. Holding it highlights a, c, v, y, z; with one finger on Ctrl, a selects all, c copies, v cuts, z undoes, y redoes, in a plain text field.\n3. On a phone, there is no Ctrl key.\n"
+    }
+  ]
+}

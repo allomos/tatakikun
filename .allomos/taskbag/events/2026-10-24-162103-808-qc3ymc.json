@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-24T16:21:03Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Released when the person moved the loop to a new session (2026-10-25); no iOS code written yet. Checked: the iOS app and keyboard have no networking (only the project link opened in Safari), so 'typed text is not sent anywhere' holds. Plan: RequestsOpenAccess true in iOS/project.yml and iOS/Keyboard/Info.plist; iPad (userInterfaceIdiom .pad) bottom-row Ctrl key in KeyboardKeys (iOS/Keyboard/KeyboardView.swift), held = highlight c and v; c copies textDocumentProxy.selectedText to UIPasteboard, v copies then deleteBackward; without Full Access (UIInputViewController.hasFullAccess) show a short line in the candidate bar instead; add the Full Access explanation to SetupView (iOS/App/TatakikunApp.swift) with a button to Settings; extend KeyboardTarget for selection/pasteboard (UITextView in iOS/App/TryField.swift implements it). A04-tuna688 reuses the explanation and adds an App Group for the language switches.",
+      "to": "Done, to check (Android and iPad). Steps in the task. Run mode: quiet (chosen by the person, 2026-10-25). A04-tuna688 can reuse the Full Access explanation in iOS/App/TatakikunApp.swift (fullAccess, iPad-only for now)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop3"
+    }
+  ]
+}
