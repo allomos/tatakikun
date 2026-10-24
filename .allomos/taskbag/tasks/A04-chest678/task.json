@@ -1,8 +1,10 @@
 {
   "area": "A04",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: one place to try it (A04-chest678)\n\n1. Rebuild the iPhone app from Xcode and open it.\n2. Under Try it there is only the text field; the \"Try it here, without turning it on\" row is gone.\n3. Before relying on the UI tests: `scripts/build-ios.sh test` (they now open the built-in keyboard screen with the -demo launch option; not run when this was made, the person had asked to stop the iOS tests).\n",
   "id": "A04-chest678",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "iOS app: the home screen has one place to try the keyboard (the Try it field); the 'Try it here, without turning it on' row is gone"
+  "state": "done",
+  "title": "iOS app: the home screen has one place to try the keyboard (the Try it field); the 'Try it here, without turning it on' row is gone",
+  "without_human_check": "App and UI tests build; the UI tests were not run (the person asked to stop the iOS tests) and the person looks at the screen"
 }

@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:53:10Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-chest678",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "App and UI tests build; the UI tests were not run (the person asked to stop the iOS tests) and the person looks at the screen"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: one place to try it (A04-chest678)\n\n1. Rebuild the iPhone app from Xcode and open it.\n2. Under Try it there is only the text field; the \"Try it here, without turning it on\" row is gone.\n3. Before relying on the UI tests: `scripts/build-ios.sh test` (they now open the built-in keyboard screen with the -demo launch option; not run when this was made, the person had asked to stop the iOS tests).\n"
+    }
+  ]
+}
