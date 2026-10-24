@@ -1,0 +1,8 @@
+{
+  "area": "A04",
+  "holder": "claude-tap-reach",
+  "id": "A04-plate725",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "iOS keyboard: a symbol picked by long press while a word is being typed comes after the word (good + ? → good?, not ?good)"
+}

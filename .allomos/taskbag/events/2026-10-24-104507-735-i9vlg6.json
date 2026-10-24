@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-24T10:45:07Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-plate725",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iOS keyboard: a symbol picked by long press while a word is being typed comes after the word (good + ? → good?, not ?good)"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** Typing good and then holding m for ? gives good?: the word and the symbol go into the text field as one edit, as typed punctuation already does.\n\n**Done means.** In the real keyboard (Simulator, the app's Try it field): good, hold m, lift → good?. UI test.\n\n**Notes.** Bug found by the person 2026-10-24 (A04-leaf790).\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
