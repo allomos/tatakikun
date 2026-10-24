@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-24T09:51:33Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-bus567",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iOS app: the home screen looks like the Android app's (purple header with samples, set-up steps that show Done, language packs and About with the version, a field to try it) and its key help tells about long press and the punctuation keys"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** The iOS Tatakikun app's first screen matches the Android one: header card with hello · 我爱你 · ありがとう, Set up (Turn on Tatakikun, shows Done once the keyboard is added; switch to it with 🌐), Keyboard (language packs English · 中文 · 日本語, About: open source, MIT license, version, opens the project page), Try it (field and the demo screen). The Keys text mentions long press and the punctuation keys.\n\n**Done means.** Screenshot in light and dark mode on the simulator; UI tests still pass (demo link, try field).\n\n**Notes.** Asked by the person 2026-10-24. iOS has no language switches yet (A04-tuna688 waits on that), so the packs row only lists them.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
