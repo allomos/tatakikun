@@ -1,7 +1,8 @@
 {
   "area": "A04",
+  "holder": "claude-tap-reach",
   "id": "A04-bus567",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "iOS app: the home screen looks like the Android app's (purple header with samples, set-up steps that show Done, language packs and About with the version, a field to try it) and its key help tells about long press and the punctuation keys"
 }
