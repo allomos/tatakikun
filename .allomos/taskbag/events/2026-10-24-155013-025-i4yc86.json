@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-24T15:50:13Z",
+  "via": "alm",
+  "command": "note",
+  "kind": "task",
+  "id": "A03-wood850",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Nothing to build here: mark it done once A03-wood850-01 to -05 are all done."
+    }
+  ]
+}

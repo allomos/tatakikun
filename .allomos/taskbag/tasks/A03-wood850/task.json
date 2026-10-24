@@ -1,7 +1,8 @@
 {
   "area": "A03",
+  "handoff_note": "Nothing to build here: mark it done once A03-wood850-01 to -05 are all done.",
   "id": "A03-wood850",
   "iteration": "I04",
-  "state": "backlog",
+  "state": "ready",
   "title": "Five more of the world's most spoken languages can be typed with Tatakikun"
 }
