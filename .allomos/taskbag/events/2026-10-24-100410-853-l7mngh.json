@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T10:04:10Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-yarn480",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Simulator build: app and keyboard Info.plist say 0.6.10 / 610, About shows v0.6.10; the person checks on the iPhone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: iOS version (A04-yarn480)\n\n1. Build `iOS/` from Xcode onto the iPhone.\n2. The Tatakikun app's About row shows v0.6.10.\n3. At the next release, after App/Info.plist is bumped, a new iOS build shows the new version without editing anything in `iOS/`.\n"
+    }
+  ]
+}
