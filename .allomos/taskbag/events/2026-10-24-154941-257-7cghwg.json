@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-24T15:49:41Z",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "waiting",
+      "to": "ready"
+    },
+    {
+      "field": "waiting_on",
+      "from": "Two questions. (1) iOS: without Full Access the keyboard cannot read settings made in the Tatakikun app. Should the language switches (a) be inside the keyboard itself (for example a long press on 🌐 opens them), or (b) be in the app, which needs Full Access turned on (iOS then asks users to 'Allow Full Access' with a privacy warning; same choice as the iPad Ctrl key in A04-cell054)? (2) macOS, from the task: should the settings also install and remove packs (download), or only turn installed ones on and off (done now, in the input menu)?"
+    },
+    {
+      "field": "who",
+      "from": "the approver"
+    }
+  ]
+}

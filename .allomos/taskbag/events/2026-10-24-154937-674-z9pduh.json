@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-24T15:49:37Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "release",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "holder",
+      "from": "claude-loop2"
+    },
+    {
+      "field": "handoff_note",
+      "from": "Engine, Android and macOS (input menu) done and merged into master (6a177cd). Waiting on the approver for iOS (in-keyboard switches or Full Access) and the macOS download question. Run mode: quiet (chosen by the person, 2026-10-22). Next after the answer: build the iOS switches the chosen way, then finish with --without-human-check and steps (macOS menu, Android dialog, iOS).",
+      "to": "Engine, Android and macOS done and merged. Approver answered iOS (2026-10-25, see Notes): Full Access on, switches in the app, with the in-app explanation of why Full Access is needed (shared with A04-cell054). Next: set RequestsOpenAccess true in iOS/project.yml (if A04-cell054 has not), add the language switches in the iOS app and have the keyboard read them through the shared app group, add or reuse the Full Access explanation, then finish with --without-human-check and steps (macOS menu, Android, iOS). macOS download question stays open but does not block. Run mode: quiet (chosen by the person, 2026-10-22)."
+    }
+  ]
+}
