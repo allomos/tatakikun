@@ -11,6 +11,7 @@
 - Ctrl+V is cut, as the person asked (not paste); Ctrl+X is not part of this task.
 - Pad detection (iOS user interface idiom; Android smallest screen width or similar), the Ctrl key's place in the layout and the highlight look are routine choices for whoever works the task.
 - Undo/redo may depend on what the host app supports through the input method APIs; record what works where under Evidence.
+- **iPad, decided by the approver (2026-10-25):** turn on Full Access (`RequestsOpenAccess` true) and give iPad a Ctrl key with c (copy) and v (cut) only; a, y and z are not highlighted on iPad, since Apple's keyboard API cannot select all, undo or redo. As with A04-tuna688, tell users why Full Access is needed: the Tatakikun app explains, in plain words and before iOS shows its "Allow Full Access" warning, what Full Access is used for (copy and cut with Ctrl; reading settings made in the app) and that typed text is not sent anywhere. Without Full Access the Ctrl key still shows but c and v do nothing harmful (or Ctrl is hidden; routine choice, record it).
 
 **Evidence.**
 - Android, merged into master: on a screen whose smallest side is 600 dp or more, the bottom row starts with a Ctrl key (the space bar is narrower to make room); phones have no Ctrl key.

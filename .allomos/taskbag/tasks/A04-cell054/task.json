@@ -1,12 +1,9 @@
 {
   "area": "A04",
-  "handoff_note": "Android Ctrl key done and merged into master (ce3f552). Waiting on the approver: what to do on iPad (question under Waiting). Run mode: quiet (chosen by the person, 2026-10-22). Next after the answer: (a) finish with --without-human-check and steps for an Android tablet; (b) turn on RequestsOpenAccess in iOS/project.yml and add the iPad Ctrl key with copy/cut.",
-  "holder": "claude-loop2",
+  "handoff_note": "Android done and merged (ce3f552). Approver answered the iPad question (2026-10-25, see Notes): option (b) with an in-app explanation of why Full Access is needed. Next: set RequestsOpenAccess true in iOS/project.yml, add the iPad Ctrl key (c copy, v cut), add the Full Access explanation in the app, then finish with --without-human-check and steps for an Android tablet and an iPad. Run mode: quiet (chosen by the person, 2026-10-22).",
   "id": "A04-cell054",
   "iteration": "I04",
   "label": "locally verified",
-  "state": "waiting",
-  "title": "On a tablet, the keyboard has a Ctrl key: holding it highlights a, c, v, y, z and runs select all, copy, cut, redo, undo",
-  "waiting_on": "iPad: Apple does not let a keyboard select all, undo or redo, and copy/cut needs Full Access (now off; turning it on makes iOS ask users to 'Allow Full Access' with a privacy warning). Android is done and merged. For iPad: (a) no Ctrl key on iPad, finish with Android only; (b) turn on Full Access and give iPad a Ctrl key with c (copy) and v (cut) only; or something else?",
-  "who": "the approver"
+  "state": "ready",
+  "title": "On a tablet, the keyboard has a Ctrl key: holding it highlights a, c, v, y, z and runs select all, copy, cut, redo, undo"
 }

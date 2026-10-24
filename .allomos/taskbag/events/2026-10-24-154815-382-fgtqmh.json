@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T15:48:15Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-cell054",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "waiting",
+      "to": "ready"
+    },
+    {
+      "field": "waiting_on",
+      "from": "iPad: Apple does not let a keyboard select all, undo or redo, and copy/cut needs Full Access (now off; turning it on makes iOS ask users to 'Allow Full Access' with a privacy warning). Android is done and merged. For iPad: (a) no Ctrl key on iPad, finish with Android only; (b) turn on Full Access and give iPad a Ctrl key with c (copy) and v (cut) only; or something else?"
+    },
+    {
+      "field": "who",
+      "from": "the approver"
+    }
+  ]
+}
