@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Build
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
@@ -74,6 +75,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private var symbols = false
     private var shift = false
     private var expanded = false
+    /** ⌄ opened here, to show the bar's candidates that did not fit when the engine has no more rows. */
+    private var overflowOpen = false
+    private var last: State? = null
     private val popup = KeyPopup()
     private val slop = ViewConfiguration.get(context).scaledTouchSlop
 
@@ -143,7 +147,13 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             scaleType = ImageView.ScaleType.CENTER
             setColorFilter(textColor)
             contentDescription = "expand"
-            setOnClickListener { listener.onKey(if (expanded) Engine.Keys.ESCAPE else Engine.Keys.DOWN) }
+            setOnClickListener {
+                when {
+                    expanded -> listener.onKey(Engine.Keys.ESCAPE)
+                    overflowOpen || last?.canExpand != true -> { overflowOpen = !overflowOpen; show(last) }
+                    else -> listener.onKey(Engine.Keys.DOWN)
+                }
+            }
         }
         candidates.addView(toggle, LayoutParams(dp(44), dp(50)))
         bar.addView(candidates, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(50)))
@@ -171,34 +181,66 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         toolbar.visibility = if (composing) GONE else VISIBLE
         candidates.visibility = if (composing) VISIBLE else GONE
 
+        if (state?.composing != true || state.input != last?.input) overflowOpen = false
+        last = state
+
+        // The bar holds the candidates that fit whole (the first one always, cut short if it must);
+        // the others of its row lead the list under ⌄.
+        val screen = if (width > 0) width else resources.displayMetrics.widthPixels
+        val room = screen - dp(44)
         barRow.removeAllViews()
         // The first candidate is what Space picks; a highlight only once the arrows move away from it.
         val moved = state != null && (state.selectedRow != 0 || state.selectedColumn != 0)
-        state?.rows?.firstOrNull().orEmpty().forEachIndexed { i, c ->
+        val first = state?.rows?.firstOrNull().orEmpty()
+        var used = 0
+        var fitting = 0
+        for ((i, c) in first.withIndex()) {
+            val view = candidateView(c, 22f, moved && state?.selectedRow == 0 && state.selectedColumn == i) { listener.onChoose(0, i) }
+            val w = measuredWidth(view) + if (i > 0) dp(1) else 0
+            if (i > 0 && used + w > room) break
+            if (i == 0) view.apply { maxWidth = room; isSingleLine = true; ellipsize = TextUtils.TruncateAt.END }
             if (i > 0) barRow.addView(divider(), LayoutParams(dp(1), dp(24)))
-            barRow.addView(candidateView(c, 22f, moved && state?.selectedRow == 0 && state.selectedColumn == i) { listener.onChoose(0, i) },
-                LayoutParams(LayoutParams.WRAP_CONTENT, dp(44)))
+            barRow.addView(view, LayoutParams(LayoutParams.WRAP_CONTENT, dp(44)))
+            used += w
+            fitting++
         }
         barScroll.scrollTo(0, 0)
+        // Each candidate under ⌄ with where it is in the engine's rows, for choosing it.
+        val hidden = first.drop(fitting).mapIndexed { j, c -> Triple(0, fitting + j, c) }
         expanded = state?.expanded == true
-        toggle.setImageResource(if (expanded) R.drawable.ic_collapse else R.drawable.ic_expand)
-        toggle.visibility = if (state?.canExpand == true || expanded) VISIBLE else INVISIBLE
-        keys.visibility = if (expanded) GONE else VISIBLE
-        moreScroll.visibility = if (expanded) VISIBLE else GONE
+        val open = expanded || overflowOpen
+        toggle.setImageResource(if (open) R.drawable.ic_collapse else R.drawable.ic_expand)
+        toggle.visibility = if (state?.canExpand == true || open || hidden.isNotEmpty()) VISIBLE else INVISIBLE
+        keys.visibility = if (open) GONE else VISIBLE
+        moreScroll.visibility = if (open) VISIBLE else GONE
         more.removeAllViews()
-        if (expanded && state != null) {
-            state.rows.drop(1).forEachIndexed { r, row ->
-                val line = LinearLayout(context).apply { orientation = HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-                row.forEachIndexed { c, cand ->
-                    if (c > 0) line.addView(divider(), LayoutParams(dp(1), dp(20)))
-                    line.addView(candidateView(cand, 20f, state.selectedRow == r + 1 && state.selectedColumn == c) { listener.onChoose(r + 1, c) },
-                        LayoutParams(LayoutParams.WRAP_CONTENT, dp(44)))
+        if (open && state != null) {
+            val rest = if (expanded) state.rows.drop(1).flatMapIndexed { r, row -> row.mapIndexed { c, cand -> Triple(r + 1, c, cand) } } else emptyList()
+            // Lines as wide as the screen, filled in order: nothing runs past the edge.
+            var line: LinearLayout? = null
+            var lineWidth = 0
+            for ((r, c, cand) in hidden + rest) {
+                val view = candidateView(cand, 20f, expanded && state.selectedRow == r && state.selectedColumn == c) { listener.onChoose(r, c) }
+                view.apply { maxWidth = screen; isSingleLine = true; ellipsize = TextUtils.TruncateAt.END }
+                val w = minOf(measuredWidth(view), screen)
+                if (line == null || lineWidth + dp(1) + w > screen) {
+                    line = LinearLayout(context).apply { orientation = HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
+                    more.addView(line, LayoutParams(LayoutParams.MATCH_PARENT, dp(46)))
+                    lineWidth = 0
+                } else {
+                    line.addView(divider(), LayoutParams(dp(1), dp(20)))
+                    lineWidth += dp(1)
                 }
-                val strip = HorizontalScrollView(context).apply { isHorizontalScrollBarEnabled = false; addView(line) }
-                more.addView(strip, LayoutParams(LayoutParams.MATCH_PARENT, dp(46)))
+                line.addView(view, LayoutParams(LayoutParams.WRAP_CONTENT, dp(44)))
+                lineWidth += w
             }
             moreScroll.scrollTo(0, 0)
         }
+    }
+
+    private fun measuredWidth(v: View): Int {
+        v.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)
+        return v.measuredWidth
     }
 
     private fun divider() = View(context).apply { setBackgroundColor(dividerColor) }
