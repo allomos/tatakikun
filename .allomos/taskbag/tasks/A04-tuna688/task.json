@@ -1,8 +1,12 @@
 {
   "area": "A04",
+  "handoff_note": "Engine, Android and macOS (input menu) done and merged into master (6a177cd). Waiting on the approver for iOS (in-keyboard switches or Full Access) and the macOS download question. Run mode: quiet (chosen by the person, 2026-10-22). Next after the answer: build the iOS switches the chosen way, then finish with --without-human-check and steps (macOS menu, Android dialog, iOS).",
   "holder": "claude-loop2",
   "id": "A04-tuna688",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "In settings, the user chooses which input languages give candidates"
+  "label": "locally verified",
+  "state": "waiting",
+  "title": "In settings, the user chooses which input languages give candidates",
+  "waiting_on": "Two questions. (1) iOS: without Full Access the keyboard cannot read settings made in the Tatakikun app. Should the language switches (a) be inside the keyboard itself (for example a long press on 🌐 opens them), or (b) be in the app, which needs Full Access turned on (iOS then asks users to 'Allow Full Access' with a privacy warning; same choice as the iPad Ctrl key in A04-cell054)? (2) macOS, from the task: should the settings also install and remove packs (download), or only turn installed ones on and off (done now, in the input menu)?",
+  "who": "the approver"
 }

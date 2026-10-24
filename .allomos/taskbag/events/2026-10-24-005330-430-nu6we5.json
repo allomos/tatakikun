@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T00:53:30Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Android: the switches are a dialog from the app's Language packs row (kept in the app's SharedPreferences, applied when the keyboard comes up). macOS: there is no settings window, so the switches are check-marked items in the input menu in the menu bar (UserDefaults languagesOff). Turning off the last language is refused (Android: a short message; macOS: the item is greyed out). A language turned off still keeps its pack installed."
+    }
+  ]
+}

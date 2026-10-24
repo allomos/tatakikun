@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T00:53:30Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-tuna688",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Engine, Android and macOS (input menu) done and merged into master (6a177cd). Waiting on the approver for iOS (in-keyboard switches or Full Access) and the macOS download question. Run mode: quiet (chosen by the person, 2026-10-22). Next after the answer: build the iOS switches the chosen way, then finish with --without-human-check and steps (macOS menu, Android dialog, iOS)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop2"
+    }
+  ]
+}
