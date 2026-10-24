@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T00:26:32Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-quail228",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Only a person's hands-on check is left (Android caps lock could not be tapped on the overloaded emulator)"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check A04-quail228: double-tapping shift turns on caps lock\n\nOn an Android phone (or emulator) and an iPhone (or simulator), with the Tatakikun keyboard in any text field:\n\n1. Tap shift once, type `hi`: you get `Hi`, and shift turns off after the H.\n2. Tap shift twice quickly: the shift key shows the caps lock look (Android: a filled arrow with a bar under it; iOS: ⇪ on a white key).\n3. Type `ok`: you get `OK`; caps lock stays on.\n4. Tap shift once: caps lock turns off; type `a`: you get a lowercase `a`.\n5. Do it in light and in dark mode.\n"
+    }
+  ]
+}

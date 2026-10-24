@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T00:26:20Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-quail228",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Double-tap window 400 ms on both platforms. Caps lock look: Android, a filled arrow with a bar under it (new ic_shift_lock); iOS, ⇪ on the light key. Switching to ?123 turns shift off, as before."
+    }
+  ]
+}

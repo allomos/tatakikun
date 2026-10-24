@@ -9,3 +9,9 @@
 **Notes.**
 - Uppercase letters with caps lock go through the engine like single-shift letters do now (the raw letter string stays a candidate).
 - The double-tap time window and the exact caps lock look are routine choices for whoever works the task.
+
+**Evidence.**
+- iOS: `scripts/build-ios.sh test` passes all 6 UI tests, including the new `testShiftOnceAndCapsLock` (one tap: next letter only; real double tap: caps lock, "OK" stays uppercase; one more tap: off; the field holds `HiOKa`).
+- Android, on an emulator (Pixel 7, API 34): one tap on shift then h, i types "Hi" and shift goes back to lowercase; the keys show capitals while shift is on.
+- Android caps lock was not confirmed on the emulator: the Mac was under heavy load (load average 35–50), the emulator stalled ("System UI isn't responding"), and `adb input tap` cannot tap twice inside the window. The Android code uses the same three states and 400 ms window as iOS. A person checks it by hand (steps).
+- iOS now updates the letter keys and shift in place instead of rebuilding the keyboard: rebuilding under the finger lost the second tap of a double tap (the first UI test run showed this).

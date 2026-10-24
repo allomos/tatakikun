@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T00:26:32Z",
+  "by": "claude-loop2",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-quail228",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Done, to check. Merged into master. Run mode: quiet (chosen by the person in the conversation, 2026-10-22). Next: a person checks caps lock by hand on Android and iOS (steps)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop2"
+    }
+  ]
+}

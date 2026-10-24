@@ -1,8 +1,12 @@
 {
   "area": "A04",
+  "handoff_note": "Done, to check. Merged into master. Run mode: quiet (chosen by the person in the conversation, 2026-10-22). Next: a person checks caps lock by hand on Android and iOS (steps).",
   "holder": "claude-loop2",
+  "human_check_steps": "# Check A04-quail228: double-tapping shift turns on caps lock\n\nOn an Android phone (or emulator) and an iPhone (or simulator), with the Tatakikun keyboard in any text field:\n\n1. Tap shift once, type `hi`: you get `Hi`, and shift turns off after the H.\n2. Tap shift twice quickly: the shift key shows the caps lock look (Android: a filled arrow with a bar under it; iOS: ⇪ on a white key).\n3. Type `ok`: you get `OK`; caps lock stays on.\n4. Tap shift once: caps lock turns off; type `a`: you get a lowercase `a`.\n5. Do it in light and in dark mode.\n",
   "id": "A04-quail228",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "On the phone keyboards (Android, iOS), double-tapping shift turns on caps lock"
+  "label": "locally verified",
+  "state": "done",
+  "title": "On the phone keyboards (Android, iOS), double-tapping shift turns on caps lock",
+  "without_human_check": "Only a person's hands-on check is left (Android caps lock could not be tapped on the overloaded emulator)"
 }
