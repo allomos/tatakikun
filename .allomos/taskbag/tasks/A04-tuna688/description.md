@@ -9,7 +9,7 @@
 **Notes.**
 - Today, macOS picks languages only when installing (A04-05), and the engine works from the installed packs (A02-07). This task adds turning them on and off afterwards.
 - **iOS, decided by the approver (2026-10-25, same decision as the iPad Ctrl key in A04-cell054):** turn on Full Access (`RequestsOpenAccess` true) and put the language switches in the Tatakikun app, which the keyboard then reads. The app explains, in plain words and before iOS shows its "Allow Full Access" warning, what Full Access is used for (reading settings made in the app; copy and cut with Ctrl on iPad) and that typed text is not sent anywhere. Build this explanation once, shared with A04-cell054: whichever task gets there first builds it, the other reuses it. Without Full Access, the keyboard uses every installed language, and the app's switches say Full Access is needed (routine details: record them).
-- macOS: still open for the person: should the settings also install and remove packs (download)? Not blocking: this task turns installed packs on and off (done, in the input menu); downloading would be a task of its own if the person wants it.
+- **macOS, decided by the approver (2026-10-25):** settings only turn installed packs on and off (done, in the input menu). Packs are offline and nothing is downloaded: to add or remove a pack, run the installer again.
 - Languages from the "five more languages" task should show up in this list too.
 
 **Evidence.**
