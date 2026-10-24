@@ -163,7 +163,8 @@ public struct ChineseConverter {
     /// The words typed as `key`, then whole sentences: the cheapest few, so a less common reading of
     /// the start still shows (chongqizhiqian: 充气之前, then 重启之前).
     func readings(of key: String, limit: Int) -> [Candidate] {
-        var out = lexicon.exact(key).prefix(limit).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
+        // Every word typed exactly so, however rare (the expanded list has room for them).
+        var out = lexicon.exact(key).map { Candidate(text: $0.word, kind: .chinese, cost: $0.cost) }
         for path in segmentations(Array(key), lexicon: lexicon, count: Cost.sentences) where path.words.count > 1 {
             let text = path.words.joined()
             if !out.contains(where: { $0.text == text }) { out.append(Candidate(text: text, kind: .chinese, cost: path.cost)) }
@@ -232,7 +233,8 @@ public struct JapaneseConverter {
         var out: [Candidate] = []
         var seen: Set<String> = []
         for reading in readings {
-            for e in lexicon.exact(reading).prefix(limit) where seen.insert(e.word).inserted {
+            // Every word of the reading, however rare (ki → 暉, after the 40 most common).
+            for e in lexicon.exact(reading) where seen.insert(e.word).inserted {
                 out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost))
             }
         }
