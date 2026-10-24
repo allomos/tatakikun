@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T11:02:00Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-waffle862",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Checked on the simulator (keys come up, field stays visible, home-indicator room); UI tests built but not run (the person said no test needed)"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: Try it field (A04-waffle862)\n\n1. Rebuild the iPhone app from Xcode and open it.\n2. Tap the Try it field: Tatakikun's keys come up (even with another keyboard chosen in Settings), with room under the space bar for the home indicator.\n3. The field scrolls to just above the keys and stays visible while typing.\n4. About is the last item on the screen, under Keys.\n5. Before relying on the UI tests, run `scripts/build-ios.sh test`: they now type into this field (not run when merged: the person said no test was needed).\n"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T11:01:59Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-waffle862",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The field's keys are the app's built-in KeyboardView as the text view's input view, sized to the keyboard plus the home indicator; the screen scrolls the field to the bottom of the view 0.35 s after it becomes active; About moved under Keys with a divider above it."
+    }
+  ]
+}
