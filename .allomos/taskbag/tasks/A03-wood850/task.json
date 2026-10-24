@@ -1,6 +1,10 @@
 {
   "area": "A03",
   "blocked_by": [
+    "A03-wood850-01",
+    "A03-wood850-02",
+    "A03-wood850-03",
+    "A03-wood850-04",
     "A03-wood850-05"
   ],
   "handoff_note": "Waiting with its five language tasks: each holds a source proposal for the person (2026-10-25).",
