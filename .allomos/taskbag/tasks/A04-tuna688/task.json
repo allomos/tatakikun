@@ -1,7 +1,8 @@
 {
   "area": "A04",
+  "holder": "claude-loop2",
   "id": "A04-tuna688",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "In settings, the user chooses which input languages give candidates"
 }
