@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-24T09:55:48Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-leaf790",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "iOS UI tests pass (9/9, new long-press test); the person checks on the iPhone"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: iOS long-press symbols (A04-leaf790)\n\n1. Build `iOS/` from Xcode onto the iPhone (or open the app's Try it here screen in the simulator).\n2. Every letter shows a small symbol in its top right corner (q %, g &, m ? …); the comma key shows 、, the period key ?.\n3. Hold g: a popup above it shows & (半角) and ＆ (全角). Lift: & is typed.\n4. Hold g again and slide right onto ＆, lift: ＆ is typed.\n5. A quick tap on g still types g; hold a top-row key (q): the popup fits on screen over the candidate bar.\n"
+    }
+  ]
+}
