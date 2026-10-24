@@ -102,6 +102,26 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "qapb")
     }
 
+    /// A04-peak016: the comma and period keys show what a tap types: half-width after English,
+    /// full-width while a Chinese word is composed and after Chinese text.
+    func testPunctuationKeysShowWhatTheyType() {
+        let comma = app.buttons["comma"], period = app.buttons["period"]
+        XCTAssertEqual(comma.label, ",", "an empty field: English")
+        type("hello")
+        app.buttons["space"].tap()
+        XCTAssertEqual(comma.label, ",")
+        XCTAssertEqual(period.label, ".")
+        type("nihao")
+        XCTAssertTrue(app.buttons["你好"].waitForExistence(timeout: 3))
+        XCTAssertEqual(comma.label, "，", "composing a Chinese word")
+        app.buttons["你好"].tap()
+        XCTAssertEqual(comma.label, "，", "after Chinese text")
+        XCTAssertEqual(period.label, "。")
+        attach("punctuation after Chinese")
+        comma.tap()
+        XCTAssertEqual(text, "hello 你好，")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

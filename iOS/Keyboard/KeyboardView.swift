@@ -138,6 +138,13 @@ final class KeyboardView: UIView {
         more.isHidden = !composer.isExpanded
         keys.isHidden = composer.isExpanded
         if composer.isExpanded { more.show(composer.rows) }
+        refreshMarks()
+    }
+
+    /// Shows on the punctuation keys what they type now: it follows the text before the cursor
+    /// (called again when that changes) and the word being composed.
+    func refreshMarks() {
+        keys.showMarks { [composer] in composer.mark(for: $0) }
     }
 }
 
@@ -289,6 +296,9 @@ final class KeyboardKeys: UIView {
     /// under the finger would lose the second tap of a double tap.
     private var letterKeys: [(button: UIButton, letter: Character)] = []
     private var shiftButton: UIButton?
+    /// The punctuation keys, with the character each one types (`showMarks`).
+    private var markKeys: [(button: UIButton, mark: Character)] = []
+    private var mark: (Character) -> String = { String($0) }
     private var lastShiftTap = Date.distantPast
     /// Two taps on shift closer than this turn on caps lock.
     private static let doubleTap: TimeInterval = 0.4
@@ -370,6 +380,7 @@ final class KeyboardKeys: UIView {
     private func build() {
         rows.arrangedSubviews.forEach { $0.removeFromSuperview() }
         letterKeys = []
+        markKeys = []
         shiftButton = nil
         let top = symbols ? Self.symbolRows : Self.letters
         for (i, chars) in top.enumerated() {
@@ -382,7 +393,7 @@ final class KeyboardKeys: UIView {
                     else if let n = ch.wholeNumberValue { self.onKey?(.digit(n)) }
                     else { self.onKey?(.other(ch)) }
                 }
-                if !symbols { letterKeys.append((button, c)) }
+                if !symbols { letterKeys.append((button, c)) } else if !c.isNumber { markKeys.append((button, c)) }
                 return button
             }
             if i == 2 {
@@ -401,15 +412,30 @@ final class KeyboardKeys: UIView {
             globe.addTarget(self, action: #selector(nextKeyboard(_:event:)), for: .allTouchEvents)
             bottom.append(globe)
         }
+        let comma = key("，", id: "comma", dark: true) { [weak self] in self?.onKey?(.other(",")) }
+        let period = key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) }
+        markKeys += [(comma, ","), (period, ".")]
         bottom += [
-            key("，", id: "comma", dark: true) { [weak self] in self?.onKey?(.other(",")) },
+            comma,
             key("space", id: "space") { [weak self] in self?.onKey?(.space) },
-            key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) },
+            period,
             key("return", id: "return", dark: true) { [weak self] in self?.onKey?(.enter) },
         ]
         let weights: [CGFloat] = (showsNextKeyboard ? [1.2, 1.2] : [1.2]) + [1, 4, 1, 2]
         rows.addArrangedSubview(row(bottom, weights: weights))
         showShift()
+        showMarks(mark)
+    }
+
+    /// Shows on each punctuation key what `mark` says it types now (， or , and so on).
+    func showMarks(_ mark: @escaping (Character) -> String) {
+        self.mark = mark
+        for (button, c) in markKeys {
+            let text = mark(c)
+            guard button.title(for: .normal) != text else { continue }
+            button.setTitle(text, for: .normal)
+            button.titleLabel?.font = .systemFont(ofSize: text.count == 1 ? 22 : 16)
+        }
     }
 
     @objc private func nextKeyboard(_ sender: UIView, event: UIEvent) { onNextKeyboard?(sender, event) }

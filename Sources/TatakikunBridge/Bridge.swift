@@ -122,5 +122,19 @@ public func ttk_finish(_ handle: UnsafeMutableRawPointer) -> UnsafeMutablePointe
     return state(k, ComposerUpdate(handled: text != nil, commit: text))
 }
 
+/// What each punctuation key would type now (`ttk_marks`): the keys show it.
+let markKeys: [Character] = Array(",.?!:;()[]{}<>\\/~^_$\"'@#%&-+*=|")
+
+/// What each punctuation key would type now, as a JSON object ({",": "，", ...}), for the keys to
+/// show; it changes with the text before the cursor and the candidate being composed.
+@_cdecl("ttk_marks")
+public func ttk_marks(_ handle: UnsafeMutableRawPointer) -> UnsafeMutablePointer<CChar>? {
+    let k = Unmanaged<Keyboard>.fromOpaque(handle).takeUnretainedValue()
+    var marks: [String: String] = [:]
+    for c in markKeys { marks[String(c)] = k.composer.mark(for: c) }
+    guard let data = try? JSONEncoder().encode(marks) else { return nil }
+    return strdupBytes(Array(data))
+}
+
 @_cdecl("ttk_free")
 public func ttk_free(_ p: UnsafeMutablePointer<CChar>?) { p?.deallocate() }

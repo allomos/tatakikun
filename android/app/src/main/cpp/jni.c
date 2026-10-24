@@ -11,6 +11,7 @@ void ttk_set_turned_off(void *handle, const char *languages);
 char *ttk_key(void *handle, int32_t kind, uint32_t scalar);
 char *ttk_choose(void *handle, int32_t row, int32_t column);
 char *ttk_finish(void *handle);
+char *ttk_marks(void *handle);
 void ttk_free(char *p);
 
 static jbyteArray take(JNIEnv *env, char *s) {
@@ -68,4 +69,9 @@ Java_com_tatakikun_android_Engine_choose(JNIEnv *env, jclass cls, jlong h, jint 
 JNIEXPORT jbyteArray JNICALL
 Java_com_tatakikun_android_Engine_finish(JNIEnv *env, jclass cls, jlong h) {
     return take(env, ttk_finish((void *)(intptr_t)h));
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_com_tatakikun_android_Engine_marks(JNIEnv *env, jclass cls, jlong h) {
+    return take(env, ttk_marks((void *)(intptr_t)h));
 }

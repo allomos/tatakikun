@@ -148,6 +148,19 @@ public final class Composer {
         return ComposerUpdate(handled: true)
     }
 
+    /// What typing `c` (`.other(c)`) would insert now, without typing it: for showing on a
+    /// punctuation key. Composing, it follows the selected candidate's script; otherwise the text
+    /// before the cursor, as typing it would.
+    public func mark(for c: Character) -> String {
+        var copy = punctuation
+        if isComposing {
+            if c == "-", Romaji.toHiragana(input) != nil { return "ー" }
+            let candidate = selected?.consumed == nil ? selected : nil
+            return copy.convert(c, for: TextScript(candidate?.kind ?? .raw))
+        }
+        return copy.convert(c, for: Punctuation.script(before: textBeforeCursor?(), fallback: lastScript))
+    }
+
     /// Chooses a candidate by position (a click in the panel).
     public func choose(row: Int, column: Int) -> ComposerUpdate {
         guard rows.indices.contains(row), rows[row].indices.contains(column) else { return ComposerUpdate(handled: true) }

@@ -85,6 +85,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private val shortcutFaces = mutableListOf<View>()
     /** Every key's face, for handing a finger to the nearest one ([KeyArea]). */
     private val faces = mutableListOf<View>()
+    /** The punctuation shown on keys, with the character each one types ([showMarks]). */
+    private val markViews = mutableListOf<Pair<String, TextView>>()
+    private var marks = emptyMap<String, String>()
     private var expanded = false
     /** ⌄ opened here, to show the bar's candidates that did not fit when the engine has no more rows. */
     private var overflowOpen = false
@@ -282,6 +285,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         keys.removeAllViews()
         shortcutFaces.clear()
         faces.clear()
+        markViews.clear()
         keys.addView(weighted("1234567890".map { ch -> key(ch.toString(), ch.toString(), preview = true) { listener.onKey(Engine.Keys.DIGIT, ch.code) } to 1f }), rowParams())
 
         val letters = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
@@ -293,7 +297,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             for (ch in chars) {
                 val shown = if (shift != Shift.OFF && !symbols) ch.uppercase() else ch.toString()
                 val hint = if (symbols) null else HINTS[ch]
-                val letter = key(shown, shown, hint = hint, preview = true, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
+                val letter = key(shown, shown, hint = hint, preview = true, mark = if (symbols) ch else null, onLongPress = hint?.let { h -> { listener.onKey(Engine.Keys.OTHER, h.code) } }) {
                     val c = shown[0]
                     if (ctrl) SHORTCUTS[ch]?.let { listener.onAction(it) }
                     else if (c.isLetter()) {
@@ -313,15 +317,30 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             if (tablet) ctrlKey() to 1.5f else null,
             key(if (symbols) "ABC" else "?123", "layer", Style.PILL) { symbols = !symbols; shift = Shift.OFF; buildKeys() } to 1.5f,
             // The composer types ， or , (。 or .) to suit the text around it.
-            key("，", "comma", Style.PILL, hint = '、', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
+            key("，", "comma", Style.PILL, hint = '、', preview = true, mark = ',', onLongPress = { listener.onKey(Engine.Keys.OTHER, '、'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, ','.code)
             } to 1f,
             key("Tatakikun", "space", textSize = 14f, ink = grayText) { listener.onKey(Engine.Keys.SPACE) } to if (tablet) 3.1f else 4.6f,
-            key("。", "period", Style.PILL, hint = '?', preview = true, onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
+            key("。", "period", Style.PILL, hint = '?', preview = true, mark = '.', onLongPress = { listener.onKey(Engine.Keys.OTHER, '?'.code) }) {
                 listener.onKey(Engine.Keys.OTHER, '.'.code)
             } to 1f,
             key("", "return", Style.PILL, iconRes = R.drawable.ic_return) { listener.onKey(Engine.Keys.ENTER) } to 1.5f,
         )), rowParams())
+        showMarks(marks)
+    }
+
+    /**
+     * Shows on the punctuation keys what a tap types now (from the engine: ， or , by the text
+     * before the cursor or the word being composed); a key the engine says nothing about keeps its label.
+     */
+    fun showMarks(marks: Map<String, String>) {
+        this.marks = marks
+        for ((c, view) in markViews) {
+            val text = marks[c] ?: continue
+            if (view.text == text) continue
+            view.text = text
+            if (view.tag == LABEL) view.setTextSize(TypedValue.COMPLEX_UNIT_SP, if (text.length == 1) 21f else 15f)
+        }
     }
 
     private fun shiftKey() = key("", "shift", Style.FUNCTION, iconRes = when (shift) {
@@ -412,7 +431,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun key(
-        label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false,
+        label: String, id: String, style: Style = Style.LETTER, hint: Char? = null, preview: Boolean = false, mark: Char? = null,
         onLongPress: (() -> Unit)? = null, onRelease: (() -> Unit)? = null, onPress: (() -> Unit)? = null, iconRes: Int = 0, textSize: Float = 0f,
         ink: Int = 0, onClick: () -> Unit,
     ): View {
@@ -426,6 +445,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             if (onLongPress != null) setOnLongClickListener { v -> if (!popup.flip(v)) onLongPress(); true }
         }
         faces += face
+        var labelView: TextView? = null
+        var cornerView: TextView? = null
         var shown = 0
         var held = false
         var off = false
@@ -436,7 +457,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                     held = false; off = false
                     v.drawableHotspotChanged(e.x, e.y)
                     v.isPressed = true
-                    if (preview) shown = popup.show(v, label, hint?.toString().orEmpty())
+                    if (preview) shown = popup.show(v, labelView?.text?.toString() ?: label, cornerView?.text?.toString() ?: hint?.toString().orEmpty())
                     if (onLongPress != null) postDelayed(hold, LONG_PRESS)
                     onPress?.invoke()
                 }
@@ -473,12 +494,15 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             face.addView(ImageView(context).apply { setImageResource(iconRes); setColorFilter(color); scaleType = ImageView.ScaleType.CENTER },
                 FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         } else {
-            face.addView(TextView(context).apply {
+            val text = TextView(context).apply {
                 text = label
                 gravity = Gravity.CENTER
                 setTextColor(color)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, if (textSize > 0) textSize else if (label.length == 1) 21f else 15f)
-            }, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+                tag = LABEL
+            }
+            face.addView(text, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+            if (mark != null) { labelView = text; markViews += mark.toString() to text }
         }
         if (hint != null) {
             val corner = TextView(context).apply {
@@ -488,6 +512,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
                 setPadding(0, dp(1), dp(4), 0)
             }
             face.addView(corner, FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.TOP or Gravity.END))
+            if (mark != null) { cornerView = corner; markViews += hint.toString() to corner }
             val radius = dp(if (style == Style.PILL) 21 else 8).toFloat()
             face.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ -> keepInside(corner, v.width, v.height, radius) }
         }
@@ -603,8 +628,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             if (finger != view) return false
             if (key == view && corner.isNotEmpty()) {
                 long = true
-                val c = corner.codePointAt(0)
-                options = if (c in 0x21..0x7e) listOf(corner, String(Character.toChars(c + 0xfee0))) else listOf(corner)
+                // Shown full-width (after Chinese), the choice still starts with the half-width form.
+                val c = corner.codePointAt(0).let { if (it in 0xff01..0xff5e) it - 0xfee0 else it }
+                options = if (c in 0x21..0x7e) listOf(String(Character.toChars(c)), String(Character.toChars(c + 0xfee0))) else listOf(corner)
                 selected = 0
                 // The half-width one over the key, the full-width one beside it (to the left at the right edge).
                 val cell = box.width()
@@ -688,6 +714,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
         /** How far outside its face, in dp, a key around the edge of the block still takes a tap. */
         const val REACH = 32
+
+        /** The tag of a key's main label, as opposed to its corner symbol. */
+        const val LABEL = "label"
 
         /** What each letter does while Ctrl is held (Ctrl+V cuts, as the person asked). */
         val SHORTCUTS = mapOf('a' to Action.SELECT_ALL, 'c' to Action.COPY, 'v' to Action.CUT, 'y' to Action.REDO, 'z' to Action.UNDO)
