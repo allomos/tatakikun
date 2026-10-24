@@ -193,6 +193,9 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
 /// - a word only Mozc has costs 70 + raw/40, after known words of similar commonness;
 /// - raw cost 0 entries are ignored unless that is all there is (then 120), surfaces with Latin
 ///   letters (TOKYO) are left out, and all-hiragana surfaces cost 10 more (the kana are offered anyway).
+/// A kanji's reading only the single kanji table has: after the dictionaries' words for it.
+let singleKanjiCost = 140
+
 func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
     let ja = sources.appendingPathComponent("ja")
     var table: [String: Int] = [:]   // "reading<TAB>word" → cost
@@ -233,12 +236,24 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
         if word.unicodeScalars.allSatisfy(Kana.isHiragana) { cost += 10 }
         table[k] = cost
     }
-    log("ja: \(baseCount) base entries, \(mozcRaw.count) Mozc pairs, \(table.count) together, \(nameParts.count) name parts")
+    // Every reading of every kanji (Mozc's single kanji table: かい 介 亥 会 … 懐): after the words
+    // the dictionaries have, in the table's order, so any kanji can be typed by its reading.
+    var singleKanji = 0
+    for line in try String(contentsOf: ja.appendingPathComponent("single_kanji.tsv"), encoding: .utf8).split(separator: "\n") {
+        let p = line.split(separator: "\t")
+        guard p.count == 2, p[0].unicodeScalars.allSatisfy(Kana.isHiragana) else { continue }
+        for (i, c) in p[1].enumerated() where isAll(String(c), Kana.isHan) {
+            let k = String(p[0]) + "\t" + String(c)
+            if table[k] == nil { table[k] = singleKanjiCost + min(i, 100) / 4; singleKanji += 1 }
+        }
+    }
+    log("ja: \(baseCount) base entries, \(mozcRaw.count) Mozc pairs, \(table.count) together, \(singleKanji) from the single kanji table, \(nameParts.count) name parts")
     table.merge(nameParts) { a, _ in a }
     let isNamePart = { (k: Substring) in k.hasPrefix(JapaneseConverter.familyNameMark) || k.hasPrefix(JapaneseConverter.givenNameMark) }
     try writePack(table, name: DictionaryFiles.japanese, to: out.appendingPathComponent("ja"),
                   normalizeKey: { String($0) }, abbreviate: { isNamePart($0) ? nil : Abbreviation.kana($0) },
                   licenses: [("Mozc OSS dictionary (its README, with the IPAdic and Okinawa dictionary licenses)", ja.appendingPathComponent("README.txt")),
+                             ("Mozc single kanji table (BSD 3-Clause)", ja.appendingPathComponent("mozc-LICENSE")),
                              ("ICU data: word list and frequencies (Unicode License V3)", sources.appendingPathComponent("icu-LICENSE"))])
 }
 

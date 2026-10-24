@@ -42,7 +42,7 @@ public final class Engine {
     public let english: EnglishConverter?
     public var rowSize: Int
     /// At most this many candidates after the first row.
-    public var maxMore = 200
+    public var maxMore = 400
     /// Candidates chosen before rank higher; nil to rank by the dictionaries alone.
     public var history: UserHistory?
     /// Words the user built by hand, offered as one candidate; nil for none.
