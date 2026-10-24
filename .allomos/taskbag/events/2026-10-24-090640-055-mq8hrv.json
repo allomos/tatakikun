@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T09:06:40Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-tide827",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Code done and committed on task/A04-tide827 (b0a6d58), not merged. iOS: all 7 UI tests pass, including the new testTapsBetweenKeysTypeTheNearestKey (gap q|w, blank left of a, past p, below b). Android: built and installed on emulator-5556, but the emulator kept stalling (Mac load 30-40 from other work), so the tap check is not done; one stalled run did type on q, a, p and b (b as a long press). Next step: when the Mac is quiet, on emulator-5556 tap (110,1848) (30,1968) (1075,1848) (644,2140) in the app's Try it field and see qapb in the reading box, then merge into master. Waits on: nothing, or the person testing on a real phone."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-tap-reach"
+    }
+  ]
+}

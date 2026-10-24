@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-24T08:57:59Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-tide827",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Edge keys reach 32 dp (Android) / 32 pt (iOS) past their face; inside the key block every touch goes to the nearest key, so gaps never swallow a tap. On Android the finger is shifted onto the key's edge for the whole touch so slide-off still cancels; each finger is routed on its own so two-thumb typing keeps working."
+    }
+  ]
+}

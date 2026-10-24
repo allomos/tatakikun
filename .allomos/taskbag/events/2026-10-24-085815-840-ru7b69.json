@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T08:58:15Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-peak016",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Dynamic labels on the comma and period keys, the period key's corner ?, and the symbol layer's punctuation; the letters' corner symbols stay as they are (their long-press popup already offers half-width and full-width side by side)."
+    }
+  ]
+}

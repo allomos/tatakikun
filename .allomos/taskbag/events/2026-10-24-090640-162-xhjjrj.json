@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-24T09:06:40Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-peak016",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Started on task/A04-peak016 (worktree ../tatakikun-wt/A04-peak016), uncommitted. Done: Composer.mark(for:) + ComposerTests (pass), ttk_marks in Bridge, JNI Engine.marks(), TatakikunIME refreshes marks after keys and on onUpdateSelection, Android KeyboardView.showMarks (comma, period, period's corner ?, symbol layer), iOS KeyboardKeys.showMarks + KeyboardViewController textDidChange/selectionDidChange. Not built yet for Android or iOS. Next: merge master after A04-tide827 lands (both touch KeyboardView files), build both, check ， after Chinese / , after English on the keys."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-tap-reach"
+    }
+  ]
+}
