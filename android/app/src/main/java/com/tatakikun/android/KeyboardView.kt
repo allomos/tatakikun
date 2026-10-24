@@ -335,6 +335,30 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             onLongPress = { post(repeat) }, onRelease = { removeCallbacks(repeat) }) { listener.onKey(Engine.Keys.BACKSPACE) }
     }
 
+    /**
+     * Moves a corner symbol in along the diagonal until its glyph is inside the key's rounded shape:
+     * on a narrow pill key (the bottom row's 。) the top right corner is cut away, and a symbol placed
+     * from the rectangle would stick out past the edge.
+     */
+    private fun keepInside(corner: TextView, width: Int, height: Int, radius: Float) {
+        if (width == 0 || height == 0) return
+        val r = minOf(radius, width / 2f, height / 2f)
+        // The glyph's own top right corner, measured from the key's top right corner.
+        val bounds = Rect()
+        corner.paint.getTextBounds(corner.text.toString(), 0, corner.text.length, bounds)
+        val right = (corner.measuredWidth - corner.paddingLeft - bounds.right).toFloat()
+        val top = (corner.baseline + bounds.top).toFloat()
+        fun inside(t: Float): Boolean {
+            val x = r - (right + t)
+            val y = r - (top + t)
+            return x <= 0 || y <= 0 || x * x + y * y <= r * r
+        }
+        var t = 0f
+        while (!inside(t) && t < r) t += 0.5f
+        corner.translationX = -t
+        corner.translationY = t
+    }
+
     private fun weighted(views: List<Pair<View, Float>>) = LinearLayout(context).apply {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER
@@ -429,12 +453,15 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             }, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         }
         if (hint != null) {
-            face.addView(TextView(context).apply {
+            val corner = TextView(context).apply {
                 text = hint.toString()
                 setTextColor(if (function) functionText else hintColor)
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
                 setPadding(0, dp(1), dp(4), 0)
-            }, FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.TOP or Gravity.END))
+            }
+            face.addView(corner, FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, Gravity.TOP or Gravity.END))
+            val radius = dp(if (style == Style.PILL) 21 else 8).toFloat()
+            face.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ -> keepInside(corner, v.width, v.height, radius) }
         }
         return FrameLayout(context).apply {
             setPadding(dp(3), dp(4), dp(3), dp(4))
