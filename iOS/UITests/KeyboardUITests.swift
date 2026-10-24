@@ -83,6 +83,25 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "HiOKa")
     }
 
+    /// A04-tide827: a tap that misses every key types the nearest one: in the gap between two
+    /// keys, on the blank start of the asdf row, and just outside a key on the edge.
+    func testTapsBetweenKeysTypeTheNearestKey() {
+        /// Taps `x`, `y` points from the key's center.
+        func tap(_ key: String, x: CGFloat, y: CGFloat) {
+            let frame = app.buttons[key].firstMatch.frame
+            app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: frame.midX + x, dy: frame.midY + y)).tap()
+        }
+        let q = app.buttons["q"].firstMatch.frame, a = app.buttons["a"].firstMatch.frame
+        let p = app.buttons["p"].firstMatch.frame, b = app.buttons["b"].firstMatch.frame
+        tap("q", x: q.width / 2 + 1, y: 0)            // in the gap between q and w, nearer q
+        tap("a", x: -a.width / 2 - a.width / 4, y: 0)  // on the blank half key left of a
+        tap("p", x: p.width / 2 + 2, y: 0)            // past the right edge of p
+        tap("b", x: 0, y: b.height / 2 + 2)           // in the gap below b, nearer b
+        attach("taps between keys")
+        app.buttons["return"].tap()
+        XCTAssertEqual(text, "qapb")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

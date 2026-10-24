@@ -315,6 +315,29 @@ final class KeyboardKeys: UIView {
 
     required init?(coder: NSCoder) { fatalError() }
 
+    /// How far outside itself a key around the edge of the block still takes a tap, in points.
+    private static let reach: CGFloat = 32
+
+    /// A touch inside the block that misses every key goes to the nearest one: a tap in the gap between keys (or on
+    /// the blank ends of the asdf row) types that key, and the keys around the edge also take taps
+    /// up to `reach` outside them, since a finger is not that precise. Each finger is tested on its
+    /// own, so fast typing with two thumbs works as before.
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let hit = super.hitTest(point, with: event)
+        if hit == nil || hit is UIButton { return hit }   // outside the block (the candidate bar), or on a key
+        var best: UIButton?
+        var bestDistance = Self.reach * Self.reach
+        for line in rows.arrangedSubviews {
+            for case let button as UIButton in line.subviews where !button.isHidden && button.alpha >= 0.01 {
+                let frame = button.convert(button.bounds, to: self)
+                let dx = max(frame.minX - point.x, 0, point.x - frame.maxX)
+                let dy = max(frame.minY - point.y, 0, point.y - frame.maxY)
+                if dx * dx + dy * dy <= bestDistance { bestDistance = dx * dx + dy * dy; best = button }
+            }
+        }
+        return best ?? hit
+    }
+
     private func shiftKey() -> UIView {
         let k = key("⇧", id: "shift", dark: true) { [weak self] in self?.tapShift() }
         shiftButton = k

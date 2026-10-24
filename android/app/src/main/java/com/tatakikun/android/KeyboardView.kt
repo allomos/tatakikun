@@ -83,6 +83,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private val tablet = resources.configuration.smallestScreenWidthDp >= 600
     private var ctrl = false
     private val shortcutFaces = mutableListOf<View>()
+    /** Every key's face, for handing a finger to the nearest one ([KeyArea]). */
+    private val faces = mutableListOf<View>()
     private var expanded = false
     /** ⌄ opened here, to show the bar's candidates that did not fit when the engine has no more rows. */
     private var overflowOpen = false
@@ -168,7 +170,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         bar.addView(candidates, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(50)))
         panel.addView(bar, LayoutParams(LayoutParams.MATCH_PARENT, dp(50)))
 
-        val body = FrameLayout(context)
+        val body = KeyArea()
         keys.orientation = VERTICAL
         keys.setPadding(dp(3), 0, dp(3), dp(4))
         body.addView(keys, FrameLayout.LayoutParams(keysWidth, dp(5 * row + 4), Gravity.CENTER_HORIZONTAL))
@@ -279,6 +281,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private fun buildKeys() {
         keys.removeAllViews()
         shortcutFaces.clear()
+        faces.clear()
         keys.addView(weighted("1234567890".map { ch -> key(ch.toString(), ch.toString(), preview = true) { listener.onKey(Engine.Keys.DIGIT, ch.code) } to 1f }), rowParams())
 
         val letters = listOf("qwertyuiop", "asdfghjkl", "zxcvbnm")
@@ -422,6 +425,7 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             // Without a finger on it (TalkBack), a long press types the symbol at once.
             if (onLongPress != null) setOnLongClickListener { v -> if (!popup.flip(v)) onLongPress(); true }
         }
+        faces += face
         var shown = 0
         var held = false
         var off = false
@@ -490,6 +494,67 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         return FrameLayout(context).apply {
             setPadding(dp(3), dp(4), dp(3), dp(4))
             addView(face, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+        }
+    }
+
+    /**
+     * The block of keys, which hands each finger to the nearest key: a tap in the gap between keys
+     * (or on the blank ends of the asdf row) types that key, and the keys around the edge also take
+     * taps up to [REACH] dp outside them, since a finger is not that precise. The finger is moved
+     * onto the key's edge by the same amount for the whole touch, so sliding off still cancels.
+     * Each finger goes to its own key, so fast typing with two thumbs works as before.
+     */
+    private inner class KeyArea : FrameLayout(context) {
+        /** A finger on a key: where it is moved to, into the key's own coordinates. */
+        private inner class Finger(val face: View, val dx: Float, val dy: Float)
+        private val fingers = HashMap<Int, Finger>()
+
+        override fun dispatchTouchEvent(e: MotionEvent): Boolean {
+            if (keys.visibility != VISIBLE) return super.dispatchTouchEvent(e)
+            when (e.actionMasked) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
+                    val i = e.actionIndex
+                    nearest(e.getX(i), e.getY(i))?.let { fingers[e.getPointerId(i)] = it; send(it, MotionEvent.ACTION_DOWN, e, i) }
+                }
+                MotionEvent.ACTION_MOVE -> for (i in 0 until e.pointerCount) fingers[e.getPointerId(i)]?.let { send(it, MotionEvent.ACTION_MOVE, e, i) }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
+                    val i = e.actionIndex
+                    fingers.remove(e.getPointerId(i))?.let { send(it, MotionEvent.ACTION_UP, e, i) }
+                }
+                MotionEvent.ACTION_CANCEL -> {
+                    for (f in fingers.values) send(f, MotionEvent.ACTION_CANCEL, e, 0)
+                    fingers.clear()
+                }
+            }
+            return true
+        }
+
+        /** The key nearest to (x, y), within [REACH] dp of its face. */
+        private fun nearest(x: Float, y: Float): Finger? {
+            val reach = dp(REACH).toFloat()
+            var best: Finger? = null
+            var bestDistance = reach * reach
+            val r = Rect()
+            for (face in faces) {
+                if (!face.isShown) continue
+                face.getDrawingRect(r)
+                offsetDescendantRectToMyCoords(face, r)
+                val px = x.coerceIn(r.left.toFloat(), r.right - 1f)
+                val py = y.coerceIn(r.top.toFloat(), r.bottom - 1f)
+                val d = (px - x) * (px - x) + (py - y) * (py - y)
+                if (d <= bestDistance) {
+                    bestDistance = d
+                    best = Finger(face, px - x - r.left, py - y - r.top)
+                    if (d == 0f) break
+                }
+            }
+            return best
+        }
+
+        private fun send(f: Finger, action: Int, e: MotionEvent, i: Int) {
+            val event = MotionEvent.obtain(e.downTime, e.eventTime, action, e.getX(i) + f.dx, e.getY(i) + f.dy, e.metaState)
+            f.face.dispatchTouchEvent(event)
+            event.recycle()
         }
     }
 
@@ -620,6 +685,9 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
 
         /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
         const val LONG_PRESS = 400L
+
+        /** How far outside its face, in dp, a key around the edge of the block still takes a tap. */
+        const val REACH = 32
 
         /** What each letter does while Ctrl is held (Ctrl+V cuts, as the person asked). */
         val SHORTCUTS = mapOf('a' to Action.SELECT_ALL, 'c' to Action.COPY, 'v' to Action.CUT, 'y' to Action.REDO, 'z' to Action.UNDO)
