@@ -122,6 +122,21 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "hello 你好，")
     }
 
+    /// A04-leaf790: holding a letter offers its corner symbol half-width and full-width; lifting
+    /// types the one under the finger; a tap still types the letter.
+    func testLongPressTypesTheCornerSymbol() {
+        let g = app.buttons["g"].firstMatch
+        g.press(forDuration: 0.8)
+        XCTAssertEqual(text, "&")
+        let center = g.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        center.press(forDuration: 0.8, thenDragTo: g.coordinate(withNormalizedOffset: CGVector(dx: 2.0, dy: 0.5)))
+        XCTAssertEqual(text, "&＆")
+        attach("long press")
+        type("g")
+        app.buttons["return"].tap()
+        XCTAssertEqual(text, "&＆g")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

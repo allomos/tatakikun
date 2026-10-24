@@ -74,6 +74,7 @@ final class KeyboardView: UIView {
         bar.onToggle = { [weak self] in self?.send(self?.composer.isExpanded == true ? .escape : .down) }
         more.onChoose = { [weak self] row, column in self?.choose(row: row, column: column) }
         keys.onKey = { [weak self] key in self?.send(key) }
+        keys.onSymbol = { [weak self] text in self?.typeSymbol(text) }
         refresh()
     }
 
@@ -102,6 +103,13 @@ final class KeyboardView: UIView {
             default: break
             }
         }
+        refresh()
+    }
+
+    /// A symbol chosen in a key's long-press popup: typed exactly as shown, after what is being typed.
+    private func typeSymbol(_ text: String) {
+        if let typed = composer.finish() { insert(typed) }
+        target?.insertText(text)
         refresh()
     }
 
@@ -286,6 +294,8 @@ final class CandidateGrid: UIView {
 /// QWERTY letters, a layer of digits and punctuation, and space, return, backspace, shift and 🌐.
 final class KeyboardKeys: UIView {
     var onKey: ((Key) -> Void)?
+    /// A symbol chosen in a key's long-press popup, typed exactly as shown.
+    var onSymbol: ((String) -> Void)?
     var onNextKeyboard: ((UIView, UIEvent) -> Void)?
     var showsNextKeyboard = true { didSet { if oldValue != showsNextKeyboard { build() } } }
     private var symbols = false { didSet { build() } }
@@ -299,6 +309,17 @@ final class KeyboardKeys: UIView {
     /// The punctuation keys, with the character each one types (`showMarks`).
     private var markKeys: [(button: UIButton, mark: Character)] = []
     private var mark: (Character) -> String = { String($0) }
+    /// The corner symbols that follow `mark` too (the period key's ?).
+    private var markHints: [(label: UILabel, mark: Character)] = []
+    private let popup = SymbolPopup()
+    /// How long a key is held for its symbol, as on Android.
+    private static let longPress: TimeInterval = 0.4
+    /// The symbol in each letter's corner, which a long press types, as on Android (and Gboard).
+    private static let hints: [Character: Character] = [
+        "q": "%", "w": "\\", "e": "|", "r": "=", "t": "[", "y": "]", "u": "<", "i": ">", "o": "{", "p": "}",
+        "a": "@", "s": "#", "d": "$", "f": "-", "g": "&", "h": "_", "j": "+", "k": "(", "l": ")",
+        "z": "*", "x": "\"", "c": "'", "v": ":", "b": ";", "n": "!", "m": "?",
+    ]
     private var lastShiftTap = Date.distantPast
     /// Two taps on shift closer than this turn on caps lock.
     private static let doubleTap: TimeInterval = 0.4
@@ -314,6 +335,7 @@ final class KeyboardKeys: UIView {
         rows.spacing = 8
         rows.translatesAutoresizingMaskIntoConstraints = false
         addSubview(rows)
+        addSubview(popup)
         NSLayoutConstraint.activate([
             rows.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
             rows.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
@@ -381,6 +403,7 @@ final class KeyboardKeys: UIView {
         rows.arrangedSubviews.forEach { $0.removeFromSuperview() }
         letterKeys = []
         markKeys = []
+        markHints = []
         shiftButton = nil
         let top = symbols ? Self.symbolRows : Self.letters
         for (i, chars) in top.enumerated() {
@@ -394,6 +417,7 @@ final class KeyboardKeys: UIView {
                     else { self.onKey?(.other(ch)) }
                 }
                 if !symbols { letterKeys.append((button, c)) } else if !c.isNumber { markKeys.append((button, c)) }
+                if !symbols, let hint = Self.hints[c] { addHint(hint, to: button) }
                 return button
             }
             if i == 2 {
@@ -415,6 +439,8 @@ final class KeyboardKeys: UIView {
         let comma = key("，", id: "comma", dark: true) { [weak self] in self?.onKey?(.other(",")) }
         let period = key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) }
         markKeys += [(comma, ","), (period, ".")]
+        addHint("、", to: comma)
+        addHint("?", to: period, followsMark: true)
         bottom += [
             comma,
             key("space", id: "space") { [weak self] in self?.onKey?(.space) },
@@ -435,6 +461,45 @@ final class KeyboardKeys: UIView {
             guard button.title(for: .normal) != text else { continue }
             button.setTitle(text, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: text.count == 1 ? 22 : 16)
+        }
+        for (label, c) in markHints { label.text = mark(c) }
+    }
+
+    /// Puts `symbol` in the key's top right corner; held, the key offers it in a popup above it
+    /// (half-width and full-width side by side), sliding picks one, lifting types it.
+    private func addHint(_ symbol: Character, to button: UIButton, followsMark: Bool = false) {
+        let label = UILabel()
+        label.text = String(symbol)
+        label.font = .systemFont(ofSize: 11)
+        label.textColor = .secondaryLabel
+        label.isUserInteractionEnabled = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        button.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: button.topAnchor, constant: 2),
+            label.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -4),
+        ])
+        if followsMark { markHints.append((label, symbol)) }
+        let press = SymbolPress(target: self, action: #selector(longPress(_:)))
+        press.corner = label
+        press.minimumPressDuration = Self.longPress
+        button.addGestureRecognizer(press)
+    }
+
+    @objc private func longPress(_ press: SymbolPress) {
+        guard let button = press.view, let symbol = press.corner?.text, !symbol.isEmpty else { return }
+        switch press.state {
+        case .began:
+            // Over the key, reaching up over the candidate bar but not past the keyboard's top.
+            popup.show(symbol, over: button.convert(button.bounds, to: self), within: CGRect(x: 0, y: -frame.minY, width: bounds.width, height: bounds.height + frame.minY))
+        case .changed:
+            popup.select(x: press.location(in: popup).x)
+        case .ended:
+            popup.select(x: press.location(in: popup).x)
+            if let text = popup.choice { onSymbol?(text) }
+            popup.isHidden = true
+        default:
+            popup.isHidden = true
         }
     }
 
@@ -492,5 +557,88 @@ final class KeyboardKeys: UIView {
         button.layer.shadowOpacity = 0.25
         button.layer.shadowRadius = 0
         button.layer.shadowOffset = CGSize(width: 0, height: 1)
+    }
+}
+
+/// A long press on a key with a symbol in its corner (the label it reads the symbol from).
+final class SymbolPress: UILongPressGestureRecognizer {
+    weak var corner: UILabel?
+}
+
+/// The popup over a held key: its symbol half-width and full-width side by side (one choice when
+/// it has no other form), the one under the finger highlighted.
+final class SymbolPopup: UIView {
+    private var options: [String] = []
+    private var selected = 0
+    private var cells: [(view: UIView, symbol: UILabel, caption: UILabel)] = []
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isHidden = true
+        isUserInteractionEnabled = false
+        backgroundColor = .systemBackground
+        layer.cornerRadius = 10
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 4
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        accessibilityIdentifier = "symbolPopup"
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    /// The symbol lifting the finger types, while shown.
+    var choice: String? { isHidden || options.isEmpty ? nil : options[selected] }
+
+    func show(_ symbol: String, over key: CGRect, within area: CGRect) {
+        // Shown full-width on the key (after Chinese), the choice still starts with the half-width form.
+        var c = symbol.unicodeScalars.first!.value
+        if (0xFF01...0xFF5E).contains(c) { c -= 0xFEE0 }
+        options = (0x21...0x7E).contains(c) && symbol.unicodeScalars.count == 1
+            ? [String(Character(UnicodeScalar(c)!)), String(Character(UnicodeScalar(c + 0xFEE0)!))] : [symbol]
+        selected = 0
+        cells.forEach { $0.view.removeFromSuperview() }
+        cells = []
+        let cell = max(key.width * 1.45, 54), height: CGFloat = 58
+        let width = cell * CGFloat(options.count)
+        // The half-width one over the key, the full-width one beside it (to the left at the right edge).
+        let x = min(max(key.midX - cell / 2, area.minX + 2), area.maxX - 2 - width)
+        let y = max(key.minY - height + 4, area.minY)
+        frame = CGRect(x: x, y: y, width: width, height: height)
+        for (i, text) in options.enumerated() {
+            let view = UIView(frame: CGRect(x: CGFloat(i) * cell + 3, y: 3, width: cell - 6, height: height - 6))
+            view.layer.cornerRadius = 7
+            let symbol = UILabel(frame: CGRect(x: 0, y: 2, width: view.bounds.width, height: options.count > 1 ? 34 : view.bounds.height - 4))
+            symbol.text = text
+            symbol.font = .systemFont(ofSize: 26)
+            symbol.textAlignment = .center
+            let caption = UILabel(frame: CGRect(x: 0, y: 36, width: view.bounds.width, height: 14))
+            caption.text = options.count > 1 ? (i == 0 ? "半角" : "全角") : nil
+            caption.font = .systemFont(ofSize: 10)
+            caption.textAlignment = .center
+            view.addSubview(symbol)
+            view.addSubview(caption)
+            addSubview(view)
+            cells.append((view, symbol, caption))
+        }
+        restyle()
+        isHidden = false
+        superview?.bringSubviewToFront(self)
+    }
+
+    /// The finger is at `x` (in the popup's coordinates): picks the choice under it.
+    func select(x: CGFloat) {
+        guard !options.isEmpty else { return }
+        let i = min(max(Int(x / (bounds.width / CGFloat(options.count))), 0), options.count - 1)
+        if i != selected { selected = i; restyle() }
+    }
+
+    private func restyle() {
+        for (i, cell) in cells.enumerated() {
+            let on = i == selected
+            cell.view.backgroundColor = on ? .systemBlue : .clear
+            cell.symbol.textColor = on ? .white : .label
+            cell.caption.textColor = on ? .white : .secondaryLabel
+        }
     }
 }
