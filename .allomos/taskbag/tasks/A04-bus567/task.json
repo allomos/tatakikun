@@ -1,8 +1,10 @@
 {
   "area": "A04",
   "holder": "claude-tap-reach",
+  "human_check_steps": "# Check: iOS app home screen (A04-bus567)\n\n1. Open the Tatakikun app on the iPhone (built from `iOS/` in Xcode).\n2. It looks like the Android app: purple header with hello · 我爱你 · ありがとう, then Set up, Keyboard, Try it, Keys.\n3. Set up: with Tatakikun added in Settings, \"Turn on Tatakikun\" shows a green check and Done; remove it in Settings and come back: it shows the Settings path instead.\n4. About opens the project page; Language packs lists English · 中文 · 日本語.\n5. Switch the phone to dark mode: the screen turns dark purple like the Android app's.\n",
   "id": "A04-bus567",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "iOS app: the home screen looks like the Android app's (purple header with samples, set-up steps that show Done, language packs and About with the version, a field to try it) and its key help tells about long press and the punctuation keys"
+  "state": "done",
+  "title": "iOS app: the home screen looks like the Android app's (purple header with samples, set-up steps that show Done, language packs and About with the version, a field to try it) and its key help tells about long press and the punctuation keys",
+  "without_human_check": "Screenshots light and dark on the simulator, iOS UI tests pass 9/9; the person checks on the iPhone"
 }

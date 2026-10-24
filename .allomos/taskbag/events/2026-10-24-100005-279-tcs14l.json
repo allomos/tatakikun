@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-24T10:00:05Z",
+  "by": "claude-tap-reach",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-bus567",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The iOS screen copies the Android colours and rows; the second step cannot know which keyboard is in use on iOS, so it only says to hold 🌐; Language packs only lists the packs (no switches on iOS until A04-tuna688 is decided); the Keys help gained two lines (long press, punctuation keys)."
+    }
+  ]
+}
