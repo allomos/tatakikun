@@ -137,6 +137,25 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "&＆g")
     }
 
+    /// A04-canvas393: the popup starts on the form a tap would type now: full-width after
+    /// Chinese, half-width after English; lifting without sliding types it.
+    func testLongPressStartsOnWhatATapTypes() {
+        type("nihao")
+        XCTAssertTrue(app.buttons["你好"].waitForExistence(timeout: 3))
+        app.buttons["你好"].tap()
+        app.buttons["m"].firstMatch.press(forDuration: 0.8)
+        XCTAssertEqual(text, "你好？")
+        // The period key shows 。 after Chinese; held, it also offers . (the last choice).
+        let period = app.buttons["period"]
+        period.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            .press(forDuration: 0.8, thenDragTo: app.buttons["return"].coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.5)))
+        XCTAssertEqual(text, "你好？.")
+        type("hello")
+        app.buttons["space"].tap()
+        app.buttons["m"].firstMatch.press(forDuration: 0.8)
+        XCTAssertEqual(text, "你好？.hello ?")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name
