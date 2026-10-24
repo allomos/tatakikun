@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-24T00:55:58Z",
+  "by": "claude-bar-fit",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-elm284",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Merged to master, not released. The v0.6.9-numbered APK on emulator-5554 is this build (installed over the release). test-android.sh's last step (ai → 愛) alternates pass/fail on a release build because learning persists between runs; on a debug build it is cleared. Next: a person checks on a phone.",
+      "to": "Released in v0.6.10. Next: a person checks on a phone with the steps (alm human)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** No candidate is cut off at the screen edge: the bar holds what fits, ⌄ shows the others in lines as wide as the screen.\n\n**Done means.** On the emulator, typing ki shows whole candidates only in the bar; ⌄ lists the rest, wrapped, none cut off; choosing any of them types it.\n\n**Notes.** Asked by the person on 2026-10-24.\n",
+      "to": "**Outcome.** No candidate is cut off at the screen edge: the bar holds what fits, ⌄ shows the others in lines as wide as the screen.\n\n**Done means.** On the emulator, typing ki shows whole candidates only in the bar; ⌄ lists the rest, wrapped, none cut off; choosing any of them types it.\n\n**Notes.** Asked by the person on 2026-10-24.\n\n## Evidence\n\n- 2026-10-24, claude-bar-fit: v0.6.10 released 2026-10-24 on the person's request ('Release all fixes as v0.6.10'): https://github.com/allomos/tatakikun/releases/tag/v0.6.10 (tag at 8c3e4ef; also ships A04-quail228, A04-ship843 and the Android part of A04-cell054), pkg, APK and .sha256; APK passed scripts/test-android.sh twice on emulator-5554; installed on this Mac (0.6.10). Do not tag or publish v0.6.10 again.\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-bar-fit"
+    }
+  ]
+}

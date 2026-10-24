@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-24T00:55:58Z",
+  "by": "claude-ki",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A02-curve968",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Merged to master, not released. Next: a person checks with the steps.",
+      "to": "Released in v0.6.10. Next: a person checks with the steps (alm human)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** A rare kanji or character read the same way as what was typed is in the expanded list, not cut off after the 40 most common.\n\n**Done means.** `tatakikun-cli --packs build/packs --more 300 ki` lists 暉; engine tests pass.\n\n**Notes.** Asked by the person on 2026-10-24.\n",
+      "to": "**Outcome.** A rare kanji or character read the same way as what was typed is in the expanded list, not cut off after the 40 most common.\n\n**Done means.** `tatakikun-cli --packs build/packs --more 300 ki` lists 暉; engine tests pass.\n\n**Notes.** Asked by the person on 2026-10-24.\n\n## Evidence\n\n- 2026-10-24, claude-ki: v0.6.10 released 2026-10-24 on the person's request ('Release all fixes as v0.6.10'): https://github.com/allomos/tatakikun/releases/tag/v0.6.10 (tag at 8c3e4ef; also ships A04-quail228, A04-ship843 and the Android part of A04-cell054), pkg, APK and .sha256; APK passed scripts/test-android.sh twice on emulator-5554; installed on this Mac (0.6.10). Do not tag or publish v0.6.10 again.\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-ki"
+    }
+  ]
+}

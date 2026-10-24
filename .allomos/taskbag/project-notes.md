@@ -4,7 +4,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 
 ## Running
 
-- Android emulator Pixel_7_API_34, headless (started 2026-10-23 by claude-release; release-signed build of master after v0.6.9 (A04-elm284) installed 2026-10-24, versioned 0.6.9; learning persists between test runs on it): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
+- Android emulator Pixel_7_API_34, headless (started 2026-10-23 by claude-release; v0.6.10 release build installed 2026-10-24; learning persists between test runs on a release build): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
 - Android emulator Pixel_7_API_34_b, headless on port 5556 (started 2026-10-23 by claude-android-landscape; debug builds, long_press_timeout set to 1000): stop with `ANDROID_SERIAL=emulator-5556 ~/Library/Android/sdk/platform-tools/adb emu kill`.
 
 ## Pitfalls
