@@ -282,7 +282,16 @@ final class KeyboardKeys: UIView {
     var onNextKeyboard: ((UIView, UIEvent) -> Void)?
     var showsNextKeyboard = true { didSet { if oldValue != showsNextKeyboard { build() } } }
     private var symbols = false { didSet { build() } }
-    private var shift = false { didSet { build() } }
+    /// Shift: off, on for the next letter only, or caps lock (two quick taps) until tapped again.
+    private enum Shift { case off, once, locked }
+    private var shift = Shift.off { didSet { if oldValue != shift { showShift() } } }
+    /// The letter keys and the shift key, updated in place when shift changes: rebuilding the keys
+    /// under the finger would lose the second tap of a double tap.
+    private var letterKeys: [(button: UIButton, letter: Character)] = []
+    private var shiftButton: UIButton?
+    private var lastShiftTap = Date.distantPast
+    /// Two taps on shift closer than this turn on caps lock.
+    private static let doubleTap: TimeInterval = 0.4
     private let rows = UIStackView()
 
     private static let letters = ["qwertyuiop", "asdfghjkl", "zxcvbnm"]
@@ -306,22 +315,55 @@ final class KeyboardKeys: UIView {
 
     required init?(coder: NSCoder) { fatalError() }
 
+    private func shiftKey() -> UIView {
+        let k = key("⇧", id: "shift", dark: true) { [weak self] in self?.tapShift() }
+        shiftButton = k
+        return k
+    }
+
+    private func letter(_ c: Character) -> String { shift != .off ? String(c).uppercased() : String(c) }
+
+    private func showShift() {
+        for (button, c) in letterKeys {
+            button.setTitle(letter(c), for: .normal)
+            button.accessibilityIdentifier = letter(c)
+        }
+        guard let k = shiftButton else { return }
+        k.setTitle(shift == .locked ? "⇪" : "⇧", for: .normal)
+        k.backgroundColor = shift == .off ? UIColor.systemGray3 : UIColor.systemBackground
+        k.accessibilityValue = switch shift { case .off: "off"; case .once: "on"; case .locked: "caps lock" }
+    }
+
+    private func tapShift() {
+        let now = Date()
+        shift = switch shift {
+        case .once where now.timeIntervalSince(lastShiftTap) < Self.doubleTap: .locked
+        case .off: .once
+        default: .off
+        }
+        lastShiftTap = now
+    }
+
     private func build() {
         rows.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        letterKeys = []
+        shiftButton = nil
         let top = symbols ? Self.symbolRows : Self.letters
         for (i, chars) in top.enumerated() {
             var keys = chars.map { c -> UIView in
-                let shown = shift && !symbols ? String(c).uppercased() : String(c)
-                return key(shown, id: shown) { [weak self] in
+                let shown = symbols ? String(c) : letter(c)
+                let button = key(shown, id: shown) { [weak self] in
                     guard let self else { return }
-                    let ch = Character(shown)
-                    if ch.isLetter { self.onKey?(.letter(ch)); if self.shift { self.shift = false } }
+                    let ch = self.symbols ? c : Character(self.letter(c))
+                    if ch.isLetter { self.onKey?(.letter(ch)); if self.shift == .once { self.shift = .off } }
                     else if let n = ch.wholeNumberValue { self.onKey?(.digit(n)) }
                     else { self.onKey?(.other(ch)) }
                 }
+                if !symbols { letterKeys.append((button, c)) }
+                return button
             }
             if i == 2 {
-                let left = symbols ? key("#+=", id: "spacer", dark: true) {} : key(shift ? "⇧" : "⇧", id: "shift", dark: !shift) { [weak self] in self?.shift.toggle() }
+                let left = symbols ? key("#+=", id: "spacer", dark: true) {} : shiftKey()
                 if symbols { left.alpha = 0 }
                 keys.insert(left, at: 0)
                 keys.append(key("⌫", id: "delete", dark: true) { [weak self] in self?.onKey?(.backspace) })
@@ -344,6 +386,7 @@ final class KeyboardKeys: UIView {
         ]
         let weights: [CGFloat] = (showsNextKeyboard ? [1.2, 1.2] : [1.2]) + [1, 4, 1, 2]
         rows.addArrangedSubview(row(bottom, weights: weights))
+        showShift()
     }
 
     @objc private func nextKeyboard(_ sender: UIView, event: UIEvent) { onNextKeyboard?(sender, event) }
