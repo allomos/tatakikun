@@ -1,4 +1,5 @@
 import UIKit
+import TatakikunCore
 
 extension UIInputViewController: KeyboardTarget {
     var documentContextBeforeInput: String? { textDocumentProxy.documentContextBeforeInput }
@@ -28,6 +29,13 @@ final class KeyboardViewController: UIInputViewController {
         ])
         keyboard.target = self
         keyboard.onNextKeyboard = { [weak self] view, event in self?.handleInputModeList(from: view, with: event) }
+    }
+
+    /// Each time the keyboard comes up it follows the language switches in the app, so a change
+    /// there works at once.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Shared.engine.turnedOff = hasFullAccess ? Settings.turnedOff : []
     }
 
     override func viewWillLayoutSubviews() {

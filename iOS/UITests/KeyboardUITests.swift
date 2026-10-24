@@ -7,6 +7,7 @@ final class KeyboardUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app.launchArguments = ["-languagesOff", "()"]   // every language on, whatever a test left
         app.launch()
         app.textViews["tryField"].tap()   // the Try it field always brings up Tatakikun's keys
         XCTAssertTrue(app.buttons["layer"].waitForExistence(timeout: 5), "the Tatakikun keys are not showing")
@@ -183,6 +184,52 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertFalse(app.buttons["ctrl"].exists, "the symbols layer has no Ctrl")
         app.buttons["layer"].tap()
         XCTAssertTrue(app.buttons["ctrl"].exists)
+    }
+
+    /// A04-tuna688: Input languages turns each pack on or off; a language turned off gives no
+    /// candidates, the choice is kept after a restart, and the last language stays on.
+    func testInputLanguageSwitches() {
+        func languages() {
+            app.buttons["languagePacks"].tap()
+            XCTAssertTrue(app.switches["language-ja"].waitForExistence(timeout: 3))
+        }
+        func turn(_ id: String, on: Bool) {
+            let toggle = app.switches["language-\(id)"]
+            if (toggle.value as? String == "1") != on { toggle.switches.firstMatch.tap() }
+            XCTAssertEqual(toggle.value as? String, on ? "1" : "0", id)
+        }
+        func back() { app.navigationBars.buttons.firstMatch.tap() }
+        app.terminate()
+        app.launchArguments = []   // the switches as saved
+        app.launch()
+        languages()
+        for id in ["en", "zh", "ja"] { turn(id, on: true) }
+        turn("ja", on: false)
+        attach("Japanese off")
+        back()
+        field.tap()
+        type("watashi")
+        XCTAssertTrue(app.buttons["return"].waitForExistence(timeout: 3))
+        sleep(1)
+        XCTAssertFalse(app.buttons["わたし"].exists)
+        XCTAssertFalse(app.buttons["私"].exists)
+        app.buttons["return"].tap()
+
+        app.terminate()
+        app.launch()
+        languages()
+        XCTAssertEqual(app.switches["language-ja"].value as? String, "0", "kept after a restart")
+        turn("ja", on: true)
+        turn("en", on: false)
+        turn("zh", on: false)
+        XCTAssertFalse(app.switches["language-ja"].isEnabled, "the last language stays on")
+        attach("only Japanese on")
+        turn("en", on: true)
+        turn("zh", on: true)
+        back()
+        field.tap()
+        type("watashi")
+        XCTAssertTrue(app.buttons["私"].waitForExistence(timeout: 3) || app.buttons["わたし"].exists)
     }
 
     func attach(_ name: String) {

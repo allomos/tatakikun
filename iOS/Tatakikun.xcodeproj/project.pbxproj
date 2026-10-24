@@ -53,13 +53,15 @@
 
 /* Begin PBXFileReference section */
 		08B03DF6022293B6CDE7B47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		5051456A4CFFF1E02DAB3D01 /* app-icon */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "app-icon"; path = ..; sourceTree = SOURCE_ROOT; };
+		1A0A290411F56B15C8F80857 /* Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Keyboard.entitlements; sourceTree = "<group>"; };
+		4C8C1AD9D45070CAAA5D7290 /* packs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = packs; path = ../build/packs; sourceTree = SOURCE_ROOT; };
 		50B155C70011DC5F40B14D3C /* TatakikunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TatakikunApp.swift; sourceTree = "<group>"; };
 		5894C3A28D45947E6025A92E /* TatakikunUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TatakikunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
 		623D340E71A8448F8868CEB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7AE0EE2F4739DD4AF085D934 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9134AA8E40E7A57E94E9A2C6 /* Tatakikun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tatakikun.entitlements; sourceTree = "<group>"; };
 		9590E338B79104CBDC4027BD /* TatakikunKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = TatakikunKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A273D1A6D5287DE8E3635BF7 /* TatakikunIOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TatakikunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEFEEE51D3D2B49F88300341 /* KeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardUITests.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				08B03DF6022293B6CDE7B47F /* Assets.xcassets */,
 				7AE0EE2F4739DD4AF085D934 /* Info.plist */,
+				9134AA8E40E7A57E94E9A2C6 /* Tatakikun.entitlements */,
 				50B155C70011DC5F40B14D3C /* TatakikunApp.swift */,
 				B369FD26D433B122776D1244 /* TryField.swift */,
 			);
@@ -140,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				623D340E71A8448F8868CEB7 /* Info.plist */,
+				1A0A290411F56B15C8F80857 /* Keyboard.entitlements */,
 				FD83E5291FC32DBFCB2EBEB3 /* KeyboardView.swift */,
 				5BB5A483EF78D974B8203767 /* KeyboardViewController.swift */,
 			);
@@ -365,6 +369,7 @@
 		1B1351E3DF1C02AB4FCEB980 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -398,6 +403,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/Tatakikun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -540,6 +546,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/Tatakikun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -556,6 +563,7 @@
 		91B17354916C2F599E06F08F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
 				INFOPLIST_FILE = Keyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

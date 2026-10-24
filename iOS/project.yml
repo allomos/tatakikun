@@ -32,6 +32,11 @@ targets:
         basedOnDependencyAnalysis: false
         # After Xcode has written the Info.plist, or it overwrites the version again.
         inputFiles: ['$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)']
+    # Shares the settings made in the app (input languages) with the keyboard.
+    entitlements:
+      path: App/Tatakikun.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.tatakikun.ios]
     info:
       path: App/Info.plist
       properties:
@@ -71,6 +76,10 @@ targets:
         basedOnDependencyAnalysis: false
         # After Xcode has written the Info.plist, or it overwrites the version again.
         inputFiles: ['$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)']
+    entitlements:
+      path: Keyboard/Keyboard.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.tatakikun.ios]
     info:
       path: Keyboard/Info.plist
       properties:
@@ -82,7 +91,8 @@ targets:
             IsASCIICapable: false
             PrefersRightToLeft: false
             PrimaryLanguage: zh-Hans
-            # Full Access: copy and cut with Ctrl on iPad (A04-cell054). The app explains it first.
+            # Full Access: the keyboard reads the app's settings (A04-tuna688) and copies and cuts
+            # with Ctrl on iPad (A04-cell054). The app explains it first.
             RequestsOpenAccess: true
     settings:
       base:

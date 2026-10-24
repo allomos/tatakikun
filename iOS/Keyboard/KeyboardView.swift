@@ -15,6 +15,22 @@ enum Shared {
     }()
 }
 
+/// Settings made in the app, which the keyboard reads through their shared app group. The
+/// keyboard can open the group only with Full Access; without it, every installed language is on.
+enum Settings {
+    static let group = "group.com.tatakikun.ios"
+    private static let defaults = UserDefaults(suiteName: group)
+
+    /// The installed languages turned off in the app (A04-tuna688).
+    static var turnedOff: Set<LanguagePacks.Language> {
+        get { Set((defaults?.stringArray(forKey: "languagesOff") ?? []).compactMap(LanguagePacks.Language.init)) }
+        set {
+            defaults?.set(newValue.map(\.rawValue).sorted(), forKey: "languagesOff")
+            Shared.engine.turnedOff = newValue
+        }
+    }
+}
+
 /// Where the keyboard types: the text field through the extension's proxy, or the app's demo field.
 protocol KeyboardTarget: AnyObject {
     var documentContextBeforeInput: String? { get }
