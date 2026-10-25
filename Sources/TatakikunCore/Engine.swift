@@ -210,9 +210,35 @@ public final class Engine {
             // Nothing matches all the letters yet (zhongg, arigat): show the best completions in the bar.
             row = Array(sortedPartial.filter { $0.text != input }.prefix(rowSize - 1)) + [raw]
         }
-        let rest = Self.dedupe((ranked + sortedPartial).sorted { $0.cost < $1.cost })
+        // Symbols the letters name (maru → ○ ◎ ●): the first in the bar after the best words, the
+        // others first in the expanded list.
+        let symbols = symbolCandidates(for: input).filter { s in !row.contains { $0.text == s.text } }
+        if let symbol = symbols.first {
+            row.insert(symbol, at: min(row.count, 3))
+            if row.count > rowSize, let i = row.lastIndex(where: { $0.text != input && $0 != symbol }) { row.remove(at: i) }
+        }
+        let rest = Self.dedupe(symbols.dropFirst() + (ranked + sortedPartial).sorted { $0.cost < $1.cost })
             .filter { c in !row.contains { $0.text == c.text } }
         return CandidateList(input: input, firstRow: row, more: Array(rest.prefix(maxMore)))
+    }
+
+    /// The symbols `input` names in each language that is installed and on (see `Symbols`).
+    func symbolCandidates(for input: String) -> [Candidate] {
+        var found: [Candidate] = []
+        for language in LanguagePacks.Language.allCases where !turnedOff.contains(language) {
+            let kind: CandidateKind
+            switch language {
+            case .zh where chinese != nil: kind = .chinese
+            case .ja where japanese != nil: kind = .kanji
+            case .en where english != nil: kind = .english
+            case _ where words.contains(where: { $0.language == language }): kind = words.first { $0.language == language }!.kind
+            default: continue
+            }
+            for symbol in Symbols.symbols(for: input, in: language) where !found.contains(where: { $0.text == symbol }) {
+                found.append(Candidate(text: symbol, kind: kind, cost: Int.max - 1))
+            }
+        }
+        return found
     }
 
     private func learned(_ c: Candidate, _ input: String) -> Candidate {
