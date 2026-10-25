@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-25T07:38:22Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A03-wood850-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-loop3"
+    },
+    {
+      "field": "working_branch",
+      "from": "master",
+      "to": "task/A03-wood850-03"
+    }
+  ]
+}
