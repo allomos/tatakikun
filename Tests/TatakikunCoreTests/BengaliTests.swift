@@ -6,7 +6,7 @@ final class BengaliTests: XCTestCase {
     var engine: Engine!
 
     override func setUpWithError() throws {
-        engine = try LanguagePackEngineTests().engine(LanguagePacks.Language.allCases)
+        engine = try packEngine(LanguagePacks.Language.allCases)
     }
 
     func bengali(_ input: String) -> [String] {

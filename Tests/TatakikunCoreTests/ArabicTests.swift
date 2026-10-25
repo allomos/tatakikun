@@ -6,7 +6,7 @@ final class ArabicTests: XCTestCase {
     var engine: Engine!
 
     override func setUpWithError() throws {
-        engine = try LanguagePackEngineTests().engine(LanguagePacks.Language.allCases)
+        engine = try packEngine(LanguagePacks.Language.allCases)
     }
 
     func arabic(_ input: String) -> [String] {
