@@ -1,9 +1,11 @@
 {
   "area": "A03",
-  "handoff_note": "Approved (2026-10-25, see Notes): build with the proposed sources. Proposal (claude-loop3, 2026-10-25): as for Hindi: Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (bn: 83 MB of sentences) for words and frequencies, AI4Bharat Aksharantar pairs (mined CC0, hand-collected CC-BY 4.0 with attribution; bn 1.2 million pairs) for romanized spellings, and the same sound-table approach. Pack estimated 3–6 MB. Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+  "handoff_note": "Done, to check; steps in the task. Run mode: quiet (chosen by the person, 2026-10-25).",
   "holder": "claude-loop3",
+  "human_check_steps": "# Check Bengali\n\n1. macOS: run the installer built from master, keep Bengali checked; quit and reopen Electron apps. In TextEdit type `ami` → আমি; `tumi` → তুমি; `kemon` → কেমন; `dhonnobad` → ধন্যবাদ; `bangla` → বাংলা. Check that the Bengali in the candidate panel looks right (conjuncts like ন্য, vowel signs).\n2. Type `tumi`, pick তুমি, then `kemon` Space `acho` Space: তুমি কেমন আছো.\n3. iOS and Android: install from master, type `dhonnobad` → ধন্যবাদ; Language packs lists বাংলা.\n4. Turn বাংলা off in the settings: ধন্যবাদ goes away.\n5. Check that the other languages still come first where they did (woaini 我爱你, watashi 私, hello, namaste नमस्ते).\n",
   "id": "A03-wood850-05",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Type Bengali with Tatakikun"
+  "state": "done",
+  "title": "Type Bengali with Tatakikun",
+  "without_human_check": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps, Bengali in the macOS panel and the installer need a person"
 }

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T09:00:02Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Bengali: same sizes and sources rule as Hindi; the unwritten vowel o first and a second; য/ব after a consonant spelled as the consonant doubled first (dhonnobad), y/b/w second; ং ng; candidate kind tagged বা."
+    }
+  ]
+}
