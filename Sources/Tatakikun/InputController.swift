@@ -28,7 +28,11 @@ func composerKey(for event: NSEvent) -> Key? {
 /// One controller per client text field; InputMethodKit creates it by this Objective-C name.
 @objc(TatakikunInputController)
 final class InputController: IMKInputController {
-    private lazy var composer = Composer(engine: TatakikunApp.engine)
+    private lazy var composer: Composer = {
+        let composer = Composer(engine: TatakikunApp.engine)
+        composer.offersMarks = true
+        return composer
+    }()
 
     override func recognizedEvents(_ sender: Any!) -> Int {
         Int(NSEvent.EventTypeMask.keyDown.rawValue)
@@ -119,10 +123,10 @@ final class InputController: IMKInputController {
             TatakikunApp.panel.hide()
             return
         }
-        let marked = NSAttributedString(string: composer.input, attributes: [
+        let marked = NSAttributedString(string: composer.markedText, attributes: [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
         ])
-        client.setMarkedText(marked, selectionRange: NSRange(location: composer.input.utf16.count, length: 0),
+        client.setMarkedText(marked, selectionRange: NSRange(location: composer.markedText.utf16.count, length: 0),
                              replacementRange: Self.noRange)
         var cursor = NSRect.zero
         client.attributes(forCharacterIndex: 0, lineHeightRectangle: &cursor)

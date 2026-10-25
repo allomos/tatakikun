@@ -56,6 +56,39 @@ public struct Punctuation {
         }
     }
 
+    /// The marks a punctuation key offers as candidates (on the Mac), after the one it types now.
+    static let alternatives: [Character: [String]] = [
+        ",": ["、", "，", ","], ".": ["。", "．", "."], "?": ["？", "?"], "!": ["！", "!"],
+        ":": ["：", ":"], ";": ["；", ";"], "(": ["（", "(", "〔", "｟"], ")": ["）", ")", "〕", "｠"],
+        "[": ["「", "【", "[", "『", "［", "〔", "〖"], "]": ["」", "】", "]", "』", "］", "〕", "〗"],
+        "{": ["『", "｛", "{", "〘"], "}": ["』", "｝", "}", "〙"],
+        "<": ["《", "〈", "＜", "<", "≪"], ">": ["》", "〉", "＞", ">", "≫"],
+        "/": ["・", "／", "/"], "\\": ["＼", "、", "\\", "￥"], "~": ["〜", "～", "~"],
+        "^": ["……", "＾", "^"], "_": ["——", "＿", "_"], "$": ["￥", "＄", "$"],
+        "\"": ["“", "”", "「", "」", "＂", "\""], "'": ["‘", "’", "『", "』", "＇", "'"],
+    ]
+
+    /// The marks key `c` offers in text of this script: the one it types now first, then the
+    /// others; empty when it has no others.
+    public func marks(for c: Character, script: TextScript) -> [String] {
+        guard let others = Self.alternatives[c] else { return [] }
+        var copy = self
+        var marks = [copy.convert(c, for: script)]
+        for mark in others where !marks.contains(mark) { marks.append(mark) }
+        return marks
+    }
+
+    /// Notes a mark typed some other way (a candidate), so the next quote opens or closes after it.
+    public mutating func noteTyped(_ mark: String) {
+        switch mark {
+        case "“": doubleOpen = false
+        case "”": doubleOpen = true
+        case "‘": singleOpen = false
+        case "’": singleOpen = true
+        default: break
+        }
+    }
+
     static let japaneseOnly: Set<Character> = ["、", "「", "」", "『", "』", "・", "〜", "ー"]
     static let chineseOnly: Set<Character> = ["，", "“", "”", "‘", "’", "【", "】", "《", "》", "～", "…", "—", "￥"]
 

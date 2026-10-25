@@ -62,6 +62,15 @@ public final class Composer {
     public var textBeforeCursor: (() -> String?)?
     /// The script of what was inserted last.
     public private(set) var lastScript = TextScript.latin
+    /// When on (the Mac), a punctuation key with other forms opens them as candidates (「 【 [ 『
+    /// for [) instead of typing one, except straight after a Latin letter or digit (3.14, hello,).
+    /// The one it would have typed comes first and the next key types it, as the next letter does
+    /// after a word; Space and Return type the selected one, Backspace and Esc take the key back.
+    public var offersMarks = false
+    /// Whether what is being composed is a punctuation key's marks, not letters.
+    public private(set) var isMark = false
+    /// What to show in the document while composing: the letters, or the selected mark.
+    public var markedText: String { isMark ? (selected?.text ?? input) : input }
     private var punctuation = Punctuation()
     /// The result being built from several picks (nihaoma: 你好, then 吗): the letters it started
     /// from, the text inserted so far, how many picks, and whether one was not the first candidate.
@@ -98,11 +107,16 @@ public final class Composer {
                 if afterAddedSpace, Self.closingPunctuation.contains(c), textBeforeCursor?()?.hasSuffix(" ") ?? true {
                     return ComposerUpdate(handled: true, commit: String(c), deleteBefore: 1)
                 }
+                if offersMarks, startMarks(c, script: Punctuation.script(before: textBeforeCursor?(), fallback: lastScript),
+                                           after: textBeforeCursor?()) {
+                    return ComposerUpdate(handled: true)
+                }
                 return typeAsScript(c)
             default:
                 return ComposerUpdate(handled: false)
             }
         }
+        if isMark, let update = handleMark(key) { return update }
         switch key {
         case .letter(let c):
             setInput(input + String(c))
@@ -150,6 +164,14 @@ public final class Composer {
             let candidate = selected?.consumed == nil ? selected : nil
             let script = TextScript(candidate?.kind ?? .raw)
             engine.noteInserted(candidate?.kind ?? .raw)
+            if offersMarks, script != .latin {
+                // The word goes in, and the key's marks wait to be chosen after it.
+                let word = candidate?.text ?? input
+                lastScript = script
+                reset()
+                if startMarks(c, script: script, after: word) { return ComposerUpdate(handled: true, commit: word) }
+                return ComposerUpdate(handled: true, commit: word + punctuation.convert(c, for: script))
+            }
             let text = (candidate?.text ?? input) + punctuation.convert(c, for: script)
             return commit(text, script: script)
         }
@@ -172,12 +194,14 @@ public final class Composer {
     /// Chooses a candidate by position (a click in the panel).
     public func choose(row: Int, column: Int) -> ComposerUpdate {
         guard rows.indices.contains(row), rows[row].indices.contains(column) else { return ComposerUpdate(handled: true) }
+        if isMark { return ComposerUpdate(handled: true, commit: commitMark(rows[row][column])) }
         return choose(rows[row][column])
     }
 
     /// Ends composition, inserting the selected candidate (used when the input method is switched away).
     public func finish() -> String? {
         guard isComposing else { return nil }
+        if isMark { return commitMark(selected) }
         let candidate = selected?.consumed == nil ? selected : nil
         lastScript = TextScript(candidate?.kind ?? .raw)
         engine.noteInserted(candidate?.kind ?? .raw)
@@ -197,6 +221,7 @@ public final class Composer {
     }
 
     private func setInput(_ s: String) {
+        isMark = false
         input = s
         list = engine.candidates(for: s)
         rows = list.firstRow.isEmpty ? [] : [list.firstRow]
@@ -251,6 +276,59 @@ public final class Composer {
         lastScript = script
         reset()
         return ComposerUpdate(handled: true, commit: text)
+    }
+
+    /// Opens the marks of key `c` as candidates, the one it types in `script` first; false when it
+    /// has no others or comes straight after a Latin letter or digit (`before`), where it is typed.
+    private func startMarks(_ c: Character, script: TextScript, after before: String?) -> Bool {
+        if script == .latin, let last = before?.last, last.isASCII, last.isLetter || last.isNumber { return false }
+        let marks = punctuation.marks(for: c, script: script)
+        guard marks.count > 1 else { return false }
+        let candidates = marks.map { mark -> Candidate in
+            let kind: CandidateKind
+            switch Punctuation.script(before: mark, fallback: script == .latin ? .chinese : script) {
+            case .latin: kind = .raw
+            case .chinese: kind = .chinese
+            case .japanese: kind = .hiragana
+            }
+            return Candidate(text: mark, kind: kind, cost: 0)
+        }
+        setInput("")
+        input = String(c)
+        list = CandidateList(input: input, firstRow: candidates, more: [])
+        rows = [candidates]
+        isMark = true
+        return true
+    }
+
+    /// A key while choosing a mark; nil for the keys that move the selection as usual.
+    private func handleMark(_ key: Key) -> ComposerUpdate? {
+        switch key {
+        case .backspace, .escape:
+            reset()
+            return ComposerUpdate(handled: true)
+        case .space, .enter:
+            return ComposerUpdate(handled: true, commit: commitMark(selected))
+        case .digit(let n):
+            guard n >= 1, n <= rows[0].count else { return ComposerUpdate(handled: true) }
+            return ComposerUpdate(handled: true, commit: commitMark(rows[0][n - 1]))
+        case .letter, .other:
+            // Typing on: the selected mark goes in, then the key does what it does.
+            let mark = commitMark(selected)
+            let next = handle(key)
+            return ComposerUpdate(handled: next.handled, commit: mark + (next.commit ?? ""))
+        case .left, .right, .up, .down, .tab:
+            return nil
+        }
+    }
+
+    /// Inserts a mark: it decides the script of what comes next, and closes or opens quotes.
+    private func commitMark(_ candidate: Candidate?) -> String {
+        let mark = candidate?.text ?? input
+        punctuation.noteTyped(mark)
+        lastScript = Punctuation.script(before: mark, fallback: lastScript)
+        reset()
+        return mark
     }
 
     /// Not composing: types `c` full-width after Chinese or Japanese text, or lets the application type it.
