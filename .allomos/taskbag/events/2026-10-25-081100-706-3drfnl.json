@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T08:11:00Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-wood850-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps, Devanagari in the macOS panel and the installer need a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check Hindi\n\n1. macOS: run the installer built from master, keep Hindi checked; quit and reopen Electron apps. In TextEdit type `namaste` → नमस्ते; `dhanyavad` → धन्यवाद; `kya` and `kyaa` → क्या; `hai` → है; `accha` → अच्छा. Check that the Devanagari in the candidate panel looks right (conjuncts like स्ते, vowel signs).\n2. Type `aap`, pick आप, then `kaise` Space `hain` Space: आप कैसे हैं.\n3. iOS and Android: install from master, type `namaste` → नमस्ते in Notes / any app; Language packs lists हिन्दी.\n4. Turn हिन्दी off in the settings (menu, Input languages, language dialog): नमस्ते goes away.\n5. Check that Chinese, Japanese, English, Spanish and French still come first where they did (woaini 我爱你, watashi 私, hello, cancion canción, francais français).\n"
+    }
+  ]
+}

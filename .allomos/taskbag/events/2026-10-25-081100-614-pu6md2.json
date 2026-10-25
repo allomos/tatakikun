@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T08:11:00Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Hindi: 40 000 words (fewer than Spanish/French to keep the pack near 5 MB); up to 4 table spellings per word from the sentences, 2 for words only Aksharantar has; Aksharantar's Dakshina pairs and other 'existing' sources left out (their licence is not clearly CC0/CC-BY); a pair is kept only within max(2, length/3) edits of a table spelling; candidate kind tagged हि; hindi uses half-width punctuation and a space after a word, like English."
+    }
+  ]
+}

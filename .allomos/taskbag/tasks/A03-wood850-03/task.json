@@ -1,9 +1,11 @@
 {
   "area": "A03",
-  "handoff_note": "Approved (2026-10-25, see Notes): build with the proposed sources. Proposal (claude-loop3, 2026-10-25): words and frequencies from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (hi: only 4 MB of sentences, so ranking is thin), plus AI4Bharat Aksharantar romanized/native word pairs for the loose spellings people type (huggingface.co/datasets/ai4bharat/Aksharantar; mined pairs CC0, hand-collected pairs CC-BY 4.0, which needs an attribution line in the pack licences; hi 1.3 million pairs), plus a sound table for words not in the pairs. Pack estimated 3–6 MB. Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+  "handoff_note": "Done, to check; steps in the task. Bengali (A03-wood850-05) reuses IndicScript (same layout). Run mode: quiet (chosen by the person, 2026-10-25).",
   "holder": "claude-loop3",
+  "human_check_steps": "# Check Hindi\n\n1. macOS: run the installer built from master, keep Hindi checked; quit and reopen Electron apps. In TextEdit type `namaste` → नमस्ते; `dhanyavad` → धन्यवाद; `kya` and `kyaa` → क्या; `hai` → है; `accha` → अच्छा. Check that the Devanagari in the candidate panel looks right (conjuncts like स्ते, vowel signs).\n2. Type `aap`, pick आप, then `kaise` Space `hain` Space: आप कैसे हैं.\n3. iOS and Android: install from master, type `namaste` → नमस्ते in Notes / any app; Language packs lists हिन्दी.\n4. Turn हिन्दी off in the settings (menu, Input languages, language dialog): नमस्ते goes away.\n5. Check that Chinese, Japanese, English, Spanish and French still come first where they did (woaini 我爱你, watashi 私, hello, cancion canción, francais français).\n",
   "id": "A03-wood850-03",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Type Hindi with Tatakikun"
+  "state": "done",
+  "title": "Type Hindi with Tatakikun",
+  "without_human_check": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps, Devanagari in the macOS panel and the installer need a person"
 }
