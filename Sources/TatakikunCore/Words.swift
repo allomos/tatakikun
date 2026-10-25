@@ -4,7 +4,7 @@ import FoundationEssentials
 import Foundation
 #endif
 
-/// A language typed word by word from plain letters (Spanish, French; Hindi by sound): its pack
+/// A language typed word by word from plain letters (Spanish, French; Hindi and Bengali by sound): its pack
 /// keys every word by the letters that type it, without accents (canción under cancion, niño
 /// under nino, नमस्ते under namaste), so the accents come from plain letters. Words typed with
 /// their accents are found too.

@@ -14,8 +14,31 @@ struct IndicScript {
     /// Whether an unwritten vowel inside a word is dropped as Hindi speakers do (namaste, not
     /// namasate; kamra, not kamara): see `syllables`.
     let dropsVowels: Bool
+    /// This script's own spellings of letters, signs and marks, in place of the shared table's.
+    var overrides: [UInt32: [(String, Int)]] = [:]
+    /// Spellings of a consonant that follows another in a cluster, where it differs (Bengali ্য, ্ব).
+    var afterConsonant: [UInt32: [(String, Int)]] = [:]
 
     static let devanagari = IndicScript(base: 0x900, inherent: [("a", 0)], dropsVowels: true)
+
+    /// Bengali: the unwritten vowel is o (কেমন kemon), ৈ ৌ are oi ou, ং is ng (বাংলা bangla), য
+    /// starting a syllable is j (যদি jodi); after a consonant, য and ব mostly double it
+    /// (ধন্যবাদ dhonnobad, বিশ্ব bishsho), and are also written y and b.
+    static let bengaliBase: UInt32 = 0x980
+    static let bengali = IndicScript(
+        base: bengaliBase, inherent: [("o", 0), ("a", 2)], dropsVowels: true,
+        overrides: [0x48: [("oi", 0), ("ai", 2)], 0x4C: [("ou", 0), ("au", 2)], 0x10: [("oi", 0)], 0x14: [("ou", 0)],
+                    0x02: [("ng", 0), ("n", 1)], 0x01: [("", 0), ("n", 2)], 0x2F: [("j", 0), ("y", 2)],
+                    0x36: [("sh", 0), ("s", 2)], 0x37: [("sh", 0), ("s", 2)], 0x38: [("s", 0), ("sh", 1)],
+                    0x2C: [("b", 0)], 0x2B: [("ph", 0), ("f", 1)], 0x3E: [("a", 0)], 0x06: [("a", 0)]],
+        afterConsonant: [0x2F: [("", 0), ("y", 1)], 0x2C: [("", 0), ("b", 2), ("w", 2)]])
+
+    func letter(_ o: UInt32) -> [(String, Int)]? {
+        o == 0x4E && base == Self.bengaliBase ? [("t", 0)] : Self.consonants[o].map { overrides[o] ?? $0 }
+    }
+    func vowelSign(_ o: UInt32) -> [(String, Int)]? { Self.vowelSigns[o].map { overrides[o] ?? $0 } }
+    func vowel(_ o: UInt32) -> [(String, Int)]? { Self.vowels[o].map { overrides[o] ?? $0 } }
+    func mark(_ o: UInt32) -> [(String, Int)]? { Self.marks[o].map { overrides[o] ?? $0 } }
 
     /// Spellings of each letter, by offset, the usual one first, each with what it adds to the cost.
     static let consonants: [UInt32: [(String, Int)]] = [
@@ -29,7 +52,6 @@ struct IndicScript {
         // With a nukta (क़ ख़ ग़ ज़ ड़ ढ़ फ़ य़).
         0x58: [("q", 0), ("k", 2)], 0x59: [("kh", 0)], 0x5A: [("g", 0)], 0x5B: [("z", 0), ("j", 2)],
         0x5C: [("r", 0), ("d", 3)], 0x5D: [("rh", 0), ("dh", 3)], 0x5E: [("f", 0), ("ph", 2)], 0x5F: [("y", 0)],
-        0x4E: [("t", 0)],   // Bengali ৎ
     ]
     /// A consonant with a nukta after it: the precomposed letter's offset.
     static let nukta: [UInt32: UInt32] = [0x15: 0x58, 0x16: 0x59, 0x17: 0x5A, 0x1C: 0x5B, 0x21: 0x5C, 0x22: 0x5D, 0x2B: 0x5E, 0x2F: 0x5F]
@@ -68,7 +90,10 @@ struct IndicScript {
         for scalar in word.unicodeScalars {
             guard scalar.value >= base, scalar.value < base + 0x80 else { return nil }
             let o = scalar.value - base
-            if Self.consonants[o] != nil {
+            if o == 0x4E, base == IndicScript.bengaliBase {   // Bengali ৎ: t with no vowel after it
+                out.append(Syllable(consonants: [o], hasVowel: false))
+                pendingVirama = false
+            } else if Self.consonants[o] != nil {
                 let c = o
                 if pendingVirama, !out.isEmpty {
                     out[out.count - 1].consonants.append(c); out[out.count - 1].hasVowel = true
@@ -83,14 +108,14 @@ struct IndicScript {
                 guard !out.isEmpty else { return nil }
                 out[out.count - 1].hasVowel = false
                 pendingVirama = true
-            } else if let v = Self.vowelSigns[o] {
+            } else if let v = vowelSign(o) {
                 guard !out.isEmpty, out[out.count - 1].vowel == nil, !out[out.count - 1].consonants.isEmpty else { return nil }
                 out[out.count - 1].vowel = v
                 pendingVirama = false
-            } else if let v = Self.vowels[o] {
+            } else if let v = vowel(o) {
                 out.append(Syllable(vowel: v))
                 pendingVirama = false
-            } else if let m = Self.marks[o] {
+            } else if let m = mark(o) {
                 guard !out.isEmpty else { return nil }
                 out[out.count - 1].marks.append(m)
             } else {
@@ -129,8 +154,15 @@ struct IndicScript {
             var k = 0
             while k < s.consonants.count {
                 let c = s.consonants[k]
-                let spelled = Self.consonants[c] ?? [("", 0)]
-                if k + 1 < s.consonants.count, let next = Self.consonants[s.consonants[k + 1]],
+                if k > 0, let tail = afterConsonant[c] {
+                    // ্য, ্ব after a consonant: mostly the consonant doubled (dhonnobad).
+                    let previous = letter(s.consonants[k - 1])?.first?.0 ?? ""
+                    extend(tail.map { $0.0.isEmpty ? (previous, $0.1) : $0 })
+                    k += 1
+                    continue
+                }
+                let spelled = letter(c) ?? [("", 0)]
+                if k + 1 < s.consonants.count, let next = letter(s.consonants[k + 1]),
                    c == s.consonants[k + 1] || Self.aspirated[c] == s.consonants[k + 1] {
                     // A doubled consonant (पक्का pakka) or one before its aspirate (अच्छा achchha): also
                     // written once (paka, achha) and, for च्छ, as cch (accha).
@@ -151,7 +183,7 @@ struct IndicScript {
                 extend(options)
             }
             else if s.hasVowel && !s.consonants.isEmpty {
-                extend(dropped[i] ? [("", 0), ("a", 6)] : inherent + [("", 6)])
+                extend(dropped[i] ? [("", 0), (inherent[0].0, 6)] : inherent + [("", 6)])
             }
             for m in s.marks { extend(m) }
         }

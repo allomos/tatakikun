@@ -10,7 +10,7 @@ public enum TextScript: Equatable {
 
     public init(_ kind: CandidateKind) {
         switch kind {
-        case .english, .spanish, .french, .hindi, .raw: self = .latin
+        case .english, .spanish, .french, .hindi, .bengali, .raw: self = .latin
         case .chinese: self = .chinese
         case .kanji, .hiragana, .katakana: self = .japanese
         }

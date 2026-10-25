@@ -1,11 +1,11 @@
 #!/bin/sh
 # Builds build/Tatakikun.app (the input method, its menu bar icon and app icon) and the language packs in build/packs.
 # The dictionaries are not in the app: each language is a pack the installer puts next to it.
-# Usage: scripts/build.sh [zh,ja,en,es,fr,hi]   (the packs to build; all by default)
+# Usage: scripts/build.sh [zh,ja,en,es,fr,hi,bn]   (the packs to build; all by default)
 set -e
 cd "$(dirname "$0")/.."
 swift build -c release
-scripts/build-packs.sh "${1:-zh,ja,en,es,fr,hi}"
+scripts/build-packs.sh "${1:-zh,ja,en,es,fr,hi,bn}"
 APP=build/Tatakikun.app
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"

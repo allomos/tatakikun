@@ -13,3 +13,5 @@
 "FR_DESCRIPTION" = "アクセントなしの文字でフランス語を入力します(ecole → école、coeur → cœur)。よく使われる順。データ:Mozilla Common Voice の文(CC0)。約 1 MB。";
 "HI_TITLE" = "ヒンディー語";
 "HI_DESCRIPTION" = "ヒンディー語(デーヴァナーガリー)を音のとおりローマ字で入力します(namaste → नमस्ते、kya → क्या)。データ:Mozilla Common Voice の文(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。約 5 MB。";
+"BN_TITLE" = "ベンガル語";
+"BN_DESCRIPTION" = "ベンガル語を音のとおりローマ字で入力します(ami → আমি、kemon → কেমন)。データ:Mozilla Common Voice の文(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。約 6 MB。";

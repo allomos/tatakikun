@@ -13,3 +13,5 @@
 "FR_DESCRIPTION" = "French words by their plain letters (ecole → école, coeur → cœur), ranked by how often they are used. Data: Mozilla Common Voice sentences (CC0). About 1 MB.";
 "HI_TITLE" = "Hindi";
 "HI_DESCRIPTION" = "Hindi in Devanagari, typed by sound in Latin letters (namaste → नमस्ते, kya → क्या). Data: Mozilla Common Voice sentences (CC0), AI4Bharat Aksharantar (CC0, CC BY 4.0). About 5 MB.";
+"BN_TITLE" = "Bengali";
+"BN_DESCRIPTION" = "Bengali, typed by sound in Latin letters (ami → আমি, kemon → কেমন). Data: Mozilla Common Voice sentences (CC0), AI4Bharat Aksharantar (CC0, CC BY 4.0). About 6 MB.";

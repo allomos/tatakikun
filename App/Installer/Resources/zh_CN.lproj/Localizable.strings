@@ -13,3 +13,5 @@
 "FR_DESCRIPTION" = "用不带重音的字母输入法文(ecole → école,coeur → cœur),按常用程度排序。数据:Mozilla Common Voice 的句子(CC0)。约 1 MB。";
 "HI_TITLE" = "印地文";
 "HI_DESCRIPTION" = "按读音用拉丁字母输入印地文(天城文)(namaste → नमस्ते,kya → क्या)。数据:Mozilla Common Voice 的句子(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。约 5 MB。";
+"BN_TITLE" = "孟加拉文";
+"BN_DESCRIPTION" = "按读音用拉丁字母输入孟加拉文(ami → আমি,kemon → কেমন)。数据:Mozilla Common Voice 的句子(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。约 6 MB。";

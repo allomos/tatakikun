@@ -14,7 +14,7 @@ public struct CandidateList {
 
 /// The language of a candidate, for ranking by what was typed just before.
 public enum Language {
-    case english, chinese, japanese, spanish, french, hindi
+    case english, chinese, japanese, spanish, french, hindi, bengali
 
     public init(_ kind: CandidateKind) {
         switch kind {
@@ -24,6 +24,7 @@ public enum Language {
         case .spanish: self = .spanish
         case .french: self = .french
         case .hindi: self = .hindi
+        case .bengali: self = .bengali
         }
     }
 }
@@ -43,7 +44,7 @@ public final class Engine {
     public let chinese: ChineseConverter?
     public let japanese: JapaneseConverter?
     public let english: EnglishConverter?
-    /// The languages typed word by word (Spanish, French, Hindi), one for each installed pack.
+    /// The languages typed word by word (Spanish, French, Hindi, Bengali), one for each installed pack.
     public let words: [WordConverter]
     public var rowSize: Int
     /// At most this many candidates after the first row.
@@ -98,7 +99,7 @@ public final class Engine {
         case .english: !turnedOff.contains(.en)
         case .chinese: !turnedOff.contains(.zh)
         case .japanese: !turnedOff.contains(.ja)
-        case .spanish, .french, .hindi: true
+        case .spanish, .french, .hindi, .bengali: true
         }
     }
 

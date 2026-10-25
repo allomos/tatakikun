@@ -83,6 +83,7 @@ check "cancion SPACE" "canción "
 check "manana SPACE" "mañana "
 check "francais SPACE" "français "
 check "namaste SPACE" "नमस्ते "
+check "dhonnobad SPACE" "ধন্যবাদ "
 # → Space picks the second candidate (愛); learned, it comes first the next time.
 check "ai DPAD_RIGHT SPACE ai SPACE" "愛愛"
 rm -rf "$TMP"

@@ -19,7 +19,7 @@ mkdir -p $APP/jniLibs/arm64-v8a $APP/assets/packs
 cp build/android/arm64-v8a/*.so $APP/jniLibs/arm64-v8a/
 # libc++_shared.so also comes from the NDK through CMake; one copy is enough.
 rm -f $APP/jniLibs/arm64-v8a/libc++_shared.so
-for lang in zh ja en es fr hi; do cp -R build/packs/$lang $APP/assets/packs/; done
+for lang in zh ja en es fr hi bn; do cp -R build/packs/$lang $APP/assets/packs/; done
 
 if [ "$1" = release ]; then
     SIGNING=${TATAKIKUN_ANDROID_SIGNING:-$HOME/.config/tatakikun/android-signing.properties}
