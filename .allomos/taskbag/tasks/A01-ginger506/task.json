@@ -1,8 +1,11 @@
 {
   "area": "A01",
   "holder": "claude-readme-langs",
+  "human_check_steps": "1. Open README.md, README.zh-CN.md and README.ja.md on GitHub.\n2. In Build and install: the installer paragraph says the input menu turns installed languages on and off, and its link jumps to Dictionaries.\n3. In Dictionaries: a paragraph explains the Mac input menu (Input languages, check marks, last one stays on).\n4. In iPhone and iPad: the Language packs switches and the Full Access condition are explained.\n5. In Android: the Language packs choice is explained.\n6. Compare with the Mac input menu and the phone apps: the wording matches what you see.\n",
   "id": "A01-ginger506",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "The READMEs (English, Chinese, Japanese) tell how to turn input languages on and off on the Mac, iPhone and Android"
+  "label": "implemented",
+  "state": "done",
+  "title": "The READMEs (English, Chinese, Japanese) tell how to turn input languages on and off on the Mac, iPhone and Android",
+  "without_human_check": "Documentation only: a person reads the three READMEs against the apps"
 }

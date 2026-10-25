@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T10:35:38Z",
+  "by": "claude-readme-langs",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A01-ginger506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Documentation only: a person reads the three READMEs against the apps"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. Open README.md, README.zh-CN.md and README.ja.md on GitHub.\n2. In Build and install: the installer paragraph says the input menu turns installed languages on and off, and its link jumps to Dictionaries.\n3. In Dictionaries: a paragraph explains the Mac input menu (Input languages, check marks, last one stays on).\n4. In iPhone and iPad: the Language packs switches and the Full Access condition are explained.\n5. In Android: the Language packs choice is explained.\n6. Compare with the Mac input menu and the phone apps: the wording matches what you see.\n"
+    }
+  ]
+}
