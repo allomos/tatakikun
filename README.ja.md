@@ -12,7 +12,7 @@
 
 ## ビルドとインストール
 
-**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語・スペイン語・フランス語・ヒンディー語・ベンガル語・アラビア語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語を変えるときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。
+**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語・スペイン語・フランス語・ヒンディー語・ベンガル語・アラビア語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語パックを増減するときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。インストール済みの言語をオン・オフするだけなら入力メニューを使います([辞書](#辞書)を参照)。
 
 このパッケージには Apple の Developer ID 署名がありません。自分の Mac で作ったものはそのまま開けます。ダウンロードしたものは初回にブロックされるので、システム設定 → プライバシーとセキュリティ で **このまま開く** をクリックしてください。
 
@@ -70,6 +70,8 @@ Tatakikun は学習します。選んだ候補は、次に同じ英字を入力�
 
 言語ごとに **言語パック** があり、`~/Library/Application Support/Tatakikun/Packs/<zh|ja|en>` にインストールされます。パックのない言語は候補を出しません(入力した英字そのものは常に候補に出ます)。
 
+**言語のオン・オフ。** Tatakikun を選んだ状態でメニューバーの入力メニューをクリックすると、**Input languages** の下にインストール済みの言語が並び、候補を出す言語にチェックが付いています。選ぶとすぐにオン・オフが切り替わり、設定は保存されます。最後にオンの言語はオフにできません。言語パックは残るので、オンに戻すのにインストーラは不要です。
+
 | パック | データ | ライセンス |
 | --- | --- | --- |
 | 中国語 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(全漢字のすべての読み)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(約 40 万語の読み)、ICU と [jieba](https://github.com/fxsjy/jieba) の頻度 | MIT、Unicode License V3 |
@@ -98,6 +100,8 @@ Xcode で `iOS/Tatakikun.xcodeproj` を開くと自分の iPhone で動かせま
 設定 → 一般 → キーボード → キーボード → 新しいキーボードを追加… → Tatakikun で有効にします。アプリには
 有効にしなくてもキーボードを試せる画面もあります。App Store にはまだありません。
 
+入力言語を選ぶには、アプリを開き → **Language packs**。言語ごとにスイッチがあり、少なくとも 1 つはオンのままです。キーボードがこのスイッチに従うのはフルアクセスを許可したときだけです(設定 → 一般 → キーボード → キーボード → Tatakikun → フルアクセスを許可)。iOS はそのときだけキーボードにアプリの設定を読ませるためで、許可しないとすべての言語がオンになります。アプリの Try it 欄は常にスイッチに従います。
+
 ## Android(プレビュー)
 
 `android/` には Tatakikun キーボード付きの Android アプリがあります(Android 9 以降、arm64 の端末)。
@@ -112,7 +116,8 @@ scripts/test-android.sh                 # エミュレータでいくつか入�
 
 ビルドには Android SDK と NDK(Android Studio)、互いに対応する Swift ツールチェーンと Swift SDK for
 Android が必要です(`scripts/build-android.sh` を参照)。端末では Tatakikun を開き → Open settings →
-Tatakikun をオンにし、Choose keyboard → Tatakikun を選びます。
+Tatakikun をオンにし、Choose keyboard → Tatakikun を選びます。入力言語を選ぶには、アプリで **Language packs** を
+タップし、候補を出す言語にチェックを入れます(少なくとも 1 つ)。次にキーボードを開いたときから反映されます。
 
 ## 開発
 

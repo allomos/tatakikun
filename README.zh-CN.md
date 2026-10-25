@@ -11,7 +11,7 @@
 
 ## 构建和安装
 
-**安装器。** `scripts/make-installer.sh` 生成 `build/Tatakikun-<版本>.pkg`(Apple 芯片和 Intel 的 Mac 都能用)。打开它,在 **自定** 页勾选要装的语言包:中文、日文、英文、西班牙文、法文、印地文、孟加拉文、阿拉伯文(默认全选)。只装给当前用户,不需要管理员密码。以后想改语言,再运行一次安装器;没勾选的语言包会被删除。
+**安装器。** `scripts/make-installer.sh` 生成 `build/Tatakikun-<版本>.pkg`(Apple 芯片和 Intel 的 Mac 都能用)。打开它,在 **自定** 页勾选要装的语言包:中文、日文、英文、西班牙文、法文、印地文、孟加拉文、阿拉伯文(默认全选)。只装给当前用户,不需要管理员密码。以后想增删语言包,再运行一次安装器;没勾选的语言包会被删除。只是想开关已装的语言,用输入法菜单即可(见 [词库](#词库))。
 
 这个安装包没有 Apple 开发者签名。在自己的 Mac 上生成的可以直接打开;从网上下载的第一次会被拦下:打开 系统设置 → 隐私与安全性,点 **仍要打开**。
 
@@ -67,6 +67,8 @@ Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更�
 
 每种语言是一个 **语言包**,装在 `~/Library/Application Support/Tatakikun/Packs/<zh|ja|en>`;没装的语言不出候选(键入的原始字母串始终会出现)。
 
+**开关语言。** 切换到 Tatakikun 后,点菜单栏里的输入法菜单:**Input languages** 下列出每种已装的语言,出候选的语言前面有勾。点一下就开或关,立即生效并会记住。最后一种开着的语言不能关。语言包仍然装着,重新打开不需要安装器。
+
 | 语言包 | 数据来源 | 许可证 |
 | --- | --- | --- |
 | 中文 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(每个字的全部读音)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(约 40 万词的读音)、ICU 和 [jieba](https://github.com/fxsjy/jieba) 的词频 | MIT;Unicode License V3 |
@@ -93,6 +95,8 @@ scripts/build-ios.sh test   # 并运行界面测试
 在 Xcode 中打开 `iOS/Tatakikun.xcodeproj` 可以装到自己的 iPhone 上(用你的 Apple ID 签名),然后启用:
 设置 → 通用 → 键盘 → 键盘 → 添加新键盘… → Tatakikun。应用里也有一个不用启用就能试用键盘的页面。目前没有上架 App Store。
 
+选择输入语言:打开应用 → **Language packs**,每种语言一个开关,至少留一种开着。键盘只有在允许完全访问时才跟随这些开关(设置 → 通用 → 键盘 → 键盘 → Tatakikun → 允许完全访问),因为 iOS 只在这时让键盘读取应用的设置;不允许时所有语言都开着。应用里的 Try it 输入框总是跟随这些开关。
+
 ## Android(预览)
 
 `android/` 里是带 Tatakikun 键盘的 Android 应用(Android 9 以上,arm64 手机):引擎和 Mac 上的相同,
@@ -105,7 +109,7 @@ scripts/test-android.sh                 # 在模拟器上输入几组字母并�
 ```
 
 构建需要 Android SDK 和 NDK(Android Studio),以及相互匹配的 Swift 工具链和 Swift SDK for Android
-(见 `scripts/build-android.sh`)。在手机上:打开 Tatakikun → Open settings → 打开 Tatakikun,再 Choose keyboard → Tatakikun。
+(见 `scripts/build-android.sh`)。在手机上:打开 Tatakikun → Open settings → 打开 Tatakikun,再 Choose keyboard → Tatakikun。选择输入语言:在应用里点 **Language packs**,勾选要出候选的语言(至少留一种),键盘下次弹出时生效。
 
 ## 开发
 

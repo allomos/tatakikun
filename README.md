@@ -16,7 +16,8 @@ are always one of the candidates.
 **Installer.** `scripts/make-installer.sh` builds `build/Tatakikun-<version>.pkg` (for Apple silicon
 and Intel Macs). Open it: on the **Customize** page, check the language packs you want — Chinese,
 Japanese, English, Spanish, French, Hindi, Bengali, Arabic (all checked by default). It installs for your user only, no administrator
-password. To change the languages later, run the installer again; packs you uncheck are removed.
+password. To add or remove packs later, run the installer again; packs you uncheck are removed. To
+turn an installed language on or off, use the input menu (see [Dictionaries](#dictionaries)).
 
 The package is not signed with an Apple Developer ID. A copy built on your own Mac opens normally;
 a downloaded one is blocked the first time: open System Settings → Privacy & Security and click
@@ -84,6 +85,11 @@ Each language is a **language pack**, installed in
 `~/Library/Application Support/Tatakikun/Packs/<zh|ja|en>`; a language without its pack offers no
 candidates (the letters as typed are always offered).
 
+**Turning languages on and off.** With Tatakikun selected, click the input menu in the menu bar:
+under **Input languages** each installed language has a check mark when it gives candidates.
+Choose one to turn it on or off; it applies at once and is remembered. The last language that is
+on cannot be turned off. The pack stays installed, so turning it back on needs no installer.
+
 | Pack | Built from | License |
 | --- | --- | --- |
 | Chinese | [pinyin-data](https://github.com/mozillazg/pinyin-data) (every reading of every character), [phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data) (readings of ~400,000 words), word frequencies from ICU and [jieba](https://github.com/fxsjy/jieba) | MIT; Unicode License V3 |
@@ -116,6 +122,11 @@ Open `iOS/Tatakikun.xcodeproj` in Xcode to run it on your own iPhone (sign with 
 turn it on: Settings → General → Keyboard → Keyboards → Add New Keyboard… → Tatakikun. The app also
 has a screen to try the keyboard without turning it on. It is not on the App Store.
 
+To choose the input languages, open the app → **Language packs**: a switch for each language; at
+least one stays on. The keyboard follows these switches only with Full Access allowed (Settings →
+General → Keyboard → Keyboards → Tatakikun → Allow Full Access), since iOS lets a keyboard read an
+app's settings only then; without it every language is on. The app's Try it field always follows them.
+
 ## Android (preview)
 
 `android/` holds an Android app with a Tatakikun keyboard (Android 9 or later, arm64 phones):
@@ -131,7 +142,9 @@ scripts/test-android.sh                 # type a few inputs on the emulator and 
 
 Building needs the Android SDK and NDK (Android Studio), and the Swift toolchain and Swift SDK for
 Android that match each other (see `scripts/build-android.sh`). On the phone: open Tatakikun → Open
-settings → turn on Tatakikun, then Choose keyboard → Tatakikun.
+settings → turn on Tatakikun, then Choose keyboard → Tatakikun. To choose the input languages, tap
+**Language packs** in the app and check the ones that give candidates (at least one stays on); the
+keyboard follows the next time it comes up.
 
 ## Development
 
