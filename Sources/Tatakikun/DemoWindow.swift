@@ -23,6 +23,7 @@ final class DemoWindow: NSWindow {
 final class DemoTextView: NSTextView {
     private lazy var composer: Composer = {
         let composer = Composer(engine: TatakikunApp.engine)
+        composer.offersMarks = true
         composer.textBeforeCursor = { [weak self] in
             guard let self, let text = self.textStorage?.string as NSString? else { return nil }
             return text.substring(to: min(self.selectedRange().location, text.length))
@@ -53,8 +54,8 @@ final class DemoTextView: NSTextView {
 
     private func refresh() {
         if composer.isComposing {
-            let marked = NSAttributedString(string: composer.input, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
-            setMarkedText(marked, selectedRange: NSRange(location: composer.input.utf16.count, length: 0),
+            let marked = NSAttributedString(string: composer.markedText, attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+            setMarkedText(marked, selectedRange: NSRange(location: composer.markedText.utf16.count, length: 0),
                           replacementRange: markedRangeOrSelection())
             let start = markedRange().location
             let cursor = firstRect(forCharacterRange: NSRange(location: start, length: 0), actualRange: nil)

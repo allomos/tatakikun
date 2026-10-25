@@ -181,6 +181,58 @@ final class ComposerTests: XCTestCase {
         XCTAssertEqual(c.handle(.other("?")).commit, "hello?")
     }
 
+    /// A04-tassel550: on the Mac a punctuation key offers its marks as candidates.
+    func testPunctuationKeyOffersMarks() throws {
+        let c = try composer()
+        c.offersMarks = true
+        var before: String? = ""
+        c.textBeforeCursor = { before }
+        XCTAssertEqual(c.handle(.other("[")), ComposerUpdate(handled: true))
+        XCTAssertTrue(c.isMark)
+        XCTAssertEqual(c.rows[0].map(\.text).prefix(4), ["[", "「", "【", "『"], "after nothing English: as typed first")
+        XCTAssertEqual(c.markedText, "[")
+        _ = c.handle(.right)
+        XCTAssertEqual(c.markedText, "「")
+        XCTAssertEqual(c.handle(.space).commit, "「")
+        XCTAssertFalse(c.isComposing)
+        XCTAssertEqual(c.lastScript, .japanese)
+
+        before = "ですね"
+        _ = c.handle(.other(","))
+        XCTAssertEqual(c.rows[0].map(\.text), ["、", "，", ","])
+        XCTAssertEqual(c.handle(.digit(2)).commit, "，", "a digit picks")
+        before = "这是"
+        _ = c.handle(.other("."))
+        XCTAssertEqual(c.selected?.text, "。")
+        XCTAssertEqual(c.handle(.letter("n")).commit, "。", "typing on types the selected mark")
+        XCTAssertEqual(c.input, "n")
+        _ = c.handle(.escape)
+
+        _ = c.handle(.other("("))
+        XCTAssertEqual(c.handle(.backspace), ComposerUpdate(handled: true), "Backspace takes the key back")
+        XCTAssertFalse(c.isComposing)
+        before = "3"
+        XCTAssertFalse(c.handle(.other(".")).handled, "after a digit: typed straight away (3.14)")
+        before = "hello"
+        XCTAssertFalse(c.handle(.other(",")).handled, "after a word: typed straight away")
+    }
+
+    func testMarksAfterAWordAndQuotes() throws {
+        let c = try composer()
+        c.offersMarks = true
+        type("nihao", into: c)
+        XCTAssertEqual(c.handle(.other(",")).commit, "你好", "the word goes in first")
+        XCTAssertEqual(c.markedText, "，")
+        XCTAssertEqual(c.handle(.other("\"")).commit, "，", "the next mark key types the comma")
+        XCTAssertEqual(c.selected?.text, "“")
+        XCTAssertEqual(c.handle(.enter).commit, "“")
+        XCTAssertEqual(c.handle(.other("\"")).commit, nil)
+        XCTAssertEqual(c.selected?.text, "”", "after an opening quote, the closing one")
+        XCTAssertEqual(c.finish(), "”")
+        type("hello", into: c)
+        XCTAssertEqual(c.handle(.other(",")).commit, "hello,", "after English, as before")
+    }
+
     func testScriptBeforeText() {
         XCTAssertEqual(Punctuation.script(before: "東京", fallback: .japanese), .japanese)
         XCTAssertEqual(Punctuation.script(before: "東京", fallback: .latin), .chinese)
