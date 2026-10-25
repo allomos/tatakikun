@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T09:21:54Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-wood850-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps, right-to-left text in the macOS panel and the installer need a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check Arabic\n\n1. macOS: run the installer built from master, keep Arabic checked; quit and reopen Electron apps. In TextEdit type `marhaba` → مرحبا; `shukran` → شكرا; `7abibi` → حبيبي; `ya3ni` → يعني. The Arabic candidates read right to left in the panel.\n2. Type `hello`, Space, `marhaba`, Space: the line reads `hello مرحبا` with the Arabic after the English.\n3. Type a number such as `2026`: it is typed as a number. Type `nihao` then `1`: 你好 is chosen.\n4. iOS and Android: install from master, type `marhaba` → مرحبا and `ya3ni` (3 from the number keys) → يعني; Language packs lists العربية.\n5. Turn العربية off in the settings: مرحبا goes away, and digits behave as before.\n6. Check that the other languages still come first where they did (woaini 我爱你, hello, nihao 你好, namaste नमस्ते).\n"
+    }
+  ]
+}

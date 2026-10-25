@@ -1,9 +1,11 @@
 {
   "area": "A03",
-  "handoff_note": "Approved (2026-10-25, see Notes): build with the proposed sources. Proposal (claude-loop3, 2026-10-25): words and frequencies from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (ar: only 3.9 MB of sentences, so coverage and ranking are thin; no larger permissive Arabic list found), plus a Latin-to-Arabic table built by hand, including the digits people use in Arabizi (2 ء, 3 ع, 7 ح). Pack about 1 MB. Also for the person: should Arabizi digits be supported, or plain letters only? Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+  "handoff_note": "Done, to check; steps in the task. Two AI decisions to review: the digit behaviour while typing and the 1.8 MB pack. Run mode: quiet (chosen by the person, 2026-10-25).",
   "holder": "claude-loop3",
+  "human_check_steps": "# Check Arabic\n\n1. macOS: run the installer built from master, keep Arabic checked; quit and reopen Electron apps. In TextEdit type `marhaba` → مرحبا; `shukran` → شكرا; `7abibi` → حبيبي; `ya3ni` → يعني. The Arabic candidates read right to left in the panel.\n2. Type `hello`, Space, `marhaba`, Space: the line reads `hello مرحبا` with the Arabic after the English.\n3. Type a number such as `2026`: it is typed as a number. Type `nihao` then `1`: 你好 is chosen.\n4. iOS and Android: install from master, type `marhaba` → مرحبا and `ya3ni` (3 from the number keys) → يعني; Language packs lists العربية.\n5. Turn العربية off in the settings: مرحبا goes away, and digits behave as before.\n6. Check that the other languages still come first where they did (woaini 我爱你, hello, nihao 你好, namaste नमस्ते).\n",
   "id": "A03-wood850-04",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Type Arabic with Tatakikun"
+  "state": "done",
+  "title": "Type Arabic with Tatakikun",
+  "without_human_check": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps, right-to-left text in the macOS panel and the installer need a person"
 }

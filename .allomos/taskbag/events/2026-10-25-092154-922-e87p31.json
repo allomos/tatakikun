@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T09:21:54Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Arabic: keyed by skeleton (consonants + long vowels A/U/I) so short vowels can be typed or left out; Arabic costs 20 more than its frequency so the other languages keep first places until Arabic leads; loose matches (doubled consonant taken once) get no own place in the bar; pack 1.8 MB with 20 000 words (approved estimate was about 1 MB: going lower lost common words); while typing, digits 2, 3, 5–9 join the word when an Arabic word goes on that way instead of choosing the candidate of that number (1 and 4 still choose), and a digit starts a word only when an Arabic word starts with it; numbers stay numbers; candidate kind tagged ع; the bar now keeps the cheapest kinds when more than nine match."
+    }
+  ]
+}
