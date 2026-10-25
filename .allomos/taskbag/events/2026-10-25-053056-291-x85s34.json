@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-25T05:30:56Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "release",
+  "kind": "task",
+  "id": "A03-wood850-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "holder",
+      "from": "claude-loop3"
+    },
+    {
+      "field": "handoff_note",
+      "from": "Proposal (claude-loop3, 2026-10-25): words and frequencies counted from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>): es 74 MB of sentences; keep about 50,000 words seen more than a few times; typing without accents matches by stripping them (cancion → canción). Pack about 1–2 MB (the English pack is 3.3 MB). Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+      "to": "Approved (2026-10-25, see Notes): build with the proposed sources. Proposal (claude-loop3, 2026-10-25): words and frequencies counted from Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>): es 74 MB of sentences; keep about 50,000 words seen more than a few times; typing without accents matches by stripping them (cancion → canción). Pack about 1–2 MB (the English pack is 3.3 MB). Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial)."
+    }
+  ]
+}

@@ -13,3 +13,4 @@
 - Which Arabic is the target: Modern Standard Arabic words first; dialect words are a routine choice for whoever builds it.
 - Part of A03-wood850 (five more languages, chosen by the person on 2026-10-23).
 - **Open for the person:** the word list source and its licence (it must allow MIT redistribution), and how much the pack may add to the app size. Propose a source with its licence and size before building.
+- **Approved by the approver (2026-10-25):** the word list sources and pack size in the handoff note's proposal (claude-loop3, 2026-10-25). Arabizi digits (2 ء, 3 ع, 7 ح, …) are supported: the person left this choice to Claude, which chose yes because many people type Arabic in Latin letters with them.

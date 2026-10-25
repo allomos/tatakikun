@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-25T05:30:57Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "release",
+  "kind": "task",
+  "id": "A03-wood850-05",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "holder",
+      "from": "claude-loop3"
+    },
+    {
+      "field": "handoff_note",
+      "from": "Proposal (claude-loop3, 2026-10-25): as for Hindi: Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (bn: 83 MB of sentences) for words and frequencies, AI4Bharat Aksharantar pairs (mined CC0, hand-collected CC-BY 4.0 with attribution; bn 1.2 million pairs) for romanized spellings, and the same sound-table approach. Pack estimated 3–6 MB. Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial).",
+      "to": "Approved (2026-10-25, see Notes): build with the proposed sources. Proposal (claude-loop3, 2026-10-25): as for Hindi: Mozilla Common Voice sentence text (CC0, github.com/common-voice/common-voice server/data/<lang>) (bn: 83 MB of sentences) for words and frequencies, AI4Bharat Aksharantar pairs (mined CC0, hand-collected CC-BY 4.0 with attribution; bn 1.2 million pairs) for romanized spellings, and the same sound-table approach. Pack estimated 3–6 MB. Not usable: hermitdave FrequencyWords and wordfreq (their word data is CC-BY-SA 4.0), Leipzig corpora (non-commercial)."
+    }
+  ]
+}

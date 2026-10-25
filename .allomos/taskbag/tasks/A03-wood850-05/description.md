@@ -12,3 +12,4 @@
 - Can share the transliteration approach with Hindi (A03-wood850-03). Check Bengali rendering (conjuncts, vowel signs) in the candidate bar on every platform.
 - Part of A03-wood850 (five more languages, chosen by the person on 2026-10-23).
 - **Open for the person:** the word list source and its licence (it must allow MIT redistribution), and how much the pack may add to the app size. Propose a source with its licence and size before building.
+- **Approved by the approver (2026-10-25):** the word list sources and pack size in the handoff note's proposal (claude-loop3, 2026-10-25). Aksharantar's CC-BY 4.0 pairs need its attribution line in the pack's licence file.

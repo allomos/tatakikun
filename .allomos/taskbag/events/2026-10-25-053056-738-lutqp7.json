@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-25T05:30:56Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A03-wood850-03",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "from": "**Outcome.** Typing Hindi by sound in Latin letters gives Devanagari candidates: `namaste` → नमस्ते, `dhanyavad` → धन्यवाद.\n\n**Done means.**\n- Common romanized spellings work, including the loose ones people really type (`kya`, `kyaa` → क्या; `hai` → है).\n- Whole short phrases work: `aap kaise hain` → आप कैसे हैं.\n- It is its own language pack, chosen in the installer and turned on or off in settings (A04-tuna688).\n- Its candidates mix with English, Chinese and Japanese ones, and the raw letter string stays a candidate.\n- Tests cover at least 50 common words and a few whole short phrases.\n- Checked on macOS, Android and iOS.\n\n**Notes.**\n- Needs a romanization-to-Devanagari table plus a word list, like pinyin for Chinese. Check Devanagari rendering (conjuncts, matras) in the candidate bar on every platform.\n- Part of A03-wood850 (five more languages, chosen by the person on 2026-10-23).\n- **Open for the person:** the word list source and its licence (it must allow MIT redistribution), and how much the pack may add to the app size. Propose a source with its licence and size before building.\n",
+      "to": "**Outcome.** Typing Hindi by sound in Latin letters gives Devanagari candidates: `namaste` → नमस्ते, `dhanyavad` → धन्यवाद.\n\n**Done means.**\n- Common romanized spellings work, including the loose ones people really type (`kya`, `kyaa` → क्या; `hai` → है).\n- Whole short phrases work: `aap kaise hain` → आप कैसे हैं.\n- It is its own language pack, chosen in the installer and turned on or off in settings (A04-tuna688).\n- Its candidates mix with English, Chinese and Japanese ones, and the raw letter string stays a candidate.\n- Tests cover at least 50 common words and a few whole short phrases.\n- Checked on macOS, Android and iOS.\n\n**Notes.**\n- Needs a romanization-to-Devanagari table plus a word list, like pinyin for Chinese. Check Devanagari rendering (conjuncts, matras) in the candidate bar on every platform.\n- Part of A03-wood850 (five more languages, chosen by the person on 2026-10-23).\n- **Open for the person:** the word list source and its licence (it must allow MIT redistribution), and how much the pack may add to the app size. Propose a source with its licence and size before building.\n- **Approved by the approver (2026-10-25):** the word list sources and pack size in the handoff note's proposal (claude-loop3, 2026-10-25). Aksharantar's CC-BY 4.0 pairs need its attribution line in the pack's licence file.\n"
+    }
+  ]
+}

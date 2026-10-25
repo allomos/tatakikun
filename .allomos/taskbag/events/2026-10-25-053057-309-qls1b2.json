@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-25T05:30:57Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-04",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Arabizi digits (2 ء, 3 ع, 7 ح) are supported: the person left it to Claude; many people type Arabic in Latin letters with them"
+    }
+  ]
+}
