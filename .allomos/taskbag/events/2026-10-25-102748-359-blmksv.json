@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T10:27:48Z",
+  "by": "claude-jis-marks",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-tassel550",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Marks open as candidates only on the Mac (phones keep long-press popups); straight after a Latin letter or digit the key types as before (3.14, hello,); Space/Return confirm, Backspace/Esc take the key back; after a Chinese or Japanese word the word goes in and the marks wait"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+**Outcome.** As in Japanese input methods (まる → ○◎●◯, ばつ → ×✕✖), typing a symbol's reading shows a set of symbols among the candidates, in every input language: Japanese romaji, Chinese pinyin, English and the other packs' languages.
+
+**Done means.** A table of symbol words per language, reviewed in the task's card; tests show maru, batu, yuan (圆), circle, cross and a few others giving their symbols; ordinary words still come first where a word is meant.
+
+**Notes.** Asked 2026-10-25 by the person: list which symbols Japanese IMEs offer and give equivalent features to other languages.
