@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-25T10:43:18Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A02-pewter902",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Helper renamed engine(_:) → packEngine(_:) in an XCTestCase extension, so it doesn't clash with the test classes' own engine property; test-only, easy to undo."
+    }
+  ]
+}

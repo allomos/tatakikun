@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-25T10:43:52Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "describe",
+  "kind": "task",
+  "id": "A02-pewter902",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "description",
+      "from": "**Outcome.** The Windows CI run on master (.github/workflows/windows.yml) passes again. It has failed on every push since the Spanish pack: the five language test files (Spanish, French, Hindi, Bengali, Arabic) call `LanguagePackEngineTests()`, and XCTest on Windows and Linux has no plain `init()` for a test case.\n\n**Done means.**\n- The Windows run on master passes.\n- `swift test` on the Mac passes for the language pack tests.\n\n**Notes.** The helper also registered its temp-folder cleanup on that throwaway instance, so the folder was never removed; moving it into an XCTestCase extension fixes both.\n",
+      "to": "**Outcome.** The Windows CI run on master (.github/workflows/windows.yml) passes again. It had failed on every push since the Spanish pack: the five language test files (Spanish, French, Hindi, Bengali, Arabic) called `LanguagePackEngineTests()`, and XCTest on Windows and Linux has no plain `init()` for a test case.\n\n**Done means.**\n- The Windows run on master passes.\n- `swift test` on the Mac passes for the language pack tests.\n\n**Notes.** The helper also registered its temp-folder cleanup on that throwaway instance, so the folder was never removed; moving it into an XCTestCase extension fixes both.\n\n## Evidence\n\n- Merged into master (1f7d3d0, Language pack tests compile on Windows).\n- Mac: `swift test` for LanguagePackEngineTests and the five language classes, 42 tests, 0 failures; no temp pack folders left after a run.\n- Windows CI run 40185205126 on master (which includes the fix): success, 116 tests, 0 failures. Run 40184995842 for the merge itself was cancelled by a newer push, not failed.\n"
+    }
+  ]
+}
