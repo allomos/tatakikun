@@ -1,8 +1,10 @@
 {
   "area": "A02",
   "holder": "claude-jis-marks",
+  "human_check_steps": "1. Choose Tatakikun and open TextEdit.\n2. Type `maru`: ○ is 4th in the bar; ↓ shows ◯ ● ◎ ⚪ ⚫ ⭕ first in the next row.\n3. Type `batsu` (and `batu`): × in the bar, ✕ ✖ ☓ ✗ ✘ ❌ below.\n4. Try `sankaku`, `yajirushi`, `ha-to`, `dui`, `yuan`, `circle`, `check`: each gives its symbols, while the usual words (三角, 矢印, 对, 元, circle) stay first.\n5. The full list is in the task's card (tasks/A02-town861/card.md); say which names or symbols to add or drop.\n",
   "id": "A02-town861",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Typing a symbol's name gives the symbols as candidates: maru → ○ ◎ ●, batu → × ✕, and the same in every language (yuan, circle, cruz…)"
+  "state": "done",
+  "title": "Typing a symbol's name gives the symbols as candidates: maru → ○ ◎ ●, batu → × ✕, and the same in every language (yuan, circle, cruz…)",
+  "without_human_check": "Installed on this Mac; the symbol list and typing in a real app need a person"
 }

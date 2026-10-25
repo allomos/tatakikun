@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T10:36:25Z",
+  "by": "claude-jis-marks",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-tassel550",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Installed on this Mac; typing in a real app with a Japanese (JIS) keyboard needs a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "1. Choose Tatakikun in the input menu and open TextEdit (a new document, nothing typed yet).\n2. Press `[`: `[` shows underlined and the panel lists [ 「 【 『 ［ 〔 〖. Press → then Space: 「 is typed.\n3. Type `desune` and Space, then press `,`: the panel shows 、 ， , with 、 first. Type `a`: 、 goes in and a new word starts.\n4. Type `nihao`, then `.`: 你好 goes in and 。 waits with 。 ． . — press 2: ． is typed.\n5. Type `3.14` and `hello, world`: the . and , go in straight away, no panel.\n6. Press `(` then Backspace: nothing is typed.\n"
+    }
+  ]
+}
