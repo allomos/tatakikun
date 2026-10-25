@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T09:22:17Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-wood850",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "All five language tasks are done, each to check"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check the five new languages\n\nEach language task has its own steps: A03-wood850-01 (Spanish), -02 (French), -03 (Hindi), -05 (Bengali), -04 (Arabic). Then, with all eight languages on:\n\n1. Type words from several languages in one line (`hello`, `woaini`, `cancion`, `francais`, `namaste`, `dhonnobad`, `marhaba`) and pick each: every one is in the bar, and the line keeps its order.\n2. The candidate bar never shows more than fits (short inputs like `ta`, `ni`).\n3. Turn languages off in the settings and check their candidates go away.\n"
+    }
+  ]
+}

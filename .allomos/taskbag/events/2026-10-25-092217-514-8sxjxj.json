@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-25T09:22:17Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A03-wood850",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Waiting with its five language tasks: each holds a source proposal for the person (2026-10-25).",
+      "to": "Done: its five language tasks are done, each to check. Run mode: quiet (chosen by the person, 2026-10-25)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-loop3"
+    }
+  ]
+}

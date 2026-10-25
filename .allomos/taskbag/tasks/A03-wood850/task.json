@@ -1,16 +1,11 @@
 {
   "area": "A03",
-  "blocked_by": [
-    "A03-wood850-01",
-    "A03-wood850-02",
-    "A03-wood850-03",
-    "A03-wood850-04",
-    "A03-wood850-05"
-  ],
-  "handoff_note": "Waiting with its five language tasks: each holds a source proposal for the person (2026-10-25).",
+  "handoff_note": "Done: its five language tasks are done, each to check. Run mode: quiet (chosen by the person, 2026-10-25).",
   "holder": "claude-loop3",
+  "human_check_steps": "# Check the five new languages\n\nEach language task has its own steps: A03-wood850-01 (Spanish), -02 (French), -03 (Hindi), -05 (Bengali), -04 (Arabic). Then, with all eight languages on:\n\n1. Type words from several languages in one line (`hello`, `woaini`, `cancion`, `francais`, `namaste`, `dhonnobad`, `marhaba`) and pick each: every one is in the bar, and the line keeps its order.\n2. The candidate bar never shows more than fits (short inputs like `ta`, `ni`).\n3. Turn languages off in the settings and check their candidates go away.\n",
   "id": "A03-wood850",
   "iteration": "I04",
-  "state": "blocked",
-  "title": "Five more of the world's most spoken languages can be typed with Tatakikun"
+  "state": "done",
+  "title": "Five more of the world's most spoken languages can be typed with Tatakikun",
+  "without_human_check": "All five language tasks are done, each to check"
 }
