@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-25T10:34:19Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A01-ginger506",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "The READMEs (English, Chinese, Japanese) tell how to turn input languages on and off on the Mac, iPhone and Android"
+    },
+    {
+      "field": "area",
+      "to": "A01"
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** A reader of README.md, README.zh-CN.md or README.ja.md learns how to choose which input languages give candidates: the Mac input menu (Input languages), the iOS app's Language packs screen (needs Full Access), the Android app's Language packs dialog.\n\n**Done means.** All three READMEs describe the three places, in their own language, and match the code (InputController.menu, iOS LanguagesView, Android chooseLanguages); the installer paragraph no longer suggests reinstalling is the only way to change languages.\n\n**Notes.** Follow-up of A04-tuna688, which added the switches without documenting them.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
