@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T07:36:10Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "French: same sizes and costs as Spanish; elided words (c'est, l'école) are kept as words of their own besides the word after the apostrophe, typed without the apostrophe; one-letter words a, à, y, ô; candidate kind tagged FR; checked by default like the others."
+    }
+  ]
+}

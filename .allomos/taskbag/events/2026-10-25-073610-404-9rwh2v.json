@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-25T07:36:10Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A03-wood850-02",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps and the macOS installer need a person"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check French\n\n1. macOS: run the installer built from master (`scripts/make-installer.sh`), keep French checked; then quit and reopen Electron apps. In TextEdit type `ecole` → école; `francais` → français; `coeur` → cœur; `ou` → ou and où; `cest` → c'est. Tatakikun's menu lists Français; uncheck it and école goes away.\n2. iOS: install from master, choose Tatakikun in Notes: `francais` → français. In the app, Language packs → Input languages shows Français.\n3. Android: install the APK from master: `francais` → français, `coeur` → cœur; Language packs lists Français.\n4. Type a short French sentence word by word (`le garcon est a lecole`) and pick the words: each is offered.\n5. Check that Chinese, Japanese, English and Spanish still come first where they did (woaini 我爱你, watashi 私, hello, cancion canción).\n"
+    }
+  ]
+}
