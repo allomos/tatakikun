@@ -5,6 +5,7 @@
 #   ja: Mozc OSS dictionary (IPAdic license and others; see its README), Mozc's single kanji readings (BSD)
 #   en: SCOWL 2020.12.07 (permissive, Kevin Atkinson)
 #   es, fr: Mozilla Common Voice sentence text (CC0), for words and how often each is used
+#   hi: the same, and AI4Bharat Aksharantar's Latin spellings of words (CC0 and CC BY 4.0)
 #   all: the ICU license (the packs also use word frequencies from this Mac's ICU data)
 set -e
 cd "$(dirname "$0")/.."
@@ -20,6 +21,7 @@ ICU_LICENSE=https://raw.githubusercontent.com/unicode-org/icu/ad484f3d6c036ba061
 SCOWL=https://downloads.sourceforge.net/project/wordlist/SCOWL/2020.12.07/scowl-2020.12.07.tar.gz
 VOICE=https://raw.githubusercontent.com/common-voice/common-voice/f96d1c370a2b96ddf52c2eb108959b626757ba20/server/data
 VOICE_LICENSE=bf474cdfd02e162603358e4e3615182018cad27593d2bf5e75ca13e4a5a6af0c
+AKSHARANTAR=https://huggingface.co/datasets/ai4bharat/Aksharantar/resolve/e418c1fc928d9f5393af33268472cf20c1891be8
 
 # fetch <url> <file> <sha256>
 fetch() {
@@ -36,7 +38,7 @@ fetch() {
     mv "$2.part" "$2"
 }
 
-LANGS=${1:-zh,ja,en,es,fr}
+LANGS=${1:-zh,ja,en,es,fr,hi}
 fetch $ICU_LICENSE $OUT/icu-LICENSE e09827667e0bb3c808b2a463548ba814a5e6249b67353234d70c8dfc2bcc417d
 case ",$LANGS," in *,zh,*)
     fetch $PINYIN/pinyin.txt $OUT/zh/pinyin.txt 7365b877d2a60f64d13de522ad882ce928c7b60c4c5d26fe3c89783e72ab1115
@@ -73,5 +75,12 @@ case ",$LANGS," in *,fr,*)
     fetch $VOICE/fr/wiki-1.fr.txt $OUT/fr/wiki-1.fr.txt 8c2488675866b7c6e4a1d06a5b8f896b9012a46f5c8bf10026550ed73f8b6154
     fetch $VOICE/fr/wiki-2.fr.txt $OUT/fr/wiki-2.fr.txt 38b9df9c0b0f997ab53854ca607b40d9a9117ad111b81b498fe0bfd9980ab93b
     fetch $VOICE/fr/sentence-collector.txt $OUT/fr/sentence-collector.txt 214f3d5b0110e86e3f2018ca6971b918db8ad5cc4c5612ebab58cd0849fb0715
+esac
+case ",$LANGS," in *,hi,*)
+    fetch $VOICE/LICENSE $OUT/hi/common-voice-LICENSE $VOICE_LICENSE
+    fetch $VOICE/hi/sentence-collector.txt $OUT/hi/sentence-collector.txt 0de9bc2283188445d3a564974a688083fe6d9c29f11c3c31b4e01dc25af1885c
+    fetch $AKSHARANTAR/README.md $OUT/hi/aksharantar-README.md 1846b06a04bbec6b7b4c0bd0cda3c62a0a8c050b7d69927f5dd23a98d3e8daeb
+    fetch $AKSHARANTAR/hin.zip $OUT/hi/hin.zip 208c2d1b128234e6dc777b750779b4f5e6214ab43244039349b530bf9868bdaf
+    [ -f $OUT/hi/hin_train.json ] || unzip -q -o $OUT/hi/hin.zip hin_train.json -d $OUT/hi
 esac
 echo "Sources ready in $OUT"

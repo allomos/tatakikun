@@ -203,7 +203,7 @@ final class KeyboardUITests: XCTestCase {
         app.launchArguments = []   // the switches as saved
         app.launch()
         languages()
-        for id in ["en", "zh", "ja", "es", "fr"] { turn(id, on: true) }
+        for id in ["en", "zh", "ja", "es", "fr", "hi"] { turn(id, on: true) }
         turn("ja", on: false)
         attach("Japanese off")
         back()
@@ -224,12 +224,14 @@ final class KeyboardUITests: XCTestCase {
         turn("zh", on: false)
         turn("es", on: false)
         turn("fr", on: false)
+        turn("hi", on: false)
         XCTAssertFalse(app.switches["language-ja"].isEnabled, "the last language stays on")
         attach("only Japanese on")
         turn("en", on: true)
         turn("zh", on: true)
         turn("es", on: true)
         turn("fr", on: true)
+        turn("hi", on: true)
         back()
         field.tap()
         type("watashi")
@@ -260,6 +262,15 @@ final class KeyboardUITests: XCTestCase {
         attach("coeur")
         app.buttons["cœur"].tap()
         XCTAssertEqual(text, "françaiscœur")
+    }
+
+    /// A03-wood850-03: Hindi typed by sound; Devanagari shows in the bar and the field.
+    func testHindiBySound() {
+        type("namaste")
+        XCTAssertTrue(app.buttons["नमस्ते"].waitForExistence(timeout: 3))
+        attach("namaste")
+        app.buttons["नमस्ते"].tap()
+        XCTAssertEqual(text, "नमस्ते")
     }
 
     func attach(_ name: String) {

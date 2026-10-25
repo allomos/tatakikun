@@ -2,10 +2,10 @@
 # Installs build/Tatakikun.app into ~/Library/Input Methods and the chosen language packs into
 # ~/Library/Application Support/Tatakikun/Packs (packs not chosen are removed), installs a login item
 # that starts Tatakikun at login, and starts it now. For an installer with check boxes, see scripts/make-installer.sh.
-# Usage: scripts/install.sh [zh,ja,en,es,fr]   (all by default)
+# Usage: scripts/install.sh [zh,ja,en,es,fr,hi]   (all by default)
 set -e
 cd "$(dirname "$0")/.."
-LANGS=${1:-zh,ja,en,es,fr}
+LANGS=${1:-zh,ja,en,es,fr,hi}
 [ -d build/Tatakikun.app ] || scripts/build.sh "$LANGS"
 for lang in $(echo "$LANGS" | tr ',' ' '); do
     [ -f build/packs/$lang/$lang.ttkd ] || scripts/build-packs.sh "$LANGS"
@@ -43,7 +43,7 @@ cat > "$AGENT" <<EOT
 EOT
 launchctl bootout "gui/$(id -u)" "$AGENT" 2>/dev/null
 launchctl bootstrap "gui/$(id -u)" "$AGENT" 2>/dev/null || true
-for lang in zh ja en es fr; do
+for lang in zh ja en es fr hi; do
     rm -rf "$PACKS/$lang"
     case ",$LANGS," in *,$lang,*) cp -R build/packs/$lang "$PACKS/$lang" ;; esac
 done
