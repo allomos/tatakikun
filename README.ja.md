@@ -12,7 +12,7 @@
 
 ## ビルドとインストール
 
-**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語・スペイン語・フランス語・ヒンディー語・ベンガル語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語を変えるときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。
+**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語・スペイン語・フランス語・ヒンディー語・ベンガル語・アラビア語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語を変えるときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。
 
 このパッケージには Apple の Developer ID 署名がありません。自分の Mac で作ったものはそのまま開けます。ダウンロードしたものは初回にブロックされるので、システム設定 → プライバシーとセキュリティ で **このまま開く** をクリックしてください。
 
@@ -79,6 +79,7 @@ Tatakikun は学習します。選んだ候補は、次に同じ英字を入力�
 | フランス語 | 同じく Common Voice のフランス語の文から(ecole → école、coeur → cœur、cest → c'est) | CC0 1.0 |
 | ヒンディー語 | Common Voice のヒンディー語の文の単語と頻度、音のとおりに入力:文字の表から作った綴りと [AI4Bharat Aksharantar](https://huggingface.co/datasets/ai4bharat/Aksharantar) の実際の綴り(namaste → नमस्ते、kya → क्या) | CC0 1.0、CC BY 4.0 |
 | ベンガル語 | 同じく Common Voice のベンガル語の文と Aksharantar から(ami → আমি、kemon → কেমন) | CC0 1.0、CC BY 4.0 |
+| アラビア語 | Common Voice のアラビア語の文の単語と頻度、アラビーズィー(文字の代わりの数字も)で入力(marhaba → مرحبا、7abibi → حبيبي) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` がデータをバージョン固定でダウンロードし SHA-256 を検証します。`scripts/build-packs.sh` が `build/packs` に言語パックを作り、それぞれにデータの LICENSE.txt を付けます。ICU の部分はこの Mac(`/usr/share/icu`)から:`tatakikun-dictgen` がその中日語彙を `build/dict` に読み込みます。辞書はメモリマップされる `.ttkd` ファイルなので、大きくてもすぐに起動します。データも言語パックもこのリポジトリには含まれません。
 

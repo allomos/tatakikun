@@ -18,6 +18,7 @@
         <line choice="fr"/>
         <line choice="hi"/>
         <line choice="bn"/>
+        <line choice="ar"/>
     </choices-outline>
     <choice id="app" title="APP_TITLE" description="APP_DESCRIPTION" enabled="false" selected="true">
         <pkg-ref id="com.tatakikun.inputmethod.Tatakikun"/>
@@ -43,6 +44,9 @@
     <choice id="bn" title="BN_TITLE" description="BN_DESCRIPTION" start_selected="true">
         <pkg-ref id="com.tatakikun.pack.bn"/>
     </choice>
+    <choice id="ar" title="AR_TITLE" description="AR_DESCRIPTION" start_selected="true">
+        <pkg-ref id="com.tatakikun.pack.ar"/>
+    </choice>
     <pkg-ref id="com.tatakikun.inputmethod.Tatakikun" version="VERSION" onConclusion="none">app.pkg</pkg-ref>
     <pkg-ref id="com.tatakikun.pack.zh" version="VERSION" onConclusion="none">zh.pkg</pkg-ref>
     <pkg-ref id="com.tatakikun.pack.ja" version="VERSION" onConclusion="none">ja.pkg</pkg-ref>
@@ -51,4 +55,5 @@
     <pkg-ref id="com.tatakikun.pack.fr" version="VERSION" onConclusion="none">fr.pkg</pkg-ref>
     <pkg-ref id="com.tatakikun.pack.hi" version="VERSION" onConclusion="none">hi.pkg</pkg-ref>
     <pkg-ref id="com.tatakikun.pack.bn" version="VERSION" onConclusion="none">bn.pkg</pkg-ref>
+    <pkg-ref id="com.tatakikun.pack.ar" version="VERSION" onConclusion="none">ar.pkg</pkg-ref>
 </installer-gui-script>

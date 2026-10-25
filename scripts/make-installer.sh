@@ -2,7 +2,7 @@
 # Builds build/Tatakikun-<version>.pkg: a macOS installer for the input method (for Apple silicon
 # and Intel Macs) with a check box for each language pack. It installs into the current user's
 # Library (no administrator password): ~/Library/Input Methods/Tatakikun.app and
-# ~/Library/Application Support/Tatakikun/Packs/<zh|ja|en|es|fr|hi|bn>. Packs left unchecked are removed.
+# ~/Library/Application Support/Tatakikun/Packs/<zh|ja|en|es|fr|hi|bn|ar>. Packs left unchecked are removed.
 # The package is not signed with an Apple Developer ID: see README for opening it.
 set -e
 cd "$(dirname "$0")/.."
@@ -33,7 +33,7 @@ pkgbuild --root "$OUT/root-app" --component-plist "$OUT/app.plist" --install-loc
     --scripts App/Installer/scripts "$OUT/packages/app.pkg"
 
 # One package per language pack.
-for lang in zh ja en es fr hi bn; do
+for lang in zh ja en es fr hi bn ar; do
     mkdir -p "$OUT/root-$lang"
     cp -R "build/packs/$lang" "$OUT/root-$lang/$lang"
     pkgbuild --root "$OUT/root-$lang" --install-location "/Library/Application Support/Tatakikun/Packs" \
@@ -46,7 +46,7 @@ cp -R App/Installer/Resources/ "$OUT/resources/"
 for lproj in "$OUT"/resources/*.lproj; do
     {
         cat LICENSE
-        for lang in zh ja en es fr hi bn; do printf '\n\n'; cat "build/packs/$lang/LICENSE.txt"; done
+        for lang in zh ja en es fr hi bn ar; do printf '\n\n'; cat "build/packs/$lang/LICENSE.txt"; done
     } > "$lproj/LICENSE.txt"
 done
 sed -e "s/VERSION/$VERSION/g" -e "s/HOST_ARCHITECTURES/$ARCHS/" App/Installer/Distribution.xml > "$OUT/Distribution.xml"

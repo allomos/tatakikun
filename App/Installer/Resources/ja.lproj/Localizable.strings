@@ -15,3 +15,5 @@
 "HI_DESCRIPTION" = "ヒンディー語(デーヴァナーガリー)を音のとおりローマ字で入力します(namaste → नमस्ते、kya → क्या)。データ:Mozilla Common Voice の文(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。約 5 MB。";
 "BN_TITLE" = "ベンガル語";
 "BN_DESCRIPTION" = "ベンガル語を音のとおりローマ字で入力します(ami → আমি、kemon → কেমন)。データ:Mozilla Common Voice の文(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。約 6 MB。";
+"AR_TITLE" = "アラビア語";
+"AR_DESCRIPTION" = "アラビア語をアラビーズィー(ローマ字と数字)で入力します(marhaba → مرحبا、7abibi → حبيبي)。データ:Mozilla Common Voice の文(CC0)。約 2 MB。";

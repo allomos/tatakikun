@@ -14,7 +14,7 @@ public struct CandidateList {
 
 /// The language of a candidate, for ranking by what was typed just before.
 public enum Language {
-    case english, chinese, japanese, spanish, french, hindi, bengali
+    case english, chinese, japanese, spanish, french, hindi, bengali, arabic
 
     public init(_ kind: CandidateKind) {
         switch kind {
@@ -25,6 +25,7 @@ public enum Language {
         case .french: self = .french
         case .hindi: self = .hindi
         case .bengali: self = .bengali
+        case .arabic: self = .arabic
         }
     }
 }
@@ -44,7 +45,7 @@ public final class Engine {
     public let chinese: ChineseConverter?
     public let japanese: JapaneseConverter?
     public let english: EnglishConverter?
-    /// The languages typed word by word (Spanish, French, Hindi, Bengali), one for each installed pack.
+    /// The languages typed word by word (Spanish, French, Hindi, Bengali, Arabic), one for each installed pack.
     public let words: [WordConverter]
     public var rowSize: Int
     /// At most this many candidates after the first row.
@@ -99,7 +100,7 @@ public final class Engine {
         case .english: !turnedOff.contains(.en)
         case .chinese: !turnedOff.contains(.zh)
         case .japanese: !turnedOff.contains(.ja)
-        case .spanish, .french, .hindi, .bengali: true
+        case .spanish, .french, .hindi, .bengali, .arabic: true
         }
     }
 
@@ -109,6 +110,17 @@ public final class Engine {
         let zh = try DictionaryFiles.open(DictionaryFiles.chinese, in: dictionaryFolder, compile: DictionaryFiles.compileChinese)
         let ja = try DictionaryFiles.open(DictionaryFiles.japanese, in: dictionaryFolder, compile: DictionaryFiles.compileJapanese)
         self.init(chinese: zh, japanese: ja, english: english, rowSize: rowSize)
+    }
+
+    /// Whether a digit typed after `input` (empty when nothing is being typed) belongs to a word:
+    /// Arabizi writes some Arabic letters with digits (7abibi حبيبي, sa3eed سعيد). Only when the
+    /// Arabic pack is on and some Arabic word is typed that way; otherwise a digit chooses a
+    /// candidate or is typed as itself, as before.
+    public func takesDigit(_ digit: Int, after input: String) -> Bool {
+        // A number is a number (2026): a digit goes on a word with letters, or starts one.
+        guard input.isEmpty || input.contains(where: \.isLetter),
+              let arabic = words.first(where: { $0.language == .ar }), !turnedOff.contains(.ar) else { return false }
+        return arabic.hasWord(startingWith: input + String(digit))
     }
 
     /// Records the language of a word just inserted, so the next input leans toward it.
@@ -126,8 +138,10 @@ public final class Engine {
         let japanese = turnedOff.contains(.ja) ? nil : self.japanese
         let words = self.words.filter { !turnedOff.contains($0.language) }
         var found = english?.candidates(for: input) ?? []
-        // Word languages also take letters typed with their accents (canción).
-        if input.allSatisfy(\.isLetter) { found += words.flatMap { $0.candidates(for: input) } }
+        // Word languages also take letters typed with their accents (canción), and Arabic the
+        // digits Arabizi writes letters with (7abibi).
+        let wordInput = input.contains(where: \.isLetter) && input.allSatisfy { $0.isLetter || $0.isNumber }
+        if wordInput { found += words.flatMap { $0.candidates(for: input) } }
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
         // Romaji may also hold "-" for the long vowel mark ー (sute-tasu → ステータス): Japanese only.
         let romaji = letters || Romaji.hasLongVowelMarks(input)
@@ -166,10 +180,12 @@ public final class Engine {
                 if let best = ranked.first(where: { $0.kind != .raw && Language($0.kind) == language }) { row.append(best) }
             }
         } else {
-            for kind in CandidateKind.allCases {
-                // A slip does not stand for its kind: it takes a place only as one of the cheapest.
-                if let best = ranked.first(where: { $0.kind == kind && !$0.isSlip }) { row.append(best) }
-            }
+            // A slip does not stand for its kind: it takes a place only as one of the cheapest.
+            let bests = CandidateKind.allCases.compactMap { kind in ranked.first { $0.kind == kind && !$0.isSlip } }
+            // With many languages more kinds can match than the bar holds: the first candidate
+            // and the cheapest of the others.
+            let first = ranked.first
+            row = Array(bests.sorted { ($0 == first ? 0 : 1, $0.cost) < ($1 == first ? 0 : 1, $1.cost) }.prefix(rowSize))
         }
         let rawInRow = { row.contains { $0.text == input } }
         let room = rowSize - (rawInRow() || ranked.contains { $0.text == input } ? 0 : 1)
@@ -184,7 +200,7 @@ public final class Engine {
             row.append(ranked.first { $0.text == input } ?? raw)
         }
         var partial = english?.partialCandidates(for: input) ?? []
-        if input.allSatisfy(\.isLetter) { partial += words.flatMap { $0.partialCandidates(for: input) } }
+        if wordInput { partial += words.flatMap { $0.partialCandidates(for: input) } }
         if letters {
             partial += chinese?.partialCandidates(for: input) ?? []
         }

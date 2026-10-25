@@ -15,7 +15,7 @@ are always one of the candidates.
 
 **Installer.** `scripts/make-installer.sh` builds `build/Tatakikun-<version>.pkg` (for Apple silicon
 and Intel Macs). Open it: on the **Customize** page, check the language packs you want — Chinese,
-Japanese, English, Spanish, French, Hindi, Bengali (all checked by default). It installs for your user only, no administrator
+Japanese, English, Spanish, French, Hindi, Bengali, Arabic (all checked by default). It installs for your user only, no administrator
 password. To change the languages later, run the installer again; packs you uncheck are removed.
 
 The package is not signed with an Apple Developer ID. A copy built on your own Mac opens normally;
@@ -93,6 +93,7 @@ candidates (the letters as typed are always offered).
 | French | the same, from Common Voice's French sentences (ecole → école, coeur → cœur, cest → c'est) | CC0 1.0 |
 | Hindi | words and frequencies from Common Voice's Hindi sentences, typed by sound: spellings from a table of the letters, and the ones people use from [AI4Bharat Aksharantar](https://huggingface.co/datasets/ai4bharat/Aksharantar) (namaste → नमस्ते, kya → क्या) | CC0 1.0, CC BY 4.0 |
 | Bengali | the same, from Common Voice's Bengali sentences and Aksharantar (ami → আমি, kemon → কেমন) | CC0 1.0, CC BY 4.0 |
+| Arabic | words and frequencies from Common Voice's Arabic sentences, typed in Arabizi, digits for letters included (marhaba → مرحبا, 7abibi → حبيبي) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` downloads the data, pinned to exact versions and checked against SHA-256
 sums; `scripts/build-packs.sh` builds the packs into `build/packs`, each with a LICENSE.txt for its

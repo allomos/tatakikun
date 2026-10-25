@@ -15,3 +15,5 @@
 "HI_DESCRIPTION" = "按读音用拉丁字母输入印地文(天城文)(namaste → नमस्ते,kya → क्या)。数据:Mozilla Common Voice 的句子(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。约 5 MB。";
 "BN_TITLE" = "孟加拉文";
 "BN_DESCRIPTION" = "按读音用拉丁字母输入孟加拉文(ami → আমি,kemon → কেমন)。数据:Mozilla Common Voice 的句子(CC0)、AI4Bharat Aksharantar(CC0、CC BY 4.0)。约 6 MB。";
+"AR_TITLE" = "阿拉伯文";
+"AR_DESCRIPTION" = "用 Arabizi(拉丁字母和数字)输入阿拉伯文(marhaba → مرحبا,7abibi → حبيبي)。数据:Mozilla Common Voice 的句子(CC0)。约 2 MB。";

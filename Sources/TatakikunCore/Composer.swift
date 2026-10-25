@@ -89,6 +89,9 @@ public final class Composer {
             case .letter(let c):
                 setInput(String(c))
                 return ComposerUpdate(handled: true)
+            case .digit(let n) where engine.takesDigit(n, after: ""):
+                setInput(String(n))   // an Arabizi word starting with a digit (7abibi)
+                return ComposerUpdate(handled: true)
             case .space:
                 return typeAsScript(" ")
             case .other(let c):
@@ -113,6 +116,11 @@ public final class Composer {
             engine.history?.record(input: input, text: input)
             engine.noteInserted(.raw)
             return commit(input, script: .latin)
+        case .digit(let n) where engine.takesDigit(n, after: input):
+            setInput(input + String(n))
+        case .digit(let n) where input.allSatisfy(\.isNumber):
+            // A number after all (2 then 0): typed as itself.
+            return commit(input + String(n), script: .latin)
         case .digit(let n):
             let row = rows.indices.contains(selectedRow) ? rows[selectedRow] : []
             guard n >= 1, n <= row.count else { return ComposerUpdate(handled: true) }

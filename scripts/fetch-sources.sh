@@ -4,7 +4,7 @@
 #   zh: pinyin-data, phrase-pinyin-data (MIT, mozillazg); jieba word frequencies (MIT, Sun Junyi)
 #   ja: Mozc OSS dictionary (IPAdic license and others; see its README), Mozc's single kanji readings (BSD)
 #   en: SCOWL 2020.12.07 (permissive, Kevin Atkinson)
-#   es, fr: Mozilla Common Voice sentence text (CC0), for words and how often each is used
+#   es, fr, ar: Mozilla Common Voice sentence text (CC0), for words and how often each is used
 #   hi, bn: the same, and AI4Bharat Aksharantar's Latin spellings of words (CC0 and CC BY 4.0)
 #   all: the ICU license (the packs also use word frequencies from this Mac's ICU data)
 set -e
@@ -38,7 +38,7 @@ fetch() {
     mv "$2.part" "$2"
 }
 
-LANGS=${1:-zh,ja,en,es,fr,hi,bn}
+LANGS=${1:-zh,ja,en,es,fr,hi,bn,ar}
 fetch $ICU_LICENSE $OUT/icu-LICENSE e09827667e0bb3c808b2a463548ba814a5e6249b67353234d70c8dfc2bcc417d
 case ",$LANGS," in *,zh,*)
     fetch $PINYIN/pinyin.txt $OUT/zh/pinyin.txt 7365b877d2a60f64d13de522ad882ce928c7b60c4c5d26fe3c89783e72ab1115
@@ -90,5 +90,9 @@ case ",$LANGS," in *,bn,*)
     fetch $AKSHARANTAR/README.md $OUT/bn/aksharantar-README.md 1846b06a04bbec6b7b4c0bd0cda3c62a0a8c050b7d69927f5dd23a98d3e8daeb
     fetch $AKSHARANTAR/ben.zip $OUT/bn/ben.zip 4ab6edcc6ab556040d8f43ee75eec73cc25af0cf72d09e4650dab26b196d5fe7
     [ -f $OUT/bn/ben_train.json ] || unzip -q -o $OUT/bn/ben.zip ben_train.json -d $OUT/bn
+esac
+case ",$LANGS," in *,ar,*)
+    fetch $VOICE/LICENSE $OUT/ar/common-voice-LICENSE $VOICE_LICENSE
+    fetch $VOICE/ar/sentence-collector.txt $OUT/ar/sentence-collector.txt 438817d8a0de050edfe4d1da10c7b3d9d77702db44d446f9e08e53f012f6e27e
 esac
 echo "Sources ready in $OUT"
