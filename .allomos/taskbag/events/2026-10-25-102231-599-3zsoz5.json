@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T10:22:31Z",
+  "via": "alm",
+  "command": "ready",
+  "kind": "task",
+  "id": "A04-tassel550",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "backlog",
+      "to": "ready"
+    }
+  ]
+}
