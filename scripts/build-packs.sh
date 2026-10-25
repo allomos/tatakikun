@@ -1,10 +1,10 @@
 #!/bin/sh
-# Builds the language packs into build/packs/<zh|ja|en|es>: downloads the pinned open data
+# Builds the language packs into build/packs/<zh|ja|en|es|fr>: downloads the pinned open data
 # (scripts/fetch-sources.sh), then combines it with the base dictionaries in build/dict.
-# Usage: scripts/build-packs.sh [zh,ja,en,es]
+# Usage: scripts/build-packs.sh [zh,ja,en,es,fr]
 set -e
 cd "$(dirname "$0")/.."
-LANGS=${1:-zh,ja,en,es}
+LANGS=${1:-zh,ja,en,es,fr}
 swift build -c release --product tatakikun-dictgen
 if [ ! -f build/dict/zh.tsv ] || [ ! -f build/dict/ja.tsv ]; then
     echo "Generating the base dictionaries from this Mac's ICU data (about a minute)..."

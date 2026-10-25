@@ -15,7 +15,7 @@ are always one of the candidates.
 
 **Installer.** `scripts/make-installer.sh` builds `build/Tatakikun-<version>.pkg` (for Apple silicon
 and Intel Macs). Open it: on the **Customize** page, check the language packs you want — Chinese,
-Japanese, English, Spanish (all checked by default). It installs for your user only, no administrator
+Japanese, English, Spanish, French (all checked by default). It installs for your user only, no administrator
 password. To change the languages later, run the installer again; packs you uncheck are removed.
 
 The package is not signed with an Apple Developer ID. A copy built on your own Mac opens normally;
@@ -90,6 +90,7 @@ candidates (the letters as typed are always offered).
 | Japanese | [Mozc OSS dictionary](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) (~1 million words with readings), ICU's word list and frequencies | IPAdic license and others (see its README); Unicode License V3 |
 | English | [SCOWL](http://wordlist.aspell.net/), its size levels as word frequencies | SCOWL's permissive license |
 | Spanish | the words of [Mozilla Common Voice](https://github.com/common-voice/common-voice)'s sentences, counted for their frequencies, typed without accents (cancion → canción) | CC0 1.0 |
+| French | the same, from Common Voice's French sentences (ecole → école, coeur → cœur, cest → c'est) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` downloads the data, pinned to exact versions and checked against SHA-256
 sums; `scripts/build-packs.sh` builds the packs into `build/packs`, each with a LICENSE.txt for its

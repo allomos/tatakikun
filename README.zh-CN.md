@@ -11,7 +11,7 @@
 
 ## 构建和安装
 
-**安装器。** `scripts/make-installer.sh` 生成 `build/Tatakikun-<版本>.pkg`(Apple 芯片和 Intel 的 Mac 都能用)。打开它,在 **自定** 页勾选要装的语言包:中文、日文、英文、西班牙文(默认全选)。只装给当前用户,不需要管理员密码。以后想改语言,再运行一次安装器;没勾选的语言包会被删除。
+**安装器。** `scripts/make-installer.sh` 生成 `build/Tatakikun-<版本>.pkg`(Apple 芯片和 Intel 的 Mac 都能用)。打开它,在 **自定** 页勾选要装的语言包:中文、日文、英文、西班牙文、法文(默认全选)。只装给当前用户,不需要管理员密码。以后想改语言,再运行一次安装器;没勾选的语言包会被删除。
 
 这个安装包没有 Apple 开发者签名。在自己的 Mac 上生成的可以直接打开;从网上下载的第一次会被拦下:打开 系统设置 → 隐私与安全性,点 **仍要打开**。
 
@@ -73,6 +73,7 @@ Tatakikun 会学习:你选过的候选,下次键入同样的字母时排得更�
 | 日文 | [Mozc 开源词典](https://github.com/google/mozc/tree/master/src/data/dictionary_oss)(约 100 万词及读音)、ICU 的词表和词频 | IPAdic 等(见其 README);Unicode License V3 |
 | 英文 | [SCOWL](http://wordlist.aspell.net/),用它的分级作为词频 | SCOWL 的宽松许可 |
 | 西班牙文 | [Mozilla Common Voice](https://github.com/common-voice/common-voice) 句子里的单词及出现次数,不带重音输入(cancion → canción) | CC0 1.0 |
+| 法文 | 同样来自 Common Voice 的法文句子(ecole → école,coeur → cœur,cest → c'est) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` 下载这些数据,固定到具体版本并校验 SHA-256;`scripts/build-packs.sh` 在 `build/packs` 生成语言包,每个都附带其数据的 LICENSE.txt。ICU 部分来自本机(`/usr/share/icu`):`tatakikun-dictgen` 把它的中日词表读进 `build/dict`。词库是内存映射的 `.ttkd` 文件,再大也能瞬间启动。数据和语言包都不在这个仓库里。
 

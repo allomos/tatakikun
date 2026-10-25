@@ -8,10 +8,10 @@ import Foundation
 /// `<Packs>/<zh|ja|en>/<lang>.ttkd`, next to its LICENSE.txt; a language with no pack offers no candidates.
 public enum LanguagePacks {
     public enum Language: String, CaseIterable {
-        case zh, ja, en, es
+        case zh, ja, en, es, fr
         public var fileName: String { "\(rawValue).ttkd" }
         /// The languages typed word by word from plain letters (see WordConverter).
-        public static let wordLanguages: [Language] = [.es]
+        public static let wordLanguages: [Language] = [.es, .fr]
     }
 
     /// ~/Library/Application Support/Tatakikun/Packs (where the installer puts them)

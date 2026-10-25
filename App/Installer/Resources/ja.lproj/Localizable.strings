@@ -9,3 +9,5 @@
 "EN_DESCRIPTION" = "よく使われる順に並んだ英単語。データ:SCOWL。約 3 MB。";
 "ES_TITLE" = "スペイン語";
 "ES_DESCRIPTION" = "アクセントなしの文字でスペイン語を入力します(cancion → canción)。よく使われる順。データ:Mozilla Common Voice の文(CC0)。約 1 MB。";
+"FR_TITLE" = "フランス語";
+"FR_DESCRIPTION" = "アクセントなしの文字でフランス語を入力します(ecole → école、coeur → cœur)。よく使われる順。データ:Mozilla Common Voice の文(CC0)。約 1 MB。";

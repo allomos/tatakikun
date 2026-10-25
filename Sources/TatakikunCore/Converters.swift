@@ -6,7 +6,7 @@ import Foundation
 
 /// What kind of candidate this is; the candidate bar shows it as a small tag.
 public enum CandidateKind: String, CaseIterable {
-    case english, chinese, kanji, hiragana, katakana, spanish, raw
+    case english, chinese, kanji, hiragana, katakana, spanish, french, raw
 
     public var tag: String {
         switch self {
@@ -16,6 +16,7 @@ public enum CandidateKind: String, CaseIterable {
         case .hiragana: return "あ"
         case .katakana: return "ア"
         case .spanish: return "ES"
+        case .french: return "FR"
         case .raw: return "abc"
         }
     }
@@ -24,6 +25,7 @@ public enum CandidateKind: String, CaseIterable {
     public var pack: LanguagePacks.Language? {
         switch self {
         case .spanish: return .es
+        case .french: return .fr
         default: return nil
         }
     }

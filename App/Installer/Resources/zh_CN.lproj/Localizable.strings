@@ -9,3 +9,5 @@
 "EN_DESCRIPTION" = "英文单词按常用程度排序。数据:SCOWL。约 3 MB。";
 "ES_TITLE" = "西班牙文";
 "ES_DESCRIPTION" = "用不带重音的字母输入西班牙文(cancion → canción),按常用程度排序。数据:Mozilla Common Voice 的句子(CC0)。约 1 MB。";
+"FR_TITLE" = "法文";
+"FR_DESCRIPTION" = "用不带重音的字母输入法文(ecole → école,coeur → cœur),按常用程度排序。数据:Mozilla Common Voice 的句子(CC0)。约 1 MB。";

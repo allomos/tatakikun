@@ -25,7 +25,7 @@ enum TatakikunApp {
 
     /// The installed languages in the order the input menu shows them, with their names.
     static var languageNames: [(language: LanguagePacks.Language, name: String)] {
-        [(.en, "English"), (.zh, "中文"), (.ja, "日本語"), (.es, "Español")].filter { engine.languages.contains($0.0) }
+        [(.en, "English"), (.zh, "中文"), (.ja, "日本語"), (.es, "Español"), (.fr, "Français")].filter { engine.languages.contains($0.0) }
     }
 
     /// The languages turned off in the input menu, kept in the input method's defaults; setting it

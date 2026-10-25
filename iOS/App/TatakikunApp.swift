@@ -56,7 +56,7 @@ struct SetupView: View {
     private static let packs: [(language: LanguagePacks.Language, name: String)] = {
         let folder = Bundle.main.builtInPlugInsURL?.appendingPathComponent("TatakikunKeyboard.appex/packs")
         let present = Set((try? FileManager.default.contentsOfDirectory(atPath: folder?.path ?? "")) ?? [])
-        return [(.en, "English"), (.zh, "中文"), (.ja, "日本語"), (.es, "Español")].filter { present.contains($0.0.rawValue) }
+        return [(.en, "English"), (.zh, "中文"), (.ja, "日本語"), (.es, "Español"), (.fr, "Français")].filter { present.contains($0.0.rawValue) }
     }()
 
     /// The packs turned on in Input languages.

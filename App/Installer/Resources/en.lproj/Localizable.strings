@@ -9,3 +9,5 @@
 "EN_DESCRIPTION" = "English words ranked by how common they are. Data: SCOWL. About 3 MB.";
 "ES_TITLE" = "Spanish";
 "ES_DESCRIPTION" = "Spanish words by their plain letters (cancion → canción), ranked by how often they are used. Data: Mozilla Common Voice sentences (CC0). About 1 MB.";
+"FR_TITLE" = "French";
+"FR_DESCRIPTION" = "French words by their plain letters (ecole → école, coeur → cœur), ranked by how often they are used. Data: Mozilla Common Voice sentences (CC0). About 1 MB.";

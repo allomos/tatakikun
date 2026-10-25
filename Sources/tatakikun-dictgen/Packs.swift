@@ -9,8 +9,8 @@ import TatakikunCore
 //   ja/ja.ttkd  the base Japanese dictionary merged with the Mozc OSS dictionary, and its family
 //               and given names under marked keys (姓おう 王, 名き 暉)
 //   en/en.ttkd  SCOWL words, cheaper the more common their SCOWL level
-//   es/es.ttkd  the words of Common Voice's sentences, keyed without accents, cheaper the more
-//               often they are used
+//   es/es.ttkd, fr/fr.ttkd  the words of Common Voice's sentences, keyed without accents,
+//               cheaper the more often they are used
 
 /// Words above this cost are left out of the abbreviation index, so typing consonants alone
 /// (nh, wtx) offers common words rather than every rare one.
@@ -310,6 +310,8 @@ func wordCost(rank: Int, key: String) -> Int {
 /// Counts the words of a language's sentences (Common Voice, one sentence per line) and keys each
 /// by the letters that type it (WordConverter.key). A word is spelled as it is mostly written: a
 /// name keeps its capital (Madrid), other words are lowercase even at the start of a sentence.
+/// A word with an elided start (l'école, c'est) counts as itself and as the word after the
+/// apostrophe (école), so both can be typed (lecole, ecole).
 /// - Parameter letters: the lowercase letters the language writes; words with others are left out.
 /// - Parameter singleLetters: the one-letter words the language has.
 func buildWordPack(_ language: LanguagePacks.Language, texts: [String], letters: String, singleLetters: Set<String>,
@@ -322,12 +324,16 @@ func buildWordPack(_ language: LanguagePacks.Language, texts: [String], letters:
         for line in try String(contentsOf: folder.appendingPathComponent(name), encoding: .utf8).split(separator: "\n") {
             var first = true
             for token in line.split(whereSeparator: { !$0.isLetter && $0 != "'" && $0 != "’" && $0 != "-" }) {
-                let word = String(token).trimmingCharacters(in: CharacterSet(charactersIn: "'’-"))
+                let whole = String(token).replacingOccurrences(of: "’", with: "'").trimmingCharacters(in: CharacterSet(charactersIn: "'-"))
                 defer { first = false }
-                let lower = word.lowercased()
-                guard !word.isEmpty, word.count <= 24, lower.allSatisfy({ alphabet.contains($0) || "'’-".contains($0) }),
-                      word.count == 1 ? singleLetters.contains(lower) : word != word.uppercased() else { continue }
-                if first { firstCounts[lower, default: 0] += 1 } else { counts[word, default: 0] += 1 }
+                var words = [whole]
+                if let tail = whole.split(separator: "'").last, tail.count >= 2, tail.count < whole.count - 1 { words.append(String(tail)) }
+                for word in words {
+                    let lower = word.lowercased()
+                    guard !word.isEmpty, word.count <= 24, lower.allSatisfy({ alphabet.contains($0) || "'-".contains($0) }),
+                          word.count == 1 ? singleLetters.contains(lower) : word != word.uppercased() else { continue }
+                    if first { firstCounts[lower, default: 0] += 1 } else { counts[word, default: 0] += 1 }
+                }
             }
         }
     }

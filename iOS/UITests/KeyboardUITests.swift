@@ -203,7 +203,7 @@ final class KeyboardUITests: XCTestCase {
         app.launchArguments = []   // the switches as saved
         app.launch()
         languages()
-        for id in ["en", "zh", "ja", "es"] { turn(id, on: true) }
+        for id in ["en", "zh", "ja", "es", "fr"] { turn(id, on: true) }
         turn("ja", on: false)
         attach("Japanese off")
         back()
@@ -223,11 +223,13 @@ final class KeyboardUITests: XCTestCase {
         turn("en", on: false)
         turn("zh", on: false)
         turn("es", on: false)
+        turn("fr", on: false)
         XCTAssertFalse(app.switches["language-ja"].isEnabled, "the last language stays on")
         attach("only Japanese on")
         turn("en", on: true)
         turn("zh", on: true)
         turn("es", on: true)
+        turn("fr", on: true)
         back()
         field.tap()
         type("watashi")
@@ -246,6 +248,18 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertTrue(app.buttons["niño"].waitForExistence(timeout: 3))
         app.buttons["niño"].tap()
         XCTAssertEqual(text, "canciónniño")
+    }
+
+    /// A03-wood850-02: French accents, ç and œ come from plain letters.
+    func testFrenchAccentsFromPlainLetters() {
+        type("francais")
+        XCTAssertTrue(app.buttons["français"].waitForExistence(timeout: 3))
+        app.buttons["français"].tap()
+        type("coeur")
+        XCTAssertTrue(app.buttons["cœur"].waitForExistence(timeout: 3))
+        attach("coeur")
+        app.buttons["cœur"].tap()
+        XCTAssertEqual(text, "françaiscœur")
     }
 
     func attach(_ name: String) {
