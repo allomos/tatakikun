@@ -6,7 +6,7 @@ final class FrenchTests: XCTestCase {
     var engine: Engine!
 
     override func setUpWithError() throws {
-        engine = try LanguagePackEngineTests().engine([.zh, .ja, .en, .es, .fr])
+        engine = try packEngine([.zh, .ja, .en, .es, .fr])
     }
 
     func french(_ input: String) -> [String] {
