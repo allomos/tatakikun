@@ -7,3 +7,7 @@
 - **Decided by the person (2026-10-23):** Hindi, Spanish, Arabic, French and Bengali (the proposal, by total speakers after English, Chinese and Japanese).
 - Suggested order: Spanish and French first (Latin script, mostly word lists), then Hindi and Bengali (typing by sound, sharing one approach), then Arabic (also right to left).
 - Still open for the person, in each language task: the word list source and its licence (it must allow MIT redistribution), and the app size.
+
+## Evidence
+
+- 2026-10-25, claude-release: GitHub release v0.6.12 (2026-10-25, approved by the approver's `alm guide github release need no test` in the conversation; read as: no test runs, so swift test, test-android.sh and emulator checks were skipped): build/dict and all eight packs regenerated; tag v0.6.12 pushed; assets Tatakikun-0.6.12.pkg (29477999 bytes, zh ja en es fr hi bn ar packages, +.sha256 468587ca…58586cf67) and Tatakikun-0.6.12-android.apk (116202533 bytes, all eight packs, versionCode 612, release cert 05d10759…bdb41, +.sha256 669250a2…0303d58f). CLI lookups on the packs: cancion → canción, ecole → école, namaste → नमस्ते, ami → আমি (2nd), marhaba → مرحبا. Mac .pkg downloaded, shasum OK, installed 0.6.12, running, eight packs. Release page 200. Windows CI on master fails since the Spanish pack (FrenchTests/HindiTests setUpWithError do not compile on Windows); test-only, nothing shipped depends on it.
