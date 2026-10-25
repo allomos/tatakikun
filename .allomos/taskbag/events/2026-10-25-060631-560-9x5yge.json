@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-25T06:06:31Z",
+  "by": "claude-loop3",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A03-wood850-01",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Spanish: 50 000 words with at least 3 uses; cost 40 + 5.5 ln(rank) (+10 for 3 letters or fewer) to sit on the English pack's scale; a word's spelling is the capitalized one only when that is used more; new candidate kind tagged ES; Spanish checked by default in the installer and on by default in the apps, like the other languages; completions start from 2 letters; the shared engine part (WordConverter) is ready for French."
+    }
+  ]
+}
