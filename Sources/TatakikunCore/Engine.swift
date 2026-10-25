@@ -14,13 +14,14 @@ public struct CandidateList {
 
 /// The language of a candidate, for ranking by what was typed just before.
 public enum Language {
-    case english, chinese, japanese
+    case english, chinese, japanese, spanish
 
     public init(_ kind: CandidateKind) {
         switch kind {
         case .english, .raw: self = .english
         case .chinese: self = .chinese
         case .kanji, .hiragana, .katakana: self = .japanese
+        case .spanish: self = .spanish
         }
     }
 }
@@ -40,6 +41,8 @@ public final class Engine {
     public let chinese: ChineseConverter?
     public let japanese: JapaneseConverter?
     public let english: EnglishConverter?
+    /// The languages typed word by word (Spanish), one for each installed pack.
+    public let words: [WordConverter]
     public var rowSize: Int
     /// At most this many candidates after the first row.
     public var maxMore = 400
@@ -57,10 +60,12 @@ public final class Engine {
     /// How much cheaper the other candidates in that language become.
     static let momentumBoost = 40
 
-    public init(chinese: Lexicon?, japanese: Lexicon?, english: EnglishLexicon?, rowSize: Int = 9) {
+    public init(chinese: Lexicon?, japanese: Lexicon?, english: EnglishLexicon?,
+                words: [LanguagePacks.Language: Lexicon] = [:], rowSize: Int = 9) {
         self.chinese = chinese.map(ChineseConverter.init)
         self.japanese = japanese.map(JapaneseConverter.init)
         self.english = english.map(EnglishConverter.init)
+        self.words = LanguagePacks.Language.wordLanguages.compactMap { l in words[l].map { WordConverter(language: l, lexicon: $0) } }
         self.rowSize = rowSize
     }
 
@@ -69,12 +74,15 @@ public final class Engine {
         func open(_ l: LanguagePacks.Language) throws -> Lexicon? {
             try LanguagePacks.find(l, in: packFolders).map { try Lexicon(contentsOf: $0) }
         }
-        self.init(chinese: try open(.zh), japanese: try open(.ja), english: try open(.en).map(PackEnglish.init), rowSize: rowSize)
+        var words: [LanguagePacks.Language: Lexicon] = [:]
+        for l in LanguagePacks.Language.wordLanguages { words[l] = try open(l) }
+        self.init(chinese: try open(.zh), japanese: try open(.ja), english: try open(.en).map(PackEnglish.init),
+                  words: words, rowSize: rowSize)
     }
 
     /// The languages this engine offers (installed), whether turned on or not.
     public var languages: [LanguagePacks.Language] {
-        [chinese.map { _ in .zh }, japanese.map { _ in .ja }, english.map { _ in .en }].compactMap { $0 }
+        [chinese.map { _ in .zh }, japanese.map { _ in .ja }, english.map { _ in .en }].compactMap { $0 } + words.map(\.language)
     }
 
     /// Installed languages the user turned off in the settings: they give no candidates until
@@ -82,11 +90,13 @@ public final class Engine {
     public var turnedOff: Set<LanguagePacks.Language> = []
 
     func isOn(_ kind: CandidateKind) -> Bool {
-        switch Language(kind) {
+        if let pack = kind.pack { return !turnedOff.contains(pack) }
+        return switch Language(kind) {
         case _ where kind == .raw: true
         case .english: !turnedOff.contains(.en)
         case .chinese: !turnedOff.contains(.zh)
         case .japanese: !turnedOff.contains(.ja)
+        case .spanish: true
         }
     }
 
@@ -111,7 +121,10 @@ public final class Engine {
         let english = turnedOff.contains(.en) ? nil : self.english
         let chinese = turnedOff.contains(.zh) ? nil : self.chinese
         let japanese = turnedOff.contains(.ja) ? nil : self.japanese
+        let words = self.words.filter { !turnedOff.contains($0.language) }
         var found = english?.candidates(for: input) ?? []
+        // Word languages also take letters typed with their accents (canción).
+        if input.allSatisfy(\.isLetter) { found += words.flatMap { $0.candidates(for: input) } }
         let letters = input.allSatisfy { $0.isASCII && $0.isLetter }
         // Romaji may also hold "-" for the long vowel mark ー (sute-tasu → ステータス): Japanese only.
         let romaji = letters || Romaji.hasLongVowelMarks(input)
@@ -168,6 +181,7 @@ public final class Engine {
             row.append(ranked.first { $0.text == input } ?? raw)
         }
         var partial = english?.partialCandidates(for: input) ?? []
+        if input.allSatisfy(\.isLetter) { partial += words.flatMap { $0.partialCandidates(for: input) } }
         if letters {
             partial += chinese?.partialCandidates(for: input) ?? []
         }

@@ -6,7 +6,7 @@ import TatakikunCore
 //       the base zh/ja dictionaries from this Mac's data (SystemDictionaries.swift)
 //   tatakikun-dictgen --compile <folder>
 //       turn existing zh.tsv / ja.tsv into .ttkd files
-//   tatakikun-dictgen pack <zh|ja|en> <base folder> <sources folder> <output folder>
+//   tatakikun-dictgen pack <zh|ja|en|es> <base folder> <sources folder> <output folder>
 //       a language pack from the base dictionaries and the downloaded open data (Packs.swift)
 
 let args = CommandLine.arguments
@@ -20,12 +20,14 @@ if args.count == 3, args[1] == "--compile" {
     case "zh": try buildChinesePack(base: base, sources: sources, out: out)
     case "ja": try buildJapanesePack(base: base, sources: sources, out: out)
     case "en": try buildEnglishPack(sources: sources, out: out)
+    case "es": try buildWordPack(.es, texts: ["wiki.es.txt", "sentence-collector.txt"], letters: "abcdefghijklmnopqrstuvwxyzáéíóúüñ",
+                                 singleLetters: ["a", "e", "o", "u", "y"], sources: sources, out: out)
     default: log("unknown language \(args[2]): use zh, ja or en"); exit(2)
     }
 } else if args.count >= 2, !args[1].hasPrefix("-") {
     try buildSystemDictionaries(outDir: URL(fileURLWithPath: args[1]),
                                 icuPath: args.count >= 3 ? args[2] : try ICUDictionary.defaultDataPath())
 } else {
-    log("usage: tatakikun-dictgen <output folder> [icu data file] | --compile <folder> | pack <zh|ja|en> <base> <sources> <out>")
+    log("usage: tatakikun-dictgen <output folder> [icu data file] | --compile <folder> | pack <zh|ja|en|es> <base> <sources> <out>")
     exit(2)
 }

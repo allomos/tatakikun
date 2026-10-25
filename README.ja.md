@@ -12,7 +12,7 @@
 
 ## ビルドとインストール
 
-**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語を変えるときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。
+**インストーラ。** `scripts/make-installer.sh` で `build/Tatakikun-<バージョン>.pkg` を作ります(Apple シリコンと Intel の Mac に対応)。開いて **カスタマイズ** 画面で使う言語パック(中国語・日本語・英語・スペイン語、既定ではすべて)にチェックを入れます。現在のユーザだけにインストールされ、管理者パスワードは不要です。あとで言語を変えるときはインストーラをもう一度実行します。チェックを外した言語パックは削除されます。
 
 このパッケージには Apple の Developer ID 署名がありません。自分の Mac で作ったものはそのまま開けます。ダウンロードしたものは初回にブロックされるので、システム設定 → プライバシーとセキュリティ で **このまま開く** をクリックしてください。
 
@@ -20,7 +20,7 @@
 
 ```sh
 scripts/build.sh            # アプリと言語パックを作る(初回はオープンデータを約 80 MB ダウンロード)
-scripts/install.sh          # 3 つの言語パックすべて。一部だけなら例えば scripts/install.sh zh,en
+scripts/install.sh          # すべての言語パック。一部だけなら例えば scripts/install.sh zh,en
 ```
 
 そのあと一度だけ追加します:システム設定 → キーボード → テキスト入力 → 入力ソース → 編集… → + → 中国語(簡体字)→ Tatakikun。一覧にないときはログアウトしてログインし直してください。
@@ -75,6 +75,7 @@ Tatakikun は学習します。選んだ候補は、次に同じ英字を入力�
 | 中国語 | [pinyin-data](https://github.com/mozillazg/pinyin-data)(全漢字のすべての読み)、[phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data)(約 40 万語の読み)、ICU と [jieba](https://github.com/fxsjy/jieba) の頻度 | MIT、Unicode License V3 |
 | 日本語 | [Mozc オープンソース辞書](https://github.com/google/mozc/tree/master/src/data/dictionary_oss)(約 100 万語と読み)、ICU の語彙と頻度 | IPAdic ほか(README 参照)、Unicode License V3 |
 | 英語 | [SCOWL](http://wordlist.aspell.net/)、そのサイズレベルを頻度として使用 | SCOWL の寛容なライセンス |
+| スペイン語 | [Mozilla Common Voice](https://github.com/common-voice/common-voice) の文の単語と出現回数、アクセントなしで入力(cancion → canción) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` がデータをバージョン固定でダウンロードし SHA-256 を検証します。`scripts/build-packs.sh` が `build/packs` に言語パックを作り、それぞれにデータの LICENSE.txt を付けます。ICU の部分はこの Mac(`/usr/share/icu`)から:`tatakikun-dictgen` がその中日語彙を `build/dict` に読み込みます。辞書はメモリマップされる `.ttkd` ファイルなので、大きくてもすぐに起動します。データも言語パックもこのリポジトリには含まれません。
 
@@ -97,7 +98,7 @@ Xcode で `iOS/Tatakikun.xcodeproj` を開くと自分の iPhone で動かせま
 
 `android/` には Tatakikun キーボード付きの Android アプリがあります(Android 9 以降、arm64 の端末)。
 エンジンは Mac と同じで、Swift SDK for Android でビルドし JNI から呼び出します。QWERTY キーボードの上に
-候補バーがあり、3 つの言語パックはアプリに含まれます。ハードウェアキーボードにも対応します。
+候補バーがあり、言語パックはアプリに含まれます。ハードウェアキーボードにも対応します。
 
 ```sh
 scripts/build-android-app.sh            # android/app/build/outputs/apk/debug/app-debug.apk を作る

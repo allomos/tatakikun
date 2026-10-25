@@ -79,6 +79,8 @@ check "sute-tasu SPACE" "ステータス"
 check "niyongguolema SPACE" "你用过了吗"
 check "nihao SPACE ," "你好，"
 check "woaini ENTER" "woaini"
+check "cancion SPACE" "canción "
+check "manana SPACE" "mañana "
 # → Space picks the second candidate (愛); learned, it comes first the next time.
 check "ai DPAD_RIGHT SPACE ai SPACE" "愛愛"
 rm -rf "$TMP"

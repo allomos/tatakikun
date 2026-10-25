@@ -9,6 +9,8 @@ import TatakikunCore
 //   ja/ja.ttkd  the base Japanese dictionary merged with the Mozc OSS dictionary, and its family
 //               and given names under marked keys (姓おう 王, 名き 暉)
 //   en/en.ttkd  SCOWL words, cheaper the more common their SCOWL level
+//   es/es.ttkd  the words of Common Voice's sentences, keyed without accents, cheaper the more
+//               often they are used
 
 /// Words above this cost are left out of the abbreviation index, so typing consonants alone
 /// (nh, wtx) offers common words rather than every rare one.
@@ -288,6 +290,66 @@ func buildEnglishPack(sources: URL, out: URL) throws {
     try writePack(table, name: "en.ttkd", to: out.appendingPathComponent("en"),
                   normalizeKey: { String($0) }, abbreviate: { _ in nil },
                   licenses: [("SCOWL (Spell Checker Oriented Word Lists)", sources.appendingPathComponent("en/scowl/Copyright"))])
+}
+
+// MARK: Languages typed word by word
+
+/// How many words a word language's pack keeps, the most used first.
+let wordPackSize = 50_000
+
+/// A word seen fewer times than this is left out (typos, one-off names).
+let wordPackMinCount = 3
+
+/// The cost of the word used `rank`th most often (1 = most), on the English pack's scale: the most
+/// common words cost about as much as SCOWL's most common (40), the 50 000th about 100. Words of
+/// three letters or fewer cost 10 more, as in English: they collide with pinyin and romaji most.
+func wordCost(rank: Int, key: String) -> Int {
+    Int((40 + 5.5 * log(Double(rank))).rounded()) + (key.count <= 3 ? 10 : 0)
+}
+
+/// Counts the words of a language's sentences (Common Voice, one sentence per line) and keys each
+/// by the letters that type it (WordConverter.key). A word is spelled as it is mostly written: a
+/// name keeps its capital (Madrid), other words are lowercase even at the start of a sentence.
+/// - Parameter letters: the lowercase letters the language writes; words with others are left out.
+/// - Parameter singleLetters: the one-letter words the language has.
+func buildWordPack(_ language: LanguagePacks.Language, texts: [String], letters: String, singleLetters: Set<String>,
+                   sources: URL, out: URL) throws {
+    let folder = sources.appendingPathComponent(language.rawValue)
+    let alphabet = Set(letters)
+    var counts: [String: Int] = [:]          // spelling → times seen (not first in its sentence)
+    var firstCounts: [String: Int] = [:]     // lowercase spelling → times seen first in a sentence
+    for name in texts {
+        for line in try String(contentsOf: folder.appendingPathComponent(name), encoding: .utf8).split(separator: "\n") {
+            var first = true
+            for token in line.split(whereSeparator: { !$0.isLetter && $0 != "'" && $0 != "’" && $0 != "-" }) {
+                let word = String(token).trimmingCharacters(in: CharacterSet(charactersIn: "'’-"))
+                defer { first = false }
+                let lower = word.lowercased()
+                guard !word.isEmpty, word.count <= 24, lower.allSatisfy({ alphabet.contains($0) || "'’-".contains($0) }),
+                      word.count == 1 ? singleLetters.contains(lower) : word != word.uppercased() else { continue }
+                if first { firstCounts[lower, default: 0] += 1 } else { counts[word, default: 0] += 1 }
+            }
+        }
+    }
+    // One spelling per word: lowercase unless the capitalized one is seen more (Madrid, not madrid).
+    var spelled: [String: Int] = [:]
+    for (word, n) in counts where word == word.lowercased() { spelled[word] = n + (firstCounts[word] ?? 0) }
+    for (word, n) in counts where word != word.lowercased() {
+        let lower = word.lowercased()
+        if n > (spelled[lower] ?? 0) { spelled[lower] = nil; spelled[word] = n + (firstCounts[lower] ?? 0) }
+    }
+    let ranked = spelled.filter { $0.value >= wordPackMinCount }.sorted { ($0.value, $1.key) > ($1.value, $0.key) }.prefix(wordPackSize)
+    var table: [String: Int] = [:]   // "key<TAB>word" → cost
+    for (i, (word, _)) in ranked.enumerated() {
+        let key = WordConverter.key(word)
+        guard !key.isEmpty else { continue }
+        table[key + "\t" + word] = wordCost(rank: i + 1, key: key)
+    }
+    log("\(language.rawValue): \(spelled.count) words, \(table.count) kept")
+    try writePack(table, name: language.fileName, to: out.appendingPathComponent(language.rawValue),
+                  normalizeKey: { String($0) }, abbreviate: { _ in nil },
+                  licenses: [("Mozilla Common Voice sentences: words and how often each is used (CC0 1.0)",
+                              folder.appendingPathComponent("common-voice-LICENSE"))])
 }
 
 // MARK: Writing a pack

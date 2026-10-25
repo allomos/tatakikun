@@ -4,6 +4,7 @@
 #   zh: pinyin-data, phrase-pinyin-data (MIT, mozillazg); jieba word frequencies (MIT, Sun Junyi)
 #   ja: Mozc OSS dictionary (IPAdic license and others; see its README), Mozc's single kanji readings (BSD)
 #   en: SCOWL 2020.12.07 (permissive, Kevin Atkinson)
+#   es: Mozilla Common Voice sentence text (CC0), for words and how often each is used
 #   all: the ICU license (the packs also use word frequencies from this Mac's ICU data)
 set -e
 cd "$(dirname "$0")/.."
@@ -17,6 +18,8 @@ MOZC=https://raw.githubusercontent.com/google/mozc/0136c35782536cb43d710575c311c
 MOZC_SRC=https://raw.githubusercontent.com/google/mozc/0136c35782536cb43d710575c311cd4185982738/src
 ICU_LICENSE=https://raw.githubusercontent.com/unicode-org/icu/ad484f3d6c036ba06193ac7c3bc2233a53ab68b8/LICENSE
 SCOWL=https://downloads.sourceforge.net/project/wordlist/SCOWL/2020.12.07/scowl-2020.12.07.tar.gz
+VOICE=https://raw.githubusercontent.com/common-voice/common-voice/f96d1c370a2b96ddf52c2eb108959b626757ba20/server/data
+VOICE_LICENSE=bf474cdfd02e162603358e4e3615182018cad27593d2bf5e75ca13e4a5a6af0c
 
 # fetch <url> <file> <sha256>
 fetch() {
@@ -33,7 +36,7 @@ fetch() {
     mv "$2.part" "$2"
 }
 
-LANGS=${1:-zh,ja,en}
+LANGS=${1:-zh,ja,en,es}
 fetch $ICU_LICENSE $OUT/icu-LICENSE e09827667e0bb3c808b2a463548ba814a5e6249b67353234d70c8dfc2bcc417d
 case ",$LANGS," in *,zh,*)
     fetch $PINYIN/pinyin.txt $OUT/zh/pinyin.txt 7365b877d2a60f64d13de522ad882ce928c7b60c4c5d26fe3c89783e72ab1115
@@ -59,5 +62,10 @@ case ",$LANGS," in *,en,*)
         mkdir -p $OUT/en/scowl
         tar -xzf $OUT/en/scowl.tar.gz -C $OUT/en/scowl --strip-components 1 scowl-2020.12.07/final scowl-2020.12.07/Copyright
     fi
+esac
+case ",$LANGS," in *,es,*)
+    fetch $VOICE/LICENSE $OUT/es/common-voice-LICENSE $VOICE_LICENSE
+    fetch $VOICE/es/wiki.es.txt $OUT/es/wiki.es.txt 26dfe9d9993cf7279ebf7cdffb2b086b4995982200415110903ba5530d1fc47d
+    fetch $VOICE/es/sentence-collector.txt $OUT/es/sentence-collector.txt 0a125f0d1cd892c5d727abb8006f5fb964ef9fe1e41bdf4afd3c4b845c47286b
 esac
 echo "Sources ready in $OUT"

@@ -203,7 +203,7 @@ final class KeyboardUITests: XCTestCase {
         app.launchArguments = []   // the switches as saved
         app.launch()
         languages()
-        for id in ["en", "zh", "ja"] { turn(id, on: true) }
+        for id in ["en", "zh", "ja", "es"] { turn(id, on: true) }
         turn("ja", on: false)
         attach("Japanese off")
         back()
@@ -222,14 +222,30 @@ final class KeyboardUITests: XCTestCase {
         turn("ja", on: true)
         turn("en", on: false)
         turn("zh", on: false)
+        turn("es", on: false)
         XCTAssertFalse(app.switches["language-ja"].isEnabled, "the last language stays on")
         attach("only Japanese on")
         turn("en", on: true)
         turn("zh", on: true)
+        turn("es", on: true)
         back()
         field.tap()
         type("watashi")
         XCTAssertTrue(app.buttons["私"].waitForExistence(timeout: 3) || app.buttons["わたし"].exists)
+    }
+
+    /// A03-wood850-01: Spanish accents come from plain letters.
+    func testSpanishAccentsFromPlainLetters() {
+        type("cancion")
+        let candidate = app.buttons["canción"]
+        XCTAssertTrue(candidate.waitForExistence(timeout: 3))
+        attach("cancion")
+        candidate.tap()
+        XCTAssertEqual(text, "canción")
+        type("nino")
+        XCTAssertTrue(app.buttons["niño"].waitForExistence(timeout: 3))
+        app.buttons["niño"].tap()
+        XCTAssertEqual(text, "canciónniño")
     }
 
     func attach(_ name: String) {

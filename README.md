@@ -15,7 +15,7 @@ are always one of the candidates.
 
 **Installer.** `scripts/make-installer.sh` builds `build/Tatakikun-<version>.pkg` (for Apple silicon
 and Intel Macs). Open it: on the **Customize** page, check the language packs you want — Chinese,
-Japanese, English (all checked by default). It installs for your user only, no administrator
+Japanese, English, Spanish (all checked by default). It installs for your user only, no administrator
 password. To change the languages later, run the installer again; packs you uncheck are removed.
 
 The package is not signed with an Apple Developer ID. A copy built on your own Mac opens normally;
@@ -26,7 +26,7 @@ a downloaded one is blocked the first time: open System Settings → Privacy & S
 
 ```sh
 scripts/build.sh            # the app and the language packs (first run downloads the open data, ~80 MB)
-scripts/install.sh          # all three packs; or e.g. scripts/install.sh zh,en
+scripts/install.sh          # all the packs; or e.g. scripts/install.sh zh,en
 ```
 
 Then add it once: System Settings → Keyboard → Text Input → Input Sources → Edit… → + →
@@ -89,6 +89,7 @@ candidates (the letters as typed are always offered).
 | Chinese | [pinyin-data](https://github.com/mozillazg/pinyin-data) (every reading of every character), [phrase-pinyin-data](https://github.com/mozillazg/phrase-pinyin-data) (readings of ~400,000 words), word frequencies from ICU and [jieba](https://github.com/fxsjy/jieba) | MIT; Unicode License V3 |
 | Japanese | [Mozc OSS dictionary](https://github.com/google/mozc/tree/master/src/data/dictionary_oss) (~1 million words with readings), ICU's word list and frequencies | IPAdic license and others (see its README); Unicode License V3 |
 | English | [SCOWL](http://wordlist.aspell.net/), its size levels as word frequencies | SCOWL's permissive license |
+| Spanish | the words of [Mozilla Common Voice](https://github.com/common-voice/common-voice)'s sentences, counted for their frequencies, typed without accents (cancion → canción) | CC0 1.0 |
 
 `scripts/fetch-sources.sh` downloads the data, pinned to exact versions and checked against SHA-256
 sums; `scripts/build-packs.sh` builds the packs into `build/packs`, each with a LICENSE.txt for its
@@ -115,7 +116,7 @@ has a screen to try the keyboard without turning it on. It is not on the App Sto
 
 `android/` holds an Android app with a Tatakikun keyboard (Android 9 or later, arm64 phones):
 the same engine as on the Mac, built with the Swift SDK for Android and reached through JNI, a
-candidate bar over a QWERTY layout, and the three language packs inside the app. It also reads a
+candidate bar over a QWERTY layout, and the language packs inside the app. It also reads a
 hardware keyboard.
 
 ```sh

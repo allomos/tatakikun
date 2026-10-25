@@ -7,3 +7,5 @@
 "JA_DESCRIPTION" = "Hiragana, katakana and kanji words by romaji, about a million words. Data: Mozc OSS dictionary (IPAdic license), ICU. About 45 MB.";
 "EN_TITLE" = "English";
 "EN_DESCRIPTION" = "English words ranked by how common they are. Data: SCOWL. About 3 MB.";
+"ES_TITLE" = "Spanish";
+"ES_DESCRIPTION" = "Spanish words by their plain letters (cancion → canción), ranked by how often they are used. Data: Mozilla Common Voice sentences (CC0). About 1 MB.";
