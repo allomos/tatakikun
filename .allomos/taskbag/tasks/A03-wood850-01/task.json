@@ -2,8 +2,10 @@
   "area": "A03",
   "handoff_note": "Done, to check; steps in the task. French (A03-wood850-02) reuses WordConverter. Run mode: quiet (chosen by the person, 2026-10-25).",
   "holder": "claude-loop3",
+  "human_check_steps": "# Check Spanish\n\n1. macOS: run the installer built from master (`scripts/make-installer.sh`), keep Spanish checked; then quit and reopen Electron apps. In TextEdit type `cancion` → canción is in the bar; `nino` → niño; `esta` → está and esta; `manana` + Space → `mañana `. Tatakikun's menu lists Español; uncheck it and canción goes away.\n2. iOS: install from master, choose Tatakikun in Notes: `cancion` → canción. In the app, Language packs → Input languages shows Español.\n3. Android: install the APK from master: `cancion` → canción, `nino` → niño; Language packs lists Español.\n4. Type a short Spanish sentence word by word (`el nino esta en la escuela`) and pick the words: each is in the bar.\n5. Check that Chinese, Japanese and English still come first where they did (woaini 我爱你, watashi 私, hello).\n",
   "id": "A03-wood850-01",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "Type Spanish with Tatakikun"
+  "state": "done",
+  "title": "Type Spanish with Tatakikun",
+  "without_human_check": "Built, merged and tested on macOS (engine and CLI), Android emulator and iOS simulator; typing in real apps and the macOS installer need a person"
 }
