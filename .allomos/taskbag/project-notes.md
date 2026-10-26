@@ -8,6 +8,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 - Android emulator Pixel_7_API_34_b, headless on port 5556 (restarted 2026-10-24 by claude-tap-reach; debug builds; the A04-tide827 build is installed): stop with `ANDROID_SERIAL=emulator-5556 ~/Library/Android/sdk/platform-tools/adb emu kill`.
 
 ## Pitfalls
+- No mobile testing unless the person asks for it (the person, 2026-10-26): when testing, do not build for or test on the Android emulators or the iOS simulator. Mac and engine tests only; say in the handoff which phone checks were skipped.
 - App icon (A01-plant167): edit `docs/icon/*.svg`, then `scripts/make-app-icons.sh` re-renders the checked-in icns, iOS AppIcon and Android foreground PNGs (needs rsvg-convert and ImageMagick); the Android background and monochrome vectors are kept by hand. The menu bar badge is separate (`scripts/make-icon.swift`).
 
 - Dictionaries are generated, not committed: `scripts/build.sh` makes `build/dict` from this Mac's ICU data (~1 min), downloads the pinned open data into `build/sources` (~160 MB with the Spanish Common Voice text, `scripts/fetch-sources.sh`) and builds the language packs in `build/packs`. Tests skip without them.
