@@ -64,4 +64,11 @@ final class PackTests: XCTestCase {
         XCTAssertEqual(first(en, "tokyo"), "Tokyo")
         XCTAssert(en.exact("zzzz").isEmpty)
     }
+
+    func testOffAtFirst() {
+        XCTAssertEqual(LanguagePacks.offAtFirst(installed: LanguagePacks.Language.allCases), [.es, .fr, .hi, .bn, .ar])
+        XCTAssertEqual(LanguagePacks.offAtFirst(installed: [.en, .ar]), [.ar])
+        XCTAssertEqual(LanguagePacks.offAtFirst(installed: [.es, .ar]), [], "with none of zh, ja, en, what is installed stays on")
+        XCTAssertEqual(LanguagePacks.offAtFirst(installed: []), [])
+    }
 }

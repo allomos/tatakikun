@@ -55,6 +55,16 @@ final class ArabicTests: XCTestCase {
         XCTAssertFalse(c.isComposing)
     }
 
+    /// Before the user has chosen languages, Arabic is off, so a digit after pinyin chooses a candidate (A04-aster924).
+    func testOffAtFirst() {
+        engine.turnedOff = LanguagePacks.offAtFirst(installed: engine.languages)
+        XCTAssertEqual(engine.turnedOff, [.es, .fr, .hi, .bn, .ar])
+        let c = Composer(engine: engine)
+        XCTAssertEqual(typed("houxuan", into: c), "")
+        let second = c.list.firstRow[1].text
+        XCTAssertEqual(c.handle(.digit(2)).commit, second)
+    }
+
     /// Common words by their usual Arabizi: offered, and the most used Arabic word for those letters
     /// is in the bar.
     func testCommonWords() {

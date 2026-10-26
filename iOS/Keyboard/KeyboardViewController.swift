@@ -35,7 +35,7 @@ final class KeyboardViewController: UIInputViewController {
     /// there works at once.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Shared.engine.turnedOff = hasFullAccess ? Settings.turnedOff : []
+        Shared.engine.turnedOff = hasFullAccess ? Settings.turnedOff : Settings.firstOff
     }
 
     override func viewWillLayoutSubviews() {

@@ -16,19 +16,26 @@ enum Shared {
 }
 
 /// Settings made in the app, which the keyboard reads through their shared app group. The
-/// keyboard can open the group only with Full Access; without it, every installed language is on.
+/// keyboard can open the group only with Full Access; without it, the languages on at first are on.
 enum Settings {
     static let group = "group.com.tatakikun.ios"
     private static let defaults = UserDefaults(suiteName: group)
 
-    /// The installed languages turned off in the app (A04-tuna688).
+    /// The installed languages turned off in the app (A04-tuna688); before the user has chosen, all
+    /// but Chinese, Japanese and English (A04-aster924).
     static var turnedOff: Set<LanguagePacks.Language> {
-        get { Set((defaults?.stringArray(forKey: "languagesOff") ?? []).compactMap(LanguagePacks.Language.init)) }
+        get {
+            guard let saved = defaults?.stringArray(forKey: "languagesOff") else { return firstOff }
+            return Set(saved.compactMap(LanguagePacks.Language.init))
+        }
         set {
             defaults?.set(newValue.map(\.rawValue).sorted(), forKey: "languagesOff")
             Shared.engine.turnedOff = newValue
         }
     }
+
+    /// The languages off before the user has chosen any (or when the keyboard cannot read the choice).
+    static var firstOff: Set<LanguagePacks.Language> { LanguagePacks.offAtFirst(installed: Shared.engine.languages) }
 }
 
 /// Where the keyboard types: the text field through the extension's proxy, or the app's demo field.

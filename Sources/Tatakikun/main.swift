@@ -28,10 +28,15 @@ enum TatakikunApp {
         [(.en, "English"), (.zh, "中文"), (.ja, "日本語"), (.es, "Español"), (.fr, "Français"), (.hi, "हिन्दी"), (.bn, "বাংলা"), (.ar, "العربية")].filter { engine.languages.contains($0.0) }
     }
 
-    /// The languages turned off in the input menu, kept in the input method's defaults; setting it
-    /// applies it to the engine at once.
+    /// The languages turned off in the input menu, kept in the input method's defaults (before the
+    /// user has chosen, all but Chinese, Japanese and English); setting it applies it to the engine at once.
     static var turnedOff: Set<LanguagePacks.Language> {
-        get { Set((UserDefaults.standard.stringArray(forKey: "languagesOff") ?? []).compactMap(LanguagePacks.Language.init)) }
+        get {
+            guard let saved = UserDefaults.standard.stringArray(forKey: "languagesOff") else {
+                return LanguagePacks.offAtFirst(installed: engine.languages)
+            }
+            return Set(saved.compactMap(LanguagePacks.Language.init))
+        }
         set {
             UserDefaults.standard.set(newValue.map(\.rawValue).sorted(), forKey: "languagesOff")
             engine.turnedOff = newValue

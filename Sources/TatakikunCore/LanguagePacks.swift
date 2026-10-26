@@ -46,6 +46,17 @@ public enum LanguagePacks {
     public static func installed(in folders: [URL] = defaultFolders) -> [Language] {
         Language.allCases.filter { find($0, in: folders) != nil }
     }
+
+    /// The languages on before the user has chosen any.
+    public static let onAtFirst: Set<Language> = [.zh, .ja, .en]
+
+    /// The installed languages that start turned off, before the user has chosen any: all but
+    /// Chinese, Japanese and English; when none of those is installed, none, so at least one
+    /// language gives candidates.
+    public static func offAtFirst(installed: [Language]) -> Set<Language> {
+        let off = Set(installed).subtracting(onAtFirst)
+        return off.count == Set(installed).count ? [] : off
+    }
 }
 
 /// English from the English pack: SCOWL words with frequencies. Corrections of misspellings
