@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-26T13:50:29Z",
+  "by": "claude-pad-width",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-crumb624",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Builds; the iPad look in portrait and landscape needs a person (no simulator testing unless asked)"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: iPad keyboard width (A04-crumb624)\n\n1. Build and install the iOS app on an iPad (or iPad simulator): `scripts/build-ios.sh`.\n2. Open any text field with the Tatakikun keyboard in portrait: the keyboard (candidate bar and keys) is about 90% of the screen width, centered, with an equal gap on each side.\n3. Rotate to landscape: still about 90% of the (now wider) width, centered.\n4. On an iPhone the keyboard still fills the full width.\n"
+    }
+  ]
+}
