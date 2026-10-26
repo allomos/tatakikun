@@ -2,7 +2,7 @@
 
 **Done means.**
 - Mac: with no saved choice (`languagesOff` unset), the input menu shows only 中文, 日本語 and English checked; typing `houxuan` then `2` picks the second candidate even though the Arabic pack is installed.
-- Android and iOS: a fresh install shows the same three on in settings (checked on a phone only when the person asks: no mobile testing otherwise, 2026-10-26).
+- Android and iOS: a fresh install shows the same three on in settings (checked on an emulator or simulator only when the person asks, 2026-10-26; building the phone apps is fine).
 - A user who already chose languages keeps their choice (a saved setting is not reset).
 - If none of zh, ja, en is installed, whatever is installed stays on, so at least one language gives candidates.
 
