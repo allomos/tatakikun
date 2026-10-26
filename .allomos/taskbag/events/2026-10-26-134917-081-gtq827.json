@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-26T13:49:17Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-crumb624",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iPad keyboard: the keyboard is about 90% of the screen's width in either orientation, centered"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "folders",
+      "to": [
+        "tatakikun"
+      ]
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** On iPad the keyboard (candidate bar and keys) takes about 90% of the current orientation's width, centered, instead of the full width.\n\n**Done means.** On an iPad simulator, portrait and landscape, the keyboard is 90% of the screen width and centered; phones unchanged.\n\n**Notes.** Asked by the approver 2026-10-26.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
