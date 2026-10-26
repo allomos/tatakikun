@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-26T01:53:52Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Did not install on this Mac or run the phone apps on a simulator/emulator: install restarts the person's input method, and the phones were to be checked only when asked; both apps were built"
+    }
+  ]
+}

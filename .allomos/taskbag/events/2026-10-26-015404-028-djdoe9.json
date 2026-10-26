@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-26T01:54:04Z",
+  "by": "claude-langs-default",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Run mode: quiet (chosen by the person 2026-10-26, /loop 60m). Done on master (a09a887): zh/ja/en on by default on Mac, iOS, Android; saved choices kept. Not installed on the Mac and phones not run on a simulator: the person follows the check steps (alm human)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-langs-default"
+    }
+  ]
+}

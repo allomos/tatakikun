@@ -3,9 +3,13 @@
   "folders": [
     "tatakikun"
   ],
+  "handoff_note": "Run mode: quiet (chosen by the person 2026-10-26, /loop 60m). Done on master (a09a887): zh/ja/en on by default on Mac, iOS, Android; saved choices kept. Not installed on the Mac and phones not run on a simulator: the person follows the check steps (alm human).",
   "holder": "claude-langs-default",
+  "human_check_steps": "# Check: only zh, ja, en on after install (A04-aster924)\n\nMac\n1. Build and install from master: `scripts/install.sh` (it restarts Tatakikun; quit and reopen VS Code/Slack afterwards).\n2. To see a fresh install, clear your saved choice: `defaults delete com.tatakikun.inputmethod.Tatakikun languagesOff` (skip this to check that your own choice is kept), then `launchctl kickstart -k gui/$(id -u)/com.tatakikun.inputmethod.Tatakikun`.\n3. Open the Tatakikun input menu in the menu bar: only English, 中文 and 日本語 are checked; Español, Français, हिन्दी, বাংলা, العربية are listed but unchecked.\n4. In TextEdit type `houxuan`, then `2`: the second candidate is inserted (not a digit added to the input).\n5. Check العربية in the menu, then type `7abibi`: حبيبي is offered (turning it on still works).\n\nPhones (optional)\n6. Android: install the new APK on a phone or emulator with no earlier Tatakikun data; settings > Language packs shows English · 中文 · 日本語 (3).\n7. iOS: fresh install in the Simulator; the app's language list has only English, 中文, 日本語 on.\n",
   "id": "A04-aster924",
   "iteration": "I04",
-  "state": "in_progress",
-  "title": "After install, only Chinese, Japanese and English give candidates; other language packs start turned off"
+  "label": "implemented",
+  "state": "done",
+  "title": "After install, only Chinese, Japanese and English give candidates; other language packs start turned off",
+  "without_human_check": "Needs the person to install on their Mac (restarts the input method) and look at the input menu; unit tests cover the rule and houxuan 2 with Arabic installed"
 }

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-26T01:53:52Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "iOS keyboard without Full Access (cannot read the app's choice) now uses the same default (zh, ja, en on) instead of every installed language on"
+    }
+  ]
+}

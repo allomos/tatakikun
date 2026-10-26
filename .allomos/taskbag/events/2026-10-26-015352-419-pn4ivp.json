@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-26T01:53:52Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "The rule lives once in TatakikunCore (LanguagePacks.offAtFirst) for Mac and iOS; Android repeats it in Languages.kt because its settings are Kotlin"
+    }
+  ]
+}
