@@ -3,8 +3,9 @@
   "folders": [
     "tatakikun"
   ],
+  "holder": "claude-clipboard",
   "id": "A01-eclair008",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "Android and iOS keyboards keep a clipboard history: the person opens it from the keyboard and taps an item to paste it"
 }
