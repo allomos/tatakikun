@@ -297,6 +297,59 @@ final class KeyboardUITests: XCTestCase {
         XCTAssertEqual(text, "hello مرحبا")
     }
 
+    /// The Try it field reads the pasteboard when the clipboard list opens; iOS asks first.
+    func openClipboard() {
+        app.buttons["clipboard"].tap()
+        // "Allow Paste" in the simulator's language (ペーストを許可 in Japanese), not "Don't Allow Paste".
+        let allow = NSPredicate(format: "label IN %@", ["Allow Paste", "ペーストを許可", "允许粘贴"])
+        for alerts in [XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts, app.alerts] {
+            let button = alerts.buttons.matching(allow).firstMatch
+            if button.waitForExistence(timeout: 2) { button.tap(); return }
+        }
+    }
+
+    func testClipboardHistory() {
+        XCTAssertTrue(app.buttons["clipboard"].exists, "the clipboard button is on the bar while nothing is typed")
+        openClipboard()
+        if app.buttons["clipClear"].exists { app.buttons["clipClear"].tap() }
+        app.buttons["clipBack"].tap()
+        for text in ["first copy", "second copy\nwith two lines", "first copy"] {
+            UIPasteboard.general.string = text
+            openClipboard()
+            app.buttons["clipBack"].tap()
+        }
+        openClipboard()
+        XCTAssertTrue(app.buttons["clip0"].waitForExistence(timeout: 3))
+        XCTAssertFalse(app.buttons["clip2"].exists, "copying the same text again moves it up instead of adding it twice")
+        XCTAssertEqual(app.buttons["clip0"].label, "first copy")
+        XCTAssertEqual(app.buttons["clip1"].label, "second copy ⏎ with two lines", "a copy shows on as few lines as it can")
+        XCTAssertFalse(app.buttons["layer"].isHittable, "the list shows in place of the keys")
+        attach("clipboard list")
+        app.buttons["clip1"].tap()
+        XCTAssertEqual(text, "second copy\nwith two lines", "tapping a copy pastes all of it")
+        XCTAssertTrue(app.buttons["layer"].waitForExistence(timeout: 2), "the keys come back")
+
+        openClipboard()
+        app.buttons["clipDelete0"].tap()
+        XCTAssertFalse(app.buttons["clip1"].exists)
+        app.buttons["clipClear"].tap()
+        XCTAssertFalse(app.buttons["clip0"].exists)
+        attach("clipboard empty")
+        app.buttons["clipBack"].tap()
+
+        // The chip: the latest copy, pasted with one tap, then gone.
+        UIPasteboard.general.string = "chip text"
+        openClipboard()
+        app.buttons["clipBack"].tap()
+        XCTAssertTrue(app.buttons["clipChip"].waitForExistence(timeout: 2))
+        attach("clipboard chip")
+        app.buttons["clipChip"].tap()
+        XCTAssertTrue(text.hasSuffix("chip text"))
+        XCTAssertFalse(app.buttons["clipChip"].exists)
+        type("ni")
+        XCTAssertFalse(app.buttons["clipboard"].exists, "while typing the bar shows candidates")
+    }
+
     func attach(_ name: String) {
         let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         shot.name = name

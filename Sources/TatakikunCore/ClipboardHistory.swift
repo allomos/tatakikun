@@ -21,6 +21,11 @@ public final class ClipboardHistory {
         var chipSince: Date?
     }
 
+    public static var defaultURL: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("Tatakikun/clipboard.json")
+    }
+
     public private(set) var items: [String] = []
     private var chipText: String?
     private var chipSince: Date?

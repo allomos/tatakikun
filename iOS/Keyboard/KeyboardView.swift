@@ -13,6 +13,8 @@ enum Shared {
         engine.customWords = CustomWords(url: CustomWords.defaultURL)
         return engine
     }()
+    /// The text copied lately (A01-eclair008), kept on this device only.
+    static let clips = ClipboardHistory(url: ClipboardHistory.defaultURL)
 }
 
 /// Settings made in the app, which the keyboard reads through their shared app group. The
@@ -51,10 +53,16 @@ protocol KeyboardTarget: AnyObject {
     var selectedText: String? { get }
     /// Whether the keyboard may use the pasteboard: an extension needs Full Access for it.
     var canUsePasteboard: Bool { get }
+    /// Whether reading the pasteboard asks the person first (an app does; a keyboard with Full Access does not).
+    var pasteboardAsks: Bool { get }
+    /// Opens Tatakikun's page in Settings (where Full Access is turned on).
+    func openSettings()
 }
 
 /// The Tatakikun keyboard: a candidate bar over a QWERTY layout, driven by the same Composer as
-/// the macOS input method. The letters being typed show underlined in the text field.
+/// the macOS input method. The letters being typed show underlined in the text field. While nothing
+/// is typed, the bar has a clipboard button, which shows the text copied lately in place of the keys,
+/// and a chip with the latest copy, pasted with one tap.
 final class KeyboardView: UIView {
     weak var target: KeyboardTarget?
     var onNextKeyboard: ((UIView, UIEvent) -> Void)? { didSet { keys.onNextKeyboard = onNextKeyboard } }
@@ -73,6 +81,8 @@ final class KeyboardView: UIView {
     private let bar = CandidateBar()
     private let more = CandidateGrid()
     private let keys = KeyboardKeys()
+    private let clipList = ClipboardList()
+    private var clipOpen = false
     private var hasMarkedText = false
     private static let barHeight: CGFloat = 46
     private static let keysHeight: CGFloat = 216
@@ -81,12 +91,17 @@ final class KeyboardView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        for v in [bar, keys, more] as [UIView] {
+        for v in [bar, keys, more, clipList] as [UIView] {
             v.translatesAutoresizingMaskIntoConstraints = false
             addSubview(v)
         }
         more.isHidden = true
+        clipList.isHidden = true
         NSLayoutConstraint.activate([
+            clipList.topAnchor.constraint(equalTo: keys.topAnchor),
+            clipList.leadingAnchor.constraint(equalTo: keys.leadingAnchor),
+            clipList.trailingAnchor.constraint(equalTo: keys.trailingAnchor),
+            clipList.bottomAnchor.constraint(equalTo: keys.bottomAnchor),
             bar.topAnchor.constraint(equalTo: topAnchor),
             bar.leadingAnchor.constraint(equalTo: leadingAnchor),
             bar.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -107,6 +122,23 @@ final class KeyboardView: UIView {
         keys.onKey = { [weak self] key in self?.send(key) }
         keys.onSymbol = { [weak self] text in self?.typeSymbol(text) }
         keys.onCtrl = { [weak self] letter in self?.ctrl(letter) }
+        bar.onClipboard = { [weak self] in self?.toggleClipboard() }
+        bar.onChip = { [weak self] in
+            guard let text = Shared.clips.chip() else { return }
+            Shared.clips.dismissChip()
+            self?.paste(text)
+        }
+        clipList.onPaste = { [weak self] i in
+            guard let self, Shared.clips.items.indices.contains(i) else { return }
+            let text = Shared.clips.items[i]
+            if Shared.clips.chip() == text { Shared.clips.dismissChip() }
+            self.clipOpen = false
+            self.paste(text)
+        }
+        clipList.onDelete = { [weak self] i in Shared.clips.remove(at: i); self?.refresh() }
+        clipList.onClear = { [weak self] in Shared.clips.clear(); self?.refresh() }
+        clipList.onBack = { [weak self] in self?.clipOpen = false; self?.refresh() }
+        clipList.onOpenSettings = { [weak self] in self?.target?.openSettings() }
         refresh()
     }
 
@@ -116,6 +148,35 @@ final class KeyboardView: UIView {
     func finish() {
         if let text = composer.finish() { insert(text) }
         Shared.engine.forgetRecent()
+        clipOpen = false
+        refresh()
+    }
+
+    /// Records what is on the pasteboard when it changed since last time: iOS lets a keyboard look
+    /// at it only while it is up, with Full Access. Text a password manager marks as concealed is
+    /// left out. Where reading asks the person first (the app's Try it field), only when `asked`.
+    func noteClipboard(asked: Bool = false) {
+        guard let target, target.canUsePasteboard, asked || !target.pasteboardAsks else { return }
+        let pasteboard = UIPasteboard.general
+        let defaults = UserDefaults.standard
+        guard pasteboard.changeCount != defaults.integer(forKey: "clipboardChange") else { return }
+        defaults.set(pasteboard.changeCount, forKey: "clipboardChange")
+        guard pasteboard.hasStrings, !pasteboard.types.contains("org.nspasteboard.ConcealedType"),
+              let text = pasteboard.string else { return }
+        Shared.clips.add(text)
+        refresh()
+    }
+
+    /// The clipboard button: the list of copies in place of the keys, or what Full Access is for.
+    private func toggleClipboard() {
+        clipOpen.toggle()
+        if clipOpen { noteClipboard(asked: true) }
+        refresh()
+    }
+
+    /// Text from the clipboard list or chip, inserted at the cursor; the keys come back.
+    private func paste(_ text: String) {
+        insert((composer.finish() ?? "") + text)
         refresh()
     }
 
@@ -192,8 +253,12 @@ final class KeyboardView: UIView {
         let selected = composer.selectedRow == 0 ? composer.selectedColumn : nil
         bar.show(composer.rows.first ?? [], input: composer.input, selected: selected,
                  canExpand: composer.canExpand, expanded: composer.isExpanded)
+        if composer.isComposing { clipOpen = false }
+        bar.showTools(!composer.isComposing, chip: clipOpen ? nil : Shared.clips.chip())
         more.isHidden = !composer.isExpanded
-        keys.isHidden = composer.isExpanded
+        keys.isHidden = composer.isExpanded || clipOpen
+        clipList.isHidden = !clipOpen
+        if clipOpen { clipList.show(Shared.clips.items, hasAccess: target?.canUsePasteboard ?? false) }
         if composer.isExpanded { more.show(composer.rows) }
         refreshMarks()
     }
@@ -228,6 +293,11 @@ private func candidateButton(_ candidate: Candidate, selected: Bool) -> UIButton
 final class CandidateBar: UIView {
     var onChoose: ((Int) -> Void)?
     var onToggle: (() -> Void)?
+    var onClipboard: (() -> Void)?
+    var onChip: (() -> Void)?
+    /// While nothing is typed: the clipboard button and the chip with the latest copy.
+    private let tools = UIStackView()
+    private let chip = UIButton(configuration: .tinted())
     private let scroll = UIScrollView()
     private let stack = UIStackView()
     private let toggle = UIButton(type: .system)
@@ -247,6 +317,33 @@ final class CandidateBar: UIView {
             notice.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -14),
             notice.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
+        let clipboard = UIButton(type: .system)
+        clipboard.setImage(UIImage(systemName: "doc.on.clipboard", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18)), for: .normal)
+        clipboard.tintColor = .label
+        clipboard.accessibilityIdentifier = "clipboard"
+        clipboard.accessibilityLabel = "Clipboard"
+        clipboard.addAction(UIAction { [weak self] _ in self?.onClipboard?() }, for: .touchUpInside)
+        clipboard.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        chip.configuration?.cornerStyle = .capsule
+        chip.configuration?.titleLineBreakMode = .byTruncatingTail
+        chip.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12)
+        chip.accessibilityIdentifier = "clipChip"
+        chip.addAction(UIAction { [weak self] _ in self?.onChip?() }, for: .touchUpInside)
+        chip.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
+        tools.axis = .horizontal
+        tools.alignment = .center
+        tools.spacing = 4
+        tools.addArrangedSubview(clipboard)
+        tools.addArrangedSubview(chip)
+        tools.isHidden = true
+        tools.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(tools)
+        NSLayoutConstraint.activate([
+            tools.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            tools.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -6),
+            tools.topAnchor.constraint(equalTo: topAnchor),
+            tools.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
         scroll.showsHorizontalScrollIndicator = false
         stack.axis = .horizontal
         stack.spacing = 2
@@ -258,6 +355,7 @@ final class CandidateBar: UIView {
         addSubview(scroll)
         addSubview(toggle)
         scroll.addSubview(stack)
+        bringSubviewToFront(tools)   // over the (empty) candidate strip, which would take its taps
         NSLayoutConstraint.activate([
             scroll.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
             scroll.topAnchor.constraint(equalTo: topAnchor),
@@ -293,6 +391,16 @@ final class CandidateBar: UIView {
     func showNotice(_ text: String) {
         notice.text = text
         notice.isHidden = false
+        tools.isHidden = true
+    }
+
+    /// Shows the clipboard button (when `visible`) with the chip for `chip` beside it.
+    func showTools(_ visible: Bool, chip text: String?) {
+        tools.isHidden = !visible || !notice.isHidden
+        chip.isHidden = text == nil
+        chip.configuration?.attributedTitle = text.map {
+            AttributedString(ClipboardList.preview($0), attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 15)]))
+        }
     }
 }
 
@@ -354,6 +462,153 @@ final class CandidateGrid: UIView {
             strip.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         }
         scroll.contentOffset = .zero
+    }
+}
+
+// MARK: - Clipboard
+
+/// The text copied lately, shown in place of the keys: a header (back, title, clear all) over the
+/// copies, newest first, each with × to delete it. Without Full Access, what it needs instead.
+final class ClipboardList: UIView {
+    var onPaste: ((Int) -> Void)?
+    var onDelete: ((Int) -> Void)?
+    var onClear: (() -> Void)?
+    var onBack: (() -> Void)?
+    var onOpenSettings: (() -> Void)?
+    private let clear = UIButton(type: .system)
+    private let scroll = UIScrollView()
+    private let stack = UIStackView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        // As on the keys: a keyboard extension gets no touches on fully transparent parts.
+        backgroundColor = UIColor(white: 0.5, alpha: 0.01)
+        let back = UIButton(type: .system)
+        back.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        back.tintColor = .label
+        back.accessibilityIdentifier = "clipBack"
+        back.addAction(UIAction { [weak self] _ in self?.onBack?() }, for: .touchUpInside)
+        let title = UILabel()
+        title.text = "Clipboard"
+        title.font = .systemFont(ofSize: 15, weight: .semibold)
+        clear.setImage(UIImage(systemName: "trash"), for: .normal)
+        clear.tintColor = .label
+        clear.accessibilityIdentifier = "clipClear"
+        clear.accessibilityLabel = "Clear all"
+        clear.addAction(UIAction { [weak self] _ in self?.onClear?() }, for: .touchUpInside)
+        stack.axis = .vertical
+        stack.spacing = 6
+        for v in [back, title, clear, scroll, stack] as [UIView] { v.translatesAutoresizingMaskIntoConstraints = false }
+        [back, title, clear, scroll].forEach(addSubview)
+        scroll.addSubview(stack)
+        NSLayoutConstraint.activate([
+            back.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4),
+            back.topAnchor.constraint(equalTo: topAnchor),
+            back.widthAnchor.constraint(equalToConstant: 44),
+            back.heightAnchor.constraint(equalToConstant: 36),
+            title.leadingAnchor.constraint(equalTo: back.trailingAnchor),
+            title.centerYAnchor.constraint(equalTo: back.centerYAnchor),
+            clear.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4),
+            clear.centerYAnchor.constraint(equalTo: back.centerYAnchor),
+            clear.widthAnchor.constraint(equalToConstant: 44),
+            clear.heightAnchor.constraint(equalToConstant: 36),
+            scroll.topAnchor.constraint(equalTo: back.bottomAnchor),
+            scroll.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scroll.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scroll.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stack.topAnchor.constraint(equalTo: scroll.contentLayoutGuide.topAnchor),
+            stack.bottomAnchor.constraint(equalTo: scroll.contentLayoutGuide.bottomAnchor, constant: -6),
+            stack.leadingAnchor.constraint(equalTo: scroll.contentLayoutGuide.leadingAnchor, constant: 6),
+            stack.trailingAnchor.constraint(equalTo: scroll.contentLayoutGuide.trailingAnchor, constant: -6),
+            stack.widthAnchor.constraint(equalTo: scroll.frameLayoutGuide.widthAnchor, constant: -12),
+        ])
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    /// A copy as the list and the chip show it: on as few lines as it can.
+    static func preview(_ text: String) -> String {
+        String(text.trimmingCharacters(in: .whitespacesAndNewlines)
+            .split(whereSeparator: \.isNewline).map { $0.trimmingCharacters(in: .whitespaces) }.joined(separator: " ⏎ ").prefix(300))
+    }
+
+    func show(_ items: [String], hasAccess: Bool) {
+        stack.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        clear.isHidden = !hasAccess || items.isEmpty
+        guard hasAccess else { return showNeedsAccess() }
+        if items.isEmpty {
+            let empty = UILabel()
+            empty.text = "Text you copy shows up here"
+            empty.textColor = .secondaryLabel
+            empty.font = .systemFont(ofSize: 15)
+            empty.textAlignment = .center
+            empty.heightAnchor.constraint(equalToConstant: 120).isActive = true
+            stack.addArrangedSubview(empty)
+        }
+        for (i, text) in items.enumerated() {
+            // The copy and its × side by side, so each is a button of its own (also for VoiceOver).
+            let row = UIView()
+            row.backgroundColor = .systemBackground
+            row.layer.cornerRadius = 8
+            let body = UIButton(type: .system)
+            body.accessibilityIdentifier = "clip\(i)"
+            body.accessibilityLabel = Self.preview(text)
+            body.addAction(UIAction { [weak self] _ in self?.onPaste?(i) }, for: .touchUpInside)
+            let label = UILabel()
+            label.text = Self.preview(text)
+            label.numberOfLines = 2
+            label.font = .systemFont(ofSize: 15)
+            label.textColor = .label
+            label.isUserInteractionEnabled = false
+            label.isAccessibilityElement = false
+            let delete = UIButton(type: .system)
+            delete.setImage(UIImage(systemName: "xmark"), for: .normal)
+            delete.tintColor = .secondaryLabel
+            delete.accessibilityIdentifier = "clipDelete\(i)"
+            delete.accessibilityLabel = "Delete"
+            delete.addAction(UIAction { [weak self] _ in self?.onDelete?(i) }, for: .touchUpInside)
+            for v in [body, label, delete] as [UIView] { v.translatesAutoresizingMaskIntoConstraints = false; row.addSubview(v) }
+            NSLayoutConstraint.activate([
+                body.leadingAnchor.constraint(equalTo: row.leadingAnchor),
+                body.topAnchor.constraint(equalTo: row.topAnchor),
+                body.bottomAnchor.constraint(equalTo: row.bottomAnchor),
+                body.trailingAnchor.constraint(equalTo: delete.leadingAnchor),
+                label.leadingAnchor.constraint(equalTo: row.leadingAnchor, constant: 12),
+                label.topAnchor.constraint(equalTo: row.topAnchor, constant: 10),
+                label.bottomAnchor.constraint(equalTo: row.bottomAnchor, constant: -10),
+                label.trailingAnchor.constraint(equalTo: delete.leadingAnchor),
+                delete.trailingAnchor.constraint(equalTo: row.trailingAnchor),
+                delete.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+                delete.widthAnchor.constraint(equalToConstant: 44),
+                delete.heightAnchor.constraint(equalToConstant: 40),
+            ])
+            stack.addArrangedSubview(row)
+        }
+        scroll.contentOffset = .zero
+    }
+
+    /// Without Full Access the keyboard cannot see the pasteboard: say so, with a way to turn it on.
+    private func showNeedsAccess() {
+        let text = UILabel()
+        text.text = "The clipboard history needs Full Access. It stays on this \(UIDevice.current.model) and is never sent anywhere.\nIn Settings, turn on Keyboards › Allow Full Access."
+        text.numberOfLines = 0
+        text.font = .systemFont(ofSize: 15)
+        text.textColor = .label
+        text.textAlignment = .center
+        text.accessibilityIdentifier = "clipNeedsAccess"
+        var config = UIButton.Configuration.filled()
+        config.title = "Open Settings"
+        config.cornerStyle = .capsule
+        let open = UIButton(configuration: config)
+        open.accessibilityIdentifier = "clipOpenSettings"
+        open.addAction(UIAction { [weak self] _ in self?.onOpenSettings?() }, for: .touchUpInside)
+        let box = UIStackView(arrangedSubviews: [text, open])
+        box.axis = .vertical
+        box.alignment = .center
+        box.spacing = 14
+        box.isLayoutMarginsRelativeArrangement = true
+        box.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        stack.addArrangedSubview(box)
     }
 }
 
