@@ -5,6 +5,6 @@
   ],
   "id": "A01-eclair008",
   "iteration": "I04",
-  "state": "backlog",
+  "state": "ready",
   "title": "Android and iOS keyboards keep a clipboard history: the person opens it from the keyboard and taps an item to paste it"
 }
