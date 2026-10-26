@@ -38,10 +38,13 @@ final class KeyboardViewController: UIInputViewController {
         root.allowsSelfSizing = true
         keyboard.translatesAutoresizingMaskIntoConstraints = false
         root.addSubview(keyboard)
+        // On iPad the keyboard is 90% of the screen's width, centered, in either orientation;
+        // phones use the full width.
+        let share: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 0.9 : 1
         NSLayoutConstraint.activate([
             keyboard.topAnchor.constraint(equalTo: root.topAnchor),
-            keyboard.leadingAnchor.constraint(equalTo: root.leadingAnchor),
-            keyboard.trailingAnchor.constraint(equalTo: root.trailingAnchor),
+            keyboard.centerXAnchor.constraint(equalTo: root.centerXAnchor),
+            keyboard.widthAnchor.constraint(equalTo: root.widthAnchor, multiplier: share),
             keyboard.bottomAnchor.constraint(equalTo: root.bottomAnchor),
         ])
         keyboard.target = self
