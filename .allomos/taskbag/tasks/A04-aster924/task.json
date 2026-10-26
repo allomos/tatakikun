@@ -1,0 +1,10 @@
+{
+  "area": "A04",
+  "folders": [
+    "tatakikun"
+  ],
+  "id": "A04-aster924",
+  "iteration": "I04",
+  "state": "ready",
+  "title": "After install, only Chinese, Japanese and English give candidates; other language packs start turned off"
+}

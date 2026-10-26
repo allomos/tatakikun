@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-26T01:44:29Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "After install, only Chinese, Japanese and English give candidates; other language packs start turned off"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "folders",
+      "to": [
+        "tatakikun"
+      ]
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** After a fresh install, only Chinese, Japanese and English give candidates; the other installed language packs (Arabic, Bengali, Spanish, French, Hindi) start turned off, and the user turns them on in the input menu (Mac) or settings (phones).\n\n**Done means.**\n- Mac: with no saved choice (`languagesOff` unset), the input menu shows only 中文, 日本語 and English checked; typing `houxuan` then `2` picks the second candidate even though the Arabic pack is installed.\n- Android and iOS: a fresh install shows the same three on in settings.\n- A user who already chose languages keeps their choice (a saved setting is not reset).\n- If none of zh, ja, en is installed, whatever is installed stays on, so at least one language gives candidates.\n\n**Notes.**\n- Asked by the person on 2026-10-26, after learning that an Arabic pack that is on makes a digit after some letters part of an Arabizi word (`Engine.takesDigit`) instead of choosing a candidate.\n- Mac: the default lives in `TatakikunApp.turnedOff` (`Sources/Tatakikun/main.swift`, `languagesOff`). Phones: the language settings from A04-tuna688.\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
