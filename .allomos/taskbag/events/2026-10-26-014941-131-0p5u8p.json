@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-26T01:49:41Z",
+  "by": "claude-langs-default",
+  "via": "alm",
+  "command": "claim",
+  "kind": "task",
+  "id": "A04-aster924",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "ready",
+      "to": "in_progress"
+    },
+    {
+      "field": "holder",
+      "to": "claude-langs-default"
+    },
+    {
+      "field": "working_branch",
+      "to": "task/A04-aster924"
+    }
+  ]
+}

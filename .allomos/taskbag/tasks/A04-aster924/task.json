@@ -3,8 +3,9 @@
   "folders": [
     "tatakikun"
   ],
+  "holder": "claude-langs-default",
   "id": "A04-aster924",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "After install, only Chinese, Japanese and English give candidates; other language packs start turned off"
 }
