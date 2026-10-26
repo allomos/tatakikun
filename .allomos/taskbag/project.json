@@ -1,5 +1,5 @@
 {
-  "format": "allomos/5",
+  "format": "allomos/6",
   "id": "tatakikun",
   "name": "tatakikun",
   "labels": [
@@ -8,6 +8,11 @@
     "deployed and verified",
     "human verified"
   ],
-  "project_folder": ".",
+  "project_folders": [
+    {
+      "name": "tatakikun",
+      "path": "."
+    }
+  ],
   "task_language": "ui"
 }

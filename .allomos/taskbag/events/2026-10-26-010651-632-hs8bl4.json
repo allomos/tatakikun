@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-26T01:06:51Z",
+  "via": "alm",
+  "command": "upgrade",
+  "kind": "project",
+  "id": "tatakikun",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "format",
+      "from": "allomos/5",
+      "to": "allomos/6"
+    },
+    {
+      "field": "project_folder",
+      "from": "."
+    },
+    {
+      "field": "project_folders",
+      "to": [
+        {
+          "name": "tatakikun",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}
