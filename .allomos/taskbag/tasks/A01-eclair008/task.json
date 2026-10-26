@@ -3,11 +3,13 @@
   "folders": [
     "tatakikun"
   ],
-  "handoff_note": "Android: the person tests on their own phone (said 2026-10-26); no emulator run. Debug APK: android/app/build/outputs/apk/debug/app-debug.apk in the task worktree.",
+  "handoff_note": "Run mode: quiet (person, 2026-10-26). Merged to master. Android: unit tests pass, built, the person checks on their phone (APK copy: ../tatakikun-wt/cache/A01-eclair008-debug.apk). iOS: 19/19 UI tests pass incl. testClipboardHistory, light and dark. Left for the person: check steps (alm human).",
   "holder": "claude-clipboard",
+  "human_check_steps": "# Check: clipboard history on Android and iOS (A01-eclair008)\n\nAndroid (your phone)\n1. Install the debug APK from master: `scripts/build-android-app.sh install` with the phone connected (a debug build is signed with another key than the GitHub release: uninstall the release first if Android refuses).\n2. With Tatakikun as the keyboard, copy three pieces of text in other apps (one of them twice).\n3. Open any text field. Nothing typed: the bar shows ⚙, the clipboard icon, a blue chip with the latest copy, paste, ← →.\n4. Tap the chip: the copy is pasted and the chip goes away.\n5. Tap the clipboard icon: the list replaces the keys, newest first, the copy made twice only once. Tap one: all of it is pasted and the keys come back.\n6. In the list, × deletes one item, the trash icon clears all; ← goes back to the keys.\n7. Turn on dark mode and look at the list and chip again: readable.\n8. Optional: copy a password from a password manager: it should not show in the list (only where the app marks it sensitive).\n\niOS (iPhone or Simulator, real keyboard in another app)\n9. Settings > General > Keyboard > Keyboards > Tatakikun: Allow Full Access OFF. In Notes, switch to Tatakikun, tap the clipboard icon: an explanation and Open Settings show instead of a list. Tap Open Settings: does it open Tatakikun's page in Settings? (Not proven in the Simulator; tell me if it does nothing.)\n10. Turn Full Access ON. Copy text in Safari, then switch to Notes and bring up Tatakikun: the chip shows the copy; tap it to paste. Note: iOS lets a keyboard see the clipboard only while it is up, so a copy shows when the keyboard next appears, and only the last copy made while it was away.\n11. Clipboard icon: the list, × and trash work as on Android; check light and dark mode.\n",
   "id": "A01-eclair008",
   "iteration": "I04",
   "label": "implemented",
-  "state": "in_progress",
-  "title": "Android and iOS keyboards keep a clipboard history: the person opens it from the keyboard and taps an item to paste it"
+  "state": "done",
+  "title": "Android and iOS keyboards keep a clipboard history: the person opens it from the keyboard and taps an item to paste it",
+  "without_human_check": "Android was not run on an emulator (the person tests on their phone, 2026-10-26); the iOS keyboard was tested in the app's Try it field (UI tests, light and dark), not yet as the real keyboard in other apps, and Open Settings from the keyboard is unproven"
 }
