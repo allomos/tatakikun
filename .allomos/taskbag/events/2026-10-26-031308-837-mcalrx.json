@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-26T03:13:08Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Run mode: quiet (person, 2026-10-26). Working branch task/A01-eclair008 in ../tatakikun-wt/A01-eclair008. Android done and committed (list, chip, unit tests pass). Next: iOS (CandidateBar toolbar with clipboard button + chip, list in place of keys, Full Access explanation), then emulator/simulator screenshots."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-clipboard"
+    }
+  ]
+}

@@ -3,9 +3,11 @@
   "folders": [
     "tatakikun"
   ],
+  "handoff_note": "Run mode: quiet (person, 2026-10-26). Working branch task/A01-eclair008 in ../tatakikun-wt/A01-eclair008. Android done and committed (list, chip, unit tests pass). Next: iOS (CandidateBar toolbar with clipboard button + chip, list in place of keys, Full Access explanation), then emulator/simulator screenshots.",
   "holder": "claude-clipboard",
   "id": "A01-eclair008",
   "iteration": "I04",
+  "label": "implemented",
   "state": "in_progress",
   "title": "Android and iOS keyboards keep a clipboard history: the person opens it from the keyboard and taps an item to paste it"
 }
