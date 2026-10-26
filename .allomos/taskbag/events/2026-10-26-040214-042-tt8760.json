@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:14Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Stored on the device only: Android SharedPreferences 'clipboard' (JSON), iOS keyboard's Application Support/Tatakikun/clipboard.json; the iOS logic is in TatakikunCore (ClipboardHistory) with unit tests, Android repeats it in ClipHistory.kt with JUnit tests"
+    }
+  ]
+}

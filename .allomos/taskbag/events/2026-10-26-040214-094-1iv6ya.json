@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:14Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Toolbar order on Android: settings, clipboard, chip, (space), paste, (space), cursor arrows; the list replaces the keys and shows each copy on up to two lines with line breaks shown as ⏎"
+    }
+  ]
+}

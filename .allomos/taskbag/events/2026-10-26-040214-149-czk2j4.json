@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:14Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "iOS app's Try it field (not the keyboard) reads the pasteboard only when the clipboard list is opened, since iOS asks before an app pastes from another app; the keyboard reads it whenever it comes up (Full Access)"
+    }
+  ]
+}

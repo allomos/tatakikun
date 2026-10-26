@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:13Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Icons: Material 'assignment' clipboard for the history button (the existing paste icon stays for paste), trash, close, back arrow (Android); SF Symbols doc.on.clipboard, trash, xmark, chevron.left (iOS)"
+    }
+  ]
+}

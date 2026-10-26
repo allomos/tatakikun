@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:14Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Android detects a new copy by the clip's timestamp and a hash of its text (also on keyboard start, for copies made while it was not running); iOS by the pasteboard's changeCount"
+    }
+  ]
+}
