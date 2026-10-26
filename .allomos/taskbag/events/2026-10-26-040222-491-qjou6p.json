@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-26T04:02:22Z",
+  "by": "claude-clipboard",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-eclair008",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "test"
+    }
+  ]
+}
