@@ -4,8 +4,7 @@ What every session must know, whatever its task. Keep it short, and change lines
 
 ## Running
 
-- Android emulator Pixel_7_API_34, headless (started 2026-10-23 by claude-release; v0.6.10 release build installed 2026-10-24; learning persists between test runs on a release build): stop with `~/Library/Android/sdk/platform-tools/adb emu kill`.
-- Android emulator Pixel_7_API_34_b, headless on port 5556 (restarted 2026-10-24 by claude-tap-reach; debug builds; the A04-tide827 build is installed): stop with `ANDROID_SERIAL=emulator-5556 ~/Library/Android/sdk/platform-tools/adb emu kill`.
+- Nothing running (both Android emulators stopped 2026-10-26 by claude-digit-keys).
 
 ## Pitfalls
 - No testing on the Android emulators or the iOS simulator unless the person asks for it (the person, 2026-10-26): do not start them, install on them or run `scripts/test-android.sh` / `scripts/build-ios.sh test`. Building the phone apps to check they compile is fine. Say in the handoff which phone checks were left for the person.
