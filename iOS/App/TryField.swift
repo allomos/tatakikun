@@ -10,6 +10,11 @@ extension UITextView: KeyboardTarget {
     func endMarking() { unmarkText() }
     var selectedText: String? { selectedTextRange.flatMap { text(in: $0) } }
     var canUsePasteboard: Bool { true }
+    /// The app asks before it reads what another app copied: only when the clipboard list is opened.
+    var pasteboardAsks: Bool { true }
+    func openSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
+    }
 }
 
 /// The Try it field: it always types with Tatakikun, the keys built into the app (the same

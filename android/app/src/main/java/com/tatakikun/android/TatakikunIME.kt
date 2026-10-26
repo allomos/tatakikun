@@ -1,5 +1,7 @@
 package com.tatakikun.android
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.os.SystemClock
@@ -11,16 +13,23 @@ import android.view.inputmethod.EditorInfo
  * The Tatakikun input method: the same engine and Composer as on the Mac, through JNI. The letters
  * being typed show in a small box above the keyboard, like Gboard's pinyin (as composing text in the
  * field when the keyboard is hidden for a hardware keyboard); the candidates in the keyboard.
- * Keys come from the on-screen keyboard or a hardware keyboard.
+ * Keys come from the on-screen keyboard or a hardware keyboard. While it is the phone's keyboard it
+ * keeps the text copied lately for its clipboard list ([ClipHistory]); Android lets the chosen input
+ * method read the clipboard.
  */
 class TatakikunIME : InputMethodService(), KeyboardView.Listener {
     /** Opened in the background: the first start copies the language packs (about 70 MB). */
     @Volatile private var engine: Engine? = null
     private var view: KeyboardView? = null
     private var composing = false
+    private lateinit var clips: ClipHistory
+    private val clipboard by lazy { getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager }
+    private val onCopy = ClipboardManager.OnPrimaryClipChangedListener { recordClip() }
 
     override fun onCreate() {
         super.onCreate()
+        clips = ClipHistory(ClipHistory.Prefs(this))
+        clipboard.addPrimaryClipChangedListener(onCopy)
         Thread {
             engine = Engine(Packs.folder(this).path, filesDir.path).takeIf { it.isOpen }?.also { it.setTurnedOff(Languages.turnedOff(this)) }
         }.start()
@@ -32,14 +41,35 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
      */
     override fun onEvaluateFullscreenMode() = false
 
-    override fun onCreateInputView(): View = KeyboardView(this, this).also { view = it }
+    override fun onCreateInputView(): View = KeyboardView(this, this, clips).also { view = it }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         // The languages may have been turned on or off in the app since the keyboard was last up.
         engine?.setTurnedOff(Languages.turnedOff(this))
-        view?.show(null)
+        // A copy made while the keyboard was not running (the clipboard listener goes with it).
+        recordClip()
+        view?.closeClips()
         showMarks()
+    }
+
+    /**
+     * Records the clipboard's text in the history when it is a copy not seen yet; text the copying
+     * app marks as sensitive (a password) is left out.
+     */
+    private fun recordClip() {
+        val clip = runCatching { clipboard.primaryClip }.getOrNull() ?: return
+        if (clip.itemCount == 0) return
+        val text = clip.getItemAt(0).coerceToText(this)?.toString() ?: return
+        val prefs = getSharedPreferences("clipboard", MODE_PRIVATE)
+        // A copy is told apart by its text and when it was made, so copying the same text again counts.
+        val stamp = "${clip.description.timestamp}:${text.hashCode()}"
+        if (prefs.getString("seen", null) == stamp) return
+        prefs.edit().putString("seen", stamp).apply()
+        val extras = clip.description.extras
+        if (extras?.getBoolean(EXTRA_IS_SENSITIVE) == true) return
+        clips.add(text)
+        view?.show(null)
     }
 
     /** The cursor moved or the text changed: the punctuation keys follow the text before the cursor. */
@@ -81,6 +111,12 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
 
     override fun onChoose(row: Int, column: Int) {
         engine?.choose(row, column)?.let { apply(it) }
+    }
+
+    override fun onPasteText(text: String) {
+        val ic = currentInputConnection ?: return
+        if (composing) engine?.finish()?.let { apply(it) }
+        ic.commitText(text, 1)
     }
 
     override fun onSymbol(text: String) {
@@ -206,7 +242,13 @@ class TatakikunIME : InputMethodService(), KeyboardView.Listener {
     }
 
     override fun onDestroy() {
+        clipboard.removePrimaryClipChangedListener(onCopy)
         engine?.close()
         super.onDestroy()
+    }
+
+    companion object {
+        /** ClipDescription.EXTRA_IS_SENSITIVE (Android 13), which apps set on copied passwords. */
+        const val EXTRA_IS_SENSITIVE = "android.content.extra.IS_SENSITIVE"
     }
 }

@@ -37,16 +37,19 @@ import android.widget.TextView
  * symbols behind ?123. Above it, over the application, a small box shows the letters being typed;
  * only the panel below it takes touches ([panelTop]). ⌄ shows more candidates in place of the keys.
  * A key that types a character shows it in a popup above the finger ([KeyPopup]); held, the popup
- * offers its symbol half-width and full-width.
+ * offers its symbol half-width and full-width. The clipboard button shows the text copied lately in
+ * place of the keys ([clips]); a new copy also shows as a chip beside it, pasted with one tap.
  */
 @SuppressLint("ViewConstructor")
-class KeyboardView(context: Context, private val listener: Listener) : LinearLayout(context) {
+class KeyboardView(context: Context, private val listener: Listener, private val clips: ClipHistory) : LinearLayout(context) {
     interface Listener {
         fun onKey(kind: Int, char: Int = 0)
         fun onChoose(row: Int, column: Int)
         /** A symbol chosen in the long-press popup, typed exactly as shown. */
         fun onSymbol(text: String)
         fun onAction(action: Action)
+        /** Text from the clipboard list or chip, pasted at the cursor. */
+        fun onPasteText(text: String)
     }
 
     enum class Action { SETTINGS, PASTE, LEFT, RIGHT, SELECT_ALL, COPY, CUT, UNDO, REDO }
@@ -74,6 +77,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
     private val keys = LinearLayout(context)
     private val moreScroll = ScrollView(context)
     private val more = LinearLayout(context)
+    private val chip = TextView(context)
+    private val clipPanel = LinearLayout(context)
+    private val clipList = LinearLayout(context)
+    private val clipScroll = ScrollView(context)
+    private var clipOpen = false
     private var symbols = false
     /** Shift: off, on for the next letter only, or caps lock (two quick taps) until tapped again. */
     private enum class Shift { OFF, ONCE, LOCKED }
@@ -144,6 +152,23 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         val bar = FrameLayout(context)
         toolbar.apply { orientation = HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(6), 0, dp(6), 0) }
         toolbar.addView(icon(R.drawable.ic_settings, "settings") { listener.onAction(Action.SETTINGS) }, LayoutParams(dp(48), dp(44)))
+        toolbar.addView(icon(R.drawable.ic_clipboard, "clipboard") { clipOpen = !clipOpen; show(last) }, LayoutParams(dp(48), dp(44)))
+        chip.apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); setTextColor(functionText)
+            gravity = Gravity.CENTER_VERTICAL
+            isSingleLine = true; ellipsize = TextUtils.TruncateAt.END
+            maxWidth = dp(150)
+            setPadding(dp(12), 0, dp(12), 0)
+            background = pressable(functionColor, dp(16).toFloat())
+            contentDescription = "clipChip"
+            setOnClickListener {
+                val text = clips.chip() ?: return@setOnClickListener
+                clips.dismissChip()
+                listener.onPasteText(text)
+                showClips()
+            }
+        }
+        toolbar.addView(chip, LayoutParams(LayoutParams.WRAP_CONTENT, dp(32)).apply { marginStart = dp(2) })
         toolbar.addView(View(context), LayoutParams(0, 1, 1f))
         toolbar.addView(icon(R.drawable.ic_paste, "paste") { listener.onAction(Action.PASTE) }, LayoutParams(dp(48), dp(44)))
         toolbar.addView(View(context), LayoutParams(0, 1, 1f))
@@ -181,6 +206,8 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         moreScroll.addView(more)
         moreScroll.visibility = GONE
         body.addView(moreScroll, FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp(5 * row + 4)))
+        buildClipPanel()
+        body.addView(clipPanel, FrameLayout.LayoutParams(keysWidth, dp(5 * row + 4), Gravity.CENTER_HORIZONTAL))
         panel.addView(body, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT))
         overlay.add(popup)
         buildKeys()
@@ -225,8 +252,11 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
         val open = expanded || overflowOpen
         toggle.setImageResource(if (open) R.drawable.ic_collapse else R.drawable.ic_expand)
         toggle.visibility = if (state?.canExpand == true || open || hidden.isNotEmpty()) VISIBLE else INVISIBLE
-        keys.visibility = if (open) GONE else VISIBLE
+        // The clipboard list only while nothing is being typed.
+        if (composing) clipOpen = false
+        keys.visibility = if (open || clipOpen) GONE else VISIBLE
         moreScroll.visibility = if (open) VISIBLE else GONE
+        showClips()
         more.removeAllViews()
         if (open && state != null) {
             val rest = if (expanded) state.rows.drop(1).flatMapIndexed { r, row -> row.mapIndexed { c, cand -> Triple(r + 1, c, cand) } } else emptyList()
@@ -251,6 +281,69 @@ class KeyboardView(context: Context, private val listener: Listener) : LinearLay
             moreScroll.scrollTo(0, 0)
         }
     }
+
+    /** Closes the clipboard list (the keyboard came up again for another field). */
+    fun closeClips() {
+        clipOpen = false
+        show(last)
+    }
+
+    /** The clipboard list's header (back, title, clear all) above the copies. */
+    private fun buildClipPanel() {
+        clipPanel.orientation = VERTICAL
+        clipPanel.visibility = GONE
+        val header = LinearLayout(context).apply { orientation = HORIZONTAL; gravity = Gravity.CENTER_VERTICAL; setPadding(dp(4), 0, dp(4), 0) }
+        header.addView(icon(R.drawable.ic_back, "clipBack") { clipOpen = false; show(last) }, LayoutParams(dp(48), dp(40)))
+        header.addView(TextView(context).apply {
+            setText(R.string.clipboard_title); setTextColor(textColor); setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        }, LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f))
+        header.addView(icon(R.drawable.ic_trash, "clipClear") { clips.clear(); showClips() }, LayoutParams(dp(48), dp(40)))
+        clipPanel.addView(header, LayoutParams(LayoutParams.MATCH_PARENT, dp(40)))
+        clipList.orientation = VERTICAL
+        clipList.setPadding(dp(6), 0, dp(6), dp(6))
+        clipScroll.addView(clipList)
+        clipPanel.addView(clipScroll, LayoutParams(LayoutParams.MATCH_PARENT, 0, 1f))
+    }
+
+    /** Shows the chip with the latest copy, and the list of copies while it is open. */
+    private fun showClips() {
+        val latest = clips.chip()
+        chip.text = latest?.let(::preview)
+        chip.visibility = if (latest != null && !clipOpen) VISIBLE else GONE
+        clipPanel.visibility = if (clipOpen) VISIBLE else GONE
+        if (!clipOpen) return
+        clipList.removeAllViews()
+        if (clips.items.isEmpty()) {
+            clipList.addView(TextView(context).apply {
+                setText(R.string.clipboard_empty); setTextColor(hintColor); setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                gravity = Gravity.CENTER
+            }, LayoutParams(LayoutParams.MATCH_PARENT, dp(120)))
+        }
+        for ((i, text) in clips.items.withIndex()) {
+            val item = LinearLayout(context).apply {
+                orientation = HORIZONTAL; gravity = Gravity.CENTER_VERTICAL
+                background = pressable(keyColor, dp(10).toFloat())
+                contentDescription = "clip$i"
+                setOnClickListener {
+                    if (clips.chip() == text) clips.dismissChip()
+                    clipOpen = false
+                    listener.onPasteText(text)
+                    show(last)
+                }
+            }
+            item.addView(TextView(context).apply {
+                this.text = preview(text); setTextColor(textColor); setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+                maxLines = 2; ellipsize = TextUtils.TruncateAt.END
+                setPadding(dp(14), dp(10), dp(4), dp(10))
+            }, LayoutParams(0, LayoutParams.WRAP_CONTENT, 1f))
+            item.addView(icon(R.drawable.ic_close, "clipDelete$i") { clips.remove(i); showClips() }.apply { setColorFilter(hintColor) },
+                LayoutParams(dp(44), dp(44)))
+            clipList.addView(item, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply { topMargin = dp(6) })
+        }
+    }
+
+    /** A copy as the list and chip show it: on as few lines as it can. */
+    private fun preview(text: String) = text.trim().replace(Regex("\\s*\n\\s*"), " ⏎ ").take(300)
 
     private fun measuredWidth(v: View): Int {
         v.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED)

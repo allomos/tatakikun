@@ -9,6 +9,23 @@ extension UIInputViewController: KeyboardTarget {
     func endMarking() { textDocumentProxy.unmarkText() }
     var selectedText: String? { textDocumentProxy.selectedText }
     var canUsePasteboard: Bool { hasFullAccess }
+    var pasteboardAsks: Bool { false }
+
+    /// A keyboard extension has no UIApplication.shared: the application is found up the responder
+    /// chain, and opens Tatakikun's page in Settings through the Objective-C method.
+    func openSettings() {
+        guard let url = URL(string: "app-settings:") else { return }
+        let selector = NSSelectorFromString("openURL:options:completionHandler:")
+        var responder: UIResponder? = self
+        while let r = responder {
+            if r is UIApplication, r.responds(to: selector) {
+                typealias Open = @convention(c) (NSObject, Selector, NSURL, NSDictionary, AnyObject?) -> Void
+                unsafeBitCast(r.method(for: selector), to: Open.self)(r, selector, url as NSURL, NSDictionary(), nil)
+                return
+            }
+            responder = r.next
+        }
+    }
 }
 
 /// The keyboard extension's entry point: shows the KeyboardView and types through the text proxy.
@@ -36,6 +53,8 @@ final class KeyboardViewController: UIInputViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Shared.engine.turnedOff = hasFullAccess ? Settings.turnedOff : Settings.firstOff
+        // What was copied since the keyboard was last up (the chip and the clipboard list).
+        keyboard.noteClipboard()
     }
 
     override func viewWillLayoutSubviews() {
