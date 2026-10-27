@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-27T05:36:14Z",
+  "by": "claude-release-0614",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-crumb624",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "from": "Done in 82fc5ca (KeyboardViewController: on iPad the keyboard view is 0.9 × the input view's width, centered; phones unchanged). Builds with scripts/build-ios.sh. Left for the person: the iPad check in portrait and landscape (steps attached).",
+      "to": "Shipped in v0.6.14 (released 2026-10-27; iOS is built from source, not published). Left for the person: the iPad check in portrait and landscape (steps attached). Run mode: n/a (single release on the approver's command)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** On iPad the keyboard (candidate bar and keys) takes about 90% of the current orientation's width, centered, instead of the full width.\n\n**Done means.** On an iPad simulator, portrait and landscape, the keyboard is 90% of the screen width and centered; phones unchanged.\n\n**Notes.** Asked by the approver 2026-10-26.\n",
+      "to": "**Outcome.** On iPad the keyboard (candidate bar and keys) takes about 90% of the current orientation's width, centered, instead of the full width.\n\n**Done means.** On an iPad simulator, portrait and landscape, the keyboard is 90% of the screen width and centered; phones unchanged.\n\n**Notes.** Asked by the approver 2026-10-26.\n\n## Evidence\n\n- 2026-10-27, claude-release-0614: Release v0.6.14 published 2026-10-27 05:35 UTC on the approver's line `alm guide github release` (2026-10-27, no extra words: patch, install). Commit 'Tatakikun 0.6.14' on master, tag v0.6.14 pushed. Assets: Tatakikun-0.6.14.pkg (sha256 8f7135ed99ecd59404f6225c2eeda5992e188c4027ac3f2594bb721bd946865e) + .sha256, Tatakikun-0.6.14-android.apk (sha256 d234e3e0272ba29d198559cf2a9a70e9a5442791614ac3040ccde6131d1bbc17) + .sha256. Release page 200. Downloaded, checksum OK, installed on this Mac: 0.6.14. APK not emulator-tested (no emulator testing unless asked).\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-release-0614"
+    }
+  ]
+}

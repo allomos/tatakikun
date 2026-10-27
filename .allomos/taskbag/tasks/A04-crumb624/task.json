@@ -3,7 +3,7 @@
   "folders": [
     "tatakikun"
   ],
-  "handoff_note": "Done in 82fc5ca (KeyboardViewController: on iPad the keyboard view is 0.9 × the input view's width, centered; phones unchanged). Builds with scripts/build-ios.sh. Left for the person: the iPad check in portrait and landscape (steps attached).",
+  "handoff_note": "Shipped in v0.6.14 (released 2026-10-27; iOS is built from source, not published). Left for the person: the iPad check in portrait and landscape (steps attached). Run mode: n/a (single release on the approver's command).",
   "holder": "claude-pad-width",
   "human_check_steps": "# Check: iPad keyboard width (A04-crumb624)\n\n1. Build and install the iOS app on an iPad (or iPad simulator): `scripts/build-ios.sh`.\n2. Open any text field with the Tatakikun keyboard in portrait: the keyboard (candidate bar and keys) is about 90% of the screen width, centered, with an equal gap on each side.\n3. Rotate to landscape: still about 90% of the (now wider) width, centered.\n4. On an iPhone the keyboard still fills the full width.\n",
   "id": "A04-crumb624",
