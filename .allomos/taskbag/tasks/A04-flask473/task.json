@@ -3,6 +3,7 @@
   "folders": [
     "tatakikun"
   ],
+  "handoff_note": "Shipped in v0.6.15 (released 2026-10-27, installed on this Mac). Left for the person: typing the check steps in TextEdit with the installed 0.6.15 (steps attached); Android APK not emulator-tested.",
   "holder": "claude-conjugation",
   "human_check_steps": "# Check: Japanese conjugation (A04-flask473)\n\n1. Install a build with the new Japanese pack (`scripts/install.sh`, or the next release's .pkg).\n2. In TextEdit, with Tatakikun on, type each and see the kanji form among the first candidates:\n   - tabeta → 食べた, tabemasita → 食べました, tabenai → 食べない\n   - ikimasu → 行きます, itta → 行った / 言った, kaita → 書いた, nonda → 飲んだ\n   - takakatta → 高かった, kimasita → 来ました, benkyousita → 勉強した\n   - kinoutabeta → 昨日食べた is in the bar\n3. Chinese and English still come first as before (nihao → 你好, hello → hello).\n",
   "id": "A04-flask473",
