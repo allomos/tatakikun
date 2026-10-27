@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-27T06:17:04Z",
+  "by": "claude-conjugation",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-flask473",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Needs typing in the real Mac app after reinstalling; engine checked with tests and tatakikun-cli"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: Japanese conjugation (A04-flask473)\n\n1. Install a build with the new Japanese pack (`scripts/install.sh`, or the next release's .pkg).\n2. In TextEdit, with Tatakikun on, type each and see the kanji form among the first candidates:\n   - tabeta → 食べた, tabemasita → 食べました, tabenai → 食べない\n   - ikimasu → 行きます, itta → 行った / 言った, kaita → 書いた, nonda → 飲んだ\n   - takakatta → 高かった, kimasita → 来ました, benkyousita → 勉強した\n   - kinoutabeta → 昨日食べた is in the bar\n3. Chinese and English still come first as before (nihao → 你好, hello → hello).\n"
+    }
+  ]
+}

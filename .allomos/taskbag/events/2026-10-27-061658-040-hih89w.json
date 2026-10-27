@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-27T06:16:58Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-flask473",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Japanese now offers up to 3 sentences for inputs of 5+ kana (others only with kanji and within 40 of the cheapest), so 昨日食べた shows next to 機能食べた"
+    }
+  ]
+}

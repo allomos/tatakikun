@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-27T06:16:57Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-flask473",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Conjugated form costs: dictionary form +5 (common: past, te, ない, ます), +15 (others), +30 (imperatives), +10 more when the verb is written in kana"
+    }
+  ]
+}

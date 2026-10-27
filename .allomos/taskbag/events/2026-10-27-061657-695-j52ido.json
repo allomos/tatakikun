@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-27T06:16:57Z",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A04-flask473",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Verb classes come from Mozc part-of-speech ids hard-coded in dictgen (pinned commit's id.def), not a new download; 非自立 verbs, 問う-type and いい are left out"
+    }
+  ]
+}
