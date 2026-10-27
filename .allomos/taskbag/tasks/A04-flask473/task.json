@@ -1,0 +1,11 @@
+{
+  "area": "A04",
+  "folders": [
+    "tatakikun"
+  ],
+  "holder": "claude-conjugation",
+  "id": "A04-flask473",
+  "iteration": "I04",
+  "state": "in_progress",
+  "title": "Japanese: conjugated verbs and adjectives convert (tabeta → 食べた, ikimasita → 行きました, takakatta → 高かった)"
+}
