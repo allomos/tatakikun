@@ -198,6 +198,21 @@ func buildChinesePack(base: URL, sources: URL, out: URL) throws {
 /// A kanji's reading only the single kanji table has: after the dictionaries' words for it.
 let singleKanjiCost = 140
 
+/// Mozc's part-of-speech ids (its id.def at the pinned commit) of verbs and adjectives in their
+/// dictionary form, by how they conjugate (see `Conjugation`). Left out: the 非自立 ones (いく after
+/// て, kept as plain words), 問う-like verbs, いい (良い conjugates for it) and classical forms.
+let conjugationClasses: [Substring: Conjugation.Class] = {
+    var c: [Substring: Conjugation.Class] = [:]
+    for id in [680, 681, 682, 683, 684, 685, 686, 713, 719] { c[Substring(String(id))] = .ichidan }  // 一段
+    for id in [723, 763, 764, 765, 766, 813, 814, 815, 816, 837] { c[Substring(String(id))] = .godan }  // 五段
+    for id in [731, 739] { c[Substring(String(id))] = .iku }  // 五段・カ行促音便
+    c["791"] = .honorific  // 五段・ラ行特殊
+    for id in [590, 591, 609, 610] { c[Substring(String(id))] = .kuru }  // カ変
+    for id in [621, 633] { c[Substring(String(id))] = .suru }  // サ変
+    for id in [2425, 2426, 2427, 2428, 2429, 2467] { c[Substring(String(id))] = .adjective }  // 形容詞
+    return c
+}()
+
 func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
     let ja = sources.appendingPathComponent("ja")
     var table: [String: Int] = [:]   // "reading<TAB>word" → cost
@@ -211,6 +226,7 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
     let baseCount = table.count
     var mozcRaw: [String: Int] = [:]   // lowest non-zero raw cost per pair; 0 when only zeros
     var nameParts: [String: Int] = [:]  // "姓おう<TAB>王" or "名き<TAB>暉" → cost
+    var conjugating: [String: (key: String, raw: Int)] = [:]  // "かく<TAB>書く" → "活五かく", raw cost
     for i in 0...9 {
         let url = ja.appendingPathComponent("dictionary0\(i).txt")
         for line in try String(contentsOf: url, encoding: .utf8).split(separator: "\n") {
@@ -226,6 +242,9 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
                c > 0, (1...3).contains(p[4].count), isAll(String(p[4]), Kana.isHan) {
                 let n = mark + k
                 nameParts[n] = min(nameParts[n] ?? .max, c / 40)
+            }
+            if let type = conjugationClasses[p[1]], !(conjugating[k].map { $0.raw <= c } ?? false) {
+                conjugating[k] = (Conjugation.key(type, String(p[0])), c)
             }
             if let old = mozcRaw[k] { mozcRaw[k] = old == 0 ? c : (c == 0 ? old : min(old, c)) } else { mozcRaw[k] = c }
         }
@@ -251,7 +270,14 @@ func buildJapanesePack(base: URL, sources: URL, out: URL) throws {
     }
     log("ja: \(baseCount) base entries, \(mozcRaw.count) Mozc pairs, \(table.count) together, \(singleKanji) from the single kanji table, \(nameParts.count) name parts")
     table.merge(nameParts) { a, _ in a }
-    let isNamePart = { (k: Substring) in k.hasPrefix(JapaneseConverter.familyNameMark) || k.hasPrefix(JapaneseConverter.givenNameMark) }
+    // Verbs and adjectives once more under their class, at the cost of the plain word.
+    for (k, v) in conjugating {
+        table[v.key + "\t" + k.split(separator: "\t")[1]] = table[k] ?? 70 + v.raw / 40
+    }
+    log("ja: \(conjugating.count) verbs and adjectives that conjugate")
+    let isNamePart = { (k: Substring) in
+        k.hasPrefix(JapaneseConverter.familyNameMark) || k.hasPrefix(JapaneseConverter.givenNameMark) || k.hasPrefix(Conjugation.mark)
+    }
     try writePack(table, name: DictionaryFiles.japanese, to: out.appendingPathComponent("ja"),
                   normalizeKey: { String($0) }, abbreviate: { isNamePart($0) ? nil : Abbreviation.kana($0) },
                   licenses: [("Mozc OSS dictionary (its README, with the IPAdic and Okinawa dictionary licenses)", ja.appendingPathComponent("README.txt")),

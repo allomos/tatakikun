@@ -96,6 +96,10 @@ enum Cost {
     static let fullNames = 12
     /// How many whole-sentence candidates to offer.
     static let sentences = 3
+    /// Japanese offers the others only for this many kana or more, and only those with kanji costing
+    /// at most this much more than the cheapest (kinoutabeta: 機能食べた, 昨日食べた; tabeta: no たベタ).
+    static let moreSentencesKana = 5
+    static let otherSentence = 40
     /// Added to a word or sentence read with two neighbouring letters swapped back (zhogn → 中).
     static let swapped = 40
     /// Added to a word or sentence read with one letter on a neighbouring key (nihai → 你好), and
@@ -120,15 +124,18 @@ enum Cost {
 }
 
 /// Lowest-cost way to cover `units` with dictionary words (Viterbi).
-/// With `unknownCost`, a unit no word covers may stand for itself at that cost.
-func segment(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil) -> (words: [String], cost: Int)? {
-    segmentations(units, lexicon: lexicon, unknownCost: unknownCost, count: 1).first
+/// With `unknownCost`, a unit no word covers may stand for itself at that cost; `more` gives words
+/// the dictionary does not list as such (conjugated Japanese verbs).
+func segment(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil,
+             more: ((String) -> [LexiconEntry])? = nil) -> (words: [String], cost: Int)? {
+    segmentations(units, lexicon: lexicon, unknownCost: unknownCost, count: 1, more: more).first
 }
 
 /// The `count` lowest-cost ways to cover `units` with dictionary words, cheapest first, each a
 /// different text (chongqizhiqian → 充气之前, 重启之前…): Viterbi keeping the best `count` paths
 /// to every position, trying each span's `count` cheapest words.
-func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil, count: Int) -> [(words: [String], cost: Int)] {
+func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = nil, count: Int,
+                   more: ((String) -> [LexiconEntry])? = nil) -> [(words: [String], cost: Int)] {
     let n = units.count
     guard n > 0, count > 0 else { return [] }
     // Twice as many paths as asked for: different splits of the same text (之前, 之+前) take a place each.
@@ -146,7 +153,8 @@ func segmentations(_ units: [Character], lexicon: Lexicon, unknownCost: Int? = n
     }
     for i in 0..<n where !paths[i].isEmpty {
         for j in (i + 1)...min(n, i + lexicon.maxKeyLength) {
-            let words = lexicon.exact(String(units[i..<j])).prefix(k)
+            let span = String(units[i..<j])
+            let words = (lexicon.exact(span).prefix(k) + (more?(span).prefix(k) ?? [])).sorted { $0.cost < $1.cost }.prefix(k)
             guard !words.isEmpty else { continue }
             for (p, before) in paths[i].enumerated() {
                 for e in words { offer((before.cost + e.cost + (i == 0 ? 0 : Cost.perWord(e.word)), i, p, e.word), at: j) }
@@ -267,14 +275,21 @@ public struct JapaneseConverter {
         var out: [Candidate] = []
         var seen: Set<String> = []
         for reading in readings {
-            // Every word of the reading, however rare (ki → 暉, after the 40 most common).
-            for e in lexicon.exact(reading) where seen.insert(e.word).inserted {
+            // Every word of the reading, however rare (ki → 暉, after the 40 most common), and the
+            // verbs and adjectives it is a form of (tabeta → 食べた).
+            for e in lexicon.exact(reading) + Conjugation.words(for: reading, in: lexicon) where seen.insert(e.word).inserted {
                 out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost))
             }
         }
-        if let path = segment(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana), path.words.count > 1,
-           seen.insert(path.words.joined()).inserted {
+        // The cheapest few sentences, so a less common reading of the start still shows (kinoutabeta:
+        // 機能食べた, then 昨日食べた).
+        let paths = segmentations(Array(kana), lexicon: lexicon, unknownCost: Cost.unknownKana,
+                                  count: kana.count >= Cost.moreSentencesKana ? Cost.sentences : 1, more: conjugated)
+        for path in paths where path.words.count > 1 && seen.insert(path.words.joined()).inserted {
             let text = path.words.joined()
+            if path.cost != paths[0].cost {
+                guard path.cost <= paths[0].cost + Cost.otherSentence, text.unicodeScalars.contains(where: Kana.isHan) else { continue }
+            }
             var sentence = Candidate(text: text, kind: Self.kind(of: text), cost: path.cost)
             // Only kana, split into short words: no better than spelling the kana out.
             sentence.isGuess = sentence.kind != .kanji
@@ -290,6 +305,8 @@ public struct JapaneseConverter {
         out += [hiragana, katakana]
         return out
     }
+
+    func conjugated(_ kana: String) -> [LexiconEntry] { Conjugation.words(for: kana, in: lexicon) }
 
     /// A family name and a given name together (ouki → 王暉, 王輝), for names no dictionary has:
     /// the cheapest few of every split of the reading.
@@ -324,7 +341,13 @@ public struct JapaneseConverter {
             // Only cut where the letters before spell whole kana (not inside "kya" or a doubled consonant).
             guard let head = Romaji.toHiragana(String(letters[0..<j])), head.count >= 2, !head.hasSuffix("っ"),
                   !(letters[j - 1] == "n" && "aiueoy".contains(letters[j])) else { continue }
-            for (i, e) in lexicon.exact(head).enumerated() where i < Cost.leadingPerLength || e.word.count == 1 {
+            // The dictionary's words, then the verbs the start is a form of (tabetakara: 食べた).
+            let words = lexicon.exact(head)
+            let forms = conjugated(head).prefix(Cost.leadingPerLength)
+            for e in forms {
+                out.append(Candidate(text: e.word, kind: Self.kind(of: e.word), cost: e.cost + Cost.leadingWord, isExact: false, consumed: j))
+            }
+            for (i, e) in words.enumerated() where i < Cost.leadingPerLength || e.word.count == 1 {
                 out.append(Candidate(text: e.word, kind: Self.kind(of: e.word),
                                      cost: e.cost + Cost.leadingWord + (i < Cost.leadingPerLength ? 0 : Cost.leadingCharacter),
                                      isExact: false, consumed: j))
