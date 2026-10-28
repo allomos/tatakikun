@@ -1,0 +1,10 @@
+{
+  "area": "A01",
+  "folders": [
+    "tatakikun"
+  ],
+  "id": "A01-sloth938",
+  "iteration": "I04",
+  "state": "ready",
+  "title": "Android and iOS: a long press shows the key's symbol after 300 ms, and a settings slider sets the delay from 200 to 600 ms"
+}
