@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-28T04:00:28Z",
+  "by": "claude-release",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A04-fruit206",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Shipped in v0.6.16 (Android). Real-phone check still with the person (alm human)."
+    },
+    {
+      "field": "description",
+      "from": "**Outcome.** A quick tap on a letter key shows its popup long enough to read; until now it went 50 ms after the finger lifted (about 100 ms in all).\n\n**Done means.** The popup stays at least 200 ms from when it appeared (a press held longer hides 50 ms after lifting, as before); pressing the next key still takes the popup over at once; sliding off or a cancelled touch still hide it at once. Android build and unit tests pass.\n\n**Notes.** Asked by the approver in chat (option 2: a minimum time on screen, 200 ms).\n",
+      "to": "**Outcome.** A quick tap on a letter key shows its popup long enough to read; until now it went 50 ms after the finger lifted (about 100 ms in all).\n\n**Done means.** The popup stays at least 200 ms from when it appeared (a press held longer hides 50 ms after lifting, as before); pressing the next key still takes the popup over at once; sliding off or a cancelled touch still hide it at once. Android build and unit tests pass.\n\n**Notes.** Asked by the approver in chat (option 2: a minimum time on screen, 200 ms).\n\n## Evidence\n\n- 2026-10-28, claude-release: v0.6.16 released and installed on this Mac: approver typed 'alm guide github release install' in conversation, 2026-10-28. Release https://github.com/allomos/tatakikun/releases/tag/v0.6.16 (Mac pkg sha256 d561fb28…c47b, APK sha256 204abe8d…71be; 4 assets). Downloaded pkg checksum OK, installed 0.6.16, Tatakikun running (no workflow run; built locally).\n"
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-release"
+    }
+  ]
+}
