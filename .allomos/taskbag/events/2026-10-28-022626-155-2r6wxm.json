@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-28T02:26:26Z",
+  "by": "claude-popup",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-fruit206",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Needs a look on a real phone: how long the popup feels on screen"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: Android letter popup stays at least 200 ms\n\n1. Install the new Android build on a phone (`scripts/build-android-app.sh install`).\n2. In any text field, tap letter keys quickly one at a time: each popup is clearly visible (about 0.2 s), no longer a flash.\n3. Type fast with two thumbs: each new key's popup replaces the last one at once; nothing lags behind.\n4. Hold a key with a corner symbol: the popup turns to the symbol as before; slide off a key: the popup goes at once.\n"
+    }
+  ]
+}
