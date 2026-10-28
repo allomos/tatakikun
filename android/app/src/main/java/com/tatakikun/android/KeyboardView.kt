@@ -521,8 +521,8 @@ class KeyboardView(context: Context, private val listener: Listener, private val
      * types on a long press. A key with `preview` shows its character in the popup while pressed;
      * held long, the popup turns to the corner symbol, half-width and full-width side by side; sliding
      * picks one, typed on release (sliding off before that cancels).
-     * The keyboard tracks the finger itself, so a long press takes [LONG_PRESS] ms whatever the
-     * phone's touch-and-hold delay; `onRelease` runs when the finger lifts or slides off.
+     * The keyboard tracks the finger itself, so a long press takes the delay set in the app
+     * ([KeySettings], 300 ms unless changed) whatever the phone's touch-and-hold delay; `onRelease` runs when the finger lifts or slides off.
      */
     @SuppressLint("ClickableViewAccessibility")
     private fun key(
@@ -554,7 +554,7 @@ class KeyboardView(context: Context, private val listener: Listener, private val
                     v.drawableHotspotChanged(e.x, e.y)
                     v.isPressed = true
                     if (preview) shown = popup.show(v, labelView?.text?.toString() ?: label, cornerView?.text?.toString() ?: hint?.toString().orEmpty(), extras)
-                    if (onLongPress != null) postDelayed(hold, LONG_PRESS)
+                    if (onLongPress != null) postDelayed(hold, KeySettings.longPressMs(context).toLong())
                     onPress?.invoke()
                 }
                 MotionEvent.ACTION_MOVE -> if (preview && popup.flipped(shown)) popup.select(v, e.x)
@@ -826,9 +826,6 @@ class KeyboardView(context: Context, private val listener: Listener, private val
     companion object {
         /** The height of a row of keys, in dp: as on Gboard. */
         const val ROW = 45
-
-        /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
-        const val LONG_PRESS = 400L
 
         /** How long, in ms, a key's popup stays at least, so a quick tap still shows it. */
         const val MIN_POPUP = 200L

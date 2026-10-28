@@ -24,6 +24,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 
@@ -89,6 +90,8 @@ class MainActivity : Activity() {
         packsRow.view.addView(count)
         showLanguages()
         column.addView(packsRow.view)
+        column.addView(divider())
+        column.addView(longPressRow())
         column.addView(divider())
         val aboutRow = row(R.drawable.ic_info, R.string.about) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.project_url))))
@@ -242,6 +245,36 @@ class MainActivity : Activity() {
             }, LinearLayout.LayoutParams(dp(20), dp(20)).apply { marginStart = dp(8) })
         }
         return Row(view, image, titleView, detailView)
+    }
+
+    /**
+     * The long-press delay: a slider from 200 to 600 ms in steps of 50; the keyboard uses it from
+     * the next key held.
+     */
+    private fun longPressRow(): View {
+        val row = row(R.drawable.ic_timer, R.string.long_press, null)
+        fun show(ms: Int) { row.detail.text = getString(R.string.long_press_detail, ms) }
+        val ms = KeySettings.longPressMs(this)
+        show(ms)
+        val slider = SeekBar(this).apply {
+            contentDescription = getString(R.string.long_press)
+            max = (KeySettings.MAX_MS - KeySettings.MIN_MS) / KeySettings.STEP_MS
+            progress = (ms - KeySettings.MIN_MS) / KeySettings.STEP_MS
+            progressTintList = ColorStateList.valueOf(palette.accent)
+            thumbTintList = ColorStateList.valueOf(palette.accent)
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(bar: SeekBar, value: Int, fromUser: Boolean) {
+                    val chosen = KeySettings.MIN_MS + value * KeySettings.STEP_MS
+                    KeySettings.setLongPressMs(this@MainActivity, chosen)
+                    show(chosen)
+                }
+                override fun onStartTrackingTouch(bar: SeekBar) {}
+                override fun onStopTrackingTouch(bar: SeekBar) {}
+            })
+        }
+        (row.detail.parent as LinearLayout).addView(slider, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+            .apply { topMargin = dp(4) })
+        return row.view
     }
 
     /**

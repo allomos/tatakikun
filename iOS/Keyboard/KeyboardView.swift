@@ -36,6 +36,18 @@ enum Settings {
         }
     }
 
+    /// How long a key is held for its long press, in seconds: set in the app from 0.2 to 0.6
+    /// (A01-sloth938); the keyboard reads it with Full Access, else uses the default.
+    static let defaultLongPress: TimeInterval = 0.3
+    static let longPressRange: ClosedRange<TimeInterval> = 0.2...0.6
+    static var longPress: TimeInterval {
+        get {
+            let ms = defaults?.integer(forKey: "longPressMs") ?? 0
+            return ms == 0 ? defaultLongPress : min(max(Double(ms) / 1000, longPressRange.lowerBound), longPressRange.upperBound)
+        }
+        set { defaults?.set(Int((newValue * 1000).rounded()), forKey: "longPressMs") }
+    }
+
     /// The languages off before the user has chosen any (or when the keyboard cannot read the choice).
     static var firstOff: Set<LanguagePacks.Language> { LanguagePacks.offAtFirst(installed: Shared.engine.languages) }
 }
@@ -69,6 +81,11 @@ final class KeyboardView: UIView {
     var showsNextKeyboard: Bool {
         get { keys.showsNextKeyboard }
         set { keys.showsNextKeyboard = newValue }
+    }
+    /// How long a key is held for its symbol (Settings.longPress).
+    var longPress: TimeInterval {
+        get { keys.longPress }
+        set { keys.longPress = newValue }
     }
     private lazy var composer: Composer = {
         let composer = Composer(engine: Shared.engine)
@@ -651,8 +668,14 @@ final class KeyboardKeys: UIView {
     private var previewKeys: [ObjectIdentifier: UILabel?] = [:]
     /// The press each key's `preview` belongs to, while it is down.
     private var previewPresses: [ObjectIdentifier: Int] = [:]
-    /// How long a key is held for its symbol, as on Android.
-    private static let longPress: TimeInterval = 0.4
+    /// How long a key is held for its symbol, as on Android; applied to the keys at once.
+    var longPress = Settings.defaultLongPress {
+        didSet { for case let press as SymbolPress in allPresses { press.minimumPressDuration = longPress } }
+    }
+    /// Every key's long press, so a new delay reaches them all.
+    private var allPresses: [UIGestureRecognizer] {
+        rows.arrangedSubviews.flatMap(\.subviews).flatMap { $0.gestureRecognizers ?? [] }
+    }
     /// The symbol in each letter's corner, which a long press types, as on Android (and Gboard).
     private static let hints: [Character: Character] = [
         "q": "%", "w": "\\", "e": "|", "r": "=", "t": "[", "y": "]", "u": "<", "i": ">", "o": "{", "p": "}",
@@ -907,7 +930,7 @@ final class KeyboardKeys: UIView {
         let press = SymbolPress(target: self, action: #selector(longPress(_:)))
         press.corner = label
         press.extra = extra
-        press.minimumPressDuration = Self.longPress
+        press.minimumPressDuration = longPress
         button.addGestureRecognizer(press)
         return label
     }

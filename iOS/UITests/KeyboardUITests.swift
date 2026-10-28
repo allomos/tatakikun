@@ -140,6 +140,21 @@ final class KeyboardUITests: XCTestCase {
 
     /// A04-canvas393: the popup starts on the form a tap would type now: full-width after
     /// Chinese, half-width after English; lifting without sliding types it.
+    /// The long-press delay from the app's slider (A01-sloth938): a hold shorter than it is a tap.
+    func testLongPressDelay() {
+        XCTAssertTrue(app.sliders["longPressDelay"].exists, "the settings have the long-press delay slider")
+        for (ms, held, typed) in [("600", 0.4, "g"), ("200", 0.35, "&")] {
+            app.terminate()
+            app.launchArguments = ["-languagesOff", "()", "-longPressMs", ms]
+            app.launch()
+            field.tap()
+            XCTAssertEqual(app.sliders["longPressDelay"].value as? String, "\(ms) ms")
+            app.buttons["g"].firstMatch.press(forDuration: held)
+            if typed == "g" { app.buttons["return"].tap() }   // the letter stays as typed
+            XCTAssertEqual(text, typed, "held \(held) s with a \(ms) ms delay")
+        }
+    }
+
     func testLongPressStartsOnWhatATapTypes() {
         type("nihao")
         XCTAssertTrue(app.buttons["你好"].waitForExistence(timeout: 3))

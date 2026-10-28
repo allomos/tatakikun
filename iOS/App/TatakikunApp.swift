@@ -40,6 +40,7 @@ private enum Palette {
 struct SetupView: View {
     @State private var added = SetupView.keyboardAdded()
     @State private var off = Settings.turnedOff
+    @State private var longPress = Settings.longPress
     @State private var showsLanguages = false
     @Environment(\.scenePhase) private var phase
     @Environment(\.openURL) private var openURL
@@ -95,6 +96,8 @@ struct SetupView: View {
                                 .background(Capsule().fill(Palette.pillBackground))
                         }
                         .accessibilityIdentifier("languagePacks")
+                        divider
+                        longPressRow
 
                         section("Try it")
                         TryField(placeholder: "ai, woaini, arigatou, hello") {
@@ -142,6 +145,25 @@ struct SetupView: View {
     }
 
     private static let isPad = UIDevice.current.userInterfaceIdiom == .pad
+
+    /// The long-press delay: a slider from 200 to 600 ms in steps of 50; the keyboard uses it the
+    /// next time it comes up (it reads it with Full Access).
+    private var longPressRow: some View {
+        HStack(alignment: .top, spacing: 18) {
+            Image(systemName: "timer").font(.system(size: 20)).foregroundStyle(Palette.secondary)
+                .frame(width: 24).padding(.top, 2)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Long-press delay").font(.system(size: 17)).foregroundStyle(Palette.text)
+                Text("\(Int((longPress * 1000).rounded())) ms before a held key shows its symbol")
+                    .font(.subheadline).foregroundStyle(Palette.secondary)
+                Slider(value: $longPress, in: Settings.longPressRange, step: 0.05)
+                    .accessibilityIdentifier("longPressDelay")
+                    .accessibilityValue("\(Int((longPress * 1000).rounded())) ms")
+            }
+        }
+        .padding(.horizontal, 4).padding(.vertical, 12)
+        .onChange(of: longPress) { Settings.longPress = $0 }
+    }
 
     /// Full Access, explained before iOS shows its own warning: what it is for, and that typed
     /// text is not sent anywhere (the app and keyboard have no networking at all). It is optional:
