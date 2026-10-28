@@ -645,6 +645,12 @@ final class KeyboardKeys: UIView {
     /// The corner symbols that follow `mark` too (the period key's ?).
     private var markHints: [(label: UILabel, mark: Character)] = []
     private let popup = SymbolPopup()
+    /// The character of the pressed key, large above the finger, as on Android.
+    private let preview = KeyPreview()
+    /// The keys that show `preview` when pressed (letters, symbols, punctuation), with their corner symbol.
+    private var previewKeys: [ObjectIdentifier: UILabel?] = [:]
+    /// The press each key's `preview` belongs to, while it is down.
+    private var previewPresses: [ObjectIdentifier: Int] = [:]
     /// How long a key is held for its symbol, as on Android.
     private static let longPress: TimeInterval = 0.4
     /// The symbol in each letter's corner, which a long press types, as on Android (and Gboard).
@@ -672,6 +678,7 @@ final class KeyboardKeys: UIView {
         // background, a tap in the gap between keys never arrives. Almost clear is enough.
         backgroundColor = UIColor(white: 0.5, alpha: 0.01)
         addSubview(rows)
+        addSubview(preview)
         addSubview(popup)
         NSLayoutConstraint.activate([
             rows.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
@@ -723,6 +730,7 @@ final class KeyboardKeys: UIView {
             guard let key = nearestKey(to: touch.location(in: self)) else { continue }
             gapTouches[ObjectIdentifier(touch)] = key
             key.isHighlighted = true
+            showPreview(key)
         }
     }
 
@@ -731,11 +739,16 @@ final class KeyboardKeys: UIView {
             guard let key = gapTouches.removeValue(forKey: ObjectIdentifier(touch)) else { continue }
             key.isHighlighted = false
             key.sendActions(for: .touchUpInside)
+            hidePreview(key, soon: true)
         }
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches { gapTouches.removeValue(forKey: ObjectIdentifier(touch))?.isHighlighted = false }
+        for touch in touches {
+            guard let key = gapTouches.removeValue(forKey: ObjectIdentifier(touch)) else { continue }
+            key.isHighlighted = false
+            hidePreview(key, soon: false)
+        }
     }
 
     private func shiftKey() -> UIView {
@@ -790,6 +803,8 @@ final class KeyboardKeys: UIView {
         letterKeys = []
         markKeys = []
         markHints = []
+        previewKeys = [:]
+        previewPresses = [:]
         shiftButton = nil
         ctrlButton = nil
         ctrlHeld = false
@@ -811,7 +826,8 @@ final class KeyboardKeys: UIView {
                     else { self.onKey?(.other(ch)) }
                 }
                 if !symbols { letterKeys.append((button, c)) } else if !c.isNumber { markKeys.append((button, c)) }
-                if !symbols, let hint = Self.hints[c] { addHint(hint, to: button) }
+                let corner = !symbols ? Self.hints[c].map { addHint($0, to: button) } : nil
+                addPreview(to: button, corner: corner)
                 if !symbols && showsCtrl {
                     button.addAction(UIAction { [weak self] _ in
                         if self?.ctrlHeld == true { self?.ctrlTaps.insert(c) }
@@ -843,9 +859,9 @@ final class KeyboardKeys: UIView {
         let period = key("。", id: "period", dark: true) { [weak self] in self?.onKey?(.other(".")) }
         markKeys += [(comma, ","), (period, ".")]
         // Held, the comma key also offers the other comma: , when it shows ，, ， when it shows ,
-        addHint("、", to: comma) { [weak self] in self?.mark(",") == "," ? ["，"] : [","] }
+        addPreview(to: comma, corner: addHint("、", to: comma) { [weak self] in self?.mark(",") == "," ? ["，"] : [","] })
         // Held, the period key also offers the other period: . when it shows 。, 。 when it shows .
-        addHint("?", to: period, followsMark: true) { [weak self] in self?.mark(".") == "." ? ["。"] : ["."] }
+        addPreview(to: period, corner: addHint("?", to: period, followsMark: true) { [weak self] in self?.mark(".") == "." ? ["。"] : ["."] })
         bottom += [
             comma,
             key("space", id: "space") { [weak self] in self?.onKey?(.space) },
@@ -874,7 +890,8 @@ final class KeyboardKeys: UIView {
 
     /// Puts `symbol` in the key's top right corner; held, the key offers it in a popup above it
     /// (half-width and full-width side by side), sliding picks one, lifting types it.
-    private func addHint(_ symbol: Character, to button: UIButton, followsMark: Bool = false, extra: (() -> [String])? = nil) {
+    @discardableResult
+    private func addHint(_ symbol: Character, to button: UIButton, followsMark: Bool = false, extra: (() -> [String])? = nil) -> UILabel {
         let label = UILabel()
         label.text = String(symbol)
         label.font = .systemFont(ofSize: 11)
@@ -892,6 +909,28 @@ final class KeyboardKeys: UIView {
         press.extra = extra
         press.minimumPressDuration = Self.longPress
         button.addGestureRecognizer(press)
+        return label
+    }
+
+    /// Pressed, the key shows its character in `preview`; lifted, it goes a moment later (never
+    /// before `KeyPreview.minimum` on screen); sliding off or a long press hides it at once.
+    private func addPreview(to button: UIButton, corner: UILabel?) {
+        previewKeys[ObjectIdentifier(button)] = corner
+        button.addAction(UIAction { [weak self, weak button] _ in if let button { self?.showPreview(button) } }, for: .touchDown)
+        button.addAction(UIAction { [weak self, weak button] _ in if let button { self?.hidePreview(button, soon: true) } }, for: .touchUpInside)
+        button.addAction(UIAction { [weak self, weak button] _ in if let button { self?.hidePreview(button, soon: false) } },
+                         for: [.touchUpOutside, .touchCancel, .touchDragExit])
+    }
+
+    private func showPreview(_ button: UIButton) {
+        guard let corner = previewKeys[ObjectIdentifier(button)], !ctrlHeld, let text = button.title(for: .normal) else { return }
+        previewPresses[ObjectIdentifier(button)] = preview.show(text, corner: corner?.text, over: button.convert(button.bounds, to: self),
+                                                                within: CGRect(x: 0, y: -frame.minY, width: bounds.width, height: bounds.height + frame.minY))
+    }
+
+    private func hidePreview(_ button: UIButton, soon: Bool) {
+        guard let number = previewPresses.removeValue(forKey: ObjectIdentifier(button)) else { return }
+        if soon { preview.hideSoon(number) } else { preview.hide(number) }
     }
 
     @objc private func longPress(_ press: SymbolPress) {
@@ -900,6 +939,7 @@ final class KeyboardKeys: UIView {
         case .began:
             // Over the key, reaching up over the candidate bar but not past the keyboard's top.
             // It starts on the form a tap would type now (全角 after Chinese, 半角 after English).
+            if let button = button as? UIButton { hidePreview(button, soon: false) }
             let typed = SymbolPopup.halfWidth(of: symbol).map { mark($0) } ?? symbol
             popup.show(symbol, extra: press.extra?() ?? [], selecting: typed, over: button.convert(button.bounds, to: self),
                        within: CGRect(x: 0, y: -frame.minY, width: bounds.width, height: bounds.height + frame.minY))
@@ -967,6 +1007,68 @@ final class KeyboardKeys: UIView {
         button.layer.shadowOpacity = 0.25
         button.layer.shadowRadius = 0
         button.layer.shadowOffset = CGSize(width: 0, height: 1)
+    }
+}
+
+/// The popup over a pressed key, as on Android: its character large, its corner symbol small.
+/// One at a time: each press gets a number, and only the latest one shows.
+final class KeyPreview: UIView {
+    /// How long it stays at least, in seconds, so a quick tap still shows it.
+    static let minimum: TimeInterval = 0.2
+    private let main = UILabel()
+    private let corner = UILabel()
+    private var press = 0
+    private var shownAt = Date.distantPast
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isHidden = true
+        isUserInteractionEnabled = false
+        backgroundColor = .systemBackground
+        layer.cornerRadius = 10
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 4
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        accessibilityIdentifier = "keyPreview"
+        main.font = .systemFont(ofSize: 30)
+        main.textAlignment = .center
+        main.textColor = .label
+        corner.font = .systemFont(ofSize: 12)
+        corner.textAlignment = .right
+        corner.textColor = .secondaryLabel
+        addSubview(main)
+        addSubview(corner)
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    /// Shows `text` over `key`; returns this press's number.
+    func show(_ text: String, corner symbol: String?, over key: CGRect, within area: CGRect) -> Int {
+        let width = max(key.width * 1.45, 54), height: CGFloat = 58
+        let x = min(max(key.midX - width / 2, area.minX + 2), area.maxX - 2 - width)
+        let y = max(key.minY - height + 4, area.minY)
+        frame = CGRect(x: x, y: y, width: width, height: height)
+        main.frame = bounds
+        main.text = text
+        corner.frame = CGRect(x: 0, y: 3, width: width - 6, height: 15)
+        corner.text = symbol
+        accessibilityLabel = text
+        isHidden = false
+        superview?.bringSubviewToFront(self)
+        shownAt = Date()
+        press += 1
+        return press
+    }
+
+    /// Hides the press `number` once lifted: a moment after, and never before `minimum` on screen.
+    func hideSoon(_ number: Int) {
+        let wait = max(0.05, Self.minimum - Date().timeIntervalSince(shownAt))
+        DispatchQueue.main.asyncAfter(deadline: .now() + wait) { [weak self] in self?.hide(number) }
+    }
+
+    func hide(_ number: Int) {
+        if number == press { isHidden = true }
     }
 }
 
