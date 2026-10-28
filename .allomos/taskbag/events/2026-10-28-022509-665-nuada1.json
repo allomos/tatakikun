@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-28T02:25:09Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-canal620",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "iOS keyboard: pressing a letter or punctuation key shows it in a popup above the finger (as on Android), on screen at least 200 ms"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "folders",
+      "to": [
+        "tatakikun"
+      ]
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** As on the Android keyboard, a pressed letter, digit or punctuation key shows its character large above the finger, with its corner symbol small; a quick tap keeps it at least 200 ms so it can be seen.\n\n**Done means.** Pressing a key shows the popup; lifting hides it 50 ms after, but never before 200 ms on screen; the next key takes it over at once; sliding off or holding (the long-press symbol popup takes over) hides it at once; a tap in the gap between keys shows the nearest key's popup. iOS build and UI tests pass.\n\n**Notes.** Asked by the approver in chat, alongside A04-fruit206 (Android).\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}
