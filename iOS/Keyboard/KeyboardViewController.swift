@@ -56,6 +56,7 @@ final class KeyboardViewController: UIInputViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Shared.engine.turnedOff = hasFullAccess ? Settings.turnedOff : Settings.firstOff
+        keyboard.longPress = hasFullAccess ? Settings.longPress : Settings.defaultLongPress
         // What was copied since the keyboard was last up (the chip and the clipboard list).
         keyboard.noteClipboard()
     }

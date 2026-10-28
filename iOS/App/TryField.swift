@@ -78,7 +78,10 @@ struct TryField: UIViewRepresentable {
 
         init(onFocus: @escaping () -> Void) { self.onFocus = onFocus }
 
-        func textViewDidBeginEditing(_ field: UITextView) { onFocus() }
+        func textViewDidBeginEditing(_ field: UITextView) {
+            keyboard.longPress = Settings.longPress   // as set on this screen
+            onFocus()
+        }
         func textViewDidEndEditing(_ field: UITextView) { keyboard.finish() }
         func textViewDidChange(_ field: UITextView) { hint?.isHidden = !field.text.isEmpty; keyboard.refreshMarks() }
         func textViewDidChangeSelection(_ field: UITextView) { keyboard.refreshMarks() }
