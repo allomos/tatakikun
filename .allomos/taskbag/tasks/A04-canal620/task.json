@@ -3,8 +3,9 @@
   "folders": [
     "tatakikun"
   ],
+  "holder": "claude-popup-ios",
   "id": "A04-canal620",
   "iteration": "I04",
-  "state": "ready",
+  "state": "in_progress",
   "title": "iOS keyboard: pressing a letter or punctuation key shows it in a popup above the finger (as on Android), on screen at least 200 ms"
 }
