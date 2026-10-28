@@ -571,8 +571,7 @@ class KeyboardView(context: Context, private val listener: Listener, private val
                     if (preview) {
                         popup.lift(v)
                         popup.choice(shown)?.let { listener.onSymbol(it) }
-                        val last = shown
-                        postDelayed({ popup.hide(last) }, 50)
+                        popup.hideSoon(shown)
                     }
                     if (!off) onRelease?.invoke()
                     if (!held && !off) v.performClick()
@@ -688,6 +687,8 @@ class KeyboardView(context: Context, private val listener: Listener, private val
         private var key: View? = null
         private var finger: View? = null
         private var press = 0
+        /** When the latest popup appeared ([SystemClock.uptimeMillis]). */
+        private var shownAt = 0L
         private var main = ""
         private var corner = ""
         private var long = false
@@ -721,6 +722,7 @@ class KeyboardView(context: Context, private val listener: Listener, private val
             key = view; finger = view; main = label; corner = hint; long = false; this.extras = extras
             setBounds(0, 0, width, height)
             invalidateSelf()
+            shownAt = SystemClock.uptimeMillis()
             return ++press
         }
 
@@ -766,6 +768,12 @@ class KeyboardView(context: Context, private val listener: Listener, private val
         fun lift(view: View) { if (finger == view) finger = null }
 
         fun flipped(number: Int) = number == press && key != null && long
+
+        /** Hides the press `number` once released: a moment after, and never before [MIN_POPUP] on screen. */
+        fun hideSoon(number: Int) {
+            val left = MIN_POPUP - (SystemClock.uptimeMillis() - shownAt)
+            postDelayed({ hide(number) }, maxOf(50L, left))
+        }
 
         fun hide(number: Int) {
             if (number != press || key == null) return
@@ -821,6 +829,9 @@ class KeyboardView(context: Context, private val listener: Listener, private val
 
         /** How long a key is held for its long press, in ms: Android's short touch-and-hold delay. */
         const val LONG_PRESS = 400L
+
+        /** How long, in ms, a key's popup stays at least, so a quick tap still shows it. */
+        const val MIN_POPUP = 200L
 
         /** How far outside its face, in dp, a key around the edge of the block still takes a tap. */
         const val REACH = 32
