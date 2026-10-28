@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-28T03:03:27Z",
+  "by": "claude-longpress",
+  "via": "alm",
+  "command": "handoff",
+  "kind": "task",
+  "id": "A01-sloth938",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "handoff_note",
+      "to": "Run mode: quiet (person, 2026-10-26). Merged to master. iOS UI tests 20/20 (new testLongPressDelay), Android built; the person checks both on real devices (alm human)."
+    },
+    {
+      "field": "handed_off_by",
+      "to": "claude-longpress"
+    }
+  ]
+}
