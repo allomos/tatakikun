@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-28T02:38:05Z",
+  "by": "claude-popup-ios",
+  "via": "alm",
+  "command": "done",
+  "kind": "task",
+  "id": "A04-canal620",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "state",
+      "from": "in_progress",
+      "to": "done"
+    },
+    {
+      "field": "without_human_check",
+      "to": "Needs a look on a real iPhone: how the popup looks and feels while typing"
+    },
+    {
+      "field": "human_check_steps",
+      "to": "# Check: iOS key popup\n\n1. Build and install the iOS app on an iPhone (`scripts/build-ios.sh`, or Xcode), then type in any app with Tatakikun.\n2. Tap letters quickly: each shows a popup above the key (the letter large, its corner symbol small) for about 0.2 s.\n3. Type fast with two thumbs: each new key's popup replaces the last one at once.\n4. Hold g: the popup gives way to the & / ＆ choice as before; tap , and 。: they show their popup too.\n"
+    }
+  ]
+}
