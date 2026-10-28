@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-28T02:52:46Z",
+  "by": "claude-longpress",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-sloth938",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Stored as whole ms: Android SharedPreferences 'settings' key long_press_ms; iOS app group defaults key longPressMs (the keyboard reads it only with Full Access, else 300 ms); Android reads it at every key press, iOS each time the keyboard comes up"
+    }
+  ]
+}

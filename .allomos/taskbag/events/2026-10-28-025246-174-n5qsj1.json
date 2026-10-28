@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-28T02:52:46Z",
+  "by": "claude-longpress",
+  "via": "alm",
+  "command": "ai-decided",
+  "kind": "task",
+  "id": "A01-sloth938",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "ai_decision",
+      "to": "Slider steps of 50 ms (200, 250 … 600); label 'Long-press delay' with the detail '<n> ms before a held key shows its symbol'; placed under Keyboard, right below Language packs, on both apps (Android icon: Material timer; iOS SF Symbol timer)"
+    }
+  ]
+}
