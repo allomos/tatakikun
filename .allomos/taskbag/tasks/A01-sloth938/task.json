@@ -3,7 +3,7 @@
   "folders": [
     "tatakikun"
   ],
-  "handoff_note": "Run mode: quiet (person, 2026-10-26). Merged to master. iOS UI tests 20/20 (new testLongPressDelay), Android built; the person checks both on real devices (alm human).",
+  "handoff_note": "Shipped in v0.6.16 (Android). Real-phone check still with the person (alm human).",
   "holder": "claude-longpress",
   "human_check_steps": "# Check: long-press delay 300 ms with a 200–600 ms slider (A01-sloth938)\n\nAndroid (your phone)\n1. Install from master: `scripts/build-android-app.sh install` (uninstall the GitHub release first if Android refuses the debug build).\n2. Open the Tatakikun app: under Keyboard, below Language packs, \"Long-press delay\" says 300 ms, with a slider.\n3. In any text field, hold g: the & popup comes up quicker than before (300 ms instead of 400 ms). Hold ⌫: it starts repeating after the same delay.\n4. Move the slider to 200 ms, go back to the field and hold g: faster. Move it to 600 ms: slower; a quick hold under that types g.\n\niPhone\n5. Settings > General > Keyboard > Keyboards > Tatakikun: Allow Full Access on (without it the keyboard uses 300 ms, whatever the slider says).\n6. In the Tatakikun app, the same slider sits below Language packs. Try 300, 200 and 600 ms in another app (Notes): the keyboard picks up the value the next time it comes up.\n7. iOS has no hold-to-repeat on ⌫ (it never had one), so only the symbol popup follows the delay there.\n",
   "id": "A01-sloth938",

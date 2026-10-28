@@ -11,3 +11,7 @@
 - The approver chose this in conversation on 2026-10-28: default 300 ms on both platforms, plus a settings slider from 200 to 600 ms. The reason given: 400 ms felt long, and Gboard and SwiftKey default to about 300 ms.
 - With TalkBack on, Android still uses the system's long-click (`setOnLongClickListener`). That path does not change.
 - The step size, the label wording and where the slider sits in settings are routine choices: decide them and record them with `alm ai-decided`.
+
+## Evidence
+
+- 2026-10-28, claude-release: v0.6.16 released and installed on this Mac: approver typed 'alm guide github release install' in conversation, 2026-10-28. Release https://github.com/allomos/tatakikun/releases/tag/v0.6.16 (Mac pkg sha256 d561fb28…c47b, APK sha256 204abe8d…71be; 4 assets). Downloaded pkg checksum OK, installed 0.6.16, Tatakikun running (no workflow run; built locally).

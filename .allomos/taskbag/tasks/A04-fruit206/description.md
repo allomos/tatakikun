@@ -3,3 +3,7 @@
 **Done means.** The popup stays at least 200 ms from when it appeared (a press held longer hides 50 ms after lifting, as before); pressing the next key still takes the popup over at once; sliding off or a cancelled touch still hide it at once. Android build and unit tests pass.
 
 **Notes.** Asked by the approver in chat (option 2: a minimum time on screen, 200 ms).
+
+## Evidence
+
+- 2026-10-28, claude-release: v0.6.16 released and installed on this Mac: approver typed 'alm guide github release install' in conversation, 2026-10-28. Release https://github.com/allomos/tatakikun/releases/tag/v0.6.16 (Mac pkg sha256 d561fb28…c47b, APK sha256 204abe8d…71be; 4 assets). Downloaded pkg checksum OK, installed 0.6.16, Tatakikun running (no workflow run; built locally).
