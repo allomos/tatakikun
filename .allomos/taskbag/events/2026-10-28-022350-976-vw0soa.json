@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-28T02:23:50Z",
+  "via": "alm",
+  "command": "add task",
+  "kind": "task",
+  "id": "A04-fruit206",
+  "agent": "claude",
+  "tool": "claude_app",
+  "changes": [
+    {
+      "field": "title",
+      "to": "Android keyboard: the letter popup stays on screen at least 200 ms, so a quick tap shows it long enough to see"
+    },
+    {
+      "field": "area",
+      "to": "A04"
+    },
+    {
+      "field": "folders",
+      "to": [
+        "tatakikun"
+      ]
+    },
+    {
+      "field": "state",
+      "to": "backlog"
+    },
+    {
+      "field": "description",
+      "to": "**Outcome.** A quick tap on a letter key shows its popup long enough to read; until now it went 50 ms after the finger lifted (about 100 ms in all).\n\n**Done means.** The popup stays at least 200 ms from when it appeared (a press held longer hides 50 ms after lifting, as before); pressing the next key still takes the popup over at once; sliding off or a cancelled touch still hide it at once. Android build and unit tests pass.\n\n**Notes.** Asked by the approver in chat (option 2: a minimum time on screen, 200 ms).\n"
+    },
+    {
+      "field": "base_branch",
+      "to": "master"
+    }
+  ]
+}

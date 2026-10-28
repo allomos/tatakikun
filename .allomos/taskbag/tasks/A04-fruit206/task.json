@@ -1,0 +1,10 @@
+{
+  "area": "A04",
+  "folders": [
+    "tatakikun"
+  ],
+  "id": "A04-fruit206",
+  "iteration": "I04",
+  "state": "ready",
+  "title": "Android keyboard: the letter popup stays on screen at least 200 ms, so a quick tap shows it long enough to see"
+}
