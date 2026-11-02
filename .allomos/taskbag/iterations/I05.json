@@ -1,5 +1,6 @@
 {
   "id": "I05",
   "name": "Other platforms: Android, Windows, Linux",
-  "order": 5
+  "order": 5,
+  "state": "active"
 }
